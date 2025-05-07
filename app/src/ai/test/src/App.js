@@ -4,23 +4,27 @@ import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:5000');
 
+// 감정별 색상 (3-class 모델에 맞춤)
+const COLORS = {
+  부정: "#FF6B6B",
+  중립: "#B0BEC5",
+  긍정: "#4CAF50",
+};
+
 function App() {
   const [inputText, setInputText] = useState('');
   const [emotionResult, setEmotionResult] = useState(null);
-  const [emotionCode, setEmotionCode] = useState(null);
-
-  const COLORS = ["#00C49F", "#FF8042"];
+  const [probabilities, setProbabilities] = useState(null);
 
   useEffect(() => {
     socket.on('analyze_result', (data) => {
       if (data.error) {
-        setEmotionResult('분석 실패');
+        setEmotionResult("분석 실패");
         return;
       }
 
-      const code = data.emotion;
-      setEmotionCode(code);
-      setEmotionResult(code === 0 ? "부정" : "긍정");
+      setEmotionResult(data.emotion);
+      setProbabilities(data.probabilities);
     });
 
     return () => {
@@ -33,10 +37,12 @@ function App() {
     socket.emit('analyze_text', inputText);
   };
 
-  const data = [
-    { name: "긍정", value: emotionCode === 1 ? 1 : 0 },
-    { name: "부정", value: emotionCode === 0 ? 1 : 0 },
-  ];
+  const chartData = probabilities
+    ? Object.entries(probabilities).map(([label, value]) => ({
+      name: label,
+      value: value,
+    }))
+    : [];
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#f5f5f5" }}>
@@ -74,9 +80,14 @@ function App() {
 
       {emotionResult && (
         <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-          <h2 style={{ fontSize: "1.5rem" }}>결과: <span style={{ color: emotionCode === 0 ? "#FF5722" : "#4CAF50" }}>{emotionResult}</span></h2>
+          <h2 style={{ fontSize: "1.5rem" }}>
+            결과:
+            <span style={{ color: COLORS[emotionResult] || "#000" }}>
+              {emotionResult === "긍정" ? "긍정" : emotionResult === "부정" ? "부정" : "중립"}
+            </span>
+          </h2>
 
-          {emotionCode === 0 && (
+          {emotionResult === "부정" && (
             <div style={{
               marginTop: "1rem",
               padding: "1rem",
@@ -87,27 +98,41 @@ function App() {
               fontWeight: "bold",
               fontSize: "1.2rem"
             }}>
-              ⚠️ 부정적 감정 감지! 주의가 필요합니다.
+              ⚠️ 부정 감정 감지! 주의가 필요합니다.
+            </div>
+          )}
+
+          {emotionResult === "긍정" && (
+            <div style={{
+              marginTop: "1rem",
+              padding: "1rem",
+              backgroundColor: "#E8F5E9",
+              border: "2px solid #4CAF50",
+              color: "#388E3C",
+              borderRadius: "10px",
+              fontWeight: "bold",
+              fontSize: "1.2rem"
+            }}>
+              😊 긍정 감정이 감지되었습니다! 계속해서 좋은 감정을 유지하세요.
             </div>
           )}
         </div>
       )}
 
-      {emotionResult && (
-        <PieChart width={300} height={300}>
+      {chartData.length > 0 && (
+        <PieChart width={350} height={350}>
           <Pie
-            data={data}
+            data={chartData}
             cx="50%"
             cy="50%"
             innerRadius={50}
             outerRadius={100}
-            fill="#8884d8"
             paddingAngle={5}
             dataKey="value"
             label
           >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[entry.name] || "#B0BEC5"} />
             ))}
           </Pie>
           <Tooltip />
