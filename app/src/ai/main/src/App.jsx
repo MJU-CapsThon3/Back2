@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-const COLORS = {
+  const COLORS = {
   "기쁨(행복한)": "#FF6384",
   "고마운": "#36A2EB",
   "설레는(기대하는)": "#FFCE56",

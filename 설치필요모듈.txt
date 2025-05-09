@@ -15,7 +15,7 @@ yarn add -D @types/react-router-dom @types/styled-components
 
 
 4. AI 관련 설치 패키지
-pip install fastapi uvicorn transformers torch openai
+pip install fastapi uvicorn transformers torch openai PyExecJS
 npm install express axios cors recharts socket.io-client
 
 이 외 오류 발생시 추가 바람

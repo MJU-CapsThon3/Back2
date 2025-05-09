@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import torch
 import torch.nn.functional as F
 import os
+import json
 
 load_dotenv()
 
@@ -33,11 +34,25 @@ config = model.config
 id2label = config.id2label
 LABELS = [id2label[i] for i in sorted(id2label.keys())]
 
-# 욕설 필터링용 단어 리스트 (테스트)
-BAD_WORDS = [
-    "씨발", "병신", "애미", "느금", "좆", "미친",
-    "븅신", "썅", "개새끼", "닥쳐"
-]
+# 욕설 필터링용 단어 리스트 로드
+with open("censor.json", "r", encoding="utf-8") as file:
+    censor_data = json.load(file)
+
+BAD_WORDS = set()
+EXCLUDE_PATTERNS = set()
+
+for category, words_data in censor_data.items():
+    words = words_data.get("words", [])
+    excludes = words_data.get("excludes", [])
+    BAD_WORDS.update(words)
+    EXCLUDE_PATTERNS.update(excludes)
+
+def is_excluded(word: str) -> bool:
+    """ 제외 패턴이 포함된 단어인지 확인 """
+    for exclude in EXCLUDE_PATTERNS:
+        if exclude in word:
+            return True
+    return False
 
 # 요청 및 데이터 모델
 class TextRequest(BaseModel):
@@ -64,12 +79,27 @@ def analyze_sentiment(text: str):
 
 # 욕설 검출 및 마스킹
 def has_profanity(text: str) -> bool:
-    return any(w in text for w in BAD_WORDS)
+    words = text.split()
+
+    for word in words:
+        # 제외 패턴에 포함된 단어는 필터링하지 않음
+        if not is_excluded(word) and any(bad_word in word for bad_word in BAD_WORDS):
+            return True
+    return False
 
 def mask_profanity(text: str) -> str:
-    for w in BAD_WORDS:
-        text = text.replace(w, "*" * len(w))
-    return text
+    words = text.split()
+    masked_words = []
+
+    for word in words:
+        # 제외 패턴에 포함된 단어는 필터링하지 않음
+        if not is_excluded(word) and any(bad_word in word for bad_word in BAD_WORDS):
+            for bad_word in BAD_WORDS:
+                if bad_word in word:
+                    word = word.replace(bad_word, "*" * len(bad_word))
+        masked_words.append(word)
+
+    return " ".join(masked_words)
 
 @app.post("/analyze")
 async def analyze(request: TextRequest):
@@ -85,7 +115,7 @@ async def analyze_options():
 
 @app.post("/filter")
 async def filter_profanity(request: FilterRequest):
-    text = request.text
+    text = request.text.strip()
     contains = has_profanity(text)
     filtered = mask_profanity(text)
     return {"contains_profanity": contains, "filtered_text": filtered}
