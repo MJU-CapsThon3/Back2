@@ -62,6 +62,7 @@ class FilterRequest(BaseModel):
     text: str
 
 class DebateRequest(BaseModel):
+    topic: str
     content: str
 
 # 감정 분석 함수
