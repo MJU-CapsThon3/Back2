@@ -10,9 +10,8 @@ import torch.nn.functional as F
 import os
 import json
 
-load_dotenv()
-
 # OpenAI API Key
+load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
@@ -151,11 +150,12 @@ async def analyze_debate(request: DebateRequest):
         "  - 근거 사용: /10\n"
         "  - 중심 주제 유지: /10\n"
         "  - 감정/태도: /10\n"
+        "- 평가 이유:\n"
     )
 
     try:
         response = client.chat.completions.create(
-            model="o4-mini",
+            model="gpt-4o-mini",
             messages=[{"role": "system", "content": prompt}],
             temperature=0.3,
         )
