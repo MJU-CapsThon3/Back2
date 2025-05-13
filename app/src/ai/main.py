@@ -47,8 +47,8 @@ for category, words_data in censor_data.items():
     BAD_WORDS.update(words)
     EXCLUDE_PATTERNS.update(excludes)
 
+# 제외 패턴이 포함된 단어인지 확인인
 def is_excluded(word: str) -> bool:
-    """ 제외 패턴이 포함된 단어인지 확인 """
     for exclude in EXCLUDE_PATTERNS:
         if exclude in word:
             return True
@@ -126,13 +126,20 @@ async def filter_options():
 
 @app.post("/analyze_debate")
 async def analyze_debate(request: DebateRequest):
+    topic = request.topic.strip()
     content = request.content.strip()
+
     if not content:
         raise HTTPException(status_code=400, detail="Debate content is required")
+    if not topic:
+        raise HTTPException(status_code=400, detail="Debate topic is required")
+
     if has_profanity(content):
         raise HTTPException(status_code=400, detail="Profanity detected in debate content")
+
     prompt = (
         "다음은 토론 내용입니다. 이 토론을 요약하고 다음 기준으로 평가하세요:\n"
+        f"### 토론 주제:\n{topic}\n\n"
         "1. 논리성\n2. 근거 사용\n3. 중심 주제 유지\n4. 감정/태도\n\n"
         "각 항목은 10점 만점으로 평가하세요.\n\n"
         f"### 토론 내용:\n{content}\n\n"
@@ -144,10 +151,15 @@ async def analyze_debate(request: DebateRequest):
         "  - 중심 주제 유지: /10\n"
         "  - 감정/태도: /10\n"
     )
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[{"role": "system", "content": prompt}],
-        temperature=0.7,
-    )
-    result = response.choices[0].message.content
-    return {"result": result}
+
+    try:
+        response = client.chat.completions.create(
+            model="o4-mini",
+            messages=[{"role": "system", "content": prompt}],
+            temperature=0.3,
+        )
+        result = response.choices[0].message.content
+        return {"result": result}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
