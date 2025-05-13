@@ -54,12 +54,11 @@ export default function App() {
     const res = await fetch('http://localhost:8000/analyze_debate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: debate })
+      body: JSON.stringify({ topic: debateTopic, content: debate })
     });
     const data = await res.json();
     setDebateResult(data.result);
   };
-
   const chartData = probs
     ? Object.entries(probs).map(([name, value]) => ({ name, value }))
     : [];
@@ -125,21 +124,28 @@ export default function App() {
       <hr />
 
       <section>
-        <h2>2. 토론 요약 &amp; 평가</h2>
-        <textarea
-          value={debate}
-          onChange={e => setDebate(e.target.value)}
-          placeholder="토론 내용을 입력"
-          rows={6}
-          style={{ width: '100%', padding: 8 }}
-        />
-        <button onClick={analyzeDebate} style={{ marginTop: 8 }}>요약 &amp; 점수화</button>
-        {debateResult && (
-          <pre style={{ background: '#f0f0f0', padding: 10, marginTop: 10 }}>
-            {debateResult}
-          </pre>
-        )}
-      </section>
+      <h2>2. 토론 요약 &amp; 평가</h2>
+      <input
+        type="text"
+        value={debateTopic}
+        onChange={e => setDebateTopic(e.target.value)}
+        placeholder="토론 주제 입력"
+        style={{ width: '100%', padding: 8, marginBottom: 8 }}
+      />
+      <textarea
+        value={debate}
+        onChange={e => setDebate(e.target.value)}
+        placeholder="토론 내용을 입력"
+        rows={6}
+        style={{ width: '100%', padding: 8 }}
+      />
+      <button onClick={analyzeDebate} style={{ marginTop: 8 }}>요약 &amp; 점수화</button>
+      {debateResult && (
+        <pre style={{ background: '#f0f0f0', padding: 10, marginTop: 10 }}>
+          {debateResult}
+        </pre>
+      )}
+    </section>
     </div>
   );
 }
