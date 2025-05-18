@@ -26,6 +26,8 @@ export default function App() {
   const [debate, setDebate] = useState('');
   const [debateResult, setDebateResult] = useState('');
 
+  const [debateTopic, setDebateTopic] = useState('');
+
   // 감정 분석 호출
   const analyzeEmotion = async () => {
     const res = await fetch('http://localhost:8000/analyze', {

@@ -164,8 +164,9 @@ async def analyze_debate(request: DebateRequest):
             messages=[{"role": "system", "content": prompt}],
             temperature=0.3,
         )
-        result = response["choices"][0]["message"]["content"]
+        result = response.choices[0].message.content
         return {"result": result}
     
-    except Exception as e:
+
+    except Exception as e:  
         raise HTTPException(status_code=500, detail=str(e))
