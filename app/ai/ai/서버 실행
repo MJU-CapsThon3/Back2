@@ -1,0 +1,10 @@
+# 각각 다른 터미널에서 실행
+
+1. 파이썬 서버 
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+2. 
+node server.js
+
+3. 
+npm start
