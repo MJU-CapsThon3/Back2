@@ -144,6 +144,7 @@ async def analyze_debate(request: DebateRequest):
 
     prompt = (
         "다음은 토론 내용입니다. 이 토론을 발언자 A와 B의 내용을 각각 요약하고 A와 B를 각각 다음 기준으로 평가하세요:\n"
+        "토론 내용이 없다면 아무런 내용을 작성하지 말고, 입력된 내용만을 기준으로 평가하세요.\n"
         f"### 토론 주제:\n{topic}\n\n"
         "1. 논리성\n2. 근거 사용\n3. 중심 주제 유지\n4. 감정/태도\n\n"
         "각 항목은 10점 만점으로 평가하세요.\n\n"
@@ -157,8 +158,6 @@ async def analyze_debate(request: DebateRequest):
         "  - 중심 주제 유지: /10\n"
         "  - 감정/태도: /10\n"
         "- 평가 이유:\n"
-<<<<<<< HEAD:app/src/ai/main.py
-=======
 
         "- 발언자 B:\n"
         "- 요약:\n"
@@ -168,7 +167,6 @@ async def analyze_debate(request: DebateRequest):
         "  - 중심 주제 유지: /10\n"
         "  - 감정/태도: /10\n"
         "- 평가 이유:\n"
->>>>>>> ai:app/ai/main.py
     )
 
     try:
