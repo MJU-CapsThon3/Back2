@@ -5,17 +5,20 @@ from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from openai import OpenAI
 from dotenv import load_dotenv
+
 import torch
 import torch.nn.functional as F
 import os
 import json
 
-load_dotenv()
-
 # OpenAI API Key
+load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CENSOR_FILE_PATH = os.path.join(BASE_DIR, "censor.json")
 
 # CORS 허용 설정
 app.add_middleware(
@@ -35,9 +38,9 @@ id2label = config.id2label
 LABELS = [id2label[i] for i in sorted(id2label.keys())]
 
 # 욕설 필터링용 단어 리스트 로드
-with open("censor.json", "r", encoding="utf-8") as file:
+with open(CENSOR_FILE_PATH, "r", encoding="utf-8") as file:
     censor_data = json.load(file)
-
+    
 BAD_WORDS = set()
 EXCLUDE_PATTERNS = set()
 
@@ -79,6 +82,7 @@ def analyze_sentiment(text: str):
     return emotion, dict(zip(LABELS, probs))
 
 # 욕설 검출 및 마스킹
+# "욕설 사이 특수문자 테스트 필요 ex) T@Q"
 def has_profanity(text: str) -> bool:
     words = text.split()
 
@@ -151,16 +155,18 @@ async def analyze_debate(request: DebateRequest):
         "  - 근거 사용: /10\n"
         "  - 중심 주제 유지: /10\n"
         "  - 감정/태도: /10\n"
+        "- 평가 이유:\n"
     )
 
     try:
         response = client.chat.completions.create(
-            model="o4-mini",
+            model="gpt-4o-mini",
             messages=[{"role": "system", "content": prompt}],
             temperature=0.3,
         )
         result = response.choices[0].message.content
         return {"result": result}
+    
 
-    except Exception as e:
+    except Exception as e:  
         raise HTTPException(status_code=500, detail=str(e))
