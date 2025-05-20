@@ -28,9 +28,12 @@ export default function App() {
 
   const [debateTopic, setDebateTopic] = useState('');
 
+  // env 대체
+  const API_URL = "http://localhost:8000";
+
   // 감정 분석 호출
   const analyzeEmotion = async () => {
-    const res = await fetch('http://localhost:8000/analyze', {
+    const res = await fetch(API_URL + '/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
@@ -42,7 +45,7 @@ export default function App() {
 
   // 욕설 필터링 호출
   const analyzeFilter = async () => {
-    const res = await fetch('http://localhost:8000/filter', {
+    const res = await fetch(API_URL + '/filter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: filterText })
@@ -53,7 +56,7 @@ export default function App() {
 
   // 토론 분석 호출
   const analyzeDebate = async () => {
-    const res = await fetch('http://localhost:8000/analyze_debate', {
+    const res = await fetch(API_URL + '/analyze_debate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic: debateTopic, content: debate })

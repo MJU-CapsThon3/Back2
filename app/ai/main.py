@@ -5,7 +5,10 @@ from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from openai import OpenAI
 from dotenv import load_dotenv
+from soynlp.normalizer import repeat_normalize
 
+import re
+import emoji
 import torch
 import torch.nn.functional as F
 import os
@@ -36,6 +39,20 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 config = model.config
 id2label = config.id2label
 LABELS = [id2label[i] for i in sorted(id2label.keys())]
+
+# 이모티콘 필터링
+emojis = ''.join(emoji.UNICODE_EMOJI.keys())
+pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x00-\x7Fㄱ-ㅣ가-힣{emojis}]+')
+url_pattern = re.compile(
+    r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
+
+def clean(x): 
+    x = pattern.sub(' ', x)
+    x = emoji.replace_emoji(x, replace='') #emoji 삭제
+    x = url_pattern.sub('', x)
+    x = x.strip()
+    x = repeat_normalize(x, num_repeats=2)
+    return x
 
 # 욕설 필터링용 단어 리스트 로드
 with open(CENSOR_FILE_PATH, "r", encoding="utf-8") as file:
@@ -70,6 +87,7 @@ class DebateRequest(BaseModel):
 
 # 감정 분석 함수
 def analyze_sentiment(text: str):
+    text = clean(text)
     inputs = tokenizer(
         text, return_tensors="pt",
         truncation=True, padding=True, max_length=512
@@ -82,8 +100,8 @@ def analyze_sentiment(text: str):
     return emotion, dict(zip(LABELS, probs))
 
 # 욕설 검출 및 마스킹
-# "욕설 사이 특수문자 테스트 필요 ex) T@Q"
 def has_profanity(text: str) -> bool:
+    text = clean(text)
     words = text.split()
 
     for word in words:
@@ -93,6 +111,7 @@ def has_profanity(text: str) -> bool:
     return False
 
 def mask_profanity(text: str) -> str:
+    text = clean(text)
     words = text.split()
     masked_words = []
 
@@ -108,7 +127,6 @@ def mask_profanity(text: str) -> str:
 
 @app.post("/analyze")
 async def analyze(request: TextRequest):
-    text = request.text.strip()
     if not text:
         raise HTTPException(status_code=400, detail="Text is required")
     emotion, probabilities = analyze_sentiment(text)
@@ -120,7 +138,6 @@ async def analyze_options():
 
 @app.post("/filter")
 async def filter_profanity(request: FilterRequest):
-    text = request.text.strip()
     contains = has_profanity(text)
     filtered = mask_profanity(text)
     return {"contains_profanity": contains, "filtered_text": filtered}
@@ -131,16 +148,13 @@ async def filter_options():
 
 @app.post("/analyze_debate")
 async def analyze_debate(request: DebateRequest):
-    topic = request.topic.strip()
-    content = request.content.strip()
+    topic = clean(topic)
+    content = clean(content)
 
     if not content:
         raise HTTPException(status_code=400, detail="Debate content is required")
     if not topic:
         raise HTTPException(status_code=400, detail="Debate topic is required")
-
-    if has_profanity(content):
-        raise HTTPException(status_code=400, detail="Profanity detected in debate content")
 
     prompt = (
         "다음은 토론 내용입니다. 이 토론을 발언자 A와 B의 내용을 각각 요약하고 A와 B를 각각 다음 기준으로 평가하세요:\n"
