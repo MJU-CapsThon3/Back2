@@ -44,7 +44,7 @@ app.post('/analyze', async (req, res) => {
 });
 
 
-// 토론 분석석
+// 토론 분석
 app.post('/analyze_debate', async (req, res) => {
     try {
         const { topic, content } = req.body;
@@ -56,7 +56,7 @@ app.post('/analyze_debate', async (req, res) => {
     }
 });
 
-// 웹소켓켓
+// 웹소켓
 io.on('connection', (socket) => {
     console.log('🔌 WebSocket 연결됨');
 
