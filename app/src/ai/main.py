@@ -41,7 +41,7 @@ id2label = config.id2label
 LABELS = [id2label[i] for i in sorted(id2label.keys())]
 
 # 이모티콘 필터링
-emojis = ''.join(emoji.UNICODE_EMOJI.keys())
+emojis = ''.join(emoji.EMOJI_DATA.keys())
 pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x00-\x7Fㄱ-ㅣ가-힣{emojis}]+')
 url_pattern = re.compile(
     r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
@@ -53,6 +53,11 @@ def clean(x):
     x = x.strip()
     x = repeat_normalize(x, num_repeats=2)
     return x
+
+def normalize_text(text: str) -> str:
+    text = re.sub(r'[^0-9a-zA-Zㄱ-ㅎ가-힣\s]', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
 
 # 욕설 필터링용 단어 리스트 로드
 with open(CENSOR_FILE_PATH, "r", encoding="utf-8") as file:
@@ -101,8 +106,9 @@ def analyze_sentiment(text: str):
 
 # 욕설 검출 및 마스킹
 def has_profanity(text: str) -> bool:
-    text = clean(text)
-    words = text.split()
+    cleaned_text = clean(text)
+    normalized_text = normalize_text(cleaned_text)
+    words = normalized_text.split()
 
     for word in words:
         # 제외 패턴에 포함된 단어는 필터링하지 않음
@@ -111,8 +117,9 @@ def has_profanity(text: str) -> bool:
     return False
 
 def mask_profanity(text: str) -> str:
-    text = clean(text)
-    words = text.split()
+    cleaned_text = clean(text)
+    normalized_text = normalize_text(cleaned_text)
+    words = normalized_text.split()
     masked_words = []
 
     for word in words:
@@ -127,9 +134,9 @@ def mask_profanity(text: str) -> str:
 
 @app.post("/analyze")
 async def analyze(request: TextRequest):
-    if not text:
+    if not request.text:
         raise HTTPException(status_code=400, detail="Text is required")
-    emotion, probabilities = analyze_sentiment(text)
+    emotion, probabilities = analyze_sentiment(request.text)
     return {"emotion": emotion, "probabilities": probabilities}
 
 @app.options("/analyze")
@@ -138,8 +145,8 @@ async def analyze_options():
 
 @app.post("/filter")
 async def filter_profanity(request: FilterRequest):
-    contains = has_profanity(text)
-    filtered = mask_profanity(text)
+    contains = has_profanity(request.text)
+    filtered = mask_profanity(request.text)
     return {"contains_profanity": contains, "filtered_text": filtered}
 
 @app.options("/filter")
@@ -148,12 +155,12 @@ async def filter_options():
 
 @app.post("/analyze_debate")
 async def analyze_debate(request: DebateRequest):
-    topic = clean(topic)
-    content = clean(content)
+    topic = clean(request.topic)
+    content = clean(request.content)
 
-    if not content:
+    if not request.content:
         raise HTTPException(status_code=400, detail="Debate content is required")
-    if not topic:
+    if not request.topic:
         raise HTTPException(status_code=400, detail="Debate topic is required")
 
     prompt = (
