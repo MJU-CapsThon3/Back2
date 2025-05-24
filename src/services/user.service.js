@@ -5,11 +5,26 @@ import {
   findUser,
   findEmail,
   userInfoRep,
+  createInitialRanking,
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
 import { encrypt } from '../middleware/encrypt.js'; 
 import { createJwt } from "../middleware/jwt.js";
+
+// 포인트에 따른 티어 계산 헬퍼 (예시)
+const calculateTier = (points) => {
+  if (points >= 4000) return '챌린저';
+  if (points >= 3000) return '그랜드마스터';
+  if (points >= 2000) return '마스터';
+  if (points >= 1000) return '다이아';
+  if (points >= 900) return '에메랄드';
+  if (points >= 800) return '플레티넘';
+  if (points >= 700) return '골드';
+  if (points >= 600) return '실버';
+  if (points >= 500) return '브론즈';
+  return '아이언';
+};
 
 // 회원가입 service
 export const userSignUp = async (req, res) => {
@@ -57,11 +72,15 @@ export const userSignUp = async (req, res) => {
     // 생성에 실패했을 때
     return null;
   }
+  // 5) Ranking 초기 레코드 생성
+  const initialPoints = 0;
+  const initialTier = calculateTier(initialPoints);
+  await createInitialRanking(userId, initialPoints, initialTier);
 
-  // 5) 생성된 사용자 데이터 조회
+  // 6) 생성된 사용자 데이터 조회
   const user = await getUser(userId);
 
-  // 6) DTO 포맷으로 변환하여 반환
+  // 7) DTO 포맷으로 변환하여 반환
   return responseFromUser(user);
 };
 

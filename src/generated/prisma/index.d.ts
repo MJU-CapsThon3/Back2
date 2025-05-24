@@ -15322,7 +15322,7 @@ export namespace Prisma {
 
   export type RankingCreateInput = {
     id?: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number
@@ -15334,7 +15334,7 @@ export namespace Prisma {
   export type RankingUncheckedCreateInput = {
     id?: bigint | number
     userId: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number
@@ -15367,7 +15367,7 @@ export namespace Prisma {
   export type RankingCreateManyInput = {
     id?: bigint | number
     userId: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number
@@ -17809,7 +17809,7 @@ export namespace Prisma {
 
   export type RankingCreateWithoutUserInput = {
     id?: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number
@@ -17819,7 +17819,7 @@ export namespace Prisma {
 
   export type RankingUncheckedCreateWithoutUserInput = {
     id?: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number
@@ -19199,7 +19199,7 @@ export namespace Prisma {
 
   export type RankingCreateManyUserInput = {
     id?: bigint | number
-    rank: number
+    rank?: number
     previousRank?: number | null
     tier: string
     totalPoints: number

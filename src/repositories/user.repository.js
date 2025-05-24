@@ -31,6 +31,33 @@ export const getUser = async (userId) => {
   };
 };
 
+/**
+ * 회원가입 직후 초기 랭킹 레코드를 생성하는 기능
+ * @param {bigint} userId
+ * @param {number} totalPoints
+ * @param {string} tier
+ */
+export const createInitialRanking = async (userId, totalPoints, tier) => {
+  try {
+    return await prisma.ranking.create({
+      data: {
+        // 1) relation 연결: user 테이블의 id 와 매핑
+        user: { connect: { id: userId } },
+
+        // 2) 스칼라 필드
+        totalPoints,
+        tier,
+        previousRank: null,
+
+        // 3) rank는 NOT NULL 이기 때문에 임시값(0)으로 세팅
+        rank: 0,
+      },
+    });
+  } catch (err) {
+    throw new Error(`초기 랭킹 생성 중 오류: ${err}`);
+  }
+};
+
 // 유저 찾기
 export const findUser = async (email) => {
   // Prisma로 유저 정보 조회
@@ -53,7 +80,7 @@ export const findUser = async (email) => {
   return user; // 유저 객체 반환
 };
 
-// finding user by email
+// 이메일 찾는 기능
 export const findEmail = async (req) => {
   const email = await prisma.user.findFirst({
     select: { email: true },
