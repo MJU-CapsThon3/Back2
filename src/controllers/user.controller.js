@@ -96,45 +96,43 @@ export const handleUserSignUp = async (req, res, next) => {
 
 // 로그인
 export const handleLogin = async (req, res, next) => {
-      /*
-      #swagger.summary = '로그인 API'
-      #swagger.tags = ['User']
-      #swagger.requestBody = {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                email: { type: "string", example: "user@example.com" },
-                password: { type: "string", example: "password123" }
-              }
-            }
+/*
+  #swagger.summary = '로그인 API'
+  #swagger.tags = ['User']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            email: { type: "string", example: "user@example.com" },
+            password: { type: "string", example: "password123" }
           }
         }
       }
-      #swagger.responses[200] = {
-        description: "로그인 성공 응답",
-        content: {
-          "application/json": {
-            schema: {
+    }
+  }
+  #swagger.responses[200] = {
+    description: "로그인 성공 응답",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: true },
+            code: { type: "number", example: 200 },
+            message: { type: "string", example: "로그인 성공" },
+            result: {
               type: "object",
               properties: {
-                isSuccess: { type: "boolean", example: true },
-                code: { type: "number", example: 200 },
-                message: { type: "string", example: "로그인 성공" },
-                result: {
+                token: { type: "string", example: "jwt-token-string" },
+                user: {
                   type: "object",
                   properties: {
-                    token: { type: "string", example: "jwt-token-string" },
-                    user: {
-                      type: "object",
-                      properties: {
-                        id: { type: "string", example: "1" },
-                        email: { type: "string", example: "user@example.com" },
-                        status: { type: "string", example: "active" }
-                      }
-                    }
+                    id: { type: "string", example: "1" },
+                    email: { type: "string", example: "user@example.com" },
+                    status: { type: "string", example: "active" }
                   }
                 }
               }
@@ -142,39 +140,42 @@ export const handleLogin = async (req, res, next) => {
           }
         }
       }
-      #swagger.responses[400] = {
-        description: "로그인 실패 (이메일 미존재)",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                isSuccess: { type: "boolean", example: false },
-                code: { type: "string", example: "LOGIN_ID_NOT_EXIST" },
-                message: { type: "string", example: "등록되지 않은 이메일입니다." },
-                result: { type: "object", nullable: true, example: null }
-              }
-            }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "로그인 실패 (이메일 미존재)",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "LOGIN_ID_NOT_EXIST" },
+            message: { type: "string", example: "등록되지 않은 이메일입니다." },
+            result: { type: "object", nullable: true, example: null }
           }
         }
       }
-      #swagger.responses[401] = {
-        description: "로그인 실패 (비밀번호 불일치)",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                isSuccess: { type: "boolean", example: false },
-                code: { type: "string", example: "LOGIN_PASSWORD_WRONG" },
-                message: { type: "string", example: "비밀번호가 일치하지 않습니다." },
-                result: { type: "object", nullable: true, example: null }
-              }
-            }
+    }
+  }
+  #swagger.responses[401] = {
+    description: "로그인 실패 (비밀번호 불일치)",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "LOGIN_PASSWORD_WRONG" },
+            message: { type: "string", example: "비밀번호가 일치하지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
           }
         }
       }
-    */
+    }
+  }
+*/
+
       try {
     console.log("로그인");
     const result = await loginService(loginRequestDTO(req.body));
@@ -196,73 +197,74 @@ export const handleLogin = async (req, res, next) => {
 
 // 유저 정보 불러오기
 export const handleUserInfo = async (req, res) => {
-      /*
-      #swagger.summary = '유저 정보 불러오기 API'
-      #swagger.tags = ['User']
-      #swagger.security = [{
-        "BearerAuth": []
-      }]
-      #swagger.responses[200] = {
-        description: "유저 정보 성공 응답",
-        content: {
-          "application/json": {
-            schema: {
+/*
+  #swagger.summary = '유저 정보 불러오기 API'
+  #swagger.tags = ['User']
+  #swagger.security = [{
+    "BearerAuth": []
+  }]
+  #swagger.responses[200] = {
+    description: "유저 정보 성공 응답",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: true },
+            code: { type: "number", example: 200 },
+            message: { type: "string", example: "유저 정보 조회 성공" },
+            result: {
               type: "object",
               properties: {
-                isSuccess: { type: "boolean", example: true },
-                code: { type: "number", example: 200 },
-                message: { type: "string", example: "유저 정보 조회 성공" },
-                result: {
-                  type: "object",
-                  properties: {
-                    id: { type: "string", example: "1" },
-                    email: { type: "string", example: "user@example.com" },
-                    nickname: { type: "string", example: "nickname" },
-                    name: { type: "string", example: "John Doe" },
-                    status: { type: "string", example: "active" },
-                    profileImageUrl: { type: "string", nullable: true, example: null },
-                    createdAt: { type: "string", format: "date", example: "2021-05-12" },
-                    updatedAt: { type: "string", format: "date", example: "2021-06-15" }
-                  }
-                }
+                id: { type: "string", example: "1" },
+                email: { type: "string", example: "user@example.com" },
+                nickname: { type: "string", example: "nickname" },
+                name: { type: "string", example: "John Doe" },
+                status: { type: "string", example: "active" },
+                profileImageUrl: { type: "string", nullable: true, example: null },
+                createdAt: { type: "string", format: "date", example: "2021-05-12" },
+                updatedAt: { type: "string", format: "date", example: "2021-06-15" }
               }
             }
           }
         }
       }
-      #swagger.responses[400] = {
-        description: "잘못된 토큰 포맷",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                isSuccess: { type: "boolean", example: false },
-                code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
-                message: { type: "string", example: "토큰 포맷이 올바르지 않습니다." },
-                result: { type: "object", nullable: true, example: null }
-              }
-            }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "잘못된 토큰 포맷",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+            message: { type: "string", example: "토큰 포맷이 올바르지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
           }
         }
       }
-      #swagger.responses[500] = {
-        description: "서버 오류",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                isSuccess: { type: "boolean", example: false },
-                code: { type: "string", example: "SERVER_ERROR" },
-                message: { type: "string", example: "서버 오류가 발생했습니다." },
-                result: { type: "object", nullable: true, example: null }
-              }
-            }
+    }
+  }
+  #swagger.responses[500] = {
+    description: "서버 오류",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "SERVER_ERROR" },
+            message: { type: "string", example: "서버 오류가 발생했습니다." },
+            result: { type: "object", nullable: true, example: null }
           }
         }
       }
-    */
+    }
+  }
+*/
+
   console.log("유저 정보를 불러옵니다.");
   try {
     console.log("유저 정보를 불러옵니다.");

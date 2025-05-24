@@ -36,6 +36,7 @@ app.use(
   )
 );
 
+// index.js 中 openapi.json 라우트
 app.get("/openapi.json", async (req, res, next) => {
   // #swagger.ignore = true
   const options = {
@@ -47,32 +48,37 @@ app.get("/openapi.json", async (req, res, next) => {
   const routes = ["./src/index.js"];
   const protocol = req.protocol; // http 또는 https
   const host = req.get("host");
+
   const doc = {
+    openapi: "3.0.0",
     info: {
       title: "2025-1 Cap",
+      version: "1.0.0",
       description: "2025년 캡스톤 프로젝트입니다.",
     },
-    host: `${protocol}://${host}`,
+    servers: [
+      { url: `${protocol}://${host}`, description: "Local server" },
+    ],
     components: {
       securitySchemes: {
-        Bearer: {
-          type: "apiKey",
-          in: "header",
-          name: "Authorization", // Authorization 헤더로 전달
-          description: "Bearer token을 사용한 인증",
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          description: "Bearer 토큰을 사용한 인증",
         },
       },
     },
+    // 전역으로 이 스킴을 적용
     security: [
-      {
-        Bearer: [], // 기본적으로 Bearer 인증을 적용
-      },
+      { BearerAuth: [] },
     ],
   };
 
   const result = await swaggerAutogen(options)(outputFile, routes, doc);
   res.json(result ? result.data : null);
 });
+
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
@@ -89,6 +95,7 @@ app.post("/users/login", handleLogin);
 //유저 정보를 불러오는 api
 app.get("/users/info", handleUserInfo);
 
+// 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
