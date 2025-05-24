@@ -10,6 +10,7 @@ import {
   findRankingByUserId,
   updateRankingById,
   getRankingByUserId,
+  getTopRankings,
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -157,4 +158,20 @@ export const userInfoService = async (user_id) => {
   const userInfo = await userInfoRep(user_id);
   userInfo.password = "hidden";
   return userInfo;
+};
+
+// Top 랭킹을 가져와서 사용
+export const topRankingService = async (limit = 10) => {
+  // repository에서 user.nickname 까지 include 해서 가져옴
+  const rankings = await getTopRankings(limit);
+
+  // 클라이언트에 줄 형태로 가공
+  return rankings.map(r => ({
+    userId:        r.userId,
+    nickname:      r.user.nickname,
+    rank:          r.rank,
+    previousRank:  r.previousRank,
+    tier:          r.tier,
+    totalPoints:   r.totalPoints,
+  }));
 };

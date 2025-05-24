@@ -8,6 +8,7 @@ import { verify } from "../src/middleware/jwt.js";
 import { handleUserSignUp,
         handleLogin,
         handleUserInfo,
+        handleGetTopRankings,
 } from "./controllers/user.controller.js";
 
 BigInt.prototype.toJSON = function () {
@@ -96,7 +97,9 @@ app.post("/users/login", handleLogin);
 //유저 정보를 불러오는 api
 app.get("/users/info", handleUserInfo);
 
-// 
+// Top 랭킹 조회
+app.get('/rankings/top', handleGetTopRankings);
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

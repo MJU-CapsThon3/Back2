@@ -52,12 +52,8 @@ export const getUser = async (userId) => {
   };
 };
 
-/**
- * 회원가입 직후 초기 랭킹 레코드를 생성하는 기능
- * @param {bigint} userId
- * @param {number} totalPoints
- * @param {string} tier
- */
+
+// 회원가입 직후 초기 랭킹 레코드를 생성하는 기능
 export const createInitialRanking = async (userId, totalPoints, tier) => {
   try {
     // 1) 현재 랭킹 테이블에 몇 명이 있는지 센다
@@ -80,10 +76,8 @@ export const createInitialRanking = async (userId, totalPoints, tier) => {
   }
 };
 
-/**
- * 특정 유저의 랭킹 정보 조회
- * @param {bigint} userId
- */
+
+//특정 유저의 랭킹 정보 조회
 export const getRankingByUserId = async (userId) => {
   try {
     const ranking = await prisma.ranking.findFirstOrThrow({
@@ -134,4 +128,18 @@ export const findEmail = async (req) => {
 export const userInfoRep = async (user_id) => {
   const user = await prisma.user.findFirstOrThrow({ where: { id: user_id } });
   return user;
+};
+
+
+//Top 랭킹을 내림차순으로 조회합니다.
+export const getTopRankings = async (limit) => {
+  return prisma.ranking.findMany({
+    take: limit,
+    orderBy: { totalPoints: 'desc' },
+    include: {
+      user: {
+        select: { nickname: true }
+      }
+    }
+  });
 };

@@ -7,8 +7,11 @@ import { BaseError } from "../errors.js";
 import { userSignUp,
     loginService,
     userInfoService,
+    topRankingService,
  } from "../services/user.service.js";
-import { loginRequestDTO } from "../dtos/user.dto.js"
+import { loginRequestDTO,
+  responseFromRankingList,
+} from "../dtos/user.dto.js"
 
 // 회원가입
 export const handleUserSignUp = async (req, res, next) => {
@@ -298,6 +301,71 @@ export const handleUserInfo = async (req, res) => {
       // 토큰 이상감지
       res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
+  } catch (err) {
+    console.log(err);
+    res.send(response(BaseError));
+  }
+};
+
+export const handleGetTopRankings = async (req, res, next) => {
+    /*
+    #swagger.summary = 'Top 랭킹 리스트 조회 API'
+    #swagger.tags = ['Ranking']
+    // 토큰 없이 접근 가능
+    #swagger.responses[200] = {
+      description: "Top  랭킹 리스트 조회 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess:    { type: "boolean", example: true },
+              code:         { type: "number",  example: 200 },
+              message:      { type: "string",  example: "랭킹 리스트 조회 성공" },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    userId:       { type: "string",  example: "1" },
+                    nickname:     { type: "string",  example: "치멘" },
+                    rank:         { type: "number",  example: 1 },
+                    previousRank: { type: "number",  nullable: true, example: null },
+                    tier:         { type: "string",  example: "브론즈" },
+                    totalPoints:  { type: "number",  example: 1500 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code:      { type: "string",  example: "SERVER_ERROR" },
+              message:   { type: "string",  example: "서버 오류가 발생했습니다." },
+              result:    { type: "object",  nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  */
+  console.log("랭킹 리스트를 불러옵니다.");
+  try {
+    // 서비스 호출
+    const rawList = await topRankingService();
+    // DTO 변환
+    const payload = responseFromRankingList(rawList);
+    // 응답
+    res.send(response(status.SUCCESS, payload));
   } catch (err) {
     console.log(err);
     res.send(response(BaseError));

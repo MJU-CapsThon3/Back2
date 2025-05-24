@@ -14,3 +14,18 @@ export const loginRequestDTO = (req) => {
     password: req.password,
   };
 };
+
+/**
+ * 랭킹 리스트용 DTO 변환 함수
+ * @param {Array} list
+ */
+export const responseFromRankingList = (list) => {
+  return list.map(item => ({
+    userId:       item.userId,
+    nickname:     item.nickname,
+    rank:         item.rank,
+    previousRank: item.previousRank,
+    tier:         item.tier,
+    totalPoints:  item.totalPoints,
+  }));
+};
