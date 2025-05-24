@@ -1,5 +1,26 @@
 import { prisma } from "../db.config.js";
 
+// 랭킹 리스트를 위한 일정 주기 배치 작업
+// 전체 사용자 목록을 포인트 내림차순으로 조회하는 함수
+export const findAllUsersOrderedByPoints = async () => {
+  return prisma.user.findMany({
+    orderBy: { point: 'desc' },
+    select: { id: true, point: true },
+  });
+};
+
+// 특정 사용자의 랭킹 레코드를 조회하는 함수
+export const findRankingByUserId = async (userId) => {
+  return prisma.ranking.findUnique({ where: { userId } });
+};
+
+//랭킹 레코드를 업데이트 함수
+export const updateRankingById = async (rankingId, data) => {
+  return prisma.ranking.update({
+    where: { id: rankingId },
+    data,
+  });
+};
 
 // User 데이터 삽입
 export const addUser = async (data) => {
@@ -39,22 +60,38 @@ export const getUser = async (userId) => {
  */
 export const createInitialRanking = async (userId, totalPoints, tier) => {
   try {
+    // 1) 현재 랭킹 테이블에 몇 명이 있는지 센다
+    const count = await prisma.ranking.count();
+
+    // 2) 신규 회원은 맨 마지막 순위(count + 1)로 세팅
+    const newRank = count + 1;
+
     return await prisma.ranking.create({
       data: {
-        // 1) relation 연결: user 테이블의 id 와 매핑
-        user: { connect: { id: userId } },
-
-        // 2) 스칼라 필드
-        totalPoints,
-        tier,
+        user:         { connect: { id: userId } },
+        totalPoints,                 // 0점
+        tier,                        // '아이언'
         previousRank: null,
-
-        // 3) rank는 NOT NULL 이기 때문에 임시값(0)으로 세팅
-        rank: 0,
+        rank:         newRank,
       },
     });
   } catch (err) {
     throw new Error(`초기 랭킹 생성 중 오류: ${err}`);
+  }
+};
+
+/**
+ * 특정 유저의 랭킹 정보 조회
+ * @param {bigint} userId
+ */
+export const getRankingByUserId = async (userId) => {
+  try {
+    const ranking = await prisma.ranking.findFirstOrThrow({
+      where: { userId: userId },
+    });
+    return ranking;
+  } catch (err) {
+    throw new Error(`랭킹 조회 중 오류: ${err}`);
   }
 };
 

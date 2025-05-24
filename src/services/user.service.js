@@ -6,6 +6,10 @@ import {
   findEmail,
   userInfoRep,
   createInitialRanking,
+  findAllUsersOrderedByPoints,
+  findRankingByUserId,
+  updateRankingById,
+  getRankingByUserId,
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -24,6 +28,31 @@ const calculateTier = (points) => {
   if (points >= 600) return '실버';
   if (points >= 500) return '브론즈';
   return '아이언';
+};
+
+//하루에 한 번 전체 랭킹을 계산해서 previousRank, totalPoints, tier, rank 필드를 갱신하는 기능
+export const refreshRankings = async () => {
+  const users = await findAllUsersOrderedByPoints();
+
+  for (let idx = 0; idx < users.length; idx++) {
+    const { id: userId, point } = users[idx];
+    const newRank = idx + 1;
+
+    const ranking = await findRankingByUserId(userId);
+    if (!ranking) {
+      // 혹시 없는 경우 초기 생성 로직을 호출해도 됩니다.
+      continue;
+    }
+
+    await updateRankingById(ranking.id, {
+      previousRank: ranking.rank,
+      totalPoints: point,
+      tier: calculateTier(point),
+      rank: newRank,
+    });
+  }
+
+  console.log(`[${new Date().toISOString()}] Daily ranking refresh complete.`);
 };
 
 // 회원가입 service
@@ -80,8 +109,17 @@ export const userSignUp = async (req, res) => {
   // 6) 생성된 사용자 데이터 조회
   const user = await getUser(userId);
 
+  // 7) 랭킹 정보 별도로 조회
+  const ranking = await getRankingByUserId(userId);
+
   // 7) DTO 포맷으로 변환하여 반환
-  return responseFromUser(user);
+  const userDto = responseFromUser(user);
+  userDto.ranking = {
+    rank: ranking.rank,
+    tier: ranking.tier,
+  };
+
+  return userDto;
 };
 
 // 이메일 확인 service

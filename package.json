@@ -20,6 +20,7 @@
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
+    "node-cron": "^4.0.7",
     "prisma": "^6.7.0",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"

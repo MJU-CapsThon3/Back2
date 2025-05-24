@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from 'cors';
+import './corn-job.js';          // <-- 추가: 서버 구동 시 스케줄러 시작
 import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
 import { verify } from "../src/middleware/jwt.js";

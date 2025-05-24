@@ -12,49 +12,51 @@ import { loginRequestDTO } from "../dtos/user.dto.js"
 
 // 회원가입
 export const handleUserSignUp = async (req, res, next) => {
-      /*
-      #swagger.summary = '회원 가입 API'
-      #swagger.tags = ['User']
-      #swagger.requestBody = {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                nickname: { type: "string", example: "nickname" },
-                name: { type: "string", example: "John Doe" },
-                email: { type: "string", example: "user@example.com" },
-                password: { type: "string", example: "password123" },
-                gender: { type: "string", example: "M" },
-                birth: { type: "string", format: "date", example: "1990-05-18" },
-                phoneNumber: { type: "string", example: "010-1234-5678" }
-              }
-            }
+/*
+  #swagger.summary = '회원 가입 API'
+  #swagger.tags = ['User']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          required: ["nickname","name","email","password","gender","birth","phoneNumber"],
+          properties: {
+            nickname:   { type: "string", example: "nickname" },
+            name:       { type: "string", example: "John Doe" },
+            email:      { type: "string", example: "user@example.com" },
+            password:   { type: "string", example: "password123" },
+            gender:     { type: "string", example: "M" },
+            birth:      { type: "string", format: "date", example: "1990-05-18" },
+            phoneNumber:{ type: "string", example: "010-1234-5678" }
           }
         }
       }
-      #swagger.responses[200] = {
-        description: "회원 가입 성공 응답",
-        content: {
-          "application/json": {
-            schema: {
+    }
+  }
+  #swagger.responses[200] = {
+    description: "회원 가입 성공 응답",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: true },
+            code:      { type: "number",  example: 200 },
+            message:   { type: "string",  example: "회원 가입이 성공적으로 완료되었습니다." },
+            result: {
               type: "object",
               properties: {
-                isSuccess: { type: "boolean", example: true },
-                code: { type: "number", example: 200 },
-                message: { type: "string", example: "회원 가입이 성공적으로 완료되었습니다." },
-                result: {
+                id:       { type: "string", example: "1" },
+                nickname: { type: "string", example: "nickname" },
+                email:    { type: "string", example: "user@example.com" },
+                point:    { type: "number", example: 0 },
+                ranking: {
                   type: "object",
                   properties: {
-                    id: { type: "string", example: "1" },
-                    nickname: { type: "string", example: "nickname" },
-                    name: { type: "string", example: "John Doe" },
-                    email: { type: "string", example: "user@example.com" },
-                    gender: { type: "string", example: "M" },
-                    birth: { type: "string", format: "date", example: "1990-05-18" },
-                    phoneNumber: { type: "string", example: "010-1234-5678" },
-                    profileImageUrl: { type: "string", nullable: true, example: null }
+                    rank: { type: "number", example: 1 },
+                    tier: { type: "string", example: "아이언" }
                   }
                 }
               }
@@ -62,23 +64,41 @@ export const handleUserSignUp = async (req, res, next) => {
           }
         }
       }
-      #swagger.responses[400] = {
-        description: "회원 가입 실패 응답 (필수 값 누락)",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                isSuccess: { type: "boolean", example: false },
-                code: { type: "string", example: "USER4001" },
-                message: { type: "string", example: "필수 항목이 누락되었습니다." },
-                result: { type: "object", nullable: true, example: null }
-              }
-            }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "회원 가입 실패 응답 (필수 값 누락)",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code:      { type: "string",  example: "MEMBER_NOT_FOUND" },
+            message:   { type: "string",  example: "필수 항목이 누락되었습니다." },
+            result:    { type: "object",  nullable: true, example: null }
           }
         }
       }
-    */
+    }
+  }
+  #swagger.responses[409] = {
+    description: "회원 가입 실패 응답 (이메일 중복)",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code:      { type: "string",  example: "EMAIL_ALREADY_EXIST" },
+            message:   { type: "string",  example: "이미 사용 중인 이메일입니다." },
+            result:    { type: "object",  nullable: true, example: null }
+          }
+        }
+      }
+    }
+  }
+*/
   try {
     console.log("회원가입을 요청했습니다!");
     const user = await userSignUp(req, res);
