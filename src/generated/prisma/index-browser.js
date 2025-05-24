@@ -231,6 +231,14 @@ exports.Prisma.PointTransactionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -292,6 +300,10 @@ exports.Prisma.PointTransactionOrderByRelevanceFieldEnum = {
   reason: 'reason'
 };
 
+exports.Prisma.ChatMessageOrderByRelevanceFieldEnum = {
+  message: 'message'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -305,7 +317,8 @@ exports.Prisma.ModelName = {
   BattleRoom: 'BattleRoom',
   BattleTitle: 'BattleTitle',
   QuestCompletion: 'QuestCompletion',
-  PointTransaction: 'PointTransaction'
+  PointTransaction: 'PointTransaction',
+  ChatMessage: 'ChatMessage'
 };
 
 /**

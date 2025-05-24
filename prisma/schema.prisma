@@ -32,6 +32,7 @@ model User {
   roomParticipants RoomParticipant[]
   questCompletions QuestCompletion[]
   pointTransactions PointTransaction[]
+  chatMessages     ChatMessage[]  @relation("ChatMessagesByUser")
 
   @@map("user")
 }
@@ -140,6 +141,7 @@ model BattleRoom {
   roomParticipants RoomParticipant[]
   aiSummaries AiSummary[]  // 추가됨
   aiJudgements AiJudgement[]
+  chatMessages      ChatMessage[]  @relation("ChatMessagesByRoom")
 
   @@map("battle_room")
 }
@@ -180,4 +182,17 @@ model PointTransaction {
   user      User     @relation(fields: [userId], references: [id])
 
   @@map("point_transcations")
+}
+
+model ChatMessage {
+  id         BigInt       @id @default(autoincrement()) @map("id")
+  roomId     BigInt       @map("room_id")
+  userId     BigInt       @map("user_id")
+  message    String       @db.Text @map("message")
+  createdAt  DateTime     @default(now()) @map("created_at") @db.DateTime(6)
+
+  user       User         @relation("ChatMessagesByUser", fields: [userId], references: [id])
+  battleRoom BattleRoom   @relation("ChatMessagesByRoom", fields: [roomId], references: [id])
+
+  @@map("chat_messages")
 }
