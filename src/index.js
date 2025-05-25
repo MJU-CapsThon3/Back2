@@ -13,6 +13,7 @@ import { handleUserSignUp,
 
 import { handleCreateRoom,
   handleJoinRoom,
+  handleGetRoomInfo,
 } from "./controllers/chat.controller.js"
 
 BigInt.prototype.toJSON = function () {
@@ -42,7 +43,7 @@ app.use(
   )
 );
 
-// index.js 中 openapi.json 라우트
+// index.js openapi.json 라우트
 app.get("/openapi.json", async (req, res, next) => {
   // #swagger.ignore = true
   const options = {
@@ -94,19 +95,17 @@ app.use(verify);
 
 // 회원가입 api
 app.post("/users/signup", handleUserSignUp);
-
 //로그인 api
 app.post("/users/login", handleLogin);
-
 //유저 정보를 불러오는 api
 app.get("/users/info", handleUserInfo);
-
 // Top 랭킹 조회
 app.get('/rankings/top', handleGetTopRankings);
 
 // 배틀방 생성하는 api
 app.post('/battle/rooms', handleCreateRoom);
-
+// // 배틀방 정보 조회 api
+app.get('/battle/rooms/:roomId',handleGetRoomInfo);
 // 방 참가하는 api
 app.post('/battle/rooms/:roomId/participants', handleJoinRoom);
 

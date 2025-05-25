@@ -160,6 +160,12 @@ export const status = {
     code: "ROOMIN4005",
     message: "이미 참가했습니다.",
   },
+    ROOM_NOT_FOUND : {
+    status: StatusCodes.ROOM_NOT_FOUND,
+    isSuccess: false,
+    code: "ROOMIN4005",
+    message: "방을 찾을 수가 없습니다.",
+  },
 }
 
 

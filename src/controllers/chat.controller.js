@@ -4,6 +4,7 @@ import { checkFormat } from "../middleware/jwt.js";
 import { BaseError } from "../errors.js";
 import { createRoom, 
   joinRoom,
+  getRoomInfo,
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -157,22 +158,21 @@ export const handleCreateRoom = async (req, res, next) => {
 
 // 방 참가 controller
 export const handleJoinRoom = async (req, res, next) => {
-  /*
+/*
   #swagger.summary = '방 참가 API'
+  #swagger.security = [{ "BearerAuth": [] }]
   #swagger.tags = ['BattleRoom']
-  #swagger.security = [{
-    "BearerAuth": []
-  }]
+
   #swagger.parameters['roomId'] = {
     in: 'path',
-    name: 'roomId',
     description: '배틀방 ID',
     required: true,
-    type: 'integer',       // schema 대신 최상위에 type
-    format: 'int64',       // (선택) 64비트 정수라고 명시
-    example: 1             // 기본값 예시
+    type: 'integer',
+    format: 'int64',
+    example: 1
   }
   #swagger.requestBody = {
+    description: '참가할 진형',
     required: true,
     content: {
       "application/json": {
@@ -181,7 +181,7 @@ export const handleJoinRoom = async (req, res, next) => {
           properties: {
             side: {
               type: "string",
-              enum: ["A","B","S"],
+              enum: ["A", "B", "P"],
               example: "A"
             }
           },
@@ -192,91 +192,53 @@ export const handleJoinRoom = async (req, res, next) => {
   }
   #swagger.responses[200] = {
     description: "참가 성공",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            isSuccess:  { type: "boolean", example: true },
-            code:       { type: "string",  example: "200" },
-            message:    { type: "string",  example: "success!" },
-            result: {
-              type: "object",
-              properties: {
-                participantId: { type: "integer", example: 123 },
-                roomId:        { type: "integer", example: 1 },
-                userId:        { type: "integer", example: 42 },
-                role:          { type: "string",  example: "A" },
-                joinedAt:      { type: "string",  format: "date-time", example: "2025-05-25T12:34:56.000Z" }
-              }
-            }
-          }
-        }
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        participantId: 123,
+        roomId: 1,
+        userId: 42,
+        role: "A",
+        joinedAt: "2025-05-25T10:48:19.983Z"
       }
     }
   }
   #swagger.responses[400] = {
-    description: "잘못된 요청 (입력 검증 실패)",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            isSuccess: { type: "boolean", example: false },
-            code:      { type: "string",  example: "ROOMIN4001" },
-            message:   { type: "string",  example: "올바르지 않는 입력 값입니다." },
-            result:    { type: "object",  nullable: true, example: null }
-          }
-        }
-      }
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
     }
   }
   #swagger.responses[401] = {
     description: "토큰 오류",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            isSuccess: { type: "boolean", example: false },
-            code:      { type: "string",  example: "MEMBER4006" },
-            message:   { type: "string",  example: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요." },
-            result:    { type: "object",  nullable: true, example: null }
-          }
-        }
-      }
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
     }
   }
   #swagger.responses[409] = {
-    description: "참가 불가 (이미 참가했거나 역할 중복 또는 방 가득참)",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            isSuccess: { type: "boolean", example: false },
-            code:      { type: "string",  example: "ROOMIN4005" },
-            message:   { type: "string",  example: "이미 참가했습니다." },
-            result:    { type: "object",  nullable: true, example: null }
-          }
-        }
-      }
+    description: "참가 불가",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "이미 참가했습니다.",
+      result: null
     }
   }
   #swagger.responses[500] = {
     description: "서버 내부 오류",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            isSuccess: { type: "boolean", example: false },
-            code:      { type: "string",  example: "COMMON000" },
-            message:   { type: "string",  example: "서버 에러, 관리자에게 문의 바랍니다." },
-            result:    { type: "object",  nullable: true, example: null }
-          }
-        }
-      }
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
     }
   }
 */
@@ -307,5 +269,104 @@ export const handleJoinRoom = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return res.send(response(status.FAILURE, null));
+  }
+};
+
+// 방 정보 불러오기
+export const handleGetRoomInfo = async (req, res, next) => {
+  /*
+  #swagger.summary = '방 정보 불러오는 API'
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.tags = ['BattleRoom']
+
+  #swagger.parameters['roomId'] = {
+    in: 'path',
+    description: '배틀방 ID',
+    required: true,
+    type: 'integer',
+    format: 'int64',
+    example: 1
+  }
+  #swagger.responses[200] = {
+    description: "조회 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        roomId: 1,
+        adminId: 5,
+        topicA: "사자",
+        topicB: "코끼리",
+        status: "WAITING",
+        createdAt: "2025-05-25T12:00:00.000Z",
+        participants: [
+          { userId: 9, role: "A", joinedAt: "2025-05-25T12:01:00.000Z" }
+        ],
+        spectatorCount: 3
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+  #swagger.responses[401] = {
+    description: "토큰 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
+  try {
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get('Authorization'));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+    // 2) roomId 파싱
+    let roomIdNum;
+    try {
+      roomIdNum = BigInt(req.params.roomId);
+    } catch {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+    // 3) 서비스 호출
+    const roomInfo = await getRoomInfo({ roomId: roomIdNum });
+    // 4) 응답
+    return res.send(response(status.SUCCESS, roomInfo));
+  } catch (err) {
+    console.error(err);
+    // 방이 없으면 NOT_FOUND, 그 외엔 SERVER_ERROR
+    if (err.message === 'ROOM_NOT_FOUND') {
+      return res.send(response(status.NOT_FOUND, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };

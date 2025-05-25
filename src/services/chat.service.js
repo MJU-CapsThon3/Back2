@@ -4,8 +4,13 @@ import { createBattleRoom,
     createBattleTitle,
     countParticipants,
     createRoomParticipant,
+    findBattleRoomById,
+    listRoomParticipants,
+    countRoomSpectators,
 } from '../repositories/chat.repository.js';
-import { toCreateRoomDto, responseFromRoom } from '../dtos/chat.dto.js';
+import { toCreateRoomDto, 
+  responseFromRoom 
+} from '../dtos/chat.dto.js';
 
 // 방 생성 service
 export const createRoom = async (req, res) => {
@@ -69,6 +74,32 @@ export const joinRoom = async ({ roomId, userId, role }) => {
     userId:        participant.userId,
     role:          participant.role,
     joinedAt:      participant.joinedAt
+  };
+};
+
+// 방 정보 불러오기
+export const getRoomInfo = async ({ roomId }) => {
+  // 1) 방 기본 정보
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    return res.send(response(status.ROOM_NOT_FOUND, null));
+  }
+  // 2) 참가자 목록
+  const participants = await listRoomParticipants(roomId);
+
+  // 3) 관전자 수 (role === 'P')
+  const spectatorCount = await countRoomSpectators(roomId);
+
+  // 4) 응답 객체 조합
+  return {
+    roomId:         room.id,
+    adminId:        room.admin,
+    topicA:         room.topicA,
+    topicB:         room.topicB,
+    status:         room.status,
+    createdAt:      room.createdAt,
+    participants,   // [{ userId, role, joinedAt }, …]
+    spectatorCount  // number
   };
 };
 
