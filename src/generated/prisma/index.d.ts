@@ -10341,6 +10341,7 @@ export namespace Prisma {
     topicB: string | null
     status: string | null
     createdAt: Date | null
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
@@ -10353,6 +10354,7 @@ export namespace Prisma {
     topicB: string | null
     status: string | null
     createdAt: Date | null
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
@@ -10365,6 +10367,7 @@ export namespace Prisma {
     topicB: number
     status: number
     createdAt: number
+    startedAt: number
     endedAt: number
     approvalNum: number
     oppositeNum: number
@@ -10393,6 +10396,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10405,6 +10409,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10417,6 +10422,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10516,6 +10522,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt: Date
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number
     oppositeNum: number
@@ -10547,6 +10554,7 @@ export namespace Prisma {
     topicB?: boolean
     status?: boolean
     createdAt?: boolean
+    startedAt?: boolean
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
@@ -10568,12 +10576,13 @@ export namespace Prisma {
     topicB?: boolean
     status?: boolean
     createdAt?: boolean
+    startedAt?: boolean
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
@@ -10601,6 +10610,7 @@ export namespace Prisma {
       topicB: string
       status: string
       createdAt: Date
+      startedAt: Date | null
       endedAt: Date | null
       approvalNum: number
       oppositeNum: number
@@ -10985,6 +10995,7 @@ export namespace Prisma {
     readonly topicB: FieldRef<"BattleRoom", 'String'>
     readonly status: FieldRef<"BattleRoom", 'String'>
     readonly createdAt: FieldRef<"BattleRoom", 'DateTime'>
+    readonly startedAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly endedAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly approvalNum: FieldRef<"BattleRoom", 'Int'>
     readonly oppositeNum: FieldRef<"BattleRoom", 'Int'>
@@ -16510,6 +16521,7 @@ export namespace Prisma {
     topicB: 'topicB',
     status: 'status',
     createdAt: 'createdAt',
+    startedAt: 'startedAt',
     endedAt: 'endedAt',
     approvalNum: 'approvalNum',
     oppositeNum: 'oppositeNum'
@@ -17305,6 +17317,7 @@ export namespace Prisma {
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
@@ -17323,6 +17336,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -17345,6 +17359,7 @@ export namespace Prisma {
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
@@ -17363,6 +17378,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -17383,6 +17399,7 @@ export namespace Prisma {
     topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntWithAggregatesFilter<"BattleRoom"> | number
     oppositeNum?: IntWithAggregatesFilter<"BattleRoom"> | number
@@ -18269,6 +18286,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18287,6 +18305,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18305,6 +18324,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18323,6 +18343,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18341,6 +18362,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18353,6 +18375,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18365,6 +18388,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -19395,6 +19419,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -19414,6 +19439,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -19426,6 +19452,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -21374,6 +21401,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21391,6 +21419,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21477,6 +21506,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21494,6 +21524,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21511,6 +21542,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21528,6 +21560,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21561,6 +21594,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21578,6 +21612,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21595,6 +21630,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21612,6 +21648,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21645,6 +21682,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21662,6 +21700,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22149,6 +22188,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22166,6 +22206,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22199,6 +22240,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22216,6 +22258,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22532,6 +22575,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22549,6 +22593,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22635,6 +22680,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22652,6 +22698,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22669,6 +22716,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22686,6 +22734,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22766,6 +22815,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22783,6 +22833,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number

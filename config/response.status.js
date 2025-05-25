@@ -166,6 +166,12 @@ export const status = {
     code: "ROOMIN4005",
     message: "방을 찾을 수가 없습니다.",
   },
+    INVALID_STATE : {
+    status: StatusCodes.INVALID_STATE,
+    isSuccess: false,
+    code: "ROOMIN4005",
+    message: "올바르지 않은 상태입니다.",
+  },
 }
 
 

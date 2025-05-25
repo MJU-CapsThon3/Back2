@@ -14,6 +14,7 @@ import { handleUserSignUp,
 import { handleCreateRoom,
   handleJoinRoom,
   handleGetRoomInfo,
+  handleStartBattle,
 } from "./controllers/chat.controller.js"
 
 BigInt.prototype.toJSON = function () {
@@ -108,6 +109,8 @@ app.post('/battle/rooms', handleCreateRoom);
 app.get('/battle/rooms/:roomId',handleGetRoomInfo);
 // 방 참가하는 api
 app.post('/battle/rooms/:roomId/participants', handleJoinRoom);
+// 배틀방 시작하는 api
+app.post('/battle/rooms/:roomId/start', handleStartBattle);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

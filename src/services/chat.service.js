@@ -7,6 +7,8 @@ import { createBattleRoom,
     findBattleRoomById,
     listRoomParticipants,
     countRoomSpectators,
+    find1BattleRoomById,
+    updateBattleRoom
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -103,3 +105,29 @@ export const getRoomInfo = async ({ roomId }) => {
   };
 };
 
+// 배틀방 시작하기
+export const startBattle = async ({ roomId, userId }) => {
+  // 1) 방 조회
+  const room = await find1BattleRoomById(roomId);
+  if (!room) {
+    throw new Error('ROOM_NOT_FOUND');
+  }
+  // 2) 방장만 시작 가능
+  if (room.admin !== BigInt(userId)) {
+    throw new Error('FORBIDDEN');
+  }
+  // 3) 대기 상태인 경우만
+  if (room.status !== 'WAITING') {
+    throw new Error('INVALID_STATE');
+  }
+  // 4) 상태 변경 및 시작 시간 기록
+  const updated = await updateBattleRoom(roomId, {
+    status:    'PLAYING',
+    startedAt: new Date()
+  });
+  return {
+    roomId:    updated.id,
+    status:    updated.status,
+    startedAt: updated.startedAt
+  };
+};

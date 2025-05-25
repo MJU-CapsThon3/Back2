@@ -203,6 +203,7 @@ exports.Prisma.BattleRoomScalarFieldEnum = {
   topicB: 'topicB',
   status: 'status',
   createdAt: 'createdAt',
+  startedAt: 'startedAt',
   endedAt: 'endedAt',
   approvalNum: 'approvalNum',
   oppositeNum: 'oppositeNum'

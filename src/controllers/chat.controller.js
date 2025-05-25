@@ -5,6 +5,7 @@ import { BaseError } from "../errors.js";
 import { createRoom, 
   joinRoom,
   getRoomInfo,
+  startBattle,
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -366,6 +367,115 @@ export const handleGetRoomInfo = async (req, res, next) => {
     // 방이 없으면 NOT_FOUND, 그 외엔 SERVER_ERROR
     if (err.message === 'ROOM_NOT_FOUND') {
       return res.send(response(status.NOT_FOUND, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 배틀방 시작하기
+export const handleStartBattle = async (req, res, next) => {
+  /*
+  #swagger.path = '/battle/rooms/{roomId}/start'
+  #swagger.summary = '배틀 시작 API'
+  #swagger.tags = ['BattleRoom']
+  #swagger.security = [{ "BearerAuth": [] }]
+
+  #swagger.parameters['roomId'] = {
+    in: 'path',
+    description: '배틀방 ID',
+    required: true,
+    type: 'integer',
+    format: 'int64',
+    example: 1
+  }
+
+  #swagger.responses[200] = {
+    description: "시작 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        roomId: 1,
+        status: "PLAYING",
+        startedAt: "2025-05-25T12:34:56.000Z"
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "잘못된 요청 (INVALID_STATE 등)",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+  #swagger.responses[401] = {
+    description: "토큰 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+  #swagger.responses[403] = {
+    description: "권한 없음 (방장만 시작 가능)",
+    schema: {
+      isSuccess: false,
+      code: "COMMON004",
+      message: "금지된 요청입니다.",
+      result: null
+    }
+  }
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
+  try {
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get('Authorization'));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+    // 2) roomId 파싱
+    let roomId;
+    try {
+      roomId = BigInt(req.params.roomId);
+    } catch {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+    // 3) 서비스 호출
+    const updated = await startBattle({ roomId, userId: req.userId });
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, updated));
+  } catch (err) {
+    console.error(err);
+    // 권한 없거나 상태 이상 등 커스텀 에러
+    if (err.message === 'ROOM_NOT_FOUND') {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
+    }
+    if (err.message === 'FORBIDDEN') {
+      return res.send(response(status.FORBIDDEN, null));
+    }
+    if (err.message === 'INVALID_STATE') {
+      return res.send(response(status.BAD_REQUEST, null));
     }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }

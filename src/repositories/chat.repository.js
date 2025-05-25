@@ -75,3 +75,17 @@ export const countRoomSpectators = (roomId) => {
         }
     });
 };
+
+export const find1BattleRoomById = (roomId) => {
+    return prisma.battleRoom.findUnique({
+        where: { id: roomId }
+    });
+};
+
+// 방 상태 변경하기
+export const updateBattleRoom = (roomId, data) => {
+    return prisma.battleRoom.update({
+        where: { id: roomId },
+        data
+    });
+};
