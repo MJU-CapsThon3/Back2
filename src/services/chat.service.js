@@ -1,26 +1,28 @@
+import { response } from "../../config/response.js";
+import { status } from "../../config/response.status.js";
 import { createBattleRoom,
-    createBattleTitle
+    createBattleTitle,
+    countParticipants,
+    createRoomParticipant,
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, responseFromRoom } from '../dtos/chat.dto.js';
 
+// 방 생성 service
 export const createRoom = async (req, res) => {
   // 1) DTO 변환 및 검증
     const dtoTopics = toCreateRoomDto(req.body);
     if (dtoTopics.info === false) {
     return { info: false };
     }
-
   // 2) battle_room 생성
     const topicA = dtoTopics.find(t => t.side === 'A').title;
     const topicB = dtoTopics.find(t => t.side === 'B').title;
-
     const room = await createBattleRoom({
     admin:  req.userId,  // 토큰에서 채워진 userId
     topicA,
     topicB,
     status: 'WAITING'
     });
-
   // 3) battle_title 이력(A/B) 생성
     const titleRecords = await Promise.all(
     dtoTopics.map(t => createBattleTitle({
@@ -30,7 +32,43 @@ export const createRoom = async (req, res) => {
       suggestedBy: t.suggestedBy     // dto에서 채워준 값
     }))
     );
-
   // 4) 응답용 DTO 반환
     return responseFromRoom({ room, titleRecords });
 };
+
+// 방 참가 service
+export const joinRoom = async ({ roomId, userId, role }) => {
+  // A/B 참가자는 각 1명만
+  if (role === 'A' || role === 'B') {
+    const cnt = await countParticipants({ roomId, role });
+    if (cnt >= 1) {
+      return res.send(response(status.ROLE_ALREADY_TAKEN, null));
+    }
+  }
+  // 관전자(P)는 최대 8명
+  if (role === 'P') {
+    const cnt = await countParticipants({ roomId, role });
+    if (cnt >= 8) {
+      return res.send(response(status.ROOM_FULL, null));
+    }
+  }
+  // 중복 참가 방지 (이미 참가했으면 취소)
+  const already = await countParticipants({ roomId, role, userId });
+  if (already > 0) {
+    return res.send(response(status.ALREADY_JOINED, null));
+  }
+  // 실제 삽입
+  const participant = await createRoomParticipant({
+    roomId,
+    userId,
+    role
+  });
+  return {
+    participantId: participant.id,
+    roomId:        participant.roomId,
+    userId:        participant.userId,
+    role:          participant.role,
+    joinedAt:      participant.joinedAt
+  };
+};
+

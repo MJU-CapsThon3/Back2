@@ -1,3 +1,5 @@
+
+// 배틀방 생성
 export function toCreateRoomDto(body) {
     const { topics } = body;
     if (!Array.isArray(topics) || topics.length !== 2) {
@@ -19,6 +21,7 @@ export function toCreateRoomDto(body) {
     }
 }
 
+// 배틀방 생성 가공
 export function responseFromRoom({ room, titleRecords }) {
     return {
     roomId:    room.id,
@@ -35,4 +38,14 @@ export function responseFromRoom({ room, titleRecords }) {
         createdAt:  r.created_at
     }))
     };
+}
+
+// 방 참가 dto
+export function toJoinRoomDto(body) {
+    const { side } = body;
+    const valid = ['A', 'B', 'P']; // P = 참가자
+    if (!valid.includes(side)) {
+    return { info: false };
+    }
+    return { side };
 }

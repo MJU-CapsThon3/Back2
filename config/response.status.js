@@ -140,7 +140,26 @@ export const status = {
     status: StatusCodes.FAILUR,
     isSuccess: false,
     code: "ROOMIN4002",
-    message: "생성에 실패 했습니다.",
-  }
+    message: "실패 했습니다.",
+  },
+    ROLE_ALREADY_TAKEN : {
+    status: StatusCodes.ROLE_ALREADY_TAKEN,
+    isSuccess: false,
+    code: "ROOMIN4003",
+    message: "역할이 이미 채워져있습니다..",
+  },
+    ROOM_FULL : {
+    status: StatusCodes.ROOM_FULL,
+    isSuccess: false,
+    code: "ROOMIN4004",
+    message: "방이 꽉 차있습니다.",
+  },
+    ALREADY_JOINED : {
+    status: StatusCodes.ALREADY_JOINEDL,
+    isSuccess: false,
+    code: "ROOMIN4005",
+    message: "이미 참가했습니다.",
+  },
 }
+
 

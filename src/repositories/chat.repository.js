@@ -18,3 +18,22 @@ export const createBattleTitle = async ({ roomId, side, title, suggestedBy }) =>
     }
     });
 };
+
+// 참가자 수 COUNT
+export const countParticipants = async ({ roomId, role, userId }) => {
+    const where = { roomId, role };
+    if (userId !== undefined) where.userId = userId;
+    return await prisma.roomParticipant.count({ where });
+};
+
+// 방 참가
+export const createRoomParticipant = async ({ roomId, userId, role }) => {
+    return await prisma.roomParticipant.create({
+    data: {
+        roomId,
+        userId,
+        role,
+        joinedAt: new Date()
+        }
+    });
+};
