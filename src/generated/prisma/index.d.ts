@@ -78,6 +78,11 @@ export type PointTransaction = $Result.DefaultSelection<Prisma.$PointTransaction
  * 
  */
 export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
+/**
+ * Model BattleVote
+ * 
+ */
+export type BattleVote = $Result.DefaultSelection<Prisma.$BattleVotePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -333,6 +338,16 @@ export class PrismaClient<
     * ```
     */
   get chatMessage(): Prisma.ChatMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.battleVote`: Exposes CRUD operations for the **BattleVote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BattleVotes
+    * const battleVotes = await prisma.battleVote.findMany()
+    * ```
+    */
+  get battleVote(): Prisma.BattleVoteDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -785,7 +800,8 @@ export namespace Prisma {
     BattleTitle: 'BattleTitle',
     QuestCompletion: 'QuestCompletion',
     PointTransaction: 'PointTransaction',
-    ChatMessage: 'ChatMessage'
+    ChatMessage: 'ChatMessage',
+    BattleVote: 'BattleVote'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -804,7 +820,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "ranking" | "quest" | "roomParticipant" | "aiJudgement" | "aiSummary" | "userItem" | "item" | "battleRoom" | "battleTitle" | "questCompletion" | "pointTransaction" | "chatMessage"
+      modelProps: "user" | "ranking" | "quest" | "roomParticipant" | "aiJudgement" | "aiSummary" | "userItem" | "item" | "battleRoom" | "battleTitle" | "questCompletion" | "pointTransaction" | "chatMessage" | "battleVote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1666,6 +1682,72 @@ export namespace Prisma {
           }
         }
       }
+      BattleVote: {
+        payload: Prisma.$BattleVotePayload<ExtArgs>
+        fields: Prisma.BattleVoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BattleVoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BattleVoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          findFirst: {
+            args: Prisma.BattleVoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BattleVoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          findMany: {
+            args: Prisma.BattleVoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>[]
+          }
+          create: {
+            args: Prisma.BattleVoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          createMany: {
+            args: Prisma.BattleVoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BattleVoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          update: {
+            args: Prisma.BattleVoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          deleteMany: {
+            args: Prisma.BattleVoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BattleVoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BattleVoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleVotePayload>
+          }
+          aggregate: {
+            args: Prisma.BattleVoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBattleVote>
+          }
+          groupBy: {
+            args: Prisma.BattleVoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BattleVoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BattleVoteCountArgs<ExtArgs>
+            result: $Utils.Optional<BattleVoteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1763,6 +1845,7 @@ export namespace Prisma {
     questCompletion?: QuestCompletionOmit
     pointTransaction?: PointTransactionOmit
     chatMessage?: ChatMessageOmit
+    battleVote?: BattleVoteOmit
   }
 
   /* Types for Logging */
@@ -1863,6 +1946,7 @@ export namespace Prisma {
     questCompletions: number
     pointTransactions: number
     chatMessages: number
+    battleVotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1872,6 +1956,7 @@ export namespace Prisma {
     questCompletions?: boolean | UserCountOutputTypeCountQuestCompletionsArgs
     pointTransactions?: boolean | UserCountOutputTypeCountPointTransactionsArgs
     chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
+    battleVotes?: boolean | UserCountOutputTypeCountBattleVotesArgs
   }
 
   // Custom InputTypes
@@ -1925,6 +2010,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountChatMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatMessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBattleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleVoteWhereInput
   }
 
 
@@ -2000,6 +2092,7 @@ export namespace Prisma {
     aiSummaries: number
     aiJudgements: number
     chatMessages: number
+    votes: number
   }
 
   export type BattleRoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2008,6 +2101,7 @@ export namespace Prisma {
     aiSummaries?: boolean | BattleRoomCountOutputTypeCountAiSummariesArgs
     aiJudgements?: boolean | BattleRoomCountOutputTypeCountAiJudgementsArgs
     chatMessages?: boolean | BattleRoomCountOutputTypeCountChatMessagesArgs
+    votes?: boolean | BattleRoomCountOutputTypeCountVotesArgs
   }
 
   // Custom InputTypes
@@ -2054,6 +2148,13 @@ export namespace Prisma {
    */
   export type BattleRoomCountOutputTypeCountChatMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatMessageWhereInput
+  }
+
+  /**
+   * BattleRoomCountOutputType without action
+   */
+  export type BattleRoomCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleVoteWhereInput
   }
 
 
@@ -2325,6 +2426,7 @@ export namespace Prisma {
     questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
     pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
     chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
+    battleVotes?: boolean | User$battleVotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2353,6 +2455,7 @@ export namespace Prisma {
     questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
     pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
     chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
+    battleVotes?: boolean | User$battleVotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2365,6 +2468,7 @@ export namespace Prisma {
       questCompletions: Prisma.$QuestCompletionPayload<ExtArgs>[]
       pointTransactions: Prisma.$PointTransactionPayload<ExtArgs>[]
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+      battleVotes: Prisma.$BattleVotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -2725,6 +2829,7 @@ export namespace Prisma {
     questCompletions<T extends User$questCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$questCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pointTransactions<T extends User$pointTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chatMessages<T extends User$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    battleVotes<T extends User$battleVotesArgs<ExtArgs> = {}>(args?: Subset<T, User$battleVotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3250,6 +3355,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.battleVotes
+   */
+  export type User$battleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    where?: BattleVoteWhereInput
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    cursor?: BattleVoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
   }
 
   /**
@@ -5316,6 +5445,7 @@ export namespace Prisma {
     userId: bigint | null
     roomId: bigint | null
     role: string | null
+    side: string | null
     joinedAt: Date | null
     endAt: Date | null
   }
@@ -5325,6 +5455,7 @@ export namespace Prisma {
     userId: bigint | null
     roomId: bigint | null
     role: string | null
+    side: string | null
     joinedAt: Date | null
     endAt: Date | null
   }
@@ -5334,6 +5465,7 @@ export namespace Prisma {
     userId: number
     roomId: number
     role: number
+    side: number
     joinedAt: number
     endAt: number
     _all: number
@@ -5357,6 +5489,7 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
+    side?: true
     joinedAt?: true
     endAt?: true
   }
@@ -5366,6 +5499,7 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
+    side?: true
     joinedAt?: true
     endAt?: true
   }
@@ -5375,6 +5509,7 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
+    side?: true
     joinedAt?: true
     endAt?: true
     _all?: true
@@ -5471,6 +5606,7 @@ export namespace Prisma {
     userId: bigint
     roomId: bigint
     role: string
+    side: string | null
     joinedAt: Date
     endAt: Date | null
     _count: RoomParticipantCountAggregateOutputType | null
@@ -5499,6 +5635,7 @@ export namespace Prisma {
     userId?: boolean
     roomId?: boolean
     role?: boolean
+    side?: boolean
     joinedAt?: boolean
     endAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5512,11 +5649,12 @@ export namespace Prisma {
     userId?: boolean
     roomId?: boolean
     role?: boolean
+    side?: boolean
     joinedAt?: boolean
     endAt?: boolean
   }
 
-  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roomId" | "role" | "joinedAt" | "endAt", ExtArgs["result"]["roomParticipant"]>
+  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roomId" | "role" | "side" | "joinedAt" | "endAt", ExtArgs["result"]["roomParticipant"]>
   export type RoomParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
@@ -5533,6 +5671,7 @@ export namespace Prisma {
       userId: bigint
       roomId: bigint
       role: string
+      side: string | null
       joinedAt: Date
       endAt: Date | null
     }, ExtArgs["result"]["roomParticipant"]>
@@ -5910,6 +6049,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"RoomParticipant", 'BigInt'>
     readonly roomId: FieldRef<"RoomParticipant", 'BigInt'>
     readonly role: FieldRef<"RoomParticipant", 'String'>
+    readonly side: FieldRef<"RoomParticipant", 'String'>
     readonly joinedAt: FieldRef<"RoomParticipant", 'DateTime'>
     readonly endAt: FieldRef<"RoomParticipant", 'DateTime'>
   }
@@ -10197,7 +10337,8 @@ export namespace Prisma {
   export type BattleRoomMinAggregateOutputType = {
     id: bigint | null
     admin: bigint | null
-    title: string | null
+    topicA: string | null
+    topicB: string | null
     status: string | null
     createdAt: Date | null
     endedAt: Date | null
@@ -10208,7 +10349,8 @@ export namespace Prisma {
   export type BattleRoomMaxAggregateOutputType = {
     id: bigint | null
     admin: bigint | null
-    title: string | null
+    topicA: string | null
+    topicB: string | null
     status: string | null
     createdAt: Date | null
     endedAt: Date | null
@@ -10219,7 +10361,8 @@ export namespace Prisma {
   export type BattleRoomCountAggregateOutputType = {
     id: number
     admin: number
-    title: number
+    topicA: number
+    topicB: number
     status: number
     createdAt: number
     endedAt: number
@@ -10246,7 +10389,8 @@ export namespace Prisma {
   export type BattleRoomMinAggregateInputType = {
     id?: true
     admin?: true
-    title?: true
+    topicA?: true
+    topicB?: true
     status?: true
     createdAt?: true
     endedAt?: true
@@ -10257,7 +10401,8 @@ export namespace Prisma {
   export type BattleRoomMaxAggregateInputType = {
     id?: true
     admin?: true
-    title?: true
+    topicA?: true
+    topicB?: true
     status?: true
     createdAt?: true
     endedAt?: true
@@ -10268,7 +10413,8 @@ export namespace Prisma {
   export type BattleRoomCountAggregateInputType = {
     id?: true
     admin?: true
-    title?: true
+    topicA?: true
+    topicB?: true
     status?: true
     createdAt?: true
     endedAt?: true
@@ -10366,7 +10512,8 @@ export namespace Prisma {
   export type BattleRoomGroupByOutputType = {
     id: bigint
     admin: bigint
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt: Date
     endedAt: Date | null
@@ -10396,7 +10543,8 @@ export namespace Prisma {
   export type BattleRoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     admin?: boolean
-    title?: boolean
+    topicA?: boolean
+    topicB?: boolean
     status?: boolean
     createdAt?: boolean
     endedAt?: boolean
@@ -10407,6 +10555,7 @@ export namespace Prisma {
     aiSummaries?: boolean | BattleRoom$aiSummariesArgs<ExtArgs>
     aiJudgements?: boolean | BattleRoom$aiJudgementsArgs<ExtArgs>
     chatMessages?: boolean | BattleRoom$chatMessagesArgs<ExtArgs>
+    votes?: boolean | BattleRoom$votesArgs<ExtArgs>
     _count?: boolean | BattleRoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["battleRoom"]>
 
@@ -10415,7 +10564,8 @@ export namespace Prisma {
   export type BattleRoomSelectScalar = {
     id?: boolean
     admin?: boolean
-    title?: boolean
+    topicA?: boolean
+    topicB?: boolean
     status?: boolean
     createdAt?: boolean
     endedAt?: boolean
@@ -10423,13 +10573,14 @@ export namespace Prisma {
     oppositeNum?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "title" | "status" | "createdAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
     aiSummaries?: boolean | BattleRoom$aiSummariesArgs<ExtArgs>
     aiJudgements?: boolean | BattleRoom$aiJudgementsArgs<ExtArgs>
     chatMessages?: boolean | BattleRoom$chatMessagesArgs<ExtArgs>
+    votes?: boolean | BattleRoom$votesArgs<ExtArgs>
     _count?: boolean | BattleRoomCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -10441,11 +10592,13 @@ export namespace Prisma {
       aiSummaries: Prisma.$AiSummaryPayload<ExtArgs>[]
       aiJudgements: Prisma.$AiJudgementPayload<ExtArgs>[]
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+      votes: Prisma.$BattleVotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       admin: bigint
-      title: string
+      topicA: string
+      topicB: string
       status: string
       createdAt: Date
       endedAt: Date | null
@@ -10796,6 +10949,7 @@ export namespace Prisma {
     aiSummaries<T extends BattleRoom$aiSummariesArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$aiSummariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiSummaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiJudgements<T extends BattleRoom$aiJudgementsArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$aiJudgementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiJudgementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chatMessages<T extends BattleRoom$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    votes<T extends BattleRoom$votesArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10827,7 +10981,8 @@ export namespace Prisma {
   interface BattleRoomFieldRefs {
     readonly id: FieldRef<"BattleRoom", 'BigInt'>
     readonly admin: FieldRef<"BattleRoom", 'BigInt'>
-    readonly title: FieldRef<"BattleRoom", 'String'>
+    readonly topicA: FieldRef<"BattleRoom", 'String'>
+    readonly topicB: FieldRef<"BattleRoom", 'String'>
     readonly status: FieldRef<"BattleRoom", 'String'>
     readonly createdAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly endedAt: FieldRef<"BattleRoom", 'DateTime'>
@@ -11296,6 +11451,30 @@ export namespace Prisma {
   }
 
   /**
+   * BattleRoom.votes
+   */
+  export type BattleRoom$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    where?: BattleVoteWhereInput
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    cursor?: BattleVoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
+  }
+
+  /**
    * BattleRoom without action
    */
   export type BattleRoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11339,6 +11518,7 @@ export namespace Prisma {
   export type BattleTitleMinAggregateOutputType = {
     id: bigint | null
     roomId: bigint | null
+    side: string | null
     title: string | null
     suggestedBy: string | null
     createdAt: Date | null
@@ -11348,6 +11528,7 @@ export namespace Prisma {
   export type BattleTitleMaxAggregateOutputType = {
     id: bigint | null
     roomId: bigint | null
+    side: string | null
     title: string | null
     suggestedBy: string | null
     createdAt: Date | null
@@ -11357,6 +11538,7 @@ export namespace Prisma {
   export type BattleTitleCountAggregateOutputType = {
     id: number
     roomId: number
+    side: number
     title: number
     suggestedBy: number
     createdAt: number
@@ -11378,6 +11560,7 @@ export namespace Prisma {
   export type BattleTitleMinAggregateInputType = {
     id?: true
     roomId?: true
+    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
@@ -11387,6 +11570,7 @@ export namespace Prisma {
   export type BattleTitleMaxAggregateInputType = {
     id?: true
     roomId?: true
+    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
@@ -11396,6 +11580,7 @@ export namespace Prisma {
   export type BattleTitleCountAggregateInputType = {
     id?: true
     roomId?: true
+    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
@@ -11492,6 +11677,7 @@ export namespace Prisma {
   export type BattleTitleGroupByOutputType = {
     id: bigint
     roomId: bigint
+    side: string
     title: string
     suggestedBy: string
     createdAt: Date
@@ -11520,6 +11706,7 @@ export namespace Prisma {
   export type BattleTitleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     roomId?: boolean
+    side?: boolean
     title?: boolean
     suggestedBy?: boolean
     createdAt?: boolean
@@ -11532,13 +11719,14 @@ export namespace Prisma {
   export type BattleTitleSelectScalar = {
     id?: boolean
     roomId?: boolean
+    side?: boolean
     title?: boolean
     suggestedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BattleTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "title" | "suggestedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["battleTitle"]>
+  export type BattleTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "side" | "title" | "suggestedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["battleTitle"]>
   export type BattleTitleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
   }
@@ -11551,6 +11739,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       roomId: bigint
+      side: string
       title: string
       suggestedBy: string
       createdAt: Date
@@ -11927,6 +12116,7 @@ export namespace Prisma {
   interface BattleTitleFieldRefs {
     readonly id: FieldRef<"BattleTitle", 'BigInt'>
     readonly roomId: FieldRef<"BattleTitle", 'BigInt'>
+    readonly side: FieldRef<"BattleTitle", 'String'>
     readonly title: FieldRef<"BattleTitle", 'String'>
     readonly suggestedBy: FieldRef<"BattleTitle", 'String'>
     readonly createdAt: FieldRef<"BattleTitle", 'DateTime'>
@@ -14266,6 +14456,7 @@ export namespace Prisma {
     id: bigint | null
     roomId: bigint | null
     userId: bigint | null
+    side: string | null
     message: string | null
     createdAt: Date | null
   }
@@ -14274,6 +14465,7 @@ export namespace Prisma {
     id: bigint | null
     roomId: bigint | null
     userId: bigint | null
+    side: string | null
     message: string | null
     createdAt: Date | null
   }
@@ -14282,6 +14474,7 @@ export namespace Prisma {
     id: number
     roomId: number
     userId: number
+    side: number
     message: number
     createdAt: number
     _all: number
@@ -14304,6 +14497,7 @@ export namespace Prisma {
     id?: true
     roomId?: true
     userId?: true
+    side?: true
     message?: true
     createdAt?: true
   }
@@ -14312,6 +14506,7 @@ export namespace Prisma {
     id?: true
     roomId?: true
     userId?: true
+    side?: true
     message?: true
     createdAt?: true
   }
@@ -14320,6 +14515,7 @@ export namespace Prisma {
     id?: true
     roomId?: true
     userId?: true
+    side?: true
     message?: true
     createdAt?: true
     _all?: true
@@ -14415,6 +14611,7 @@ export namespace Prisma {
     id: bigint
     roomId: bigint
     userId: bigint
+    side: string
     message: string
     createdAt: Date
     _count: ChatMessageCountAggregateOutputType | null
@@ -14442,6 +14639,7 @@ export namespace Prisma {
     id?: boolean
     roomId?: boolean
     userId?: boolean
+    side?: boolean
     message?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -14454,11 +14652,12 @@ export namespace Prisma {
     id?: boolean
     roomId?: boolean
     userId?: boolean
+    side?: boolean
     message?: boolean
     createdAt?: boolean
   }
 
-  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "message" | "createdAt", ExtArgs["result"]["chatMessage"]>
+  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "side" | "message" | "createdAt", ExtArgs["result"]["chatMessage"]>
   export type ChatMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
@@ -14474,6 +14673,7 @@ export namespace Prisma {
       id: bigint
       roomId: bigint
       userId: bigint
+      side: string
       message: string
       createdAt: Date
     }, ExtArgs["result"]["chatMessage"]>
@@ -14850,6 +15050,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ChatMessage", 'BigInt'>
     readonly roomId: FieldRef<"ChatMessage", 'BigInt'>
     readonly userId: FieldRef<"ChatMessage", 'BigInt'>
+    readonly side: FieldRef<"ChatMessage", 'String'>
     readonly message: FieldRef<"ChatMessage", 'String'>
     readonly createdAt: FieldRef<"ChatMessage", 'DateTime'>
   }
@@ -15214,6 +15415,981 @@ export namespace Prisma {
 
 
   /**
+   * Model BattleVote
+   */
+
+  export type AggregateBattleVote = {
+    _count: BattleVoteCountAggregateOutputType | null
+    _avg: BattleVoteAvgAggregateOutputType | null
+    _sum: BattleVoteSumAggregateOutputType | null
+    _min: BattleVoteMinAggregateOutputType | null
+    _max: BattleVoteMaxAggregateOutputType | null
+  }
+
+  export type BattleVoteAvgAggregateOutputType = {
+    id: number | null
+    roomId: number | null
+    userId: number | null
+  }
+
+  export type BattleVoteSumAggregateOutputType = {
+    id: bigint | null
+    roomId: bigint | null
+    userId: bigint | null
+  }
+
+  export type BattleVoteMinAggregateOutputType = {
+    id: bigint | null
+    roomId: bigint | null
+    userId: bigint | null
+    vote: string | null
+    createdAt: Date | null
+  }
+
+  export type BattleVoteMaxAggregateOutputType = {
+    id: bigint | null
+    roomId: bigint | null
+    userId: bigint | null
+    vote: string | null
+    createdAt: Date | null
+  }
+
+  export type BattleVoteCountAggregateOutputType = {
+    id: number
+    roomId: number
+    userId: number
+    vote: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BattleVoteAvgAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+  }
+
+  export type BattleVoteSumAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+  }
+
+  export type BattleVoteMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    vote?: true
+    createdAt?: true
+  }
+
+  export type BattleVoteMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    vote?: true
+    createdAt?: true
+  }
+
+  export type BattleVoteCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    vote?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BattleVoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleVote to aggregate.
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleVotes to fetch.
+     */
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BattleVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BattleVotes
+    **/
+    _count?: true | BattleVoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BattleVoteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BattleVoteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BattleVoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BattleVoteMaxAggregateInputType
+  }
+
+  export type GetBattleVoteAggregateType<T extends BattleVoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateBattleVote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBattleVote[P]>
+      : GetScalarType<T[P], AggregateBattleVote[P]>
+  }
+
+
+
+
+  export type BattleVoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleVoteWhereInput
+    orderBy?: BattleVoteOrderByWithAggregationInput | BattleVoteOrderByWithAggregationInput[]
+    by: BattleVoteScalarFieldEnum[] | BattleVoteScalarFieldEnum
+    having?: BattleVoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BattleVoteCountAggregateInputType | true
+    _avg?: BattleVoteAvgAggregateInputType
+    _sum?: BattleVoteSumAggregateInputType
+    _min?: BattleVoteMinAggregateInputType
+    _max?: BattleVoteMaxAggregateInputType
+  }
+
+  export type BattleVoteGroupByOutputType = {
+    id: bigint
+    roomId: bigint
+    userId: bigint
+    vote: string
+    createdAt: Date
+    _count: BattleVoteCountAggregateOutputType | null
+    _avg: BattleVoteAvgAggregateOutputType | null
+    _sum: BattleVoteSumAggregateOutputType | null
+    _min: BattleVoteMinAggregateOutputType | null
+    _max: BattleVoteMaxAggregateOutputType | null
+  }
+
+  type GetBattleVoteGroupByPayload<T extends BattleVoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BattleVoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BattleVoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BattleVoteGroupByOutputType[P]>
+            : GetScalarType<T[P], BattleVoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BattleVoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    vote?: boolean
+    createdAt?: boolean
+    battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleVote"]>
+
+
+
+  export type BattleVoteSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    vote?: boolean
+    createdAt?: boolean
+  }
+
+  export type BattleVoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "vote" | "createdAt", ExtArgs["result"]["battleVote"]>
+  export type BattleVoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BattleVotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BattleVote"
+    objects: {
+      battleRoom: Prisma.$BattleRoomPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      roomId: bigint
+      userId: bigint
+      vote: string
+      createdAt: Date
+    }, ExtArgs["result"]["battleVote"]>
+    composites: {}
+  }
+
+  type BattleVoteGetPayload<S extends boolean | null | undefined | BattleVoteDefaultArgs> = $Result.GetResult<Prisma.$BattleVotePayload, S>
+
+  type BattleVoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BattleVoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BattleVoteCountAggregateInputType | true
+    }
+
+  export interface BattleVoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BattleVote'], meta: { name: 'BattleVote' } }
+    /**
+     * Find zero or one BattleVote that matches the filter.
+     * @param {BattleVoteFindUniqueArgs} args - Arguments to find a BattleVote
+     * @example
+     * // Get one BattleVote
+     * const battleVote = await prisma.battleVote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BattleVoteFindUniqueArgs>(args: SelectSubset<T, BattleVoteFindUniqueArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BattleVote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BattleVoteFindUniqueOrThrowArgs} args - Arguments to find a BattleVote
+     * @example
+     * // Get one BattleVote
+     * const battleVote = await prisma.battleVote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BattleVoteFindUniqueOrThrowArgs>(args: SelectSubset<T, BattleVoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleVote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteFindFirstArgs} args - Arguments to find a BattleVote
+     * @example
+     * // Get one BattleVote
+     * const battleVote = await prisma.battleVote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BattleVoteFindFirstArgs>(args?: SelectSubset<T, BattleVoteFindFirstArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleVote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteFindFirstOrThrowArgs} args - Arguments to find a BattleVote
+     * @example
+     * // Get one BattleVote
+     * const battleVote = await prisma.battleVote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BattleVoteFindFirstOrThrowArgs>(args?: SelectSubset<T, BattleVoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BattleVotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BattleVotes
+     * const battleVotes = await prisma.battleVote.findMany()
+     * 
+     * // Get first 10 BattleVotes
+     * const battleVotes = await prisma.battleVote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const battleVoteWithIdOnly = await prisma.battleVote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BattleVoteFindManyArgs>(args?: SelectSubset<T, BattleVoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BattleVote.
+     * @param {BattleVoteCreateArgs} args - Arguments to create a BattleVote.
+     * @example
+     * // Create one BattleVote
+     * const BattleVote = await prisma.battleVote.create({
+     *   data: {
+     *     // ... data to create a BattleVote
+     *   }
+     * })
+     * 
+     */
+    create<T extends BattleVoteCreateArgs>(args: SelectSubset<T, BattleVoteCreateArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BattleVotes.
+     * @param {BattleVoteCreateManyArgs} args - Arguments to create many BattleVotes.
+     * @example
+     * // Create many BattleVotes
+     * const battleVote = await prisma.battleVote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BattleVoteCreateManyArgs>(args?: SelectSubset<T, BattleVoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BattleVote.
+     * @param {BattleVoteDeleteArgs} args - Arguments to delete one BattleVote.
+     * @example
+     * // Delete one BattleVote
+     * const BattleVote = await prisma.battleVote.delete({
+     *   where: {
+     *     // ... filter to delete one BattleVote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BattleVoteDeleteArgs>(args: SelectSubset<T, BattleVoteDeleteArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BattleVote.
+     * @param {BattleVoteUpdateArgs} args - Arguments to update one BattleVote.
+     * @example
+     * // Update one BattleVote
+     * const battleVote = await prisma.battleVote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BattleVoteUpdateArgs>(args: SelectSubset<T, BattleVoteUpdateArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BattleVotes.
+     * @param {BattleVoteDeleteManyArgs} args - Arguments to filter BattleVotes to delete.
+     * @example
+     * // Delete a few BattleVotes
+     * const { count } = await prisma.battleVote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BattleVoteDeleteManyArgs>(args?: SelectSubset<T, BattleVoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleVotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BattleVotes
+     * const battleVote = await prisma.battleVote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BattleVoteUpdateManyArgs>(args: SelectSubset<T, BattleVoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BattleVote.
+     * @param {BattleVoteUpsertArgs} args - Arguments to update or create a BattleVote.
+     * @example
+     * // Update or create a BattleVote
+     * const battleVote = await prisma.battleVote.upsert({
+     *   create: {
+     *     // ... data to create a BattleVote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BattleVote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BattleVoteUpsertArgs>(args: SelectSubset<T, BattleVoteUpsertArgs<ExtArgs>>): Prisma__BattleVoteClient<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BattleVotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteCountArgs} args - Arguments to filter BattleVotes to count.
+     * @example
+     * // Count the number of BattleVotes
+     * const count = await prisma.battleVote.count({
+     *   where: {
+     *     // ... the filter for the BattleVotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends BattleVoteCountArgs>(
+      args?: Subset<T, BattleVoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BattleVoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BattleVote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BattleVoteAggregateArgs>(args: Subset<T, BattleVoteAggregateArgs>): Prisma.PrismaPromise<GetBattleVoteAggregateType<T>>
+
+    /**
+     * Group by BattleVote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleVoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BattleVoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BattleVoteGroupByArgs['orderBy'] }
+        : { orderBy?: BattleVoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BattleVoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBattleVoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BattleVote model
+   */
+  readonly fields: BattleVoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BattleVote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BattleVoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    battleRoom<T extends BattleRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoomDefaultArgs<ExtArgs>>): Prisma__BattleRoomClient<$Result.GetResult<Prisma.$BattleRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BattleVote model
+   */
+  interface BattleVoteFieldRefs {
+    readonly id: FieldRef<"BattleVote", 'BigInt'>
+    readonly roomId: FieldRef<"BattleVote", 'BigInt'>
+    readonly userId: FieldRef<"BattleVote", 'BigInt'>
+    readonly vote: FieldRef<"BattleVote", 'String'>
+    readonly createdAt: FieldRef<"BattleVote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BattleVote findUnique
+   */
+  export type BattleVoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleVote to fetch.
+     */
+    where: BattleVoteWhereUniqueInput
+  }
+
+  /**
+   * BattleVote findUniqueOrThrow
+   */
+  export type BattleVoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleVote to fetch.
+     */
+    where: BattleVoteWhereUniqueInput
+  }
+
+  /**
+   * BattleVote findFirst
+   */
+  export type BattleVoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleVote to fetch.
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleVotes to fetch.
+     */
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleVotes.
+     */
+    cursor?: BattleVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleVotes.
+     */
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
+  }
+
+  /**
+   * BattleVote findFirstOrThrow
+   */
+  export type BattleVoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleVote to fetch.
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleVotes to fetch.
+     */
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleVotes.
+     */
+    cursor?: BattleVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleVotes.
+     */
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
+  }
+
+  /**
+   * BattleVote findMany
+   */
+  export type BattleVoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleVotes to fetch.
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleVotes to fetch.
+     */
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BattleVotes.
+     */
+    cursor?: BattleVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleVotes.
+     */
+    skip?: number
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
+  }
+
+  /**
+   * BattleVote create
+   */
+  export type BattleVoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BattleVote.
+     */
+    data: XOR<BattleVoteCreateInput, BattleVoteUncheckedCreateInput>
+  }
+
+  /**
+   * BattleVote createMany
+   */
+  export type BattleVoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BattleVotes.
+     */
+    data: BattleVoteCreateManyInput | BattleVoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BattleVote update
+   */
+  export type BattleVoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BattleVote.
+     */
+    data: XOR<BattleVoteUpdateInput, BattleVoteUncheckedUpdateInput>
+    /**
+     * Choose, which BattleVote to update.
+     */
+    where: BattleVoteWhereUniqueInput
+  }
+
+  /**
+   * BattleVote updateMany
+   */
+  export type BattleVoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BattleVotes.
+     */
+    data: XOR<BattleVoteUpdateManyMutationInput, BattleVoteUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleVotes to update
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * Limit how many BattleVotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleVote upsert
+   */
+  export type BattleVoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BattleVote to update in case it exists.
+     */
+    where: BattleVoteWhereUniqueInput
+    /**
+     * In case the BattleVote found by the `where` argument doesn't exist, create a new BattleVote with this data.
+     */
+    create: XOR<BattleVoteCreateInput, BattleVoteUncheckedCreateInput>
+    /**
+     * In case the BattleVote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BattleVoteUpdateInput, BattleVoteUncheckedUpdateInput>
+  }
+
+  /**
+   * BattleVote delete
+   */
+  export type BattleVoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+    /**
+     * Filter which BattleVote to delete.
+     */
+    where: BattleVoteWhereUniqueInput
+  }
+
+  /**
+   * BattleVote deleteMany
+   */
+  export type BattleVoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleVotes to delete
+     */
+    where?: BattleVoteWhereInput
+    /**
+     * Limit how many BattleVotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleVote without action
+   */
+  export type BattleVoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleVote
+     */
+    select?: BattleVoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleVote
+     */
+    omit?: BattleVoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleVoteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15276,6 +16452,7 @@ export namespace Prisma {
     userId: 'userId',
     roomId: 'roomId',
     role: 'role',
+    side: 'side',
     joinedAt: 'joinedAt',
     endAt: 'endAt'
   };
@@ -15329,7 +16506,8 @@ export namespace Prisma {
   export const BattleRoomScalarFieldEnum: {
     id: 'id',
     admin: 'admin',
-    title: 'title',
+    topicA: 'topicA',
+    topicB: 'topicB',
     status: 'status',
     createdAt: 'createdAt',
     endedAt: 'endedAt',
@@ -15343,6 +16521,7 @@ export namespace Prisma {
   export const BattleTitleScalarFieldEnum: {
     id: 'id',
     roomId: 'roomId',
+    side: 'side',
     title: 'title',
     suggestedBy: 'suggestedBy',
     createdAt: 'createdAt',
@@ -15378,11 +16557,23 @@ export namespace Prisma {
     id: 'id',
     roomId: 'roomId',
     userId: 'userId',
+    side: 'side',
     message: 'message',
     createdAt: 'createdAt'
   };
 
   export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
+
+
+  export const BattleVoteScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    userId: 'userId',
+    vote: 'vote',
+    createdAt: 'createdAt'
+  };
+
+  export type BattleVoteScalarFieldEnum = (typeof BattleVoteScalarFieldEnum)[keyof typeof BattleVoteScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15431,7 +16622,8 @@ export namespace Prisma {
 
 
   export const RoomParticipantOrderByRelevanceFieldEnum: {
-    role: 'role'
+    role: 'role',
+    side: 'side'
   };
 
   export type RoomParticipantOrderByRelevanceFieldEnum = (typeof RoomParticipantOrderByRelevanceFieldEnum)[keyof typeof RoomParticipantOrderByRelevanceFieldEnum]
@@ -15460,7 +16652,8 @@ export namespace Prisma {
 
 
   export const BattleRoomOrderByRelevanceFieldEnum: {
-    title: 'title',
+    topicA: 'topicA',
+    topicB: 'topicB',
     status: 'status'
   };
 
@@ -15468,6 +16661,7 @@ export namespace Prisma {
 
 
   export const BattleTitleOrderByRelevanceFieldEnum: {
+    side: 'side',
     title: 'title',
     suggestedBy: 'suggestedBy'
   };
@@ -15483,10 +16677,18 @@ export namespace Prisma {
 
 
   export const ChatMessageOrderByRelevanceFieldEnum: {
+    side: 'side',
     message: 'message'
   };
 
   export type ChatMessageOrderByRelevanceFieldEnum = (typeof ChatMessageOrderByRelevanceFieldEnum)[keyof typeof ChatMessageOrderByRelevanceFieldEnum]
+
+
+  export const BattleVoteOrderByRelevanceFieldEnum: {
+    vote: 'vote'
+  };
+
+  export type BattleVoteOrderByRelevanceFieldEnum = (typeof BattleVoteOrderByRelevanceFieldEnum)[keyof typeof BattleVoteOrderByRelevanceFieldEnum]
 
 
   /**
@@ -15568,6 +16770,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionListRelationFilter
     pointTransactions?: PointTransactionListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    battleVotes?: BattleVoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15589,6 +16792,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionOrderByRelationAggregateInput
     pointTransactions?: PointTransactionOrderByRelationAggregateInput
     chatMessages?: ChatMessageOrderByRelationAggregateInput
+    battleVotes?: BattleVoteOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -15614,6 +16818,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionListRelationFilter
     pointTransactions?: PointTransactionListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    battleVotes?: BattleVoteListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -15798,6 +17003,7 @@ export namespace Prisma {
     userId?: BigIntFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
     role?: StringFilter<"RoomParticipant"> | string
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -15809,6 +17015,7 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
+    side?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
@@ -15824,6 +17031,7 @@ export namespace Prisma {
     userId?: BigIntFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
     role?: StringFilter<"RoomParticipant"> | string
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -15835,6 +17043,7 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
+    side?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrderInput | SortOrder
     _count?: RoomParticipantCountOrderByAggregateInput
@@ -15852,6 +17061,7 @@ export namespace Prisma {
     userId?: BigIntWithAggregatesFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntWithAggregatesFilter<"RoomParticipant"> | bigint | number
     role?: StringWithAggregatesFilter<"RoomParticipant"> | string
+    side?: StringNullableWithAggregatesFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeWithAggregatesFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableWithAggregatesFilter<"RoomParticipant"> | Date | string | null
   }
@@ -16091,7 +17301,8 @@ export namespace Prisma {
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     id?: BigIntFilter<"BattleRoom"> | bigint | number
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
-    title?: StringFilter<"BattleRoom"> | string
+    topicA?: StringFilter<"BattleRoom"> | string
+    topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
@@ -16102,12 +17313,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryListRelationFilter
     aiJudgements?: AiJudgementListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    votes?: BattleVoteListRelationFilter
   }
 
   export type BattleRoomOrderByWithRelationInput = {
     id?: SortOrder
     admin?: SortOrder
-    title?: SortOrder
+    topicA?: SortOrder
+    topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     endedAt?: SortOrderInput | SortOrder
@@ -16118,6 +17331,7 @@ export namespace Prisma {
     aiSummaries?: AiSummaryOrderByRelationAggregateInput
     aiJudgements?: AiJudgementOrderByRelationAggregateInput
     chatMessages?: ChatMessageOrderByRelationAggregateInput
+    votes?: BattleVoteOrderByRelationAggregateInput
     _relevance?: BattleRoomOrderByRelevanceInput
   }
 
@@ -16127,7 +17341,8 @@ export namespace Prisma {
     OR?: BattleRoomWhereInput[]
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
-    title?: StringFilter<"BattleRoom"> | string
+    topicA?: StringFilter<"BattleRoom"> | string
+    topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
@@ -16138,12 +17353,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryListRelationFilter
     aiJudgements?: AiJudgementListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    votes?: BattleVoteListRelationFilter
   }, "id">
 
   export type BattleRoomOrderByWithAggregationInput = {
     id?: SortOrder
     admin?: SortOrder
-    title?: SortOrder
+    topicA?: SortOrder
+    topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     endedAt?: SortOrderInput | SortOrder
@@ -16162,7 +17379,8 @@ export namespace Prisma {
     NOT?: BattleRoomScalarWhereWithAggregatesInput | BattleRoomScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     admin?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
-    title?: StringWithAggregatesFilter<"BattleRoom"> | string
+    topicA?: StringWithAggregatesFilter<"BattleRoom"> | string
+    topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleRoom"> | Date | string
     endedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
@@ -16176,6 +17394,7 @@ export namespace Prisma {
     NOT?: BattleTitleWhereInput | BattleTitleWhereInput[]
     id?: BigIntFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
+    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
@@ -16186,6 +17405,7 @@ export namespace Prisma {
   export type BattleTitleOrderByWithRelationInput = {
     id?: SortOrder
     roomId?: SortOrder
+    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
@@ -16200,6 +17420,7 @@ export namespace Prisma {
     OR?: BattleTitleWhereInput[]
     NOT?: BattleTitleWhereInput | BattleTitleWhereInput[]
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
+    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
@@ -16210,6 +17431,7 @@ export namespace Prisma {
   export type BattleTitleOrderByWithAggregationInput = {
     id?: SortOrder
     roomId?: SortOrder
+    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
@@ -16227,6 +17449,7 @@ export namespace Prisma {
     NOT?: BattleTitleScalarWhereWithAggregatesInput | BattleTitleScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntWithAggregatesFilter<"BattleTitle"> | bigint | number
+    side?: StringWithAggregatesFilter<"BattleTitle"> | string
     title?: StringWithAggregatesFilter<"BattleTitle"> | string
     suggestedBy?: StringWithAggregatesFilter<"BattleTitle"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleTitle"> | Date | string
@@ -16358,6 +17581,7 @@ export namespace Prisma {
     id?: BigIntFilter<"ChatMessage"> | bigint | number
     roomId?: BigIntFilter<"ChatMessage"> | bigint | number
     userId?: BigIntFilter<"ChatMessage"> | bigint | number
+    side?: StringFilter<"ChatMessage"> | string
     message?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16368,6 +17592,7 @@ export namespace Prisma {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
+    side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -16382,6 +17607,7 @@ export namespace Prisma {
     NOT?: ChatMessageWhereInput | ChatMessageWhereInput[]
     roomId?: BigIntFilter<"ChatMessage"> | bigint | number
     userId?: BigIntFilter<"ChatMessage"> | bigint | number
+    side?: StringFilter<"ChatMessage"> | string
     message?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16392,6 +17618,7 @@ export namespace Prisma {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
+    side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
     _count?: ChatMessageCountOrderByAggregateInput
@@ -16408,8 +17635,70 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"ChatMessage"> | bigint | number
     roomId?: BigIntWithAggregatesFilter<"ChatMessage"> | bigint | number
     userId?: BigIntWithAggregatesFilter<"ChatMessage"> | bigint | number
+    side?: StringWithAggregatesFilter<"ChatMessage"> | string
     message?: StringWithAggregatesFilter<"ChatMessage"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ChatMessage"> | Date | string
+  }
+
+  export type BattleVoteWhereInput = {
+    AND?: BattleVoteWhereInput | BattleVoteWhereInput[]
+    OR?: BattleVoteWhereInput[]
+    NOT?: BattleVoteWhereInput | BattleVoteWhereInput[]
+    id?: BigIntFilter<"BattleVote"> | bigint | number
+    roomId?: BigIntFilter<"BattleVote"> | bigint | number
+    userId?: BigIntFilter<"BattleVote"> | bigint | number
+    vote?: StringFilter<"BattleVote"> | string
+    createdAt?: DateTimeFilter<"BattleVote"> | Date | string
+    battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BattleVoteOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    vote?: SortOrder
+    createdAt?: SortOrder
+    battleRoom?: BattleRoomOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    _relevance?: BattleVoteOrderByRelevanceInput
+  }
+
+  export type BattleVoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: BattleVoteWhereInput | BattleVoteWhereInput[]
+    OR?: BattleVoteWhereInput[]
+    NOT?: BattleVoteWhereInput | BattleVoteWhereInput[]
+    roomId?: BigIntFilter<"BattleVote"> | bigint | number
+    userId?: BigIntFilter<"BattleVote"> | bigint | number
+    vote?: StringFilter<"BattleVote"> | string
+    createdAt?: DateTimeFilter<"BattleVote"> | Date | string
+    battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type BattleVoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    vote?: SortOrder
+    createdAt?: SortOrder
+    _count?: BattleVoteCountOrderByAggregateInput
+    _avg?: BattleVoteAvgOrderByAggregateInput
+    _max?: BattleVoteMaxOrderByAggregateInput
+    _min?: BattleVoteMinOrderByAggregateInput
+    _sum?: BattleVoteSumOrderByAggregateInput
+  }
+
+  export type BattleVoteScalarWhereWithAggregatesInput = {
+    AND?: BattleVoteScalarWhereWithAggregatesInput | BattleVoteScalarWhereWithAggregatesInput[]
+    OR?: BattleVoteScalarWhereWithAggregatesInput[]
+    NOT?: BattleVoteScalarWhereWithAggregatesInput | BattleVoteScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"BattleVote"> | bigint | number
+    roomId?: BigIntWithAggregatesFilter<"BattleVote"> | bigint | number
+    userId?: BigIntWithAggregatesFilter<"BattleVote"> | bigint | number
+    vote?: StringWithAggregatesFilter<"BattleVote"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BattleVote"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -16431,6 +17720,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -16452,6 +17742,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -16473,6 +17764,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -16494,6 +17786,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16687,6 +17980,7 @@ export namespace Prisma {
   export type RoomParticipantCreateInput = {
     id?: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
     user: UserCreateNestedOneWithoutRoomParticipantsInput
@@ -16698,6 +17992,7 @@ export namespace Prisma {
     userId: bigint | number
     roomId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -16705,6 +18000,7 @@ export namespace Prisma {
   export type RoomParticipantUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutRoomParticipantsNestedInput
@@ -16716,6 +18012,7 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -16725,6 +18022,7 @@ export namespace Prisma {
     userId: bigint | number
     roomId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -16732,6 +18030,7 @@ export namespace Prisma {
   export type RoomParticipantUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -16741,6 +18040,7 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -16965,7 +18265,8 @@ export namespace Prisma {
   export type BattleRoomCreateInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -16976,12 +18277,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -16992,12 +18295,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17008,12 +18313,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17024,12 +18331,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomCreateManyInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -17040,7 +18349,8 @@ export namespace Prisma {
   export type BattleRoomUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17051,7 +18361,8 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17061,6 +18372,7 @@ export namespace Prisma {
 
   export type BattleTitleCreateInput = {
     id?: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -17071,6 +18383,7 @@ export namespace Prisma {
   export type BattleTitleUncheckedCreateInput = {
     id?: bigint | number
     roomId: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -17079,6 +18392,7 @@ export namespace Prisma {
 
   export type BattleTitleUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17089,6 +18403,7 @@ export namespace Prisma {
   export type BattleTitleUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17098,6 +18413,7 @@ export namespace Prisma {
   export type BattleTitleCreateManyInput = {
     id?: bigint | number
     roomId: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -17106,6 +18422,7 @@ export namespace Prisma {
 
   export type BattleTitleUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17115,6 +18432,7 @@ export namespace Prisma {
   export type BattleTitleUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17232,6 +18550,7 @@ export namespace Prisma {
 
   export type ChatMessageCreateInput = {
     id?: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutChatMessagesInput
@@ -17242,12 +18561,14 @@ export namespace Prisma {
     id?: bigint | number
     roomId: bigint | number
     userId: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
   }
 
   export type ChatMessageUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
@@ -17258,6 +18579,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17266,12 +18588,14 @@ export namespace Prisma {
     id?: bigint | number
     roomId: bigint | number
     userId: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
   }
 
   export type ChatMessageUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17280,7 +18604,62 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteCreateInput = {
+    id?: bigint | number
+    vote: string
+    createdAt?: Date | string
+    battleRoom: BattleRoomCreateNestedOneWithoutVotesInput
+    user: UserCreateNestedOneWithoutBattleVotesInput
+  }
+
+  export type BattleVoteUncheckedCreateInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    userId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleRoom?: BattleRoomUpdateOneRequiredWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutBattleVotesNestedInput
+  }
+
+  export type BattleVoteUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteCreateManyInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    userId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17383,6 +18762,12 @@ export namespace Prisma {
     none?: ChatMessageWhereInput
   }
 
+  export type BattleVoteListRelationFilter = {
+    every?: BattleVoteWhereInput
+    some?: BattleVoteWhereInput
+    none?: BattleVoteWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -17409,6 +18794,10 @@ export namespace Prisma {
   }
 
   export type ChatMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BattleVoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17712,6 +19101,7 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
+    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
   }
@@ -17727,6 +19117,7 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
+    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
   }
@@ -17736,6 +19127,7 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
+    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
   }
@@ -17999,7 +19391,8 @@ export namespace Prisma {
   export type BattleRoomCountOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
-    title?: SortOrder
+    topicA?: SortOrder
+    topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     endedAt?: SortOrder
@@ -18017,7 +19410,8 @@ export namespace Prisma {
   export type BattleRoomMaxOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
-    title?: SortOrder
+    topicA?: SortOrder
+    topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     endedAt?: SortOrder
@@ -18028,7 +19422,8 @@ export namespace Prisma {
   export type BattleRoomMinOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
-    title?: SortOrder
+    topicA?: SortOrder
+    topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     endedAt?: SortOrder
@@ -18052,6 +19447,7 @@ export namespace Prisma {
   export type BattleTitleCountOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
+    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
@@ -18066,6 +19462,7 @@ export namespace Prisma {
   export type BattleTitleMaxOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
+    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
@@ -18075,6 +19472,7 @@ export namespace Prisma {
   export type BattleTitleMinOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
+    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
@@ -18179,6 +19577,7 @@ export namespace Prisma {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
+    side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
   }
@@ -18193,6 +19592,7 @@ export namespace Prisma {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
+    side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
   }
@@ -18201,11 +19601,54 @@ export namespace Prisma {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
+    side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ChatMessageSumOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type BattleVoteOrderByRelevanceInput = {
+    fields: BattleVoteOrderByRelevanceFieldEnum | BattleVoteOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BattleVoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    vote?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleVoteAvgOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type BattleVoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    vote?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleVoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    vote?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleVoteSumOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
     userId?: SortOrder
@@ -18253,6 +19696,13 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
   }
 
+  export type BattleVoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+  }
+
   export type RankingUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
@@ -18293,6 +19743,13 @@ export namespace Prisma {
     connectOrCreate?: ChatMessageCreateOrConnectWithoutUserInput | ChatMessageCreateOrConnectWithoutUserInput[]
     createMany?: ChatMessageCreateManyUserInputEnvelope
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type BattleVoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
   }
 
   export type BigIntFieldUpdateOperationsInput = {
@@ -18407,6 +19864,20 @@ export namespace Prisma {
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
   }
 
+  export type BattleVoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+  }
+
   export type RankingUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
@@ -18489,6 +19960,20 @@ export namespace Prisma {
     update?: ChatMessageUpdateWithWhereUniqueWithoutUserInput | ChatMessageUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ChatMessageUpdateManyWithWhereWithoutUserInput | ChatMessageUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type BattleVoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRankingInput = {
@@ -18732,6 +20217,13 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
   }
 
+  export type BattleVoteCreateNestedManyWithoutBattleRoomInput = {
+    create?: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput> | BattleVoteCreateWithoutBattleRoomInput[] | BattleVoteUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutBattleRoomInput | BattleVoteCreateOrConnectWithoutBattleRoomInput[]
+    createMany?: BattleVoteCreateManyBattleRoomInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+  }
+
   export type BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput = {
     create?: XOR<BattleTitleCreateWithoutBattleRoomInput, BattleTitleUncheckedCreateWithoutBattleRoomInput> | BattleTitleCreateWithoutBattleRoomInput[] | BattleTitleUncheckedCreateWithoutBattleRoomInput[]
     connectOrCreate?: BattleTitleCreateOrConnectWithoutBattleRoomInput | BattleTitleCreateOrConnectWithoutBattleRoomInput[]
@@ -18765,6 +20257,13 @@ export namespace Prisma {
     connectOrCreate?: ChatMessageCreateOrConnectWithoutBattleRoomInput | ChatMessageCreateOrConnectWithoutBattleRoomInput[]
     createMany?: ChatMessageCreateManyBattleRoomInputEnvelope
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput = {
+    create?: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput> | BattleVoteCreateWithoutBattleRoomInput[] | BattleVoteUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutBattleRoomInput | BattleVoteCreateOrConnectWithoutBattleRoomInput[]
+    createMany?: BattleVoteCreateManyBattleRoomInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
   }
 
   export type BattleTitleUpdateManyWithoutBattleRoomNestedInput = {
@@ -18837,6 +20336,20 @@ export namespace Prisma {
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
   }
 
+  export type BattleVoteUpdateManyWithoutBattleRoomNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput> | BattleVoteCreateWithoutBattleRoomInput[] | BattleVoteUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutBattleRoomInput | BattleVoteCreateOrConnectWithoutBattleRoomInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutBattleRoomInput | BattleVoteUpsertWithWhereUniqueWithoutBattleRoomInput[]
+    createMany?: BattleVoteCreateManyBattleRoomInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput | BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutBattleRoomInput | BattleVoteUpdateManyWithWhereWithoutBattleRoomInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+  }
+
   export type BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput = {
     create?: XOR<BattleTitleCreateWithoutBattleRoomInput, BattleTitleUncheckedCreateWithoutBattleRoomInput> | BattleTitleCreateWithoutBattleRoomInput[] | BattleTitleUncheckedCreateWithoutBattleRoomInput[]
     connectOrCreate?: BattleTitleCreateOrConnectWithoutBattleRoomInput | BattleTitleCreateOrConnectWithoutBattleRoomInput[]
@@ -18905,6 +20418,20 @@ export namespace Prisma {
     update?: ChatMessageUpdateWithWhereUniqueWithoutBattleRoomInput | ChatMessageUpdateWithWhereUniqueWithoutBattleRoomInput[]
     updateMany?: ChatMessageUpdateManyWithWhereWithoutBattleRoomInput | ChatMessageUpdateManyWithWhereWithoutBattleRoomInput[]
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput> | BattleVoteCreateWithoutBattleRoomInput[] | BattleVoteUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutBattleRoomInput | BattleVoteCreateOrConnectWithoutBattleRoomInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutBattleRoomInput | BattleVoteUpsertWithWhereUniqueWithoutBattleRoomInput[]
+    createMany?: BattleVoteCreateManyBattleRoomInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput | BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutBattleRoomInput | BattleVoteUpdateManyWithWhereWithoutBattleRoomInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
   }
 
   export type BattleRoomCreateNestedOneWithoutBattleTitleInput = {
@@ -18989,6 +20516,34 @@ export namespace Prisma {
     upsert?: BattleRoomUpsertWithoutChatMessagesInput
     connect?: BattleRoomWhereUniqueInput
     update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutChatMessagesInput, BattleRoomUpdateWithoutChatMessagesInput>, BattleRoomUncheckedUpdateWithoutChatMessagesInput>
+  }
+
+  export type BattleRoomCreateNestedOneWithoutVotesInput = {
+    create?: XOR<BattleRoomCreateWithoutVotesInput, BattleRoomUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: BattleRoomCreateOrConnectWithoutVotesInput
+    connect?: BattleRoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBattleVotesInput = {
+    create?: XOR<UserCreateWithoutBattleVotesInput, UserUncheckedCreateWithoutBattleVotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleVotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BattleRoomUpdateOneRequiredWithoutVotesNestedInput = {
+    create?: XOR<BattleRoomCreateWithoutVotesInput, BattleRoomUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: BattleRoomCreateOrConnectWithoutVotesInput
+    upsert?: BattleRoomUpsertWithoutVotesInput
+    connect?: BattleRoomWhereUniqueInput
+    update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutVotesInput, BattleRoomUpdateWithoutVotesInput>, BattleRoomUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBattleVotesNestedInput = {
+    create?: XOR<UserCreateWithoutBattleVotesInput, UserUncheckedCreateWithoutBattleVotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleVotesInput
+    upsert?: UserUpsertWithoutBattleVotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBattleVotesInput, UserUpdateWithoutBattleVotesInput>, UserUncheckedUpdateWithoutBattleVotesInput>
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {
@@ -19307,6 +20862,7 @@ export namespace Prisma {
   export type RoomParticipantCreateWithoutUserInput = {
     id?: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
     battleRoom: BattleRoomCreateNestedOneWithoutRoomParticipantsInput
@@ -19316,6 +20872,7 @@ export namespace Prisma {
     id?: bigint | number
     roomId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -19380,6 +20937,7 @@ export namespace Prisma {
 
   export type ChatMessageCreateWithoutUserInput = {
     id?: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
     battleRoom: BattleRoomCreateNestedOneWithoutChatMessagesInput
@@ -19388,6 +20946,7 @@ export namespace Prisma {
   export type ChatMessageUncheckedCreateWithoutUserInput = {
     id?: bigint | number
     roomId: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
   }
@@ -19399,6 +20958,30 @@ export namespace Prisma {
 
   export type ChatMessageCreateManyUserInputEnvelope = {
     data: ChatMessageCreateManyUserInput | ChatMessageCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleVoteCreateWithoutUserInput = {
+    id?: bigint | number
+    vote: string
+    createdAt?: Date | string
+    battleRoom: BattleRoomCreateNestedOneWithoutVotesInput
+  }
+
+  export type BattleVoteUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteCreateOrConnectWithoutUserInput = {
+    where: BattleVoteWhereUniqueInput
+    create: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type BattleVoteCreateManyUserInputEnvelope = {
+    data: BattleVoteCreateManyUserInput | BattleVoteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -19483,6 +21066,7 @@ export namespace Prisma {
     userId?: BigIntFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
     role?: StringFilter<"RoomParticipant"> | string
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
   }
@@ -19564,8 +21148,36 @@ export namespace Prisma {
     id?: BigIntFilter<"ChatMessage"> | bigint | number
     roomId?: BigIntFilter<"ChatMessage"> | bigint | number
     userId?: BigIntFilter<"ChatMessage"> | bigint | number
+    side?: StringFilter<"ChatMessage"> | string
     message?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
+  }
+
+  export type BattleVoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: BattleVoteWhereUniqueInput
+    update: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
+    create: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type BattleVoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: BattleVoteWhereUniqueInput
+    data: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BattleVoteUpdateManyWithWhereWithoutUserInput = {
+    where: BattleVoteScalarWhereInput
+    data: XOR<BattleVoteUpdateManyMutationInput, BattleVoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BattleVoteScalarWhereInput = {
+    AND?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+    OR?: BattleVoteScalarWhereInput[]
+    NOT?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+    id?: BigIntFilter<"BattleVote"> | bigint | number
+    roomId?: BigIntFilter<"BattleVote"> | bigint | number
+    userId?: BigIntFilter<"BattleVote"> | bigint | number
+    vote?: StringFilter<"BattleVote"> | string
+    createdAt?: DateTimeFilter<"BattleVote"> | Date | string
   }
 
   export type UserCreateWithoutRankingInput = {
@@ -19586,6 +21198,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRankingInput = {
@@ -19606,6 +21219,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRankingInput = {
@@ -19642,6 +21256,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRankingInput = {
@@ -19662,6 +21277,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuestCompletionCreateWithoutQuestInput = {
@@ -19722,6 +21338,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomParticipantsInput = {
@@ -19742,6 +21359,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomParticipantsInput = {
@@ -19752,7 +21370,8 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutRoomParticipantsInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19762,12 +21381,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateWithoutRoomParticipantsInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19777,6 +21398,7 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomCreateOrConnectWithoutRoomParticipantsInput = {
@@ -19813,6 +21435,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomParticipantsInput = {
@@ -19833,6 +21456,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomUpsertWithoutRoomParticipantsInput = {
@@ -19849,7 +21473,8 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutRoomParticipantsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19859,12 +21484,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateWithoutRoomParticipantsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19874,12 +21501,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomCreateWithoutAiJudgementsInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19889,12 +21518,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateWithoutAiJudgementsInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19904,6 +21535,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomCreateOrConnectWithoutAiJudgementsInput = {
@@ -19925,7 +21557,8 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutAiJudgementsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19935,12 +21568,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateWithoutAiJudgementsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19950,12 +21585,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomCreateWithoutAiSummariesInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19965,12 +21602,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateWithoutAiSummariesInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -19980,6 +21619,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomCreateOrConnectWithoutAiSummariesInput = {
@@ -20001,7 +21641,8 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutAiSummariesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20011,12 +21652,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateWithoutAiSummariesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20026,6 +21669,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type UserCreateWithoutUserItemsInput = {
@@ -20046,6 +21690,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserItemsInput = {
@@ -20066,6 +21711,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserItemsInput = {
@@ -20123,6 +21769,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserItemsInput = {
@@ -20143,6 +21790,7 @@ export namespace Prisma {
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ItemUpsertWithoutUserItemsInput = {
@@ -20214,6 +21862,7 @@ export namespace Prisma {
 
   export type BattleTitleCreateWithoutBattleRoomInput = {
     id?: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -20222,6 +21871,7 @@ export namespace Prisma {
 
   export type BattleTitleUncheckedCreateWithoutBattleRoomInput = {
     id?: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -20241,6 +21891,7 @@ export namespace Prisma {
   export type RoomParticipantCreateWithoutBattleRoomInput = {
     id?: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
     user: UserCreateNestedOneWithoutRoomParticipantsInput
@@ -20250,6 +21901,7 @@ export namespace Prisma {
     id?: bigint | number
     userId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -20312,6 +21964,7 @@ export namespace Prisma {
 
   export type ChatMessageCreateWithoutBattleRoomInput = {
     id?: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutChatMessagesInput
@@ -20320,6 +21973,7 @@ export namespace Prisma {
   export type ChatMessageUncheckedCreateWithoutBattleRoomInput = {
     id?: bigint | number
     userId: bigint | number
+    side: string
     message: string
     createdAt?: Date | string
   }
@@ -20331,6 +21985,30 @@ export namespace Prisma {
 
   export type ChatMessageCreateManyBattleRoomInputEnvelope = {
     data: ChatMessageCreateManyBattleRoomInput | ChatMessageCreateManyBattleRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleVoteCreateWithoutBattleRoomInput = {
+    id?: bigint | number
+    vote: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutBattleVotesInput
+  }
+
+  export type BattleVoteUncheckedCreateWithoutBattleRoomInput = {
+    id?: bigint | number
+    userId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteCreateOrConnectWithoutBattleRoomInput = {
+    where: BattleVoteWhereUniqueInput
+    create: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput>
+  }
+
+  export type BattleVoteCreateManyBattleRoomInputEnvelope = {
+    data: BattleVoteCreateManyBattleRoomInput | BattleVoteCreateManyBattleRoomInput[]
     skipDuplicates?: boolean
   }
 
@@ -20356,6 +22034,7 @@ export namespace Prisma {
     NOT?: BattleTitleScalarWhereInput | BattleTitleScalarWhereInput[]
     id?: BigIntFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
+    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
@@ -20447,10 +22126,27 @@ export namespace Prisma {
     data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyWithoutBattleRoomInput>
   }
 
+  export type BattleVoteUpsertWithWhereUniqueWithoutBattleRoomInput = {
+    where: BattleVoteWhereUniqueInput
+    update: XOR<BattleVoteUpdateWithoutBattleRoomInput, BattleVoteUncheckedUpdateWithoutBattleRoomInput>
+    create: XOR<BattleVoteCreateWithoutBattleRoomInput, BattleVoteUncheckedCreateWithoutBattleRoomInput>
+  }
+
+  export type BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput = {
+    where: BattleVoteWhereUniqueInput
+    data: XOR<BattleVoteUpdateWithoutBattleRoomInput, BattleVoteUncheckedUpdateWithoutBattleRoomInput>
+  }
+
+  export type BattleVoteUpdateManyWithWhereWithoutBattleRoomInput = {
+    where: BattleVoteScalarWhereInput
+    data: XOR<BattleVoteUpdateManyMutationInput, BattleVoteUncheckedUpdateManyWithoutBattleRoomInput>
+  }
+
   export type BattleRoomCreateWithoutBattleTitleInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -20460,12 +22156,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateWithoutBattleTitleInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -20475,6 +22173,7 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomCreateOrConnectWithoutBattleTitleInput = {
@@ -20496,7 +22195,8 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutBattleTitleInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20506,12 +22206,14 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateWithoutBattleTitleInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20521,6 +22223,7 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type UserCreateWithoutQuestCompletionsInput = {
@@ -20541,6 +22244,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuestCompletionsInput = {
@@ -20561,6 +22265,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuestCompletionsInput = {
@@ -20620,6 +22325,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuestCompletionsInput = {
@@ -20640,6 +22346,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuestUpsertWithoutQuestCompletionsInput = {
@@ -20689,6 +22396,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPointTransactionsInput = {
@@ -20709,6 +22417,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPointTransactionsInput = {
@@ -20745,6 +22454,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPointTransactionsInput = {
@@ -20765,6 +22475,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutChatMessagesInput = {
@@ -20785,6 +22496,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -20805,6 +22517,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -20815,7 +22528,8 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutChatMessagesInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -20825,12 +22539,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomUncheckedCreateWithoutChatMessagesInput = {
     id?: bigint | number
     admin: bigint | number
-    title: string
+    topicA: string
+    topicB: string
     status: string
     createdAt?: Date | string
     endedAt?: Date | string | null
@@ -20840,6 +22556,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
   }
 
   export type BattleRoomCreateOrConnectWithoutChatMessagesInput = {
@@ -20876,6 +22593,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -20896,6 +22614,7 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomUpsertWithoutChatMessagesInput = {
@@ -20912,7 +22631,8 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutChatMessagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20922,12 +22642,14 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
   }
 
   export type BattleRoomUncheckedUpdateWithoutChatMessagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20937,6 +22659,191 @@ export namespace Prisma {
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type BattleRoomCreateWithoutVotesInput = {
+    id?: bigint | number
+    admin: bigint | number
+    topicA: string
+    topicB: string
+    status: string
+    createdAt?: Date | string
+    endedAt?: Date | string | null
+    approvalNum?: number
+    oppositeNum?: number
+    battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
+    aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
+    aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+  }
+
+  export type BattleRoomUncheckedCreateWithoutVotesInput = {
+    id?: bigint | number
+    admin: bigint | number
+    topicA: string
+    topicB: string
+    status: string
+    createdAt?: Date | string
+    endedAt?: Date | string | null
+    approvalNum?: number
+    oppositeNum?: number
+    battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
+    aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
+    aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+  }
+
+  export type BattleRoomCreateOrConnectWithoutVotesInput = {
+    where: BattleRoomWhereUniqueInput
+    create: XOR<BattleRoomCreateWithoutVotesInput, BattleRoomUncheckedCreateWithoutVotesInput>
+  }
+
+  export type UserCreateWithoutBattleVotesInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBattleVotesInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBattleVotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBattleVotesInput, UserUncheckedCreateWithoutBattleVotesInput>
+  }
+
+  export type BattleRoomUpsertWithoutVotesInput = {
+    update: XOR<BattleRoomUpdateWithoutVotesInput, BattleRoomUncheckedUpdateWithoutVotesInput>
+    create: XOR<BattleRoomCreateWithoutVotesInput, BattleRoomUncheckedCreateWithoutVotesInput>
+    where?: BattleRoomWhereInput
+  }
+
+  export type BattleRoomUpdateToOneWithWhereWithoutVotesInput = {
+    where?: BattleRoomWhereInput
+    data: XOR<BattleRoomUpdateWithoutVotesInput, BattleRoomUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type BattleRoomUpdateWithoutVotesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNum?: IntFieldUpdateOperationsInput | number
+    oppositeNum?: IntFieldUpdateOperationsInput | number
+    battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
+    aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
+    aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type BattleRoomUncheckedUpdateWithoutVotesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    topicA?: StringFieldUpdateOperationsInput | string
+    topicB?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNum?: IntFieldUpdateOperationsInput | number
+    oppositeNum?: IntFieldUpdateOperationsInput | number
+    battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
+    aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
+    aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type UserUpsertWithoutBattleVotesInput = {
+    update: XOR<UserUpdateWithoutBattleVotesInput, UserUncheckedUpdateWithoutBattleVotesInput>
+    create: XOR<UserCreateWithoutBattleVotesInput, UserUncheckedCreateWithoutBattleVotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBattleVotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBattleVotesInput, UserUncheckedUpdateWithoutBattleVotesInput>
+  }
+
+  export type UserUpdateWithoutBattleVotesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBattleVotesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RankingCreateManyUserInput = {
@@ -20960,6 +22867,7 @@ export namespace Prisma {
     id?: bigint | number
     roomId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -20981,7 +22889,15 @@ export namespace Prisma {
   export type ChatMessageCreateManyUserInput = {
     id?: bigint | number
     roomId: bigint | number
+    side: string
     message: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteCreateManyUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    vote: string
     createdAt?: Date | string
   }
 
@@ -21039,6 +22955,7 @@ export namespace Prisma {
   export type RoomParticipantUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     battleRoom?: BattleRoomUpdateOneRequiredWithoutRoomParticipantsNestedInput
@@ -21048,6 +22965,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21056,6 +22974,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21104,6 +23023,7 @@ export namespace Prisma {
 
   export type ChatMessageUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     battleRoom?: BattleRoomUpdateOneRequiredWithoutChatMessagesNestedInput
@@ -21112,6 +23032,7 @@ export namespace Prisma {
   export type ChatMessageUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21119,7 +23040,29 @@ export namespace Prisma {
   export type ChatMessageUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleRoom?: BattleRoomUpdateOneRequiredWithoutVotesNestedInput
+  }
+
+  export type BattleVoteUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21181,6 +23124,7 @@ export namespace Prisma {
 
   export type BattleTitleCreateManyBattleRoomInput = {
     id?: bigint | number
+    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
@@ -21191,6 +23135,7 @@ export namespace Prisma {
     id?: bigint | number
     userId: bigint | number
     role: string
+    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
   }
@@ -21211,12 +23156,21 @@ export namespace Prisma {
   export type ChatMessageCreateManyBattleRoomInput = {
     id?: bigint | number
     userId: bigint | number
+    side: string
     message: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteCreateManyBattleRoomInput = {
+    id?: bigint | number
+    userId: bigint | number
+    vote: string
     createdAt?: Date | string
   }
 
   export type BattleTitleUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21225,6 +23179,7 @@ export namespace Prisma {
 
   export type BattleTitleUncheckedUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21233,6 +23188,7 @@ export namespace Prisma {
 
   export type BattleTitleUncheckedUpdateManyWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21242,6 +23198,7 @@ export namespace Prisma {
   export type RoomParticipantUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutRoomParticipantsNestedInput
@@ -21251,6 +23208,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21259,6 +23217,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21304,6 +23263,7 @@ export namespace Prisma {
 
   export type ChatMessageUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
@@ -21312,6 +23272,7 @@ export namespace Prisma {
   export type ChatMessageUncheckedUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21319,7 +23280,29 @@ export namespace Prisma {
   export type ChatMessageUncheckedUpdateManyWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteUpdateWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBattleVotesNestedInput
+  }
+
+  export type BattleVoteUncheckedUpdateWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleVoteUncheckedUpdateManyWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

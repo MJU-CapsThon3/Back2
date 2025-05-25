@@ -160,6 +160,7 @@ exports.Prisma.RoomParticipantScalarFieldEnum = {
   userId: 'userId',
   roomId: 'roomId',
   role: 'role',
+  side: 'side',
   joinedAt: 'joinedAt',
   endAt: 'endAt'
 };
@@ -198,7 +199,8 @@ exports.Prisma.ItemScalarFieldEnum = {
 exports.Prisma.BattleRoomScalarFieldEnum = {
   id: 'id',
   admin: 'admin',
-  title: 'title',
+  topicA: 'topicA',
+  topicB: 'topicB',
   status: 'status',
   createdAt: 'createdAt',
   endedAt: 'endedAt',
@@ -209,6 +211,7 @@ exports.Prisma.BattleRoomScalarFieldEnum = {
 exports.Prisma.BattleTitleScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
+  side: 'side',
   title: 'title',
   suggestedBy: 'suggestedBy',
   createdAt: 'createdAt',
@@ -235,7 +238,16 @@ exports.Prisma.ChatMessageScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
   userId: 'userId',
+  side: 'side',
   message: 'message',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BattleVoteScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId',
+  vote: 'vote',
   createdAt: 'createdAt'
 };
 
@@ -270,7 +282,8 @@ exports.Prisma.QuestOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.RoomParticipantOrderByRelevanceFieldEnum = {
-  role: 'role'
+  role: 'role',
+  side: 'side'
 };
 
 exports.Prisma.AiJudgementOrderByRelevanceFieldEnum = {
@@ -287,11 +300,13 @@ exports.Prisma.ItemOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.BattleRoomOrderByRelevanceFieldEnum = {
-  title: 'title',
+  topicA: 'topicA',
+  topicB: 'topicB',
   status: 'status'
 };
 
 exports.Prisma.BattleTitleOrderByRelevanceFieldEnum = {
+  side: 'side',
   title: 'title',
   suggestedBy: 'suggestedBy'
 };
@@ -301,7 +316,12 @@ exports.Prisma.PointTransactionOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.ChatMessageOrderByRelevanceFieldEnum = {
+  side: 'side',
   message: 'message'
+};
+
+exports.Prisma.BattleVoteOrderByRelevanceFieldEnum = {
+  vote: 'vote'
 };
 
 
@@ -318,7 +338,8 @@ exports.Prisma.ModelName = {
   BattleTitle: 'BattleTitle',
   QuestCompletion: 'QuestCompletion',
   PointTransaction: 'PointTransaction',
-  ChatMessage: 'ChatMessage'
+  ChatMessage: 'ChatMessage',
+  BattleVote: 'BattleVote'
 };
 
 /**

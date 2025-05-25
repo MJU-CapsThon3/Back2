@@ -34,6 +34,7 @@ model User {
   questCompletions  QuestCompletion[]
   pointTransactions PointTransaction[]
   chatMessages      ChatMessage[]      @relation("ChatMessagesByUser")
+  battleVotes       BattleVote[]
 
   @@map("user")
 }
@@ -71,6 +72,7 @@ model RoomParticipant {
   userId   BigInt    @map("user_id")
   roomId   BigInt    @map("room_id")
   role     String    @map("role") @db.VarChar(20) // Enum을 String으로 수정
+  side     String?   @map("side") @db.Char(1)
   joinedAt DateTime  @map("joined_at") @db.DateTime(6)
   endAt    DateTime? @map("end_at") @db.DateTime(6)
 
@@ -131,7 +133,8 @@ model Item {
 model BattleRoom {
   id          BigInt    @id @default(autoincrement()) @map("id")
   admin       BigInt    @map("admin")
-  title       String    @map("title") @db.VarChar(100)
+  topicA      String    @map("topic_a") @db.VarChar(100)
+  topicB      String    @map("topic_b") @db.VarChar(100)
   status      String    @map("status") @db.VarChar(20) // Enum을 String으로 수정
   createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(6)
   endedAt     DateTime? @map("ended_at") @db.DateTime(6)
@@ -143,6 +146,7 @@ model BattleRoom {
   aiSummaries      AiSummary[] // 추가됨
   aiJudgements     AiJudgement[]
   chatMessages     ChatMessage[]     @relation("ChatMessagesByRoom")
+  votes            BattleVote[]
 
   @@map("battle_room")
 }
@@ -150,6 +154,7 @@ model BattleRoom {
 model BattleTitle {
   id          BigInt   @id @default(autoincrement()) @map("id")
   roomId      BigInt   @map("room_id")
+  side        String   @map("side") @db.Char(1)
   title       String   @map("title") @db.Text
   suggestedBy String   @default("user") @map("suggested_by") @db.VarChar(20) // Enum을 String으로 수정
   createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
@@ -189,6 +194,7 @@ model ChatMessage {
   id        BigInt   @id @default(autoincrement()) @map("id")
   roomId    BigInt   @map("room_id")
   userId    BigInt   @map("user_id")
+  side      String   @db.Char(1)
   message   String   @map("message") @db.Text
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
 
@@ -196,4 +202,17 @@ model ChatMessage {
   battleRoom BattleRoom @relation("ChatMessagesByRoom", fields: [roomId], references: [id])
 
   @@map("chat_messages")
+}
+
+model BattleVote {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  roomId    BigInt   @map("room_id")
+  userId    BigInt   @map("user_id")
+  vote      String   @map("vote") @db.VarChar(10)
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  battleRoom BattleRoom @relation(fields: [roomId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@map("battle_votes")
 }

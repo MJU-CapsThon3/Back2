@@ -11,6 +11,9 @@ import { handleUserSignUp,
         handleGetTopRankings,
 } from "./controllers/user.controller.js";
 
+import { handleCreateRoom,
+} from "./controllers/chat.controller.js"
+
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
@@ -99,6 +102,9 @@ app.get("/users/info", handleUserInfo);
 
 // Top 랭킹 조회
 app.get('/rankings/top', handleGetTopRankings);
+
+// 배틀방 생성하는 api
+app.post('/battle/rooms', handleCreateRoom);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
