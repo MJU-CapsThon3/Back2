@@ -354,11 +354,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mysql://root:SIDsudsydsid12!@caps4db.ctsqsggumasi.ap-northeast-2.rds.amazonaws.com:3306/capstone4"
+        "value": null
       }
     }
   },
