@@ -17,6 +17,8 @@ import { handleCreateRoom,
   handleStartBattle,
 } from "./controllers/chat.controller.js"
 
+import swaggerFile from "../swagger-output.json" assert { type: "json" };
+
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
@@ -31,17 +33,9 @@ app.use(express.static('public'));          // 정적 파일 접근
 app.use(express.json());                    // request의 본문을 json으로 해석할 수 있도록 함 (JSON 형태의 요청 body를 파싱하기 위함)
 app.use(express.urlencoded({ extended: false })); // 단순 객체 문자열 형태로 본문 데이터 해석
 
-app.use(
-  "/docs",
+app.use("/docs",
   swaggerUiExpress.serve,
-  swaggerUiExpress.setup(
-    {},
-    {
-      swaggerOptions: {
-        url: "/openapi.json",
-      },
-    }
-  )
+  swaggerUiExpress.setup(swaggerFile)
 );
 
 // index.js openapi.json 라우트
