@@ -1,6 +1,5 @@
 {
   "name": "backend",
-  "type": "module",
   "version": "1.0.0",
   "description": "백엔드 서비스 프로젝트",
   "main": "index.js",
@@ -8,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "prisma generate",
     "start": "node dist/index.js",
-    "dev": "npm run generate && nodemon src/index.js",
+    "dev": "npm run generate && nodemon --exec babel-node src/index.js",
     "build": "webpack --config webpack.config.js"
   },
   "author": "",
@@ -31,10 +30,20 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.3",
+    "@babel/node": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "babel-loader": "^10.0.0",
     "nodemon": "^3.1.10",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
     "webpack-node-externals": "^3.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "keywords": []
 }

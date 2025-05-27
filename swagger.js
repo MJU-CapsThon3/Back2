@@ -1,35 +1,12 @@
-// import swaggerAutogen from "swagger-autogen";
-
-// const options = { openapi: "3.0.0" };
-// const outputFile = "swagger-output.json";
-// const routes = ["./src/index.js"]; // ✅ 실제 주석이 있는 파일
-
-// const doc = {
-//   info: { title: "CAP", version: "1.0.0" },
-//   servers: [{ url: "http://localhost:3000" }],
-// };
-
-// swaggerAutogen(options)(outputFile, routes, doc);
-
-import swaggerAutogen from "swagger-autogen";
-
-const options = { openapi: "3.0.0" };
-const outputFile = "swagger-output.json";
-const routes = [
-  process.env.NODE_ENV === "production"
-    ? "./dist/index.js"
-    : "./src/index.js"
-];
+const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
 
 const doc = {
-  // ← 이 줄을 추가
-  openapi: "3.0.0",
-
+  openapi: "3.0.0", // ✅ 여기에만 version 정의
   info: {
-    title: "CAP",
-    version: "1.0.0",    // (이건 API 버전)
+    title: "2025-1 Cap",
+    version: "1.0.0",
+    description: "캡스톤 프로젝트 API 문서입니다.",
   },
-
   servers: [
     {
       url: process.env.BASE_URL || "http://localhost:3000",
@@ -44,19 +21,23 @@ const doc = {
       description: "Public IP Server",
     },
   ],
-
   components: {
     securitySchemes: {
       BearerAuth: {
         type: "http",
         scheme: "bearer",
         bearerFormat: "JWT",
-        description: "Bearer 토큰을 사용한 인증",
       },
     },
   },
-
   security: [{ BearerAuth: [] }],
 };
 
-swaggerAutogen(options)(outputFile, routes, doc);
+const outputFile = "./swagger-output.json";
+const endpointsFiles = [
+  "./src/index.js",
+  "./src/controllers/user.controller.js",
+  "./src/controllers/chat.controller.js",
+];
+
+swaggerAutogen(outputFile, endpointsFiles, doc);
