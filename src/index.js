@@ -35,7 +35,13 @@ app.use(express.urlencoded({ extended: false })); // 단순 객체 문자열 형
 
 app.use("/docs",
   swaggerUiExpress.serve,
-  swaggerUiExpress.setup(swaggerFile)
+  swaggerUiExpress.setup(null, {
+      swaggerOptions: {
+        persistAuthorization: true,
+        url: "/openapi.json",
+      },
+    }
+  ),
 );
 
 // index.js openapi.json 라우트
