@@ -7,7 +7,16 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://localhost:3000",
+      "description": "API Server"
+    },
+    {
+      "url": "https://thiscatthatcat.shop",
+      "description": "Production Domain"
+    },
+    {
+      "url": "http://13.209.12.236:3000",
+      "description": "Public IP Server"
     }
   ],
   "paths": {
@@ -1954,5 +1963,20 @@
         ]
       }
     }
-  }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Bearer 토큰을 사용한 인증"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
 }

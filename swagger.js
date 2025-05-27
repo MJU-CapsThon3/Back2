@@ -1,4 +1,4 @@
-import swaggerAutogen from "swagger-autogen";
+// import swaggerAutogen from "swagger-autogen";
 
 // const options = { openapi: "3.0.0" };
 // const outputFile = "swagger-output.json";
@@ -15,7 +15,6 @@ import swaggerAutogen from "swagger-autogen";
 
 const options = { openapi: "3.0.0" };
 const outputFile = "swagger-output.json";
-// 프로덕션에선 dist/index.js, 로컬에선 src/index.js
 const routes = [
   process.env.NODE_ENV === "production"
     ? "./dist/index.js"
@@ -23,13 +22,29 @@ const routes = [
 ];
 
 const doc = {
-  info: { title: "CAP", version: "1.0.0" },
+  // ← 이 줄을 추가
+  openapi: "3.0.0",
+
+  info: {
+    title: "CAP",
+    version: "1.0.0",    // (이건 API 버전)
+  },
+
   servers: [
     {
-      // 배포시 ENV로 설정해줄 도메인(예: https://api.my-domain.com)
       url: process.env.BASE_URL || "http://localhost:3000",
+      description: "API Server",
+    },
+    {
+      url: "https://thiscatthatcat.shop",
+      description: "Production Domain",
+    },
+    {
+      url: "http://13.209.12.236:3000",
+      description: "Public IP Server",
     },
   ],
+
   components: {
     securitySchemes: {
       BearerAuth: {
@@ -40,7 +55,7 @@ const doc = {
       },
     },
   },
-  // 전역으로 모든 엔드포인트에 lock 아이콘을 붙임
+
   security: [{ BearerAuth: [] }],
 };
 
