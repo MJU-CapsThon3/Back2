@@ -17,7 +17,7 @@ const doc = {
       description: "Production Domain",
     },
     {
-      url: "http://13.209.12.236:3000",
+      url: "https://13.209.12.236:3000",
       description: "Public IP Server",
     },
   ],

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "CAP",
+    "title": "2025-1 Cap",
     "version": "1.0.0",
-    "description": ""
+    "description": "캡스톤 프로젝트 API 문서입니다."
   },
   "servers": [
     {
@@ -15,7 +15,7 @@
       "description": "Production Domain"
     },
     {
-      "url": "http://13.209.12.236:3000",
+      "url": "https://13.209.12.236:3000",
       "description": "Public IP Server"
     }
   ],
@@ -1969,8 +1969,7 @@
       "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "Bearer 토큰을 사용한 인증"
+        "bearerFormat": "JWT"
       }
     }
   },
