@@ -1,0 +1,220 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "darwin-arm64"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id              BigInt          @id @default(autoincrement()) @map("id")
+  nickname        String          @db.VarChar(100) @map("nickname")
+  name            String          @db.VarChar(10) @map("name")
+  email           String          @db.VarChar(50) @map("email")
+  password        String          @db.VarChar(100) @map("password")
+  profileImageUrl String?         @db.VarChar(1000) @map("profile_image_url")
+  gender          String          @db.VarChar(2) @map("gender")  // Enum을 String으로 수정
+  birth           DateTime        @db.Date @map("birth")
+  phoneNumber     String          @db.VarChar(20) @map("phone_number")
+  point           Int             @default(0) @map("point")
+  createdAt       DateTime        @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt       DateTime        @default(now()) @updatedAt @map("updated_at") @db.DateTime(6)
+
+  ranking         Ranking[]
+  userItems       UserItem[]
+  roomParticipants RoomParticipant[]
+  questCompletions QuestCompletion[]
+  pointTransactions PointTransaction[]
+  chatMessages     ChatMessage[]  @relation("ChatMessagesByUser")
+  battleVotes BattleVote[]
+
+  @@map("user")
+}
+
+model Ranking {
+  id          BigInt   @id @default(autoincrement()) @map("id")
+  userId      BigInt   @map("user_id")
+  rank        Int      @default(0) @map("rank")
+  previousRank Int?    @map("previous_rank")
+  tier        String   @db.VarChar(20) @map("tier")  // Enum을 String으로 수정
+  totalPoints Int      @map("total_points")
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(6)
+
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("ranking")
+}
+
+model Quest {
+  id          BigInt   @id @default(autoincrement()) @map("id")
+  name        String   @db.VarChar(100) @map("name")
+  description String?  @db.Text @map("description")
+  type        String?  @db.VarChar(20) @map("type")  // Enum을 String으로 수정
+  rewardPts   Int      @map("reward_pts")
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  questCompletions QuestCompletion[]
+
+  @@map("quests")
+}
+
+model RoomParticipant {
+  id          BigInt   @id @default(autoincrement()) @map("id")
+  userId      BigInt   @map("user_id")
+  roomId      BigInt   @map("room_id")
+  role        String   @db.VarChar(20) @map("role")  // Enum을 String으로 수정
+  side        String?  @db.Char(1) @map("side")
+  joinedAt    DateTime @db.DateTime(6) @map("joined_at")
+  endAt       DateTime? @db.DateTime(6) @map("end_at")
+
+  user        User     @relation(fields: [userId], references: [id])
+  battleRoom  BattleRoom @relation(fields: [roomId], references: [id])
+
+  @@map("room_participants")
+}
+
+model AiJudgement {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  roomId    BigInt   @map("room_id")
+  confidence Decimal  @db.Decimal(5, 2) @map("confidence")
+  details   String   @db.Text @map("details")
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  battleRoom BattleRoom @relation(fields: [roomId], references: [id])
+
+  @@map("ai_judgements")
+}
+
+model AiSummary {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  roomId    BigInt   @map("room_id")
+  summary   String   @db.Text @map("summary")
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  battleRoom BattleRoom @relation(fields: [roomId], references: [id])
+
+  @@map("ai_summaries")
+}
+
+model UserItem {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  userId    BigInt   @map("user_id")
+  itemId    BigInt   @map("item_id")
+  acquiredAt DateTime @default(now()) @map("acquired_at") @db.DateTime(6)
+  isEquipped Boolean @default(false) @map("is_equipped")
+
+  user      User     @relation(fields: [userId], references: [id])
+  item      Item     @relation(fields: [itemId], references: [id])
+
+  @@map("user_items")
+}
+
+model Item {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  name      String   @db.VarChar(100) @map("name")
+  context   String?  @db.Text @map("context")
+  cost      Int      @map("cost")
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  userItems UserItem[]
+
+  @@map("items")
+}
+
+model BattleRoom {
+  id          BigInt   @id @default(autoincrement()) @map("id")
+  admin       BigInt   @map("admin")
+  topicA      String         @db.VarChar(100) @map("topic_a")
+  topicB      String         @db.VarChar(100) @map("topic_b")
+  status      String   @db.VarChar(20) @map("status")  // Enum을 String으로 수정
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
+  startedAt    DateTime?     @map("started_at") @db.DateTime(6)
+  endedAt     DateTime? @map("ended_at") @db.DateTime(6)
+  approvalNum Int      @default(0) @map("approval_num")
+  oppositeNum Int      @default(0) @map("opposite_num")
+
+  battleTitle BattleTitle[]
+  roomParticipants RoomParticipant[]
+  aiSummaries AiSummary[]  // 추가됨
+  aiJudgements AiJudgement[]
+  chatMessages      ChatMessage[]  @relation("ChatMessagesByRoom")
+  votes       BattleVote[]
+
+  @@map("battle_room")
+}
+
+model BattleTitle {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  roomId    BigInt   @map("room_id")
+  side      String   @db.Char(1) @map("side")
+  title     String   @db.Text @map("title")
+  suggestedBy String  @db.VarChar(20) @default("user") @map("suggested_by")  // Enum을 String으로 수정
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(6)
+
+  battleRoom BattleRoom @relation(fields: [roomId], references: [id])
+
+  @@map("battle_title")
+}
+
+model QuestCompletion {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  userId    BigInt   @map("user_id")
+  questId   BigInt   @map("quest_id")
+  isCompleted Boolean @default(false) @map("is_completed")
+  completedAt DateTime? @map("completed_at") @db.DateTime(6)
+  rewardClaimed Boolean  @default(false) @map("reward_claimed")
+
+  user      User     @relation(fields: [userId], references: [id])
+  quest     Quest    @relation(fields: [questId], references: [id])
+
+  @@map("quest_completion")
+}
+
+model PointTransaction {
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  userId    BigInt   @map("user_id")
+  change    Int      @map("change")
+  reason    String   @db.VarChar(50) @map("reason")  // Enum을 String으로 수정
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(6)
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("point_transcations")
+}
+
+model ChatMessage {
+  id         BigInt       @id @default(autoincrement()) @map("id")
+  roomId     BigInt       @map("room_id")
+  userId     BigInt       @map("user_id")
+  side       String       @db.Char(1)
+  message    String       @db.Text @map("message")
+  createdAt  DateTime     @default(now()) @map("created_at") @db.DateTime(6)
+
+  user       User         @relation("ChatMessagesByUser", fields: [userId], references: [id])
+  battleRoom BattleRoom   @relation("ChatMessagesByRoom", fields: [roomId], references: [id])
+
+  @@map("chat_messages")
+}
+
+model BattleVote {
+  id         BigInt      @id @default(autoincrement()) @map("id")
+  roomId     BigInt      @map("room_id")
+  userId     BigInt      @map("user_id")
+  vote       String      @db.VarChar(10) @map("vote")
+  createdAt  DateTime    @default(now()) @map("created_at") @db.DateTime(6)
+
+  battleRoom BattleRoom  @relation(fields: [roomId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
+
+  @@map("battle_votes")
+}
