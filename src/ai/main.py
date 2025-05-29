@@ -1,3 +1,5 @@
+# 별도 서버에서 배포
+
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
