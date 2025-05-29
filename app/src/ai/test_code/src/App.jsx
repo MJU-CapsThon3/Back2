@@ -151,6 +151,25 @@ export default function App() {
         </pre>
       )}
     </section>
+
+    <section>
+      <h2>3. 토론 주제 생성</h2>
+      <button onClick={async () => {
+        const res = await fetch(API_URL + '/generate_topic', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+        const data = await res.json();
+        setDebateTopic(data.topic);
+      }} style={{ marginTop: 8 }}>토론 주제 생성</button>
+      {debateTopic && (
+        <div style={{ marginTop: 8 }}>
+          <h3>{debateTopic}</h3>
+        </div>
+      )}
+    </section>
+
     </div>
   );
 }

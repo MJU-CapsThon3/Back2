@@ -56,6 +56,18 @@ app.post('/analyze_debate', async (req, res) => {
     }
 });
 
+// 주제 생성
+app.post('/generate_topic', async (req, res) => {
+    try {
+        const { content } = req.body;
+        const response = await axios.post(`${SERVER_URL}/generate_topic`, { });
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error generating topic:", error);
+        res.status(500).json({ error: 'Error generating topic' });
+    }
+});
+
 // 웹소켓
 io.on('connection', (socket) => {
     console.log('🔌 WebSocket 연결됨');
@@ -91,6 +103,17 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.error("Error analyzing debate:", error);
             socket.emit('analyze_debate_result', { error: '토론 분석 실패' });
+        }
+    });
+
+    // 주제 생성
+    socket.on('generate_topic', async (content) => {
+        try {
+            const response = await axios.post(`${SERVER_URL}/generate_topic`, { });
+            socket.emit('generate_topic_result', response.data);
+        } catch (error) {
+            console.error("Error generating topic:", error);
+            socket.emit('generate_topic_result', { error: '토론 주제 생성 실패' });
         }
     });
 
