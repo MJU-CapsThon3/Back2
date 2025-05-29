@@ -1,45 +1,122 @@
+<!-- public/socket-test.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Socket.IO 테스트</title>
-  <!-- CDN으로 클라이언트 로드 -->
+  <title>Socket.IO 배틀 채팅 테스트</title>
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-  <!-- 빈 파비콘 -->
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #00796b; color: white; padding: 1rem;
+      text-align: center; font-size: 1.2rem;
+    }
+    #chat {
+      flex: 1; padding: 1rem;
+      overflow-y: auto;
+    }
+    .msg {
+      max-width: 60%;
+      margin: 0.5rem 0;
+      padding: 0.5rem 0.75rem;
+      border-radius: 1rem;
+      word-break: break-all;
+    }
+    .sideA {
+      background: #c8e6c9;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+    .sideB {
+      background: #bbdefb;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+    #inputBox {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 0.5rem;
+      background: white;
+    }
+    #inputBox input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    #inputBox button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #00796b;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Socket.IO 테스트</h1>
-  <pre id="log"></pre>
+  <header>⚔️ 사자 vs 코끼리 배틀 채팅 테스트</header>
+  <div id="chat"></div>
+  <div id="inputBox">
+    <input id="msgInput" placeholder="메시지 입력 후 Enter 또는 전송 버튼" />
+    <button id="sendBtn">전송</button>
+  </div>
+
   <script>
-    const logEl = document.getElementById('log');
-    const log = msg => { logEl.textContent += msg + "\n"; console.log(msg); };
+    const chatEl  = document.getElementById("chat");
+    const inputEl = document.getElementById("msgInput");
+    const btnEl   = document.getElementById("sendBtn");
 
     // 실제 발급된 JWT: "Bearer " 포함
     const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IjEiLCJ0eXBlIjoiUlQiLCJpc3N1ZXIiOiJDYXA0U2VydmVyIn0sImlhdCI6MTc0ODQ5NzA2NiwiZXhwIjoxNzQ4NTExNDY2fQ.GJobfkH-wtOspuHT9WPYpI8G1SWVIfX_kLOMDhFS_qM';
 
-    const socket = io('http://localhost:3000', {
-      auth:    { token },
-      transports: ['polling', 'websocket']
+    const socket = io("http://localhost:3000", {
+      auth:       { token },
+      transports: ["polling","websocket"]
     });
 
-    socket.on('connect', () => {
-      log(`✅ Connected: ${socket.id}`);
-      socket.emit('joinRoom', { roomId: '1' });
-      log('→ joinRoom');
-      socket.emit('sendMessage', {
-        roomId: '1', side: 'A', message: '브라우저 테스트 메시지!'
+    // 방 참가
+    socket.on("connect", () => {
+      console.log("✅ Connected as", socket.id);
+      socket.emit("joinRoom", { roomId: "1" });
+    });
+
+    // 서버가 브로드캐스트한 메시지만 화면에 추가
+    socket.on("newMessage", msg => {
+      const div = document.createElement("div");
+      div.classList.add("msg", msg.side === "A" ? "sideA" : "sideB");
+      div.textContent = msg.message;
+      chatEl.append(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    });
+
+    // 메시지 전송 함수 (화면 그리기는 서버 응답에 맡깁니다)
+    function send() {
+      const text = inputEl.value.trim();
+      if (!text) return;
+      socket.emit("sendMessage", {
+        roomId: "1",
+        side:   "A",      // 테스트용: 방장이 A
+        message: text
       });
-      log('→ sendMessage');
-    });
+      inputEl.value = "";
+    }
 
-    socket.on('newMessage', msg => {
-      log(`🆕 newMessage → ${JSON.stringify(msg)}`);
+    // 엔터키 & 버튼 클릭
+    inputEl.addEventListener("keydown", e => {
+      if (e.key === "Enter") send();
     });
-
-    socket.on('connect_error', err => {
-      log(`❌ connect_error → ${err.message}`);
-    });
+    btnEl.addEventListener("click", send);
   </script>
 </body>
 </html>
