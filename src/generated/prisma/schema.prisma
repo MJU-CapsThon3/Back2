@@ -168,11 +168,12 @@ model BattleTitle {
 }
 
 model QuestCompletion {
-  id          BigInt    @id @default(autoincrement()) @map("id")
-  userId      BigInt    @map("user_id")
-  questId     BigInt    @map("quest_id")
-  isCompleted Boolean   @default(false) @map("is_completed")
-  completedAt DateTime? @map("completed_at") @db.DateTime(6)
+  id            BigInt    @id @default(autoincrement()) @map("id")
+  userId        BigInt    @map("user_id")
+  questId       BigInt    @map("quest_id")
+  isCompleted   Boolean   @default(false) @map("is_completed")
+  completedAt   DateTime? @map("completed_at") @db.DateTime(6)
+  rewardClaimed Boolean   @default(false) @map("reward_claimed")
 
   user  User  @relation(fields: [userId], references: [id])
   quest Quest @relation(fields: [questId], references: [id])
