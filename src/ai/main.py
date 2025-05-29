@@ -205,3 +205,31 @@ async def analyze_debate(request: DebateRequest):
 
     except Exception as e:  
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/generate_topic")
+async def generate_topic():
+
+    prompt = (
+        "당신은 토론의 주제를 생성하는 AI입니다.\n"
+        "다음은 토론 주제를 생성하기 위한 지침입니다:\n"
+        "1. 주제는 명확하고 논쟁의 여지가 있어야 합니다.\n"
+        "2. 주제는 2가지 입장으로 나뉘어야 합니다.\n"
+        "3. 주제는 가벼운 주제에서부터 심각한 주제까지 다양해야 합니다.\n"
+        "4. 하나의 토론 주제를 생성하세요.\n"
+        "5. 주제만을 출력하세요.\n"
+        "### 출력 형식:\n"
+        "- 토론 주제: [여기에 주제를 작성하세요]\n"
+    )
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "system", "content": prompt}],
+            temperature=0.7,
+        )
+        result = response.choices[0].message.content
+        return {"topic": result}
+    
+
+    except Exception as e:  
+        raise HTTPException(status_code=500, detail=str(e))
