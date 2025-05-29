@@ -25,6 +25,7 @@
     "node-cron": "^4.0.7",
     "prisma": "^6.7.0",
     "recharts": "2.15.3",
+    "socket.io": "^4.8.1",
     "socket.io-client": "4.8.1",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"

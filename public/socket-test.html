@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Socket.IO 테스트</title>
+  <!-- CDN으로 클라이언트 로드 -->
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <!-- 빈 파비콘 -->
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+  <h1>Socket.IO 테스트</h1>
+  <pre id="log"></pre>
+  <script>
+    const logEl = document.getElementById('log');
+    const log = msg => { logEl.textContent += msg + "\n"; console.log(msg); };
+
+    // 실제 발급된 JWT: "Bearer " 포함
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IjEiLCJ0eXBlIjoiUlQiLCJpc3N1ZXIiOiJDYXA0U2VydmVyIn0sImlhdCI6MTc0ODQ5NzA2NiwiZXhwIjoxNzQ4NTExNDY2fQ.GJobfkH-wtOspuHT9WPYpI8G1SWVIfX_kLOMDhFS_qM';
+
+    const socket = io('http://localhost:3000', {
+      auth:    { token },
+      transports: ['polling', 'websocket']
+    });
+
+    socket.on('connect', () => {
+      log(`✅ Connected: ${socket.id}`);
+      socket.emit('joinRoom', { roomId: '1' });
+      log('→ joinRoom');
+      socket.emit('sendMessage', {
+        roomId: '1', side: 'A', message: '브라우저 테스트 메시지!'
+      });
+      log('→ sendMessage');
+    });
+
+    socket.on('newMessage', msg => {
+      log(`🆕 newMessage → ${JSON.stringify(msg)}`);
+    });
+
+    socket.on('connect_error', err => {
+      log(`❌ connect_error → ${err.message}`);
+    });
+  </script>
+</body>
+</html>

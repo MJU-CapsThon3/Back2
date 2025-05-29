@@ -8,7 +8,8 @@ import { createBattleRoom,
     listRoomParticipants,
     countRoomSpectators,
     find1BattleRoomById,
-    updateBattleRoom
+    updateBattleRoom,
+    saveChatMessage
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -130,4 +131,9 @@ export const startBattle = async ({ roomId, userId }) => {
     status:    updated.status,
     startedAt: updated.startedAt
   };
+};
+
+// 채팅 저장
+export const createChat = async ({ roomId, userId, side, message }) => {
+  return await saveChatMessage({ roomId, userId, side, message });
 };

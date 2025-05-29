@@ -89,3 +89,16 @@ export const updateBattleRoom = (roomId, data) => {
         data
     });
 };
+
+// 실시간 채팅 메세지 저장
+export const saveChatMessage = async ({ roomId, userId, side, message }) => {
+    return await prisma.chatMessage.create({
+    data: {
+        roomId:   BigInt(roomId),
+        userId:   BigInt(userId),
+        side,     // 'A' or 'B'
+        message   // 자유 텍스트
+      // createdAt: 자동 저장 (default now())
+    }
+  });
+};

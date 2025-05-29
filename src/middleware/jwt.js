@@ -16,13 +16,22 @@ export const createJwt = (req) => {
 };
 //미들웨어 토큰
 export const verify = (req, res, next) => {
-  const excludedPaths = [
+  // const excludedPaths = [
+  //   "/users/signup",
+  //   "/users/login",
+  //   "/rankings/top",
+  //   "/socket.io/"
+  // ];
+  // // 현재 요청 URL이 제외할 경로에 포함되는지 확인
+  // if (excludedPaths.includes(req.path)) {
+  //   return next();
+  // }
+    const excludedPrefixes = [
     "/users/signup",
     "/users/login",
     "/rankings/top",
   ];
-  // 현재 요청 URL이 제외할 경로에 포함되는지 확인
-  if (excludedPaths.includes(req.path)) {
+  if (excludedPrefixes.some(p => req.path.startsWith(p))) {
     return next();
   }
   try {
@@ -51,4 +60,11 @@ export const checkFormat = (req) => {
   } else {
     return null;
   }
+};
+
+// socket.io express 환경에서 토큰 검증 후 payload 넘겨는 것! 
+export const verifyToken = (token) => {
+  // 만약 클라이언트가 "Bearer <token>" 형태로 보낸다면 아래처럼 처리
+  const raw = token.startsWith("Bearer ") ? token.split(" ")[1] : token;
+  return jwt.verify(raw, process.env.JWT_SECRET).payload;
 };
