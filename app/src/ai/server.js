@@ -15,7 +15,7 @@ const io = new Server(server, {
     }
 });
 
-const SERVER_URL = 'http://localhost:8000';
+const SERVER_URL = 'https://caps-ai-he1l.onrender.com';
 
 // 욕설 필터링
 app.post('/filter', async (req, res) => {

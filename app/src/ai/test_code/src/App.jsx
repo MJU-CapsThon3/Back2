@@ -29,7 +29,7 @@ export default function App() {
   const [debateTopic, setDebateTopic] = useState('');
 
   // env 대체
-  const API_URL = "http://localhost:8000";
+  const API_URL = "https://caps-ai-he1l.onrender.com";
 
   // 감정 분석 호출
   const analyzeEmotion = async () => {
