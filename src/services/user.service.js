@@ -11,6 +11,13 @@ import {
   updateRankingById,
   getRankingByUserId,
   getTopRankings,
+  findQuestById,
+  checkQuestCondition,
+  markQuestCompleted,
+  getQuestCompletion,
+  addUserPoint,
+  markQuestRewardClaimed,
+  resetAllQuestCompletions
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -174,4 +181,56 @@ export const topRankingService = async (limit = 10) => {
     tier:          r.tier,
     totalPoints:   r.totalPoints,
   }));
+};
+
+//Quest 관련 추가한 부분
+export const getQuestByIdService = async (questId) => {
+  return await findQuestById(questId);
+};
+
+export const completeQuestIfEligible = async (userId, questId) => {
+  const isEligible = await checkQuestCondition(userId, questId);
+
+  if (!isEligible) {
+    return { success: false, message: '퀘스트 조건을 만족하지 않습니다.' };
+  }
+
+  await markQuestCompleted(userId, questId);
+
+  return { success: true, message: '퀘스트를 성공적으로 완료했습니다.' };
+};
+
+export const claimQuestRewardService = async (userId, questId) => {
+  // 숫자 변환 및 유효성 검사
+  const parsedUserId = Number(userId);
+  const parsedQuestId = Number(questId);
+
+  if (isNaN(parsedUserId) || isNaN(parsedQuestId)) {
+    throw new BaseError(400, 'userId 또는 questId가 숫자가 아닙니다.');
+  }
+  
+  const questCompletion = await getQuestCompletion(parsedUserId, parsedQuestId);
+  if (!questCompletion || !questCompletion.isCompleted) {
+    throw new BaseError(400, '퀘스트를 완료하지 않았습니다.');
+  }
+  if (questCompletion.rewardClaimed) {
+    throw new BaseError(400, '이미 보상을 받았습니다.');
+  }
+
+  const quest = await prisma.quest.findUnique({
+    where: { id: parsedQuestId },
+  });
+
+  if (!quest) {
+    throw new BaseError(404, '퀘스트 정보를 찾을 수 없습니다.');
+  }
+
+  await markQuestRewardClaimed(parsedUserId, parsedQuestId);
+  await addUserPoint(parsedUserId, quest.rewardPts, `퀘스트 보상: ${quest.name}`);
+
+  return { reward: quest.rewardPts };
+};
+
+export const resetDailyQuestsService = async () => {
+  return await resetAllQuestCompletions();
 };

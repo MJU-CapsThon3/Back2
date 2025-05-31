@@ -8,6 +8,10 @@ import { userSignUp,
     loginService,
     userInfoService,
     topRankingService,
+    getQuestByIdService,
+    completeQuestIfEligible,
+    claimQuestRewardService,
+    resetDailyQuestsService
  } from "../services/user.service.js";
 import { loginRequestDTO,
   responseFromRankingList,
@@ -371,3 +375,402 @@ export const handleGetTopRankings = async (req, res, next) => {
     res.send(response(BaseError));
   }
 };
+
+// 퀘스트 관련 추가한 부분
+export const handleGetDailyQuests = async (req, res) => {
+  /**
+    #swagger.summary = '퀘스트 ID로 단일 퀘스트 조회 API'
+    #swagger.tags = ['Quest']
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: '조회할 퀘스트의 ID',
+      required: true,
+      type: 'integer',
+      example: 1
+    }
+    #swagger.responses[200] = {
+      description: '퀘스트 조회 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "성공" },
+              result: { 
+                type: "object",
+                example: {
+                  id: 1,
+                  name: "첫번째 퀘스트",
+                  description: "퀘스트 상세 설명",
+                  type: "daily",
+                  rewardPts: 100,
+                  createdAt: "2025-05-31T00:00:00.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: '잘못된 퀘스트 ID',
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "number", example: 400 },
+            message: { type: "string", example: "퀘스트 ID가 올바르지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+    #swagger.responses[401] = {
+      description: '토큰 형식 오류',
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+            message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+    #swagger.responses[404] = {
+      description: '퀘스트를 찾을 수 없음',
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "number", example: 404 },
+            message: { type: "string", example: "퀘스트를 찾을 수 없습니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 오류',
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "SERVER_ERROR" },
+            message: { type: "string", example: "서버 오류 발생" },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+  */
+  
+    try {
+      console.log("퀘스트 정보를 불러옵니다.");
+    
+      const token = await checkFormat(req.get("Authorization"));
+      if (token === null) {
+        return res.status(401).send(response(status.TOKEN_FORMAT_INCORRECT, null));
+      }
+    
+      const questId = Number(req.params.id);
+      if (isNaN(questId)) {
+        return res.status(400).send(response({ isSuccess: false, code: 400, message: "퀘스트 ID가 올바르지 않습니다." }, null));
+      }
+    
+      const quest = await getQuestByIdService(questId);
+      if (!quest) {
+        return res.status(404).send(response({ isSuccess: false, code: 404, message: "퀘스트를 찾을 수 없습니다." }, null));
+      }
+  
+      res.status(200).send(response(status.SUCCESS, quest));
+      } catch (err) {
+        console.error(err);
+        res.status(500).send(response(BaseError, null));
+      }
+  };
+  
+  export const completeQuest = async (req, res) => {
+    /**
+    #swagger.summary = '퀘스트 완료 처리 API'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['Quest']
+  
+    #swagger.parameters['userId'] = {
+      in: 'path',
+      description: '유저 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+  
+    #swagger.parameters['questId'] = {
+      in: 'path',
+      description: '퀘스트 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 2
+    }
+  
+    #swagger.responses[200] = {
+      description: "퀘스트 완료 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "퀘스트 완료 성공" },
+              result: {
+                type: "object",
+                properties: {
+                  questId: { type: "number", example: 2 },
+                  isCompleted: { type: "boolean", example: true }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[400] = {
+      description: "잘못된 요청",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "BAD_REQUEST" },
+              message: { type: "string", example: "필수 파라미터가 누락되었습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SERVER_ERROR" },
+              message: { type: "string", example: "서버 오류가 발생했습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  */
+    const { userId, questId } = req.body;
+    try {
+      console.log("퀘스트 진행 상태를 확인합니다");
+      const token = await checkFormat(req.get("Authorization"));
+      if(token !== null) {
+        //토큰 이상 없음
+        //서비스 호출
+        res.status(200).json(await completeQuestIfEligible(userId, questId));
+      } else {
+        //토큰 이상감지
+        res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: '서버 오류 발생' });
+    }
+  };
+  
+  export const claimQuestReward = async (req, res) => {
+  /**
+    #swagger.summary = '퀘스트 보상 수령 API'
+    #swagger.tags = ['Quest']
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: '퀘스트 보상 요청 정보',
+      required: true,
+      schema: {
+        type: 'object',
+        properties: {
+          userId: {
+            type: 'integer',
+            example: 1,
+            description: '유저 ID'
+          },
+          questId: {
+            type: 'integer',
+            example: 2,
+            description: '보상을 받을 퀘스트 ID'
+          }
+        },
+        required: ['userId', 'questId']
+      }
+    }
+    #swagger.responses[200] = {
+      description: '보상 수령 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "보상을 성공적으로 받았습니다." },
+              result: { 
+                type: "object",
+                example: {
+                  reward: 100
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: '잘못된 요청 (퀘스트 미완료, 이미 보상 수령, 잘못된 파라미터 등)',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "number", example: 400 },
+              message: { 
+                type: "string", 
+                example: "퀘스트를 완료하지 않았습니다." // 또는 "이미 보상을 받았습니다.", "userId 혹은 questId가 올바르지 않습니다."
+              },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[401] = {
+      description: '토큰 형식 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+              message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SERVER_ERROR" },
+              message: { type: "string", example: "서버 오류 발생" },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  */
+  const { userId, questId } = req.body;
+  const parsedUserId = Number(userId);
+  const parsedQuestId = Number(questId);
+  
+  if (!parsedUserId || !parsedQuestId || isNaN(parsedUserId) || isNaN(parsedQuestId)) {
+    return res.status(400).json(response({ isSuccess: false, code: 400, message: 'userId 혹은 questId가 올바르지 않습니다.' }, null));
+  }
+  
+  try {
+    console.log("퀘스트 보상 상태를 확인합니다");
+    const token = await checkFormat(req.get("Authorization"));
+    if (token === null) {
+      return res.status(401).json(response({ isSuccess: false, code: 401, message: '토큰 형식이 올바르지 않습니다.' }, null));
+    }
+  
+    const result = await claimQuestRewardService(parsedUserId, parsedQuestId);
+    return res.status(200).json(response({ isSuccess: true, code: 200, message: '보상을 성공적으로 받았습니다.' }, result));
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(response({ isSuccess: false, code: 500, message: '서버 오류 발생' }, null));
+  }
+  };
+  
+  //퀘스트 초기화
+  export const resetDailyQuests = async (req, res) => {
+    /**
+    #swagger.summary = '일일 퀘스트 초기화 API'
+    #swagger.tags = ['Quest']
+    #swagger.description = '매일 자정마다 모든 사용자의 퀘스트 완료 및 보상 상태를 초기화합니다.'
+  
+    #swagger.responses[200] = {
+      description: '일일 퀘스트 초기화 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "일일 퀘스트가 초기화되었습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[500] = {
+      description: '서버 오류로 초기화 실패',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "number", example: 500 },
+              message: { type: "string", example: "서버 오류로 퀘스트 초기화에 실패했습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+   */
+    try {
+      await resetDailyQuestsService();
+      res.status(200).json({
+        isSuccess: true,
+        code: 200,
+        message: '일일 퀘스트가 초기화되었습니다.',
+        result: null,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        isSuccess: false,
+        code: 500,
+        message: '서버 오류로 퀘스트 초기화에 실패했습니다.',
+        result: null,
+      });
+    }
+  };

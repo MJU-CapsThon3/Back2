@@ -1962,6 +1962,532 @@
           }
         ]
       }
+    },
+    "/quests/{id}": {
+      "get": {
+        "tags": [
+          "Quest"
+        ],
+        "summary": "퀘스트 ID로 단일 퀘스트 조회 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "조회할 퀘스트의 ID",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "퀘스트 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "성공"
+                    },
+                    "result": {
+                      "type": "object",
+                      "example": {
+                        "id": 1,
+                        "name": "첫번째 퀘스트",
+                        "description": "퀘스트 상세 설명",
+                        "type": "daily",
+                        "rewardPts": 100,
+                        "createdAt": "2025-05-31T00:00:00.000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 퀘스트 ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "code": {
+                    "type": "number",
+                    "example": 400
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "퀘스트 ID가 올바르지 않습니다."
+                  },
+                  "result": {
+                    "type": "object",
+                    "nullable": true,
+                    "example": null
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "code": {
+                    "type": "string",
+                    "example": "TOKEN_FORMAT_INCORRECT"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "토큰 형식이 올바르지 않습니다."
+                  },
+                  "result": {
+                    "type": "object",
+                    "nullable": true,
+                    "example": null
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "퀘스트를 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "code": {
+                    "type": "number",
+                    "example": 404
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "퀘스트를 찾을 수 없습니다."
+                  },
+                  "result": {
+                    "type": "object",
+                    "nullable": true,
+                    "example": null
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "code": {
+                    "type": "string",
+                    "example": "SERVER_ERROR"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "서버 오류 발생"
+                  },
+                  "result": {
+                    "type": "object",
+                    "nullable": true,
+                    "example": null
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quests/status/{userId}/{questId}": {
+      "post": {
+        "tags": [
+          "Quest"
+        ],
+        "summary": "퀘스트 완료 처리 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "유저 ID",
+            "format": "int64",
+            "example": 1
+          },
+          {
+            "name": "questId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "퀘스트 ID",
+            "format": "int64",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "퀘스트 완료 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "퀘스트 완료 성공"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "questId": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "isCompleted": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "BAD_REQUEST"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "필수 파라미터가 누락되었습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "서버 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "SERVER_ERROR"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 오류가 발생했습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "example": "any"
+                  },
+                  "content": {
+                    "example": "any"
+                  },
+                  "code": {
+                    "example": "any"
+                  },
+                  "message": {
+                    "example": "any"
+                  },
+                  "result": {
+                    "example": "any"
+                  },
+                  "isCompleted": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quests/reward/{userId}/{questId}": {
+      "post": {
+        "tags": [
+          "Quest"
+        ],
+        "summary": "퀘스트 보상 수령 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "questId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "보상 수령 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "보상을 성공적으로 받았습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "example": {
+                        "reward": 100
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "in": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
+                  "required": {
+                    "example": "any"
+                  },
+                  "schema": {
+                    "example": "any"
+                  },
+                  "questId": {
+                    "example": "any"
+                  },
+                  "code": {
+                    "example": "any"
+                  },
+                  "message": {
+                    "example": "any"
+                  },
+                  "result": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quests/reset-daily": {
+      "post": {
+        "tags": [
+          "Quest"
+        ],
+        "summary": "일일 퀘스트 초기화 API",
+        "description": "매일 자정마다 모든 사용자의 퀘스트 완료 및 보상 상태를 초기화합니다.",
+        "responses": {
+          "200": {
+            "description": "일일 퀘스트 초기화 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "일일 퀘스트가 초기화되었습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "서버 오류로 초기화 실패",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 오류로 퀘스트 초기화에 실패했습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

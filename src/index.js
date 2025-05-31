@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import './corn-job.js';
+import './cron-quest.js';
 import swaggerUiExpress from "swagger-ui-express";
 const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 import { verify } from "../src/middleware/jwt.js";
@@ -10,6 +11,10 @@ import {
   handleLogin,
   handleUserInfo,
   handleGetTopRankings,
+  handleGetDailyQuests,
+  completeQuest,
+  claimQuestReward,
+  resetDailyQuests
 } from "./controllers/user.controller.js";
 import {
   handleCreateRoom,
@@ -54,6 +59,16 @@ app.post("/battle/rooms", handleCreateRoom);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
+
+// 퀘스트 관련 추가한 부분
+// 퀘스트 목록 조회
+app.get("/quests/:id", handleGetDailyQuests);
+// 퀘스트 진행 상황 조회
+app.post('/quests/status/:userId/:questId', completeQuest);
+// 퀘스트 보상 받기
+app.post('/quests/reward/:userId/:questId', claimQuestReward);
+// 퀘스트 초기화
+app.post('/quests/reset-daily', resetDailyQuests);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
