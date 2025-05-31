@@ -146,10 +146,18 @@ export const getTopRankings = async (limit) => {
 
 // 퀘스트 관련 추가한 부분
 //퀘스트 목록 조회
-export const findQuestById = async (questId) => {
-  return await prisma.quest.findUnique({
-    where: { id: questId },
-  });
+export const getAllQuests = async () => {
+  try {
+    const quests = await prisma.quest.findMany({
+      orderBy: {
+        id: 'asc',  // 필요에 따라 정렬
+      },
+    });
+    return quests;
+  } catch (error) {
+    console.error('Error fetching quests:', error);
+    throw error;
+  }
 };
 
 //퀘스트 진행 상태 조회
@@ -274,5 +282,22 @@ export const resetAllQuestCompletions = async () => {
       isCompleted: false,
       rewardClaimed: false,
     },
+  });
+};
+
+//회원가입시 quest_completion 생성
+// 모든 퀘스트 ID만 가져오기
+export const getAllQuestIds = async () => {
+  const quests = await prisma.quest.findMany({
+    select: { id: true }
+  });
+  return quests.map((quest) => quest.id);
+};
+
+// QuestCompletion 생성 (배열 형태로)
+export const createQuestCompletions = async (questCompletions) => {
+  return await prisma.questCompletion.createMany({
+    data: questCompletions,
+    skipDuplicates: true, // 중복 방지 (unique 제약조건 있을 경우)
   });
 };

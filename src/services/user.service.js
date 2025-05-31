@@ -11,13 +11,15 @@ import {
   updateRankingById,
   getRankingByUserId,
   getTopRankings,
-  findQuestById,
   checkQuestCondition,
   markQuestCompleted,
   getQuestCompletion,
   addUserPoint,
   markQuestRewardClaimed,
-  resetAllQuestCompletions
+  resetAllQuestCompletions,
+  getAllQuests,
+  getAllQuestIds,
+  createQuestCompletions
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -69,70 +71,80 @@ export const refreshRankings = async () => {
 
 // 회원가입 service
 export const userSignUp = async (req, res) => {
- // 1) 요청 바디에서 필요한 값 추출
-  const {
-    nickname,
-    name,
-    email,
-    password,
-    gender,
-    birth,
-    phoneNumber,
-  } = req.body;
-
-  // 2) 필수 항목 누락 검증
-  if (
-    !nickname ||
-    !name ||
-    !email ||
-    !password ||
-    !gender ||
-    !birth ||
-    !phoneNumber
-  ) {
-    // 필드가 하나라도 비어 있으면 실패 응답
-    return { info: false };
-  }
-
-  // 3) 비밀번호 암호화
-  const encryptedPassword = encrypt(password);
-
-  // 4) repository를 통해 사용자 생성
-  const userId = await addUser({
-    nickname,
-    name,
-    email,
-    password: encryptedPassword,
-    gender,                           // ex) 'M' or 'F'
-    birth: new Date(birth),           // ex) '1990-05-18'
-    phoneNumber,        // repository 레이어에서 컬럼명으로 매핑
-    profileImageUrl: null
-  });
-
-  if (!userId) {
-    // 생성에 실패했을 때
-    return null;
-  }
-  // 5) Ranking 초기 레코드 생성
-  const initialPoints = 0;
-  const initialTier = calculateTier(initialPoints);
-  await createInitialRanking(userId, initialPoints, initialTier);
-
-  // 6) 생성된 사용자 데이터 조회
-  const user = await getUser(userId);
-
-  // 7) 랭킹 정보 별도로 조회
-  const ranking = await getRankingByUserId(userId);
-
-  // 7) DTO 포맷으로 변환하여 반환
-  const userDto = responseFromUser(user);
-  userDto.ranking = {
-    rank: ranking.rank,
-    tier: ranking.tier,
-  };
-
-  return userDto;
-};
+  // 1) 요청 바디에서 필요한 값 추출
+   const {
+     nickname,
+     name,
+     email,
+     password,
+     gender,
+     birth,
+     phoneNumber,
+   } = req.body;
+ 
+   // 2) 필수 항목 누락 검증
+   if (
+     !nickname ||
+     !name ||
+     !email ||
+     !password ||
+     !gender ||
+     !birth ||
+     !phoneNumber
+   ) {
+     // 필드가 하나라도 비어 있으면 실패 응답
+     return { info: false };
+   }
+ 
+   // 3) 비밀번호 암호화
+   const encryptedPassword = encrypt(password);
+ 
+   // 4) repository를 통해 사용자 생성
+   const userId = await addUser({
+     nickname,
+     name,
+     email,
+     password: encryptedPassword,
+     gender,                           // ex) 'M' or 'F'
+     birth: new Date(birth),           // ex) '1990-05-18'
+     phoneNumber,        // repository 레이어에서 컬럼명으로 매핑
+     profileImageUrl: null
+   });
+ 
+   if (!userId) {
+     // 생성에 실패했을 때
+     return null;
+   }
+ 
+   // 5) QuestCompletion 생성
+   const questIds = await getAllQuestIds(); // Quest 테이블에서 questId 전체 조회
+   const questCompletions = questIds.map((questId) => ({
+     userId,
+     questId,
+     isCompleted: false,
+   }));
+   await createQuestCompletions(questCompletions); // QuestCompletion 테이블에 insert
+   
+   // 6) Ranking 초기 레코드 생성
+   const initialPoints = 0;
+   const initialTier = calculateTier(initialPoints);
+   await createInitialRanking(userId, initialPoints, initialTier);
+ 
+   // 7) 생성된 사용자 데이터 조회
+   const user = await getUser(userId);
+ 
+   // 8) 랭킹 정보 별도로 조회
+   const ranking = await getRankingByUserId(userId);
+ 
+   // 9) DTO 포맷으로 변환하여 반환
+   const userDto = responseFromUser(user);
+   userDto.ranking = {
+     rank: ranking.rank,
+     tier: ranking.tier,
+   };
+ 
+   return userDto;
+ };
 
 // 이메일 확인 service
 const findEmailAlreadyExists = async (email) => {
@@ -188,8 +200,10 @@ export const topRankingService = async (limit = 10) => {
 };
 
 //퀘스트 관련 추가한 부분
-export const getQuestByIdService = async (questId) => {
-  return await findQuestById(questId);
+export const getDailyQuestsService = async () => {
+  // DB에서 퀘스트 리스트 전체를 가져옴
+  const quests = await getAllQuests();
+  return quests;
 };
 
 export const completeQuestIfEligible = async (userId, questId) => {
