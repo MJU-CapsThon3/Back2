@@ -9,7 +9,9 @@ import { createBattleRoom,
     countRoomSpectators,
     find1BattleRoomById,
     updateBattleRoom,
-    saveChatMessage
+    saveChatMessage,
+    findChatMessagesByRoom,
+    countRoomParticipant
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -136,4 +138,35 @@ export const startBattle = async ({ roomId, userId }) => {
 // 채팅 저장
 export const createChat = async ({ roomId, userId, side, message }) => {
   return await saveChatMessage({ roomId, userId, side, message });
+};
+
+// 채팅 정보 조회
+export const getChatHistory = async ({ roomId, userId }) => {
+  // 1) 방 존재 확인
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) userId가 이 방의 참가자 혹은 관전자 인지 확인
+  const cnt = await countRoomParticipant(roomId, userId);
+  if (cnt === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 채팅 메시지 조회
+  const msgs = await findChatMessagesByRoom(roomId);
+
+  // 4) A/B 분리
+  const sideA = [], sideB = [];
+  msgs.forEach(m => {
+    if (m.side === "A") sideA.push(m);
+    else                sideB.push(m);
+  });
+
+  return { sideA, sideB };
 };

@@ -1962,6 +1962,477 @@
           }
         ]
       }
+    },
+    "/battle/rooms/{roomId}/messages": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "채팅 내역 조회 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "채팅 내역 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sideA": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "roomId": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "example": "9"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "A"
+                              },
+                              "message": {
+                                "type": "string",
+                                "example": "안녕하세요"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-29T08:00:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "sideB": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "2"
+                              },
+                              "roomId": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "example": "10"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "message": {
+                                "type": "string",
+                                "example": "반갑습니다"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-29T08:01:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "sideA": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "roomId": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "example": "9"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "A"
+                              },
+                              "message": {
+                                "type": "string",
+                                "example": "안녕하세요"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-29T08:00:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "sideB": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "2"
+                              },
+                              "roomId": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "example": "10"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "message": {
+                                "type": "string",
+                                "example": "반갑습니다"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-29T08:01:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {

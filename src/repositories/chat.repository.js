@@ -102,3 +102,22 @@ export const saveChatMessage = async ({ roomId, userId, side, message }) => {
     }
   });
 };
+
+// 방 별 채팅 조회
+export const findChatMessagesByRoom = async (roomId) => {
+    return prisma.chatMessage.findMany({
+        where: { roomId: BigInt(roomId) },
+        orderBy: { createdAt: "asc" },
+    });
+};
+
+// 방 참가자/관전자 확인
+export const countRoomParticipant = async (roomId, userId) => {
+    const result = await prisma.roomParticipant.count({
+    where: {
+        roomId: BigInt(roomId),
+        userId: BigInt(userId),
+    },
+    });
+    return result;
+};

@@ -18,6 +18,7 @@ import {
   handleJoinRoom,
   handleGetRoomInfo,
   handleStartBattle,
+  handleGetChatHistory,
 } from "./controllers/chat.controller.js";
 import { registerChatHandlers
 } from "./socket/chat.socket.js";
@@ -61,9 +62,10 @@ app.post("/battle/rooms", handleCreateRoom);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
-
+app.get("/battle/rooms/:roomId/messages", handleGetChatHistory);
 // Express 기반 HTTP 서버를 만들어 줍니다.
 const httpServer = http.createServer(app);
+
 
 // Socket.IO 서버 생성
 const io = new SocketIOServer(httpServer, {

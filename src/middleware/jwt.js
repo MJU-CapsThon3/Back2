@@ -30,6 +30,7 @@ export const verify = (req, res, next) => {
     "/users/signup",
     "/users/login",
     "/rankings/top",
+    "/socket.io/",
   ];
   if (excludedPrefixes.some(p => req.path.startsWith(p))) {
     return next();

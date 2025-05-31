@@ -78,7 +78,7 @@
     const btnEl   = document.getElementById("sendBtn");
 
     // 실제 발급된 JWT: "Bearer " 포함
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IjEiLCJ0eXBlIjoiUlQiLCJpc3N1ZXIiOiJDYXA0U2VydmVyIn0sImlhdCI6MTc0ODQ5NzA2NiwiZXhwIjoxNzQ4NTExNDY2fQ.GJobfkH-wtOspuHT9WPYpI8G1SWVIfX_kLOMDhFS_qM';
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IjEiLCJ0eXBlIjoiUlQiLCJpc3N1ZXIiOiJDYXA0U2VydmVyIn0sImlhdCI6MTc0ODY4ODQ5NSwiZXhwIjoxNzQ4NzAyODk1fQ.kdsiDXTk3atfwTd01S1w3SMJk6X23491B2m-93XGnQs';
 
     const socket = io("http://localhost:3000", {
       auth:       { token },

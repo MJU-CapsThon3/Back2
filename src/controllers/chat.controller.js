@@ -6,6 +6,7 @@ import { createRoom,
   joinRoom,
   getRoomInfo,
   startBattle,
+  getChatHistory,
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -477,6 +478,126 @@ export const handleStartBattle = async (req, res, next) => {
     if (err.message === 'INVALID_STATE') {
       return res.send(response(status.BAD_REQUEST, null));
     }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 방 채팅 조회
+export const handleGetChatHistory = async (req, res) => {
+  /**
+  #swagger.summary = '채팅 내역 조회 API'
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.tags = ['Chat']
+
+  #swagger.parameters['roomId'] = {
+    in: 'path',
+    description: '배틀방 ID',
+    required: true,
+    type: 'integer',
+    format: 'int64',
+    example: 1
+  }
+
+  #swagger.responses[200] = {
+    description: "채팅 내역 조회 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        sideA: [
+          {
+            id: "1",
+            roomId: "1",
+            userId: "9",
+            side: "A",
+            message: "안녕하세요",
+            createdAt: "2025-05-29T08:00:00.000Z"
+          }
+        ],
+        sideB: [
+          {
+            id: "2",
+            roomId: "1",
+            userId: "10",
+            side: "B",
+            message: "반갑습니다",
+            createdAt: "2025-05-29T08:01:00.000Z"
+          }
+        ]
+      }
+    }
+  }
+
+  #swagger.responses[400] = {
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[401] = {
+    description: "토큰 형식 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+
+  #swagger.responses[403] = {
+    description: "권한 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON004",
+      message: "금지된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
+  try {
+    // 토큰 포맷 검사
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    const roomId = Number(req.params.roomId);
+    const data   = await getChatHistory({ roomId, userId: req.userId });
+    return res.send(response(status.SUCCESS, data));
+
+  } catch (err) {
+    if (err.code === "ROOM_NOT_FOUND") {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
+    }
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
+    }
+    console.error(err);
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
