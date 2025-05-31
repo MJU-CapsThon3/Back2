@@ -144,7 +144,7 @@ export const getTopRankings = async (limit) => {
   });
 };
 
-// Quest 관련 추가한 부분
+// 퀘스트 관련 추가한 부분
 //퀘스트 목록 조회
 export const findQuestById = async (questId) => {
   return await prisma.quest.findUnique({

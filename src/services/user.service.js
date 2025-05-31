@@ -24,6 +24,10 @@ import bcrypt from "bcrypt";
 import { encrypt } from '../middleware/encrypt.js'; 
 import { createJwt } from "../middleware/jwt.js";
 
+//퀘스트 추가한 점(변경점)
+import { prisma } from "../db.config.js";
+import { BaseError } from "../errors.js";
+
 // 포인트에 따른 티어 계산 헬퍼 (예시)
 const calculateTier = (points) => {
   if (points >= 4000) return '챌린저';
@@ -183,7 +187,7 @@ export const topRankingService = async (limit = 10) => {
   }));
 };
 
-//Quest 관련 추가한 부분
+//퀘스트 관련 추가한 부분
 export const getQuestByIdService = async (questId) => {
   return await findQuestById(questId);
 };
@@ -204,17 +208,17 @@ export const claimQuestRewardService = async (userId, questId) => {
   // 숫자 변환 및 유효성 검사
   const parsedUserId = Number(userId);
   const parsedQuestId = Number(questId);
-
-  if (isNaN(parsedUserId) || isNaN(parsedQuestId)) {
-    throw new BaseError(400, 'userId 또는 questId가 숫자가 아닙니다.');
-  }
   
   const questCompletion = await getQuestCompletion(parsedUserId, parsedQuestId);
+
+  // 퀘스트 완료하지 않은 경우 → 에러 아님, 상태만 응답
   if (!questCompletion || !questCompletion.isCompleted) {
-    throw new BaseError(400, '퀘스트를 완료하지 않았습니다.');
+    return { reward: 0, status: 'not_completed', message: '퀘스트를 아직 완료하지 않았습니다.' };
   }
+
+  // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
   if (questCompletion.rewardClaimed) {
-    throw new BaseError(400, '이미 보상을 받았습니다.');
+    return { reward: 0, status: 'already_claimed', message: '이미 보상을 받았습니다.' };
   }
 
   const quest = await prisma.quest.findUnique({
@@ -222,7 +226,7 @@ export const claimQuestRewardService = async (userId, questId) => {
   });
 
   if (!quest) {
-    throw new BaseError(404, '퀘스트 정보를 찾을 수 없습니다.');
+    throw new BaseError({code: 404, message: '퀘스트 정보를 찾을 수 없습니다.'});
   }
 
   await markQuestRewardClaimed(parsedUserId, parsedQuestId);
