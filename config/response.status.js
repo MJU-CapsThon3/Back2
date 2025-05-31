@@ -172,6 +172,14 @@ export const status = {
     code: "ROOMIN4005",
     message: "올바르지 않은 상태입니다.",
   },
+
+  //퀘스트
+  INCOMPLETE : {
+    status: StatusCodes.INCOMPLETE,
+    isSuccess: false,
+    code: "QUEST000",
+    message: "완료하지 못한 퀘스트입니다.",
+   }, 
 }
 
 
