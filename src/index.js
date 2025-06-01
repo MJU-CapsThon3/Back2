@@ -15,7 +15,7 @@ import {
   handleGetDailyQuests,
   completeQuest,
   claimQuestReward,
-  resetDailyQuests
+  resetDailyQuests,
   handleBuyItem,
   handleAddItem,
   handleGetUserItems,
@@ -39,8 +39,26 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://thiscatthatcat.shop',
+      'https://13.209.12.236:3000'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      // origin이 허용된 도메인 목록에 포함되거나, origin이 없을 경우(로컬 테스트 등)
+      callback(null, true);
+    } else {
+      // origin이 허용되지 않으면 CORS 오류 발생
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
+  credentials: true                    // 자격 증명 허용
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

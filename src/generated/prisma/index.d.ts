@@ -406,8 +406,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -1940,23 +1940,23 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    ranking: number
-    userItems: number
-    roomParticipants: number
-    questCompletions: number
-    pointTransactions: number
-    chatMessages: number
     battleVotes: number
+    chatMessages: number
+    pointTransactions: number
+    questCompletions: number
+    ranking: number
+    roomParticipants: number
+    userItems: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ranking?: boolean | UserCountOutputTypeCountRankingArgs
-    userItems?: boolean | UserCountOutputTypeCountUserItemsArgs
-    roomParticipants?: boolean | UserCountOutputTypeCountRoomParticipantsArgs
-    questCompletions?: boolean | UserCountOutputTypeCountQuestCompletionsArgs
-    pointTransactions?: boolean | UserCountOutputTypeCountPointTransactionsArgs
-    chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
     battleVotes?: boolean | UserCountOutputTypeCountBattleVotesArgs
+    chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
+    pointTransactions?: boolean | UserCountOutputTypeCountPointTransactionsArgs
+    questCompletions?: boolean | UserCountOutputTypeCountQuestCompletionsArgs
+    ranking?: boolean | UserCountOutputTypeCountRankingArgs
+    roomParticipants?: boolean | UserCountOutputTypeCountRoomParticipantsArgs
+    userItems?: boolean | UserCountOutputTypeCountUserItemsArgs
   }
 
   // Custom InputTypes
@@ -1973,36 +1973,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountRankingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RankingWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountUserItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserItemWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountRoomParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RoomParticipantWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountQuestCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: QuestCompletionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountPointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PointTransactionWhereInput
+  export type UserCountOutputTypeCountBattleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleVoteWhereInput
   }
 
   /**
@@ -2015,8 +1987,36 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountBattleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BattleVoteWhereInput
+  export type UserCountOutputTypeCountPointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PointTransactionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountQuestCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuestCompletionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRankingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RankingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoomParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomParticipantWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserItemWhereInput
   }
 
 
@@ -2420,13 +2420,13 @@ export namespace Prisma {
     point?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ranking?: boolean | User$rankingArgs<ExtArgs>
-    userItems?: boolean | User$userItemsArgs<ExtArgs>
-    roomParticipants?: boolean | User$roomParticipantsArgs<ExtArgs>
-    questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
-    pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
-    chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
     battleVotes?: boolean | User$battleVotesArgs<ExtArgs>
+    chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
+    pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
+    questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
+    ranking?: boolean | User$rankingArgs<ExtArgs>
+    roomParticipants?: boolean | User$roomParticipantsArgs<ExtArgs>
+    userItems?: boolean | User$userItemsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2449,26 +2449,26 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nickname" | "name" | "email" | "password" | "profileImageUrl" | "gender" | "birth" | "phoneNumber" | "point" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ranking?: boolean | User$rankingArgs<ExtArgs>
-    userItems?: boolean | User$userItemsArgs<ExtArgs>
-    roomParticipants?: boolean | User$roomParticipantsArgs<ExtArgs>
-    questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
-    pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
-    chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
     battleVotes?: boolean | User$battleVotesArgs<ExtArgs>
+    chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
+    pointTransactions?: boolean | User$pointTransactionsArgs<ExtArgs>
+    questCompletions?: boolean | User$questCompletionsArgs<ExtArgs>
+    ranking?: boolean | User$rankingArgs<ExtArgs>
+    roomParticipants?: boolean | User$roomParticipantsArgs<ExtArgs>
+    userItems?: boolean | User$userItemsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      ranking: Prisma.$RankingPayload<ExtArgs>[]
-      userItems: Prisma.$UserItemPayload<ExtArgs>[]
-      roomParticipants: Prisma.$RoomParticipantPayload<ExtArgs>[]
-      questCompletions: Prisma.$QuestCompletionPayload<ExtArgs>[]
-      pointTransactions: Prisma.$PointTransactionPayload<ExtArgs>[]
-      chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
       battleVotes: Prisma.$BattleVotePayload<ExtArgs>[]
+      chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+      pointTransactions: Prisma.$PointTransactionPayload<ExtArgs>[]
+      questCompletions: Prisma.$QuestCompletionPayload<ExtArgs>[]
+      ranking: Prisma.$RankingPayload<ExtArgs>[]
+      roomParticipants: Prisma.$RoomParticipantPayload<ExtArgs>[]
+      userItems: Prisma.$UserItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -2823,13 +2823,13 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    ranking<T extends User$rankingArgs<ExtArgs> = {}>(args?: Subset<T, User$rankingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RankingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    userItems<T extends User$userItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$userItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    roomParticipants<T extends User$roomParticipantsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    questCompletions<T extends User$questCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$questCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    pointTransactions<T extends User$pointTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    chatMessages<T extends User$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     battleVotes<T extends User$battleVotesArgs<ExtArgs> = {}>(args?: Subset<T, User$battleVotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatMessages<T extends User$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pointTransactions<T extends User$pointTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    questCompletions<T extends User$questCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$questCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ranking<T extends User$rankingArgs<ExtArgs> = {}>(args?: Subset<T, User$rankingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RankingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    roomParticipants<T extends User$roomParticipantsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userItems<T extends User$userItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$userItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3214,123 +3214,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.ranking
+   * User.battleVotes
    */
-  export type User$rankingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$battleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Ranking
+     * Select specific fields to fetch from the BattleVote
      */
-    select?: RankingSelect<ExtArgs> | null
+    select?: BattleVoteSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Ranking
+     * Omit specific fields from the BattleVote
      */
-    omit?: RankingOmit<ExtArgs> | null
+    omit?: BattleVoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RankingInclude<ExtArgs> | null
-    where?: RankingWhereInput
-    orderBy?: RankingOrderByWithRelationInput | RankingOrderByWithRelationInput[]
-    cursor?: RankingWhereUniqueInput
+    include?: BattleVoteInclude<ExtArgs> | null
+    where?: BattleVoteWhereInput
+    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
+    cursor?: BattleVoteWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: RankingScalarFieldEnum | RankingScalarFieldEnum[]
-  }
-
-  /**
-   * User.userItems
-   */
-  export type User$userItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserItem
-     */
-    select?: UserItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserItem
-     */
-    omit?: UserItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserItemInclude<ExtArgs> | null
-    where?: UserItemWhereInput
-    orderBy?: UserItemOrderByWithRelationInput | UserItemOrderByWithRelationInput[]
-    cursor?: UserItemWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserItemScalarFieldEnum | UserItemScalarFieldEnum[]
-  }
-
-  /**
-   * User.roomParticipants
-   */
-  export type User$roomParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoomParticipant
-     */
-    select?: RoomParticipantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the RoomParticipant
-     */
-    omit?: RoomParticipantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RoomParticipantInclude<ExtArgs> | null
-    where?: RoomParticipantWhereInput
-    orderBy?: RoomParticipantOrderByWithRelationInput | RoomParticipantOrderByWithRelationInput[]
-    cursor?: RoomParticipantWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RoomParticipantScalarFieldEnum | RoomParticipantScalarFieldEnum[]
-  }
-
-  /**
-   * User.questCompletions
-   */
-  export type User$questCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the QuestCompletion
-     */
-    select?: QuestCompletionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the QuestCompletion
-     */
-    omit?: QuestCompletionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: QuestCompletionInclude<ExtArgs> | null
-    where?: QuestCompletionWhereInput
-    orderBy?: QuestCompletionOrderByWithRelationInput | QuestCompletionOrderByWithRelationInput[]
-    cursor?: QuestCompletionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: QuestCompletionScalarFieldEnum | QuestCompletionScalarFieldEnum[]
-  }
-
-  /**
-   * User.pointTransactions
-   */
-  export type User$pointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PointTransaction
-     */
-    select?: PointTransactionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PointTransaction
-     */
-    omit?: PointTransactionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PointTransactionInclude<ExtArgs> | null
-    where?: PointTransactionWhereInput
-    orderBy?: PointTransactionOrderByWithRelationInput | PointTransactionOrderByWithRelationInput[]
-    cursor?: PointTransactionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PointTransactionScalarFieldEnum | PointTransactionScalarFieldEnum[]
+    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
   }
 
   /**
@@ -3358,27 +3262,123 @@ export namespace Prisma {
   }
 
   /**
-   * User.battleVotes
+   * User.pointTransactions
    */
-  export type User$battleVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$pointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BattleVote
+     * Select specific fields to fetch from the PointTransaction
      */
-    select?: BattleVoteSelect<ExtArgs> | null
+    select?: PointTransactionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BattleVote
+     * Omit specific fields from the PointTransaction
      */
-    omit?: BattleVoteOmit<ExtArgs> | null
+    omit?: PointTransactionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BattleVoteInclude<ExtArgs> | null
-    where?: BattleVoteWhereInput
-    orderBy?: BattleVoteOrderByWithRelationInput | BattleVoteOrderByWithRelationInput[]
-    cursor?: BattleVoteWhereUniqueInput
+    include?: PointTransactionInclude<ExtArgs> | null
+    where?: PointTransactionWhereInput
+    orderBy?: PointTransactionOrderByWithRelationInput | PointTransactionOrderByWithRelationInput[]
+    cursor?: PointTransactionWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: BattleVoteScalarFieldEnum | BattleVoteScalarFieldEnum[]
+    distinct?: PointTransactionScalarFieldEnum | PointTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * User.questCompletions
+   */
+  export type User$questCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestCompletion
+     */
+    select?: QuestCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestCompletion
+     */
+    omit?: QuestCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestCompletionInclude<ExtArgs> | null
+    where?: QuestCompletionWhereInput
+    orderBy?: QuestCompletionOrderByWithRelationInput | QuestCompletionOrderByWithRelationInput[]
+    cursor?: QuestCompletionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuestCompletionScalarFieldEnum | QuestCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * User.ranking
+   */
+  export type User$rankingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ranking
+     */
+    select?: RankingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ranking
+     */
+    omit?: RankingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RankingInclude<ExtArgs> | null
+    where?: RankingWhereInput
+    orderBy?: RankingOrderByWithRelationInput | RankingOrderByWithRelationInput[]
+    cursor?: RankingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RankingScalarFieldEnum | RankingScalarFieldEnum[]
+  }
+
+  /**
+   * User.roomParticipants
+   */
+  export type User$roomParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomParticipant
+     */
+    select?: RoomParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomParticipant
+     */
+    omit?: RoomParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomParticipantInclude<ExtArgs> | null
+    where?: RoomParticipantWhereInput
+    orderBy?: RoomParticipantOrderByWithRelationInput | RoomParticipantOrderByWithRelationInput[]
+    cursor?: RoomParticipantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomParticipantScalarFieldEnum | RoomParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * User.userItems
+   */
+  export type User$userItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserItem
+     */
+    select?: UserItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserItem
+     */
+    omit?: UserItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserItemInclude<ExtArgs> | null
+    where?: UserItemWhereInput
+    orderBy?: UserItemOrderByWithRelationInput | UserItemOrderByWithRelationInput[]
+    cursor?: UserItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserItemScalarFieldEnum | UserItemScalarFieldEnum[]
   }
 
   /**
@@ -5445,9 +5445,9 @@ export namespace Prisma {
     userId: bigint | null
     roomId: bigint | null
     role: string | null
-    side: string | null
     joinedAt: Date | null
     endAt: Date | null
+    side: string | null
   }
 
   export type RoomParticipantMaxAggregateOutputType = {
@@ -5455,9 +5455,9 @@ export namespace Prisma {
     userId: bigint | null
     roomId: bigint | null
     role: string | null
-    side: string | null
     joinedAt: Date | null
     endAt: Date | null
+    side: string | null
   }
 
   export type RoomParticipantCountAggregateOutputType = {
@@ -5465,9 +5465,9 @@ export namespace Prisma {
     userId: number
     roomId: number
     role: number
-    side: number
     joinedAt: number
     endAt: number
+    side: number
     _all: number
   }
 
@@ -5489,9 +5489,9 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
-    side?: true
     joinedAt?: true
     endAt?: true
+    side?: true
   }
 
   export type RoomParticipantMaxAggregateInputType = {
@@ -5499,9 +5499,9 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
-    side?: true
     joinedAt?: true
     endAt?: true
+    side?: true
   }
 
   export type RoomParticipantCountAggregateInputType = {
@@ -5509,9 +5509,9 @@ export namespace Prisma {
     userId?: true
     roomId?: true
     role?: true
-    side?: true
     joinedAt?: true
     endAt?: true
+    side?: true
     _all?: true
   }
 
@@ -5606,9 +5606,9 @@ export namespace Prisma {
     userId: bigint
     roomId: bigint
     role: string
-    side: string | null
     joinedAt: Date
     endAt: Date | null
+    side: string | null
     _count: RoomParticipantCountAggregateOutputType | null
     _avg: RoomParticipantAvgAggregateOutputType | null
     _sum: RoomParticipantSumAggregateOutputType | null
@@ -5635,11 +5635,11 @@ export namespace Prisma {
     userId?: boolean
     roomId?: boolean
     role?: boolean
-    side?: boolean
     joinedAt?: boolean
     endAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    side?: boolean
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomParticipant"]>
 
 
@@ -5649,31 +5649,31 @@ export namespace Prisma {
     userId?: boolean
     roomId?: boolean
     role?: boolean
-    side?: boolean
     joinedAt?: boolean
     endAt?: boolean
+    side?: boolean
   }
 
-  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roomId" | "role" | "side" | "joinedAt" | "endAt", ExtArgs["result"]["roomParticipant"]>
+  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roomId" | "role" | "joinedAt" | "endAt" | "side", ExtArgs["result"]["roomParticipant"]>
   export type RoomParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $RoomParticipantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RoomParticipant"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       battleRoom: Prisma.$BattleRoomPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       userId: bigint
       roomId: bigint
       role: string
-      side: string | null
       joinedAt: Date
       endAt: Date | null
+      side: string | null
     }, ExtArgs["result"]["roomParticipant"]>
     composites: {}
   }
@@ -6014,8 +6014,8 @@ export namespace Prisma {
    */
   export interface Prisma__RoomParticipantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     battleRoom<T extends BattleRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoomDefaultArgs<ExtArgs>>): Prisma__BattleRoomClient<$Result.GetResult<Prisma.$BattleRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6049,9 +6049,9 @@ export namespace Prisma {
     readonly userId: FieldRef<"RoomParticipant", 'BigInt'>
     readonly roomId: FieldRef<"RoomParticipant", 'BigInt'>
     readonly role: FieldRef<"RoomParticipant", 'String'>
-    readonly side: FieldRef<"RoomParticipant", 'String'>
     readonly joinedAt: FieldRef<"RoomParticipant", 'DateTime'>
     readonly endAt: FieldRef<"RoomParticipant", 'DateTime'>
+    readonly side: FieldRef<"RoomParticipant", 'String'>
   }
     
 
@@ -8546,8 +8546,8 @@ export namespace Prisma {
     itemId?: boolean
     acquiredAt?: boolean
     isEquipped?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userItem"]>
 
 
@@ -8562,15 +8562,15 @@ export namespace Prisma {
 
   export type UserItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "itemId" | "acquiredAt" | "isEquipped", ExtArgs["result"]["userItem"]>
   export type UserItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $UserItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserItem"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       item: Prisma.$ItemPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -8918,8 +8918,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11529,31 +11529,31 @@ export namespace Prisma {
   export type BattleTitleMinAggregateOutputType = {
     id: bigint | null
     roomId: bigint | null
-    side: string | null
     title: string | null
     suggestedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    side: string | null
   }
 
   export type BattleTitleMaxAggregateOutputType = {
     id: bigint | null
     roomId: bigint | null
-    side: string | null
     title: string | null
     suggestedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    side: string | null
   }
 
   export type BattleTitleCountAggregateOutputType = {
     id: number
     roomId: number
-    side: number
     title: number
     suggestedBy: number
     createdAt: number
     updatedAt: number
+    side: number
     _all: number
   }
 
@@ -11571,31 +11571,31 @@ export namespace Prisma {
   export type BattleTitleMinAggregateInputType = {
     id?: true
     roomId?: true
-    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
     updatedAt?: true
+    side?: true
   }
 
   export type BattleTitleMaxAggregateInputType = {
     id?: true
     roomId?: true
-    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
     updatedAt?: true
+    side?: true
   }
 
   export type BattleTitleCountAggregateInputType = {
     id?: true
     roomId?: true
-    side?: true
     title?: true
     suggestedBy?: true
     createdAt?: true
     updatedAt?: true
+    side?: true
     _all?: true
   }
 
@@ -11688,11 +11688,11 @@ export namespace Prisma {
   export type BattleTitleGroupByOutputType = {
     id: bigint
     roomId: bigint
-    side: string
     title: string
     suggestedBy: string
     createdAt: Date
     updatedAt: Date
+    side: string
     _count: BattleTitleCountAggregateOutputType | null
     _avg: BattleTitleAvgAggregateOutputType | null
     _sum: BattleTitleSumAggregateOutputType | null
@@ -11717,11 +11717,11 @@ export namespace Prisma {
   export type BattleTitleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     roomId?: boolean
-    side?: boolean
     title?: boolean
     suggestedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    side?: boolean
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["battleTitle"]>
 
@@ -11730,14 +11730,14 @@ export namespace Prisma {
   export type BattleTitleSelectScalar = {
     id?: boolean
     roomId?: boolean
-    side?: boolean
     title?: boolean
     suggestedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    side?: boolean
   }
 
-  export type BattleTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "side" | "title" | "suggestedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["battleTitle"]>
+  export type BattleTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "title" | "suggestedBy" | "createdAt" | "updatedAt" | "side", ExtArgs["result"]["battleTitle"]>
   export type BattleTitleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
   }
@@ -11750,11 +11750,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       roomId: bigint
-      side: string
       title: string
       suggestedBy: string
       createdAt: Date
       updatedAt: Date
+      side: string
     }, ExtArgs["result"]["battleTitle"]>
     composites: {}
   }
@@ -12127,11 +12127,11 @@ export namespace Prisma {
   interface BattleTitleFieldRefs {
     readonly id: FieldRef<"BattleTitle", 'BigInt'>
     readonly roomId: FieldRef<"BattleTitle", 'BigInt'>
-    readonly side: FieldRef<"BattleTitle", 'String'>
     readonly title: FieldRef<"BattleTitle", 'String'>
     readonly suggestedBy: FieldRef<"BattleTitle", 'String'>
     readonly createdAt: FieldRef<"BattleTitle", 'DateTime'>
     readonly updatedAt: FieldRef<"BattleTitle", 'DateTime'>
+    readonly side: FieldRef<"BattleTitle", 'String'>
   }
     
 
@@ -14664,8 +14664,8 @@ export namespace Prisma {
     side?: boolean
     message?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatMessage"]>
 
 
@@ -14681,15 +14681,15 @@ export namespace Prisma {
 
   export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "side" | "message" | "createdAt", ExtArgs["result"]["chatMessage"]>
   export type ChatMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     battleRoom?: boolean | BattleRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ChatMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ChatMessage"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       battleRoom: Prisma.$BattleRoomPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -15038,8 +15038,8 @@ export namespace Prisma {
    */
   export interface Prisma__ChatMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     battleRoom<T extends BattleRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoomDefaultArgs<ExtArgs>>): Prisma__BattleRoomClient<$Result.GetResult<Prisma.$BattleRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16474,9 +16474,9 @@ export namespace Prisma {
     userId: 'userId',
     roomId: 'roomId',
     role: 'role',
-    side: 'side',
     joinedAt: 'joinedAt',
-    endAt: 'endAt'
+    endAt: 'endAt',
+    side: 'side'
   };
 
   export type RoomParticipantScalarFieldEnum = (typeof RoomParticipantScalarFieldEnum)[keyof typeof RoomParticipantScalarFieldEnum]
@@ -16544,11 +16544,11 @@ export namespace Prisma {
   export const BattleTitleScalarFieldEnum: {
     id: 'id',
     roomId: 'roomId',
-    side: 'side',
     title: 'title',
     suggestedBy: 'suggestedBy',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    side: 'side'
   };
 
   export type BattleTitleScalarFieldEnum = (typeof BattleTitleScalarFieldEnum)[keyof typeof BattleTitleScalarFieldEnum]
@@ -16685,9 +16685,9 @@ export namespace Prisma {
 
 
   export const BattleTitleOrderByRelevanceFieldEnum: {
-    side: 'side',
     title: 'title',
-    suggestedBy: 'suggestedBy'
+    suggestedBy: 'suggestedBy',
+    side: 'side'
   };
 
   export type BattleTitleOrderByRelevanceFieldEnum = (typeof BattleTitleOrderByRelevanceFieldEnum)[keyof typeof BattleTitleOrderByRelevanceFieldEnum]
@@ -16788,13 +16788,13 @@ export namespace Prisma {
     point?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    ranking?: RankingListRelationFilter
-    userItems?: UserItemListRelationFilter
-    roomParticipants?: RoomParticipantListRelationFilter
-    questCompletions?: QuestCompletionListRelationFilter
-    pointTransactions?: PointTransactionListRelationFilter
-    chatMessages?: ChatMessageListRelationFilter
     battleVotes?: BattleVoteListRelationFilter
+    chatMessages?: ChatMessageListRelationFilter
+    pointTransactions?: PointTransactionListRelationFilter
+    questCompletions?: QuestCompletionListRelationFilter
+    ranking?: RankingListRelationFilter
+    roomParticipants?: RoomParticipantListRelationFilter
+    userItems?: UserItemListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -16810,13 +16810,13 @@ export namespace Prisma {
     point?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ranking?: RankingOrderByRelationAggregateInput
-    userItems?: UserItemOrderByRelationAggregateInput
-    roomParticipants?: RoomParticipantOrderByRelationAggregateInput
-    questCompletions?: QuestCompletionOrderByRelationAggregateInput
-    pointTransactions?: PointTransactionOrderByRelationAggregateInput
-    chatMessages?: ChatMessageOrderByRelationAggregateInput
     battleVotes?: BattleVoteOrderByRelationAggregateInput
+    chatMessages?: ChatMessageOrderByRelationAggregateInput
+    pointTransactions?: PointTransactionOrderByRelationAggregateInput
+    questCompletions?: QuestCompletionOrderByRelationAggregateInput
+    ranking?: RankingOrderByRelationAggregateInput
+    roomParticipants?: RoomParticipantOrderByRelationAggregateInput
+    userItems?: UserItemOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -16836,13 +16836,13 @@ export namespace Prisma {
     point?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    ranking?: RankingListRelationFilter
-    userItems?: UserItemListRelationFilter
-    roomParticipants?: RoomParticipantListRelationFilter
-    questCompletions?: QuestCompletionListRelationFilter
-    pointTransactions?: PointTransactionListRelationFilter
-    chatMessages?: ChatMessageListRelationFilter
     battleVotes?: BattleVoteListRelationFilter
+    chatMessages?: ChatMessageListRelationFilter
+    pointTransactions?: PointTransactionListRelationFilter
+    questCompletions?: QuestCompletionListRelationFilter
+    ranking?: RankingListRelationFilter
+    roomParticipants?: RoomParticipantListRelationFilter
+    userItems?: UserItemListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -17027,11 +17027,11 @@ export namespace Prisma {
     userId?: BigIntFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
     role?: StringFilter<"RoomParticipant"> | string
-    side?: StringNullableFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type RoomParticipantOrderByWithRelationInput = {
@@ -17039,11 +17039,11 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
-    side?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrderInput | SortOrder
-    user?: UserOrderByWithRelationInput
+    side?: SortOrderInput | SortOrder
     battleRoom?: BattleRoomOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     _relevance?: RoomParticipantOrderByRelevanceInput
   }
 
@@ -17055,11 +17055,11 @@ export namespace Prisma {
     userId?: BigIntFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
     role?: StringFilter<"RoomParticipant"> | string
-    side?: StringNullableFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type RoomParticipantOrderByWithAggregationInput = {
@@ -17067,9 +17067,9 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
-    side?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrderInput | SortOrder
+    side?: SortOrderInput | SortOrder
     _count?: RoomParticipantCountOrderByAggregateInput
     _avg?: RoomParticipantAvgOrderByAggregateInput
     _max?: RoomParticipantMaxOrderByAggregateInput
@@ -17085,9 +17085,9 @@ export namespace Prisma {
     userId?: BigIntWithAggregatesFilter<"RoomParticipant"> | bigint | number
     roomId?: BigIntWithAggregatesFilter<"RoomParticipant"> | bigint | number
     role?: StringWithAggregatesFilter<"RoomParticipant"> | string
-    side?: StringNullableWithAggregatesFilter<"RoomParticipant"> | string | null
     joinedAt?: DateTimeWithAggregatesFilter<"RoomParticipant"> | Date | string
     endAt?: DateTimeNullableWithAggregatesFilter<"RoomParticipant"> | Date | string | null
+    side?: StringNullableWithAggregatesFilter<"RoomParticipant"> | string | null
   }
 
   export type AiJudgementWhereInput = {
@@ -17210,8 +17210,8 @@ export namespace Prisma {
     itemId?: BigIntFilter<"UserItem"> | bigint | number
     acquiredAt?: DateTimeFilter<"UserItem"> | Date | string
     isEquipped?: BoolFilter<"UserItem"> | boolean
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type UserItemOrderByWithRelationInput = {
@@ -17220,8 +17220,8 @@ export namespace Prisma {
     itemId?: SortOrder
     acquiredAt?: SortOrder
     isEquipped?: SortOrder
-    user?: UserOrderByWithRelationInput
     item?: ItemOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type UserItemWhereUniqueInput = Prisma.AtLeast<{
@@ -17233,8 +17233,8 @@ export namespace Prisma {
     itemId?: BigIntFilter<"UserItem"> | bigint | number
     acquiredAt?: DateTimeFilter<"UserItem"> | Date | string
     isEquipped?: BoolFilter<"UserItem"> | boolean
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type UserItemOrderByWithAggregationInput = {
@@ -17423,22 +17423,22 @@ export namespace Prisma {
     NOT?: BattleTitleWhereInput | BattleTitleWhereInput[]
     id?: BigIntFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
-    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
     updatedAt?: DateTimeFilter<"BattleTitle"> | Date | string
+    side?: StringFilter<"BattleTitle"> | string
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
   }
 
   export type BattleTitleOrderByWithRelationInput = {
     id?: SortOrder
     roomId?: SortOrder
-    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    side?: SortOrder
     battleRoom?: BattleRoomOrderByWithRelationInput
     _relevance?: BattleTitleOrderByRelevanceInput
   }
@@ -17449,22 +17449,22 @@ export namespace Prisma {
     OR?: BattleTitleWhereInput[]
     NOT?: BattleTitleWhereInput | BattleTitleWhereInput[]
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
-    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
     updatedAt?: DateTimeFilter<"BattleTitle"> | Date | string
+    side?: StringFilter<"BattleTitle"> | string
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
   }, "id">
 
   export type BattleTitleOrderByWithAggregationInput = {
     id?: SortOrder
     roomId?: SortOrder
-    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    side?: SortOrder
     _count?: BattleTitleCountOrderByAggregateInput
     _avg?: BattleTitleAvgOrderByAggregateInput
     _max?: BattleTitleMaxOrderByAggregateInput
@@ -17478,11 +17478,11 @@ export namespace Prisma {
     NOT?: BattleTitleScalarWhereWithAggregatesInput | BattleTitleScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntWithAggregatesFilter<"BattleTitle"> | bigint | number
-    side?: StringWithAggregatesFilter<"BattleTitle"> | string
     title?: StringWithAggregatesFilter<"BattleTitle"> | string
     suggestedBy?: StringWithAggregatesFilter<"BattleTitle"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleTitle"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BattleTitle"> | Date | string
+    side?: StringWithAggregatesFilter<"BattleTitle"> | string
   }
 
   export type QuestCompletionWhereInput = {
@@ -17618,8 +17618,8 @@ export namespace Prisma {
     side?: StringFilter<"ChatMessage"> | string
     message?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ChatMessageOrderByWithRelationInput = {
@@ -17629,8 +17629,8 @@ export namespace Prisma {
     side?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     battleRoom?: BattleRoomOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     _relevance?: ChatMessageOrderByRelevanceInput
   }
 
@@ -17644,8 +17644,8 @@ export namespace Prisma {
     side?: StringFilter<"ChatMessage"> | string
     message?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     battleRoom?: XOR<BattleRoomScalarRelationFilter, BattleRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ChatMessageOrderByWithAggregationInput = {
@@ -17748,13 +17748,13 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -17770,13 +17770,13 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -17792,13 +17792,13 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -17814,13 +17814,13 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18014,11 +18014,11 @@ export namespace Prisma {
   export type RoomParticipantCreateInput = {
     id?: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
-    user: UserCreateNestedOneWithoutRoomParticipantsInput
+    side?: string | null
     battleRoom: BattleRoomCreateNestedOneWithoutRoomParticipantsInput
+    user: UserCreateNestedOneWithoutRoomParticipantsInput
   }
 
   export type RoomParticipantUncheckedCreateInput = {
@@ -18026,19 +18026,19 @@ export namespace Prisma {
     userId: bigint | number
     roomId: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
+    side?: string | null
   }
 
   export type RoomParticipantUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutRoomParticipantsNestedInput
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     battleRoom?: BattleRoomUpdateOneRequiredWithoutRoomParticipantsNestedInput
+    user?: UserUpdateOneRequiredWithoutRoomParticipantsNestedInput
   }
 
   export type RoomParticipantUncheckedUpdateInput = {
@@ -18046,9 +18046,9 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RoomParticipantCreateManyInput = {
@@ -18056,17 +18056,17 @@ export namespace Prisma {
     userId: bigint | number
     roomId: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
+    side?: string | null
   }
 
   export type RoomParticipantUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RoomParticipantUncheckedUpdateManyInput = {
@@ -18074,9 +18074,9 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AiJudgementCreateInput = {
@@ -18186,8 +18186,8 @@ export namespace Prisma {
     id?: bigint | number
     acquiredAt?: Date | string
     isEquipped?: boolean
-    user: UserCreateNestedOneWithoutUserItemsInput
     item: ItemCreateNestedOneWithoutUserItemsInput
+    user: UserCreateNestedOneWithoutUserItemsInput
   }
 
   export type UserItemUncheckedCreateInput = {
@@ -18202,8 +18202,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     acquiredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEquipped?: BoolFieldUpdateOperationsInput | boolean
-    user?: UserUpdateOneRequiredWithoutUserItemsNestedInput
     item?: ItemUpdateOneRequiredWithoutUserItemsNestedInput
+    user?: UserUpdateOneRequiredWithoutUserItemsNestedInput
   }
 
   export type UserItemUncheckedUpdateInput = {
@@ -18413,71 +18413,71 @@ export namespace Prisma {
 
   export type BattleTitleCreateInput = {
     id?: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
     battleRoom: BattleRoomCreateNestedOneWithoutBattleTitleInput
   }
 
   export type BattleTitleUncheckedCreateInput = {
     id?: bigint | number
     roomId: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
   }
 
   export type BattleTitleUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
     battleRoom?: BattleRoomUpdateOneRequiredWithoutBattleTitleNestedInput
   }
 
   export type BattleTitleUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type BattleTitleCreateManyInput = {
     id?: bigint | number
     roomId: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
   }
 
   export type BattleTitleUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type BattleTitleUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuestCompletionCreateInput = {
@@ -18601,8 +18601,8 @@ export namespace Prisma {
     side: string
     message: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutChatMessagesInput
     battleRoom: BattleRoomCreateNestedOneWithoutChatMessagesInput
+    user: UserCreateNestedOneWithoutChatMessagesInput
   }
 
   export type ChatMessageUncheckedCreateInput = {
@@ -18619,8 +18619,8 @@ export namespace Prisma {
     side?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
     battleRoom?: BattleRoomUpdateOneRequiredWithoutChatMessagesNestedInput
+    user?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
   }
 
   export type ChatMessageUncheckedUpdateInput = {
@@ -18774,34 +18774,10 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type RankingListRelationFilter = {
-    every?: RankingWhereInput
-    some?: RankingWhereInput
-    none?: RankingWhereInput
-  }
-
-  export type UserItemListRelationFilter = {
-    every?: UserItemWhereInput
-    some?: UserItemWhereInput
-    none?: UserItemWhereInput
-  }
-
-  export type RoomParticipantListRelationFilter = {
-    every?: RoomParticipantWhereInput
-    some?: RoomParticipantWhereInput
-    none?: RoomParticipantWhereInput
-  }
-
-  export type QuestCompletionListRelationFilter = {
-    every?: QuestCompletionWhereInput
-    some?: QuestCompletionWhereInput
-    none?: QuestCompletionWhereInput
-  }
-
-  export type PointTransactionListRelationFilter = {
-    every?: PointTransactionWhereInput
-    some?: PointTransactionWhereInput
-    none?: PointTransactionWhereInput
+  export type BattleVoteListRelationFilter = {
+    every?: BattleVoteWhereInput
+    some?: BattleVoteWhereInput
+    none?: BattleVoteWhereInput
   }
 
   export type ChatMessageListRelationFilter = {
@@ -18810,10 +18786,34 @@ export namespace Prisma {
     none?: ChatMessageWhereInput
   }
 
-  export type BattleVoteListRelationFilter = {
-    every?: BattleVoteWhereInput
-    some?: BattleVoteWhereInput
-    none?: BattleVoteWhereInput
+  export type PointTransactionListRelationFilter = {
+    every?: PointTransactionWhereInput
+    some?: PointTransactionWhereInput
+    none?: PointTransactionWhereInput
+  }
+
+  export type QuestCompletionListRelationFilter = {
+    every?: QuestCompletionWhereInput
+    some?: QuestCompletionWhereInput
+    none?: QuestCompletionWhereInput
+  }
+
+  export type RankingListRelationFilter = {
+    every?: RankingWhereInput
+    some?: RankingWhereInput
+    none?: RankingWhereInput
+  }
+
+  export type RoomParticipantListRelationFilter = {
+    every?: RoomParticipantWhereInput
+    some?: RoomParticipantWhereInput
+    none?: RoomParticipantWhereInput
+  }
+
+  export type UserItemListRelationFilter = {
+    every?: UserItemWhereInput
+    some?: UserItemWhereInput
+    none?: UserItemWhereInput
   }
 
   export type SortOrderInput = {
@@ -18821,23 +18821,7 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type RankingOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UserItemOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RoomParticipantOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type QuestCompletionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PointTransactionOrderByRelationAggregateInput = {
+  export type BattleVoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18845,7 +18829,23 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type BattleVoteOrderByRelationAggregateInput = {
+  export type PointTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuestCompletionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RankingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoomParticipantOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19149,9 +19149,9 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
-    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
+    side?: SortOrder
   }
 
   export type RoomParticipantAvgOrderByAggregateInput = {
@@ -19165,9 +19165,9 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
-    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
+    side?: SortOrder
   }
 
   export type RoomParticipantMinOrderByAggregateInput = {
@@ -19175,9 +19175,9 @@ export namespace Prisma {
     userId?: SortOrder
     roomId?: SortOrder
     role?: SortOrder
-    side?: SortOrder
     joinedAt?: SortOrder
     endAt?: SortOrder
+    side?: SortOrder
   }
 
   export type RoomParticipantSumOrderByAggregateInput = {
@@ -19498,11 +19498,11 @@ export namespace Prisma {
   export type BattleTitleCountOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
-    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    side?: SortOrder
   }
 
   export type BattleTitleAvgOrderByAggregateInput = {
@@ -19513,21 +19513,21 @@ export namespace Prisma {
   export type BattleTitleMaxOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
-    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    side?: SortOrder
   }
 
   export type BattleTitleMinOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
-    side?: SortOrder
     title?: SortOrder
     suggestedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    side?: SortOrder
   }
 
   export type BattleTitleSumOrderByAggregateInput = {
@@ -19708,39 +19708,11 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type RankingCreateNestedManyWithoutUserInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-  }
-
-  export type UserItemCreateNestedManyWithoutUserInput = {
-    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
-    createMany?: UserItemCreateManyUserInputEnvelope
-    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-  }
-
-  export type RoomParticipantCreateNestedManyWithoutUserInput = {
-    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
-    createMany?: RoomParticipantCreateManyUserInputEnvelope
-    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-  }
-
-  export type QuestCompletionCreateNestedManyWithoutUserInput = {
-    create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
-    createMany?: QuestCompletionCreateManyUserInputEnvelope
-    connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-  }
-
-  export type PointTransactionCreateNestedManyWithoutUserInput = {
-    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
-    createMany?: PointTransactionCreateManyUserInputEnvelope
-    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+  export type BattleVoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
   }
 
   export type ChatMessageCreateNestedManyWithoutUserInput = {
@@ -19750,46 +19722,46 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
   }
 
-  export type BattleVoteCreateNestedManyWithoutUserInput = {
-    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
-    createMany?: BattleVoteCreateManyUserInputEnvelope
-    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+  export type PointTransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: PointTransactionCreateManyUserInputEnvelope
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
   }
 
-  export type RankingUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-  }
-
-  export type UserItemUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
-    createMany?: UserItemCreateManyUserInputEnvelope
-    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-  }
-
-  export type RoomParticipantUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
-    createMany?: RoomParticipantCreateManyUserInputEnvelope
-    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-  }
-
-  export type QuestCompletionUncheckedCreateNestedManyWithoutUserInput = {
+  export type QuestCompletionCreateNestedManyWithoutUserInput = {
     create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
     createMany?: QuestCompletionCreateManyUserInputEnvelope
     connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
   }
 
-  export type PointTransactionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
-    createMany?: PointTransactionCreateManyUserInputEnvelope
-    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+  export type RankingCreateNestedManyWithoutUserInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
+    createMany?: RankingCreateManyUserInputEnvelope
+    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+  }
+
+  export type RoomParticipantCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
+    createMany?: RoomParticipantCreateManyUserInputEnvelope
+    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+  }
+
+  export type UserItemCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
+    createMany?: UserItemCreateManyUserInputEnvelope
+    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+  }
+
+  export type BattleVoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
   }
 
   export type ChatMessageUncheckedCreateNestedManyWithoutUserInput = {
@@ -19799,11 +19771,39 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
   }
 
-  export type BattleVoteUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
-    createMany?: BattleVoteCreateManyUserInputEnvelope
-    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+  export type PointTransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: PointTransactionCreateManyUserInputEnvelope
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+  }
+
+  export type QuestCompletionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
+    createMany?: QuestCompletionCreateManyUserInputEnvelope
+    connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
+  }
+
+  export type RankingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
+    createMany?: RankingCreateManyUserInputEnvelope
+    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+  }
+
+  export type RoomParticipantUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
+    createMany?: RoomParticipantCreateManyUserInputEnvelope
+    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+  }
+
+  export type UserItemUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
+    createMany?: UserItemCreateManyUserInputEnvelope
+    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
   }
 
   export type BigIntFieldUpdateOperationsInput = {
@@ -19834,74 +19834,18 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type RankingUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
-  }
-
-  export type UserItemUpdateManyWithoutUserNestedInput = {
-    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
-    upsert?: UserItemUpsertWithWhereUniqueWithoutUserInput | UserItemUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: UserItemCreateManyUserInputEnvelope
-    set?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    disconnect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    delete?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    update?: UserItemUpdateWithWhereUniqueWithoutUserInput | UserItemUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: UserItemUpdateManyWithWhereWithoutUserInput | UserItemUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: UserItemScalarWhereInput | UserItemScalarWhereInput[]
-  }
-
-  export type RoomParticipantUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
-    upsert?: RoomParticipantUpsertWithWhereUniqueWithoutUserInput | RoomParticipantUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RoomParticipantCreateManyUserInputEnvelope
-    set?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    disconnect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    delete?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    update?: RoomParticipantUpdateWithWhereUniqueWithoutUserInput | RoomParticipantUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RoomParticipantUpdateManyWithWhereWithoutUserInput | RoomParticipantUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
-  }
-
-  export type QuestCompletionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
-    upsert?: QuestCompletionUpsertWithWhereUniqueWithoutUserInput | QuestCompletionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: QuestCompletionCreateManyUserInputEnvelope
-    set?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-    disconnect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-    delete?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-    connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-    update?: QuestCompletionUpdateWithWhereUniqueWithoutUserInput | QuestCompletionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: QuestCompletionUpdateManyWithWhereWithoutUserInput | QuestCompletionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
-  }
-
-  export type PointTransactionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
-    upsert?: PointTransactionUpsertWithWhereUniqueWithoutUserInput | PointTransactionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PointTransactionCreateManyUserInputEnvelope
-    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    update?: PointTransactionUpdateWithWhereUniqueWithoutUserInput | PointTransactionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PointTransactionUpdateManyWithWhereWithoutUserInput | PointTransactionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
+  export type BattleVoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
   }
 
   export type ChatMessageUpdateManyWithoutUserNestedInput = {
@@ -19918,63 +19862,21 @@ export namespace Prisma {
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
   }
 
-  export type BattleVoteUpdateManyWithoutUserNestedInput = {
-    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
-    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: BattleVoteCreateManyUserInputEnvelope
-    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+  export type PointTransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: PointTransactionUpsertWithWhereUniqueWithoutUserInput | PointTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PointTransactionCreateManyUserInputEnvelope
+    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    update?: PointTransactionUpdateWithWhereUniqueWithoutUserInput | PointTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PointTransactionUpdateManyWithWhereWithoutUserInput | PointTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
   }
 
-  export type RankingUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
-  }
-
-  export type UserItemUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
-    upsert?: UserItemUpsertWithWhereUniqueWithoutUserInput | UserItemUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: UserItemCreateManyUserInputEnvelope
-    set?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    disconnect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    delete?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
-    update?: UserItemUpdateWithWhereUniqueWithoutUserInput | UserItemUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: UserItemUpdateManyWithWhereWithoutUserInput | UserItemUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: UserItemScalarWhereInput | UserItemScalarWhereInput[]
-  }
-
-  export type RoomParticipantUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
-    upsert?: RoomParticipantUpsertWithWhereUniqueWithoutUserInput | RoomParticipantUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RoomParticipantCreateManyUserInputEnvelope
-    set?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    disconnect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    delete?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
-    update?: RoomParticipantUpdateWithWhereUniqueWithoutUserInput | RoomParticipantUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RoomParticipantUpdateManyWithWhereWithoutUserInput | RoomParticipantUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
-  }
-
-  export type QuestCompletionUncheckedUpdateManyWithoutUserNestedInput = {
+  export type QuestCompletionUpdateManyWithoutUserNestedInput = {
     create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
     upsert?: QuestCompletionUpsertWithWhereUniqueWithoutUserInput | QuestCompletionUpsertWithWhereUniqueWithoutUserInput[]
@@ -19988,18 +19890,60 @@ export namespace Prisma {
     deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
   }
 
-  export type PointTransactionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
-    upsert?: PointTransactionUpsertWithWhereUniqueWithoutUserInput | PointTransactionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PointTransactionCreateManyUserInputEnvelope
-    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
-    update?: PointTransactionUpdateWithWhereUniqueWithoutUserInput | PointTransactionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PointTransactionUpdateManyWithWhereWithoutUserInput | PointTransactionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
+  export type RankingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
+    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RankingCreateManyUserInputEnvelope
+    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
+  }
+
+  export type RoomParticipantUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
+    upsert?: RoomParticipantUpsertWithWhereUniqueWithoutUserInput | RoomParticipantUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomParticipantCreateManyUserInputEnvelope
+    set?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    disconnect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    delete?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    update?: RoomParticipantUpdateWithWhereUniqueWithoutUserInput | RoomParticipantUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomParticipantUpdateManyWithWhereWithoutUserInput | RoomParticipantUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
+  }
+
+  export type UserItemUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
+    upsert?: UserItemUpsertWithWhereUniqueWithoutUserInput | UserItemUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserItemCreateManyUserInputEnvelope
+    set?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    disconnect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    delete?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    update?: UserItemUpdateWithWhereUniqueWithoutUserInput | UserItemUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserItemUpdateManyWithWhereWithoutUserInput | UserItemUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserItemScalarWhereInput | UserItemScalarWhereInput[]
+  }
+
+  export type BattleVoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
+    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleVoteCreateManyUserInputEnvelope
+    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
   }
 
   export type ChatMessageUncheckedUpdateManyWithoutUserNestedInput = {
@@ -20016,18 +19960,74 @@ export namespace Prisma {
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
   }
 
-  export type BattleVoteUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput> | BattleVoteCreateWithoutUserInput[] | BattleVoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BattleVoteCreateOrConnectWithoutUserInput | BattleVoteCreateOrConnectWithoutUserInput[]
-    upsert?: BattleVoteUpsertWithWhereUniqueWithoutUserInput | BattleVoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: BattleVoteCreateManyUserInputEnvelope
-    set?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    disconnect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    delete?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
-    update?: BattleVoteUpdateWithWhereUniqueWithoutUserInput | BattleVoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: BattleVoteUpdateManyWithWhereWithoutUserInput | BattleVoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+  export type PointTransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput> | PointTransactionCreateWithoutUserInput[] | PointTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutUserInput | PointTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: PointTransactionUpsertWithWhereUniqueWithoutUserInput | PointTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PointTransactionCreateManyUserInputEnvelope
+    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    update?: PointTransactionUpdateWithWhereUniqueWithoutUserInput | PointTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PointTransactionUpdateManyWithWhereWithoutUserInput | PointTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
+  }
+
+  export type QuestCompletionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput> | QuestCompletionCreateWithoutUserInput[] | QuestCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuestCompletionCreateOrConnectWithoutUserInput | QuestCompletionCreateOrConnectWithoutUserInput[]
+    upsert?: QuestCompletionUpsertWithWhereUniqueWithoutUserInput | QuestCompletionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuestCompletionCreateManyUserInputEnvelope
+    set?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
+    disconnect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
+    delete?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
+    connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
+    update?: QuestCompletionUpdateWithWhereUniqueWithoutUserInput | QuestCompletionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuestCompletionUpdateManyWithWhereWithoutUserInput | QuestCompletionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
+  }
+
+  export type RankingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
+    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RankingCreateManyUserInputEnvelope
+    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
+  }
+
+  export type RoomParticipantUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput> | RoomParticipantCreateWithoutUserInput[] | RoomParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomParticipantCreateOrConnectWithoutUserInput | RoomParticipantCreateOrConnectWithoutUserInput[]
+    upsert?: RoomParticipantUpsertWithWhereUniqueWithoutUserInput | RoomParticipantUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomParticipantCreateManyUserInputEnvelope
+    set?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    disconnect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    delete?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    connect?: RoomParticipantWhereUniqueInput | RoomParticipantWhereUniqueInput[]
+    update?: RoomParticipantUpdateWithWhereUniqueWithoutUserInput | RoomParticipantUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomParticipantUpdateManyWithWhereWithoutUserInput | RoomParticipantUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
+  }
+
+  export type UserItemUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserItemCreateWithoutUserInput, UserItemUncheckedCreateWithoutUserInput> | UserItemCreateWithoutUserInput[] | UserItemUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserItemCreateOrConnectWithoutUserInput | UserItemCreateOrConnectWithoutUserInput[]
+    upsert?: UserItemUpsertWithWhereUniqueWithoutUserInput | UserItemUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserItemCreateManyUserInputEnvelope
+    set?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    disconnect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    delete?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    connect?: UserItemWhereUniqueInput | UserItemWhereUniqueInput[]
+    update?: UserItemUpdateWithWhereUniqueWithoutUserInput | UserItemUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserItemUpdateManyWithWhereWithoutUserInput | UserItemUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserItemScalarWhereInput | UserItemScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRankingInput = {
@@ -20094,28 +20094,20 @@ export namespace Prisma {
     deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutRoomParticipantsInput = {
-    create?: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRoomParticipantsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type BattleRoomCreateNestedOneWithoutRoomParticipantsInput = {
     create?: XOR<BattleRoomCreateWithoutRoomParticipantsInput, BattleRoomUncheckedCreateWithoutRoomParticipantsInput>
     connectOrCreate?: BattleRoomCreateOrConnectWithoutRoomParticipantsInput
     connect?: BattleRoomWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type UserUpdateOneRequiredWithoutRoomParticipantsNestedInput = {
+  export type UserCreateNestedOneWithoutRoomParticipantsInput = {
     create?: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
     connectOrCreate?: UserCreateOrConnectWithoutRoomParticipantsInput
-    upsert?: UserUpsertWithoutRoomParticipantsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomParticipantsInput, UserUpdateWithoutRoomParticipantsInput>, UserUncheckedUpdateWithoutRoomParticipantsInput>
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type BattleRoomUpdateOneRequiredWithoutRoomParticipantsNestedInput = {
@@ -20124,6 +20116,14 @@ export namespace Prisma {
     upsert?: BattleRoomUpsertWithoutRoomParticipantsInput
     connect?: BattleRoomWhereUniqueInput
     update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutRoomParticipantsInput, BattleRoomUpdateWithoutRoomParticipantsInput>, BattleRoomUncheckedUpdateWithoutRoomParticipantsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRoomParticipantsNestedInput = {
+    create?: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomParticipantsInput
+    upsert?: UserUpsertWithoutRoomParticipantsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomParticipantsInput, UserUpdateWithoutRoomParticipantsInput>, UserUncheckedUpdateWithoutRoomParticipantsInput>
   }
 
   export type BattleRoomCreateNestedOneWithoutAiJudgementsInput = {
@@ -20162,28 +20162,20 @@ export namespace Prisma {
     update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutAiSummariesInput, BattleRoomUpdateWithoutAiSummariesInput>, BattleRoomUncheckedUpdateWithoutAiSummariesInput>
   }
 
-  export type UserCreateNestedOneWithoutUserItemsInput = {
-    create?: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUserItemsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type ItemCreateNestedOneWithoutUserItemsInput = {
     create?: XOR<ItemCreateWithoutUserItemsInput, ItemUncheckedCreateWithoutUserItemsInput>
     connectOrCreate?: ItemCreateOrConnectWithoutUserItemsInput
     connect?: ItemWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
-  export type UserUpdateOneRequiredWithoutUserItemsNestedInput = {
+  export type UserCreateNestedOneWithoutUserItemsInput = {
     create?: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserItemsInput
-    upsert?: UserUpsertWithoutUserItemsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserItemsInput, UserUpdateWithoutUserItemsInput>, UserUncheckedUpdateWithoutUserItemsInput>
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type ItemUpdateOneRequiredWithoutUserItemsNestedInput = {
@@ -20192,6 +20184,14 @@ export namespace Prisma {
     upsert?: ItemUpsertWithoutUserItemsInput
     connect?: ItemWhereUniqueInput
     update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutUserItemsInput, ItemUpdateWithoutUserItemsInput>, ItemUncheckedUpdateWithoutUserItemsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutUserItemsNestedInput = {
+    create?: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserItemsInput
+    upsert?: UserUpsertWithoutUserItemsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserItemsInput, UserUpdateWithoutUserItemsInput>, UserUncheckedUpdateWithoutUserItemsInput>
   }
 
   export type UserItemCreateNestedManyWithoutItemInput = {
@@ -20544,24 +20544,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPointTransactionsInput, UserUpdateWithoutPointTransactionsInput>, UserUncheckedUpdateWithoutPointTransactionsInput>
   }
 
-  export type UserCreateNestedOneWithoutChatMessagesInput = {
-    create?: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutChatMessagesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type BattleRoomCreateNestedOneWithoutChatMessagesInput = {
     create?: XOR<BattleRoomCreateWithoutChatMessagesInput, BattleRoomUncheckedCreateWithoutChatMessagesInput>
     connectOrCreate?: BattleRoomCreateOrConnectWithoutChatMessagesInput
     connect?: BattleRoomWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutChatMessagesNestedInput = {
+  export type UserCreateNestedOneWithoutChatMessagesInput = {
     create?: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
     connectOrCreate?: UserCreateOrConnectWithoutChatMessagesInput
-    upsert?: UserUpsertWithoutChatMessagesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatMessagesInput, UserUpdateWithoutChatMessagesInput>, UserUncheckedUpdateWithoutChatMessagesInput>
   }
 
   export type BattleRoomUpdateOneRequiredWithoutChatMessagesNestedInput = {
@@ -20570,6 +20562,14 @@ export namespace Prisma {
     upsert?: BattleRoomUpsertWithoutChatMessagesInput
     connect?: BattleRoomWhereUniqueInput
     update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutChatMessagesInput, BattleRoomUpdateWithoutChatMessagesInput>, BattleRoomUncheckedUpdateWithoutChatMessagesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutChatMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChatMessagesInput
+    upsert?: UserUpsertWithoutChatMessagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatMessagesInput, UserUpdateWithoutChatMessagesInput>, UserUncheckedUpdateWithoutChatMessagesInput>
   }
 
   export type BattleRoomCreateNestedOneWithoutVotesInput = {
@@ -20859,6 +20859,106 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type BattleVoteCreateWithoutUserInput = {
+    id?: bigint | number
+    vote: string
+    createdAt?: Date | string
+    battleRoom: BattleRoomCreateNestedOneWithoutVotesInput
+  }
+
+  export type BattleVoteUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type BattleVoteCreateOrConnectWithoutUserInput = {
+    where: BattleVoteWhereUniqueInput
+    create: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type BattleVoteCreateManyUserInputEnvelope = {
+    data: BattleVoteCreateManyUserInput | BattleVoteCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChatMessageCreateWithoutUserInput = {
+    id?: bigint | number
+    side: string
+    message: string
+    createdAt?: Date | string
+    battleRoom: BattleRoomCreateNestedOneWithoutChatMessagesInput
+  }
+
+  export type ChatMessageUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    side: string
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ChatMessageCreateOrConnectWithoutUserInput = {
+    where: ChatMessageWhereUniqueInput
+    create: XOR<ChatMessageCreateWithoutUserInput, ChatMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChatMessageCreateManyUserInputEnvelope = {
+    data: ChatMessageCreateManyUserInput | ChatMessageCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PointTransactionCreateWithoutUserInput = {
+    id?: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PointTransactionUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PointTransactionCreateOrConnectWithoutUserInput = {
+    where: PointTransactionWhereUniqueInput
+    create: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type PointTransactionCreateManyUserInputEnvelope = {
+    data: PointTransactionCreateManyUserInput | PointTransactionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuestCompletionCreateWithoutUserInput = {
+    id?: bigint | number
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    rewardClaimed?: boolean
+    quest: QuestCreateNestedOneWithoutQuestCompletionsInput
+  }
+
+  export type QuestCompletionUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    questId: bigint | number
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    rewardClaimed?: boolean
+  }
+
+  export type QuestCompletionCreateOrConnectWithoutUserInput = {
+    where: QuestCompletionWhereUniqueInput
+    create: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuestCompletionCreateManyUserInputEnvelope = {
+    data: QuestCompletionCreateManyUserInput | QuestCompletionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RankingCreateWithoutUserInput = {
     id?: bigint | number
     rank?: number
@@ -20889,6 +20989,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RoomParticipantCreateWithoutUserInput = {
+    id?: bigint | number
+    role: string
+    joinedAt: Date | string
+    endAt?: Date | string | null
+    side?: string | null
+    battleRoom: BattleRoomCreateNestedOneWithoutRoomParticipantsInput
+  }
+
+  export type RoomParticipantUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    role: string
+    joinedAt: Date | string
+    endAt?: Date | string | null
+    side?: string | null
+  }
+
+  export type RoomParticipantCreateOrConnectWithoutUserInput = {
+    where: RoomParticipantWhereUniqueInput
+    create: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomParticipantCreateManyUserInputEnvelope = {
+    data: RoomParticipantCreateManyUserInput | RoomParticipantCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserItemCreateWithoutUserInput = {
     id?: bigint | number
     acquiredAt?: Date | string
@@ -20913,132 +21041,114 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type RoomParticipantCreateWithoutUserInput = {
-    id?: bigint | number
-    role: string
-    side?: string | null
-    joinedAt: Date | string
-    endAt?: Date | string | null
-    battleRoom: BattleRoomCreateNestedOneWithoutRoomParticipantsInput
-  }
-
-  export type RoomParticipantUncheckedCreateWithoutUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    role: string
-    side?: string | null
-    joinedAt: Date | string
-    endAt?: Date | string | null
-  }
-
-  export type RoomParticipantCreateOrConnectWithoutUserInput = {
-    where: RoomParticipantWhereUniqueInput
-    create: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput>
-  }
-
-  export type RoomParticipantCreateManyUserInputEnvelope = {
-    data: RoomParticipantCreateManyUserInput | RoomParticipantCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type QuestCompletionCreateWithoutUserInput = {
-    id?: bigint | number
-    isCompleted?: boolean
-    completedAt?: Date | string | null
-    rewardClaimed?: boolean
-    quest: QuestCreateNestedOneWithoutQuestCompletionsInput
-  }
-
-  export type QuestCompletionUncheckedCreateWithoutUserInput = {
-    id?: bigint | number
-    questId: bigint | number
-    isCompleted?: boolean
-    completedAt?: Date | string | null
-    rewardClaimed?: boolean
-  }
-
-  export type QuestCompletionCreateOrConnectWithoutUserInput = {
-    where: QuestCompletionWhereUniqueInput
-    create: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput>
-  }
-
-  export type QuestCompletionCreateManyUserInputEnvelope = {
-    data: QuestCompletionCreateManyUserInput | QuestCompletionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PointTransactionCreateWithoutUserInput = {
-    id?: bigint | number
-    change: number
-    reason: string
-    createdAt?: Date | string
-  }
-
-  export type PointTransactionUncheckedCreateWithoutUserInput = {
-    id?: bigint | number
-    change: number
-    reason: string
-    createdAt?: Date | string
-  }
-
-  export type PointTransactionCreateOrConnectWithoutUserInput = {
-    where: PointTransactionWhereUniqueInput
-    create: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput>
-  }
-
-  export type PointTransactionCreateManyUserInputEnvelope = {
-    data: PointTransactionCreateManyUserInput | PointTransactionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ChatMessageCreateWithoutUserInput = {
-    id?: bigint | number
-    side: string
-    message: string
-    createdAt?: Date | string
-    battleRoom: BattleRoomCreateNestedOneWithoutChatMessagesInput
-  }
-
-  export type ChatMessageUncheckedCreateWithoutUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    side: string
-    message: string
-    createdAt?: Date | string
-  }
-
-  export type ChatMessageCreateOrConnectWithoutUserInput = {
-    where: ChatMessageWhereUniqueInput
-    create: XOR<ChatMessageCreateWithoutUserInput, ChatMessageUncheckedCreateWithoutUserInput>
-  }
-
-  export type ChatMessageCreateManyUserInputEnvelope = {
-    data: ChatMessageCreateManyUserInput | ChatMessageCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type BattleVoteCreateWithoutUserInput = {
-    id?: bigint | number
-    vote: string
-    createdAt?: Date | string
-    battleRoom: BattleRoomCreateNestedOneWithoutVotesInput
-  }
-
-  export type BattleVoteUncheckedCreateWithoutUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    vote: string
-    createdAt?: Date | string
-  }
-
-  export type BattleVoteCreateOrConnectWithoutUserInput = {
+  export type BattleVoteUpsertWithWhereUniqueWithoutUserInput = {
     where: BattleVoteWhereUniqueInput
+    update: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
     create: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput>
   }
 
-  export type BattleVoteCreateManyUserInputEnvelope = {
-    data: BattleVoteCreateManyUserInput | BattleVoteCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type BattleVoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: BattleVoteWhereUniqueInput
+    data: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BattleVoteUpdateManyWithWhereWithoutUserInput = {
+    where: BattleVoteScalarWhereInput
+    data: XOR<BattleVoteUpdateManyMutationInput, BattleVoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BattleVoteScalarWhereInput = {
+    AND?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+    OR?: BattleVoteScalarWhereInput[]
+    NOT?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+    id?: BigIntFilter<"BattleVote"> | bigint | number
+    roomId?: BigIntFilter<"BattleVote"> | bigint | number
+    userId?: BigIntFilter<"BattleVote"> | bigint | number
+    vote?: StringFilter<"BattleVote"> | string
+    createdAt?: DateTimeFilter<"BattleVote"> | Date | string
+  }
+
+  export type ChatMessageUpsertWithWhereUniqueWithoutUserInput = {
+    where: ChatMessageWhereUniqueInput
+    update: XOR<ChatMessageUpdateWithoutUserInput, ChatMessageUncheckedUpdateWithoutUserInput>
+    create: XOR<ChatMessageCreateWithoutUserInput, ChatMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChatMessageUpdateWithWhereUniqueWithoutUserInput = {
+    where: ChatMessageWhereUniqueInput
+    data: XOR<ChatMessageUpdateWithoutUserInput, ChatMessageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ChatMessageUpdateManyWithWhereWithoutUserInput = {
+    where: ChatMessageScalarWhereInput
+    data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ChatMessageScalarWhereInput = {
+    AND?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+    OR?: ChatMessageScalarWhereInput[]
+    NOT?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+    id?: BigIntFilter<"ChatMessage"> | bigint | number
+    roomId?: BigIntFilter<"ChatMessage"> | bigint | number
+    userId?: BigIntFilter<"ChatMessage"> | bigint | number
+    side?: StringFilter<"ChatMessage"> | string
+    message?: StringFilter<"ChatMessage"> | string
+    createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
+  }
+
+  export type PointTransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: PointTransactionWhereUniqueInput
+    update: XOR<PointTransactionUpdateWithoutUserInput, PointTransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type PointTransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: PointTransactionWhereUniqueInput
+    data: XOR<PointTransactionUpdateWithoutUserInput, PointTransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PointTransactionUpdateManyWithWhereWithoutUserInput = {
+    where: PointTransactionScalarWhereInput
+    data: XOR<PointTransactionUpdateManyMutationInput, PointTransactionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PointTransactionScalarWhereInput = {
+    AND?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
+    OR?: PointTransactionScalarWhereInput[]
+    NOT?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
+    id?: BigIntFilter<"PointTransaction"> | bigint | number
+    userId?: BigIntFilter<"PointTransaction"> | bigint | number
+    change?: IntFilter<"PointTransaction"> | number
+    reason?: StringFilter<"PointTransaction"> | string
+    createdAt?: DateTimeFilter<"PointTransaction"> | Date | string
+  }
+
+  export type QuestCompletionUpsertWithWhereUniqueWithoutUserInput = {
+    where: QuestCompletionWhereUniqueInput
+    update: XOR<QuestCompletionUpdateWithoutUserInput, QuestCompletionUncheckedUpdateWithoutUserInput>
+    create: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuestCompletionUpdateWithWhereUniqueWithoutUserInput = {
+    where: QuestCompletionWhereUniqueInput
+    data: XOR<QuestCompletionUpdateWithoutUserInput, QuestCompletionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type QuestCompletionUpdateManyWithWhereWithoutUserInput = {
+    where: QuestCompletionScalarWhereInput
+    data: XOR<QuestCompletionUpdateManyMutationInput, QuestCompletionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type QuestCompletionScalarWhereInput = {
+    AND?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
+    OR?: QuestCompletionScalarWhereInput[]
+    NOT?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
+    id?: BigIntFilter<"QuestCompletion"> | bigint | number
+    userId?: BigIntFilter<"QuestCompletion"> | bigint | number
+    questId?: BigIntFilter<"QuestCompletion"> | bigint | number
+    isCompleted?: BoolFilter<"QuestCompletion"> | boolean
+    completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
+    rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
   }
 
   export type RankingUpsertWithWhereUniqueWithoutUserInput = {
@@ -21071,6 +21181,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ranking"> | Date | string
   }
 
+  export type RoomParticipantUpsertWithWhereUniqueWithoutUserInput = {
+    where: RoomParticipantWhereUniqueInput
+    update: XOR<RoomParticipantUpdateWithoutUserInput, RoomParticipantUncheckedUpdateWithoutUserInput>
+    create: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomParticipantUpdateWithWhereUniqueWithoutUserInput = {
+    where: RoomParticipantWhereUniqueInput
+    data: XOR<RoomParticipantUpdateWithoutUserInput, RoomParticipantUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RoomParticipantUpdateManyWithWhereWithoutUserInput = {
+    where: RoomParticipantScalarWhereInput
+    data: XOR<RoomParticipantUpdateManyMutationInput, RoomParticipantUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RoomParticipantScalarWhereInput = {
+    AND?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
+    OR?: RoomParticipantScalarWhereInput[]
+    NOT?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
+    id?: BigIntFilter<"RoomParticipant"> | bigint | number
+    userId?: BigIntFilter<"RoomParticipant"> | bigint | number
+    roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
+    role?: StringFilter<"RoomParticipant"> | string
+    joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
+    endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
+    side?: StringNullableFilter<"RoomParticipant"> | string | null
+  }
+
   export type UserItemUpsertWithWhereUniqueWithoutUserInput = {
     where: UserItemWhereUniqueInput
     update: XOR<UserItemUpdateWithoutUserInput, UserItemUncheckedUpdateWithoutUserInput>
@@ -21098,145 +21237,6 @@ export namespace Prisma {
     isEquipped?: BoolFilter<"UserItem"> | boolean
   }
 
-  export type RoomParticipantUpsertWithWhereUniqueWithoutUserInput = {
-    where: RoomParticipantWhereUniqueInput
-    update: XOR<RoomParticipantUpdateWithoutUserInput, RoomParticipantUncheckedUpdateWithoutUserInput>
-    create: XOR<RoomParticipantCreateWithoutUserInput, RoomParticipantUncheckedCreateWithoutUserInput>
-  }
-
-  export type RoomParticipantUpdateWithWhereUniqueWithoutUserInput = {
-    where: RoomParticipantWhereUniqueInput
-    data: XOR<RoomParticipantUpdateWithoutUserInput, RoomParticipantUncheckedUpdateWithoutUserInput>
-  }
-
-  export type RoomParticipantUpdateManyWithWhereWithoutUserInput = {
-    where: RoomParticipantScalarWhereInput
-    data: XOR<RoomParticipantUpdateManyMutationInput, RoomParticipantUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type RoomParticipantScalarWhereInput = {
-    AND?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
-    OR?: RoomParticipantScalarWhereInput[]
-    NOT?: RoomParticipantScalarWhereInput | RoomParticipantScalarWhereInput[]
-    id?: BigIntFilter<"RoomParticipant"> | bigint | number
-    userId?: BigIntFilter<"RoomParticipant"> | bigint | number
-    roomId?: BigIntFilter<"RoomParticipant"> | bigint | number
-    role?: StringFilter<"RoomParticipant"> | string
-    side?: StringNullableFilter<"RoomParticipant"> | string | null
-    joinedAt?: DateTimeFilter<"RoomParticipant"> | Date | string
-    endAt?: DateTimeNullableFilter<"RoomParticipant"> | Date | string | null
-  }
-
-  export type QuestCompletionUpsertWithWhereUniqueWithoutUserInput = {
-    where: QuestCompletionWhereUniqueInput
-    update: XOR<QuestCompletionUpdateWithoutUserInput, QuestCompletionUncheckedUpdateWithoutUserInput>
-    create: XOR<QuestCompletionCreateWithoutUserInput, QuestCompletionUncheckedCreateWithoutUserInput>
-  }
-
-  export type QuestCompletionUpdateWithWhereUniqueWithoutUserInput = {
-    where: QuestCompletionWhereUniqueInput
-    data: XOR<QuestCompletionUpdateWithoutUserInput, QuestCompletionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type QuestCompletionUpdateManyWithWhereWithoutUserInput = {
-    where: QuestCompletionScalarWhereInput
-    data: XOR<QuestCompletionUpdateManyMutationInput, QuestCompletionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type QuestCompletionScalarWhereInput = {
-    AND?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
-    OR?: QuestCompletionScalarWhereInput[]
-    NOT?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
-    id?: BigIntFilter<"QuestCompletion"> | bigint | number
-    userId?: BigIntFilter<"QuestCompletion"> | bigint | number
-    questId?: BigIntFilter<"QuestCompletion"> | bigint | number
-    isCompleted?: BoolFilter<"QuestCompletion"> | boolean
-    completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
-    rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
-  }
-
-  export type PointTransactionUpsertWithWhereUniqueWithoutUserInput = {
-    where: PointTransactionWhereUniqueInput
-    update: XOR<PointTransactionUpdateWithoutUserInput, PointTransactionUncheckedUpdateWithoutUserInput>
-    create: XOR<PointTransactionCreateWithoutUserInput, PointTransactionUncheckedCreateWithoutUserInput>
-  }
-
-  export type PointTransactionUpdateWithWhereUniqueWithoutUserInput = {
-    where: PointTransactionWhereUniqueInput
-    data: XOR<PointTransactionUpdateWithoutUserInput, PointTransactionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type PointTransactionUpdateManyWithWhereWithoutUserInput = {
-    where: PointTransactionScalarWhereInput
-    data: XOR<PointTransactionUpdateManyMutationInput, PointTransactionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type PointTransactionScalarWhereInput = {
-    AND?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
-    OR?: PointTransactionScalarWhereInput[]
-    NOT?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
-    id?: BigIntFilter<"PointTransaction"> | bigint | number
-    userId?: BigIntFilter<"PointTransaction"> | bigint | number
-    change?: IntFilter<"PointTransaction"> | number
-    reason?: StringFilter<"PointTransaction"> | string
-    createdAt?: DateTimeFilter<"PointTransaction"> | Date | string
-  }
-
-  export type ChatMessageUpsertWithWhereUniqueWithoutUserInput = {
-    where: ChatMessageWhereUniqueInput
-    update: XOR<ChatMessageUpdateWithoutUserInput, ChatMessageUncheckedUpdateWithoutUserInput>
-    create: XOR<ChatMessageCreateWithoutUserInput, ChatMessageUncheckedCreateWithoutUserInput>
-  }
-
-  export type ChatMessageUpdateWithWhereUniqueWithoutUserInput = {
-    where: ChatMessageWhereUniqueInput
-    data: XOR<ChatMessageUpdateWithoutUserInput, ChatMessageUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ChatMessageUpdateManyWithWhereWithoutUserInput = {
-    where: ChatMessageScalarWhereInput
-    data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type ChatMessageScalarWhereInput = {
-    AND?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
-    OR?: ChatMessageScalarWhereInput[]
-    NOT?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
-    id?: BigIntFilter<"ChatMessage"> | bigint | number
-    roomId?: BigIntFilter<"ChatMessage"> | bigint | number
-    userId?: BigIntFilter<"ChatMessage"> | bigint | number
-    side?: StringFilter<"ChatMessage"> | string
-    message?: StringFilter<"ChatMessage"> | string
-    createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-  }
-
-  export type BattleVoteUpsertWithWhereUniqueWithoutUserInput = {
-    where: BattleVoteWhereUniqueInput
-    update: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
-    create: XOR<BattleVoteCreateWithoutUserInput, BattleVoteUncheckedCreateWithoutUserInput>
-  }
-
-  export type BattleVoteUpdateWithWhereUniqueWithoutUserInput = {
-    where: BattleVoteWhereUniqueInput
-    data: XOR<BattleVoteUpdateWithoutUserInput, BattleVoteUncheckedUpdateWithoutUserInput>
-  }
-
-  export type BattleVoteUpdateManyWithWhereWithoutUserInput = {
-    where: BattleVoteScalarWhereInput
-    data: XOR<BattleVoteUpdateManyMutationInput, BattleVoteUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type BattleVoteScalarWhereInput = {
-    AND?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
-    OR?: BattleVoteScalarWhereInput[]
-    NOT?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
-    id?: BigIntFilter<"BattleVote"> | bigint | number
-    roomId?: BigIntFilter<"BattleVote"> | bigint | number
-    userId?: BigIntFilter<"BattleVote"> | bigint | number
-    vote?: StringFilter<"BattleVote"> | string
-    createdAt?: DateTimeFilter<"BattleVote"> | Date | string
-  }
-
   export type UserCreateWithoutRankingInput = {
     id?: bigint | number
     nickname: string
@@ -21250,12 +21250,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRankingInput = {
@@ -21271,12 +21271,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRankingInput = {
@@ -21308,12 +21308,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRankingInput = {
@@ -21329,12 +21329,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuestCompletionCreateWithoutQuestInput = {
@@ -21379,53 +21379,6 @@ export namespace Prisma {
     data: XOR<QuestCompletionUpdateManyMutationInput, QuestCompletionUncheckedUpdateManyWithoutQuestInput>
   }
 
-  export type UserCreateWithoutRoomParticipantsInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutRoomParticipantsInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutRoomParticipantsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
-  }
-
   export type BattleRoomCreateWithoutRoomParticipantsInput = {
     id?: bigint | number
     admin: bigint | number
@@ -21467,57 +21420,51 @@ export namespace Prisma {
     create: XOR<BattleRoomCreateWithoutRoomParticipantsInput, BattleRoomUncheckedCreateWithoutRoomParticipantsInput>
   }
 
-  export type UserUpsertWithoutRoomParticipantsInput = {
-    update: XOR<UserUpdateWithoutRoomParticipantsInput, UserUncheckedUpdateWithoutRoomParticipantsInput>
+  export type UserCreateWithoutRoomParticipantsInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRoomParticipantsInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRoomParticipantsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutRoomParticipantsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutRoomParticipantsInput, UserUncheckedUpdateWithoutRoomParticipantsInput>
-  }
-
-  export type UserUpdateWithoutRoomParticipantsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutRoomParticipantsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomUpsertWithoutRoomParticipantsInput = {
@@ -21565,6 +21512,59 @@ export namespace Prisma {
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
     votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type UserUpsertWithoutRoomParticipantsInput = {
+    update: XOR<UserUpdateWithoutRoomParticipantsInput, UserUncheckedUpdateWithoutRoomParticipantsInput>
+    create: XOR<UserCreateWithoutRoomParticipantsInput, UserUncheckedCreateWithoutRoomParticipantsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoomParticipantsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoomParticipantsInput, UserUncheckedUpdateWithoutRoomParticipantsInput>
+  }
+
+  export type UserUpdateWithoutRoomParticipantsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoomParticipantsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomCreateWithoutAiJudgementsInput = {
@@ -21743,53 +21743,6 @@ export namespace Prisma {
     votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
   }
 
-  export type UserCreateWithoutUserItemsInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutUserItemsInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutUserItemsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
-  }
-
   export type ItemCreateWithoutUserItemsInput = {
     id?: bigint | number
     name: string
@@ -21811,57 +21764,51 @@ export namespace Prisma {
     create: XOR<ItemCreateWithoutUserItemsInput, ItemUncheckedCreateWithoutUserItemsInput>
   }
 
-  export type UserUpsertWithoutUserItemsInput = {
-    update: XOR<UserUpdateWithoutUserItemsInput, UserUncheckedUpdateWithoutUserItemsInput>
+  export type UserCreateWithoutUserItemsInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserItemsInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserItemsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutUserItemsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutUserItemsInput, UserUncheckedUpdateWithoutUserItemsInput>
-  }
-
-  export type UserUpdateWithoutUserItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutUserItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ItemUpsertWithoutUserItemsInput = {
@@ -21889,6 +21836,59 @@ export namespace Prisma {
     context?: NullableStringFieldUpdateOperationsInput | string | null
     cost?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutUserItemsInput = {
+    update: XOR<UserUpdateWithoutUserItemsInput, UserUncheckedUpdateWithoutUserItemsInput>
+    create: XOR<UserCreateWithoutUserItemsInput, UserUncheckedCreateWithoutUserItemsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserItemsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserItemsInput, UserUncheckedUpdateWithoutUserItemsInput>
+  }
+
+  export type UserUpdateWithoutUserItemsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserItemsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserItemCreateWithoutItemInput = {
@@ -21933,20 +21933,20 @@ export namespace Prisma {
 
   export type BattleTitleCreateWithoutBattleRoomInput = {
     id?: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
   }
 
   export type BattleTitleUncheckedCreateWithoutBattleRoomInput = {
     id?: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
   }
 
   export type BattleTitleCreateOrConnectWithoutBattleRoomInput = {
@@ -21962,9 +21962,9 @@ export namespace Prisma {
   export type RoomParticipantCreateWithoutBattleRoomInput = {
     id?: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
+    side?: string | null
     user: UserCreateNestedOneWithoutRoomParticipantsInput
   }
 
@@ -21972,9 +21972,9 @@ export namespace Prisma {
     id?: bigint | number
     userId: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
+    side?: string | null
   }
 
   export type RoomParticipantCreateOrConnectWithoutBattleRoomInput = {
@@ -22105,11 +22105,11 @@ export namespace Prisma {
     NOT?: BattleTitleScalarWhereInput | BattleTitleScalarWhereInput[]
     id?: BigIntFilter<"BattleTitle"> | bigint | number
     roomId?: BigIntFilter<"BattleTitle"> | bigint | number
-    side?: StringFilter<"BattleTitle"> | string
     title?: StringFilter<"BattleTitle"> | string
     suggestedBy?: StringFilter<"BattleTitle"> | string
     createdAt?: DateTimeFilter<"BattleTitle"> | Date | string
     updatedAt?: DateTimeFilter<"BattleTitle"> | Date | string
+    side?: StringFilter<"BattleTitle"> | string
   }
 
   export type RoomParticipantUpsertWithWhereUniqueWithoutBattleRoomInput = {
@@ -22314,12 +22314,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuestCompletionsInput = {
@@ -22335,12 +22335,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuestCompletionsInput = {
@@ -22395,12 +22395,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuestCompletionsInput = {
@@ -22416,12 +22416,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuestUpsertWithoutQuestCompletionsInput = {
@@ -22466,12 +22466,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPointTransactionsInput = {
@@ -22487,12 +22487,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPointTransactionsInput = {
@@ -22524,12 +22524,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPointTransactionsInput = {
@@ -22545,59 +22545,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutChatMessagesInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutChatMessagesInput = {
-    id?: bigint | number
-    nickname: string
-    name: string
-    email: string
-    password: string
-    profileImageUrl?: string | null
-    gender: string
-    birth: Date | string
-    phoneNumber: string
-    point?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutChatMessagesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomCreateWithoutChatMessagesInput = {
@@ -22641,57 +22594,51 @@ export namespace Prisma {
     create: XOR<BattleRoomCreateWithoutChatMessagesInput, BattleRoomUncheckedCreateWithoutChatMessagesInput>
   }
 
-  export type UserUpsertWithoutChatMessagesInput = {
-    update: XOR<UserUpdateWithoutChatMessagesInput, UserUncheckedUpdateWithoutChatMessagesInput>
+  export type UserCreateWithoutChatMessagesInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChatMessagesInput = {
+    id?: bigint | number
+    nickname: string
+    name: string
+    email: string
+    password: string
+    profileImageUrl?: string | null
+    gender: string
+    birth: Date | string
+    phoneNumber: string
+    point?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChatMessagesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutChatMessagesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutChatMessagesInput, UserUncheckedUpdateWithoutChatMessagesInput>
-  }
-
-  export type UserUpdateWithoutChatMessagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutChatMessagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    nickname?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: StringFieldUpdateOperationsInput | string
-    birth?: DateTimeFieldUpdateOperationsInput | Date | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    point?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomUpsertWithoutChatMessagesInput = {
@@ -22739,6 +22686,59 @@ export namespace Prisma {
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
     votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type UserUpsertWithoutChatMessagesInput = {
+    update: XOR<UserUpdateWithoutChatMessagesInput, UserUncheckedUpdateWithoutChatMessagesInput>
+    create: XOR<UserCreateWithoutChatMessagesInput, UserUncheckedCreateWithoutChatMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChatMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChatMessagesInput, UserUncheckedUpdateWithoutChatMessagesInput>
+  }
+
+  export type UserUpdateWithoutChatMessagesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChatMessagesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    nickname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    profileImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
+    birth?: DateTimeFieldUpdateOperationsInput | Date | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    point?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleRoomCreateWithoutVotesInput = {
@@ -22795,12 +22795,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingCreateNestedManyWithoutUserInput
-    userItems?: UserItemCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
+    userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleVotesInput = {
@@ -22816,12 +22816,12 @@ export namespace Prisma {
     point?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
-    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
-    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
-    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
+    questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
+    userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleVotesInput = {
@@ -22900,12 +22900,12 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleVotesInput = {
@@ -22921,12 +22921,42 @@ export namespace Prisma {
     point?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
-    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
-    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
-    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+    questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BattleVoteCreateManyUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    vote: string
+    createdAt?: Date | string
+  }
+
+  export type ChatMessageCreateManyUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    side: string
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type PointTransactionCreateManyUserInput = {
+    id?: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type QuestCompletionCreateManyUserInput = {
+    id?: bigint | number
+    questId: bigint | number
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type RankingCreateManyUserInput = {
@@ -22939,6 +22969,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type RoomParticipantCreateManyUserInput = {
+    id?: bigint | number
+    roomId: bigint | number
+    role: string
+    joinedAt: Date | string
+    endAt?: Date | string | null
+    side?: string | null
+  }
+
   export type UserItemCreateManyUserInput = {
     id?: bigint | number
     itemId: bigint | number
@@ -22946,43 +22985,94 @@ export namespace Prisma {
     isEquipped?: boolean
   }
 
-  export type RoomParticipantCreateManyUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    role: string
-    side?: string | null
-    joinedAt: Date | string
-    endAt?: Date | string | null
+  export type BattleVoteUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleRoom?: BattleRoomUpdateOneRequiredWithoutVotesNestedInput
   }
 
-  export type QuestCompletionCreateManyUserInput = {
-    id?: bigint | number
-    questId: bigint | number
-    isCompleted?: boolean
-    completedAt?: Date | string | null
-    rewardClaimed?: boolean
+  export type BattleVoteUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PointTransactionCreateManyUserInput = {
-    id?: bigint | number
-    change: number
-    reason: string
-    createdAt?: Date | string
+  export type BattleVoteUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    vote?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ChatMessageCreateManyUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    side: string
-    message: string
-    createdAt?: Date | string
+  export type ChatMessageUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleRoom?: BattleRoomUpdateOneRequiredWithoutChatMessagesNestedInput
   }
 
-  export type BattleVoteCreateManyUserInput = {
-    id?: bigint | number
-    roomId: bigint | number
-    vote: string
-    createdAt?: Date | string
+  export type ChatMessageUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    side?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PointTransactionUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PointTransactionUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PointTransactionUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
+  }
+
+  export type QuestCompletionUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    questId?: BigIntFieldUpdateOperationsInput | bigint | number
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type QuestCompletionUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    questId?: BigIntFieldUpdateOperationsInput | bigint | number
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RankingUpdateWithoutUserInput = {
@@ -23015,6 +23105,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RoomParticipantUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    role?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
+    battleRoom?: BattleRoomUpdateOneRequiredWithoutRoomParticipantsNestedInput
+  }
+
+  export type RoomParticipantUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    role?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RoomParticipantUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
+    role?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UserItemUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     acquiredAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23034,123 +23151,6 @@ export namespace Prisma {
     itemId?: BigIntFieldUpdateOperationsInput | bigint | number
     acquiredAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isEquipped?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type RoomParticipantUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    battleRoom?: BattleRoomUpdateOneRequiredWithoutRoomParticipantsNestedInput
-  }
-
-  export type RoomParticipantUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type RoomParticipantUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type QuestCompletionUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
-    quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
-  }
-
-  export type QuestCompletionUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    questId?: BigIntFieldUpdateOperationsInput | bigint | number
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type QuestCompletionUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    questId?: BigIntFieldUpdateOperationsInput | bigint | number
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type PointTransactionUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    change?: IntFieldUpdateOperationsInput | number
-    reason?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PointTransactionUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    change?: IntFieldUpdateOperationsInput | number
-    reason?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PointTransactionUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    change?: IntFieldUpdateOperationsInput | number
-    reason?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ChatMessageUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    battleRoom?: BattleRoomUpdateOneRequiredWithoutChatMessagesNestedInput
-  }
-
-  export type ChatMessageUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ChatMessageUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BattleVoteUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    vote?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    battleRoom?: BattleRoomUpdateOneRequiredWithoutVotesNestedInput
-  }
-
-  export type BattleVoteUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    vote?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BattleVoteUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
-    vote?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestCompletionCreateManyQuestInput = {
@@ -23215,20 +23215,20 @@ export namespace Prisma {
 
   export type BattleTitleCreateManyBattleRoomInput = {
     id?: bigint | number
-    side: string
     title: string
     suggestedBy?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    side: string
   }
 
   export type RoomParticipantCreateManyBattleRoomInput = {
     id?: bigint | number
     userId: bigint | number
     role: string
-    side?: string | null
     joinedAt: Date | string
     endAt?: Date | string | null
+    side?: string | null
   }
 
   export type AiSummaryCreateManyBattleRoomInput = {
@@ -23261,37 +23261,37 @@ export namespace Prisma {
 
   export type BattleTitleUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type BattleTitleUncheckedUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type BattleTitleUncheckedUpdateManyWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    side?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     suggestedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    side?: StringFieldUpdateOperationsInput | string
   }
 
   export type RoomParticipantUpdateWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutRoomParticipantsNestedInput
   }
 
@@ -23299,18 +23299,18 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RoomParticipantUncheckedUpdateManyWithoutBattleRoomInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     role?: StringFieldUpdateOperationsInput | string
-    side?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    side?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AiSummaryUpdateWithoutBattleRoomInput = {
