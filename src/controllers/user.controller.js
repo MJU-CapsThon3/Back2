@@ -8,6 +8,12 @@ import { userSignUp,
     loginService,
     userInfoService,
     topRankingService,
+    buyItem,
+    addItem,
+    getUserItems,
+    getAllShopItems,
+    updateItem,
+    //deleteItem,
     getDailyQuestsService,
     completeQuestIfEligible,
     claimQuestRewardService,
@@ -767,3 +773,420 @@ export const handleGetDailyQuests = async (req, res) => {
       });
     }
   };
+// 아이템 구매
+export const handleBuyItem = async (req, res) => {
+  /*
+  #swagger.summary = '아이템 구매 API'
+  #swagger.tags = ['Shop']
+  #swagger.security = [{"BearerAuth": []}]
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            itemId: { type: "number", example: 1 }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[200] = {
+    description: "아이템 구매 성공",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: true },
+            code: { type: "string", example: "200" },
+            message: { type: "string", example: "success!" },
+            result: {
+              type: "object",
+              properties: {
+                message: { type: "string", example: "아이템을 성공적으로 구매했습니다." },
+                remainPoint: { type: "number", example: 950 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "포인트 부족",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "SHOP4001" },
+            message: { type: "string", example: "포인트가 부족합니다." },
+            result: { type: "object", nullable: true }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[404] = {
+    description: "아이템이 존재하지 않음",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "SHOP4041" },
+            message: { type: "string", example: "존재하지 않는 아이템입니다." },
+            result: { type: "object", nullable: true }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[500] = {
+    description: "서버 오류",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "COMMON000" },
+            message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+            result: { type: "object", nullable: true }
+          }
+        }
+      }
+    }
+  }
+  */
+  try {
+    const userId = req.userId;
+    const { itemId } = req.body;
+
+    const result = await buyItem(userId, itemId);
+    res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error(err);
+
+    if (err.message === "존재하지 않는 아이템입니다.") {
+      res.send(response(status.ITEM_NOT_FOUND, null));
+    } else if (err.message === "포인트가 부족합니다.") {
+      res.send(response(status.INSUFFICIENT_POINTS, null));
+    } else {
+      res.send(response(status.INTERNAL_SERVER_ERROR, null));
+    }
+  }
+};
+
+// 새로운 아이템 추가
+export const handleAddItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 추가 API'
+    #swagger.tags = ['Shop']
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["name", "cost"],
+            properties: {
+              name: { type: "string", example: "멋진 아이템" },
+              context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+              cost: { type: "number", example: 300 }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: "아이템 추가 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "아이템이 성공적으로 추가되었습니다." },
+              result: {
+                type: "object",
+                properties: {
+                  id: { type: "number", example: 1 },
+                  name: { type: "string", example: "멋진 아이템" },
+                  context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                  cost: { type: "number", example: 300 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: "아이템 추가 실패 - 필수값 누락",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SHOP4002" },
+              message: { type: "string", example: "아이템 이름과 가격은 필수입니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "COMMON000" },
+              message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+  */
+
+  try {
+    const { name, context, cost } = req.body;
+
+    if (!name || !cost) {
+      return res.send(response(status.ITEM_PARAM_REQUIRED, null));
+    }
+
+    const newItem = await addItem({ name, context, cost });
+    res.send(response(status.SUCCESS, newItem));
+  } catch (err) {
+    console.error(err);
+    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 유저가 소유한 아이템 목록 조회
+export const handleGetUserItems = async (req, res) => {
+  /*
+    #swagger.summary = '유저 소유 아이템 목록 조회 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
+    #swagger.responses[200] = {
+      description: "유저가 가진 아이템 목록 조회 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "string", example: "200" },
+              message: { type: "string", example: "success!" },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "number", example: 1 },
+                    name: { type: "string", example: "멋진 아이템" },
+                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                    cost: { type: "number", example: 300 },
+                    acquiredAt: { type: "string", example: "2025-05-30T10:15:30.000Z" },
+                    isEquipped: { type: "boolean", example: false }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "COMMON000" },
+              message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+  */
+  try {
+    const userId = req.userId;
+    const items = await getUserItems(userId);
+    res.send(response(status.SUCCESS, items));
+  } catch (err) {
+    console.error(err);
+    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 상점 아이템 전체 조회
+export const handleGetShopItems = async (req, res) => {
+  /*
+    #swagger.summary = '상점 아이템 전체 조회 API'
+    #swagger.tags = ['Shop']
+    #swagger.responses[200] = {
+      description: "아이템 목록 조회 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "string", example: "200" },
+              message: { type: "string", example: "success!" },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "number", example: 1 },
+                    name: { type: "string", example: "멋진 아이템" },
+                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                    cost: { type: "number", example: 300 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "COMMON000" },
+              message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+  */
+  try {
+    const items = await getAllShopItems();
+    res.send(response(status.SUCCESS, items));
+  } catch (err) {
+    console.error(err);
+    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 아이템 정보 수정
+export const handleUpdateItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 수정 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["itemId"],
+            properties: {
+              itemId: { type: "number", example: 1 },
+              name: { type: "string", example: "수정된 이름" },
+              context: { type: "string", example: "수정된 설명" },
+              cost: { type: "number", example: 200 }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: "아이템 수정 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "string", example: "200" },
+              message: { type: "string", example: "success!" },
+              result: {
+                type: "object",
+                properties: {
+                  id: { type: "number", example: 1 },
+                  name: { type: "string", example: "수정된 이름" },
+                  context: { type: "string", example: "수정된 설명" },
+                  cost: { type: "number", example: 200 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (itemId가 없거나 숫자가 아님)",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "DATABASE4001" },
+              message: { type: "string", example: "쿼리 실행 시 전달되는 파라미터가 잘못되었습니다. 파라미터 개수 혹은 파라미터 형식을 확인해주세요." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "COMMON000" },
+              message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+  */
+  try {
+    const { itemId, name, context, cost } = req.body;
+
+    if (!itemId || isNaN(itemId)) {
+      return res.send(response(status.PARAMETER_IS_WRONG, null));
+    }
+
+    const updatedItem = await updateItem(itemId, { name, context, cost });
+    res.send(response(status.SUCCESS, updatedItem));
+  } catch (err) {
+    console.error(err);
+    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};

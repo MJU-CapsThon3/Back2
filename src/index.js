@@ -6,6 +6,7 @@ import './cron-quest.js';
 import swaggerUiExpress from "swagger-ui-express";
 const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 import { verify } from "../src/middleware/jwt.js";
+
 import {
   handleUserSignUp,
   handleLogin,
@@ -15,6 +16,13 @@ import {
   completeQuest,
   claimQuestReward,
   resetDailyQuests
+  handleBuyItem,
+  handleAddItem,
+  handleGetUserItems,
+  handleGetShopItems,
+  handleUpdateItem,
+  //handleDeleteItem,
+
 } from "./controllers/user.controller.js";
 import {
   handleCreateRoom,
@@ -70,6 +78,21 @@ app.post('/quests/reward/:questId', claimQuestReward);
 // 퀘스트 초기화
 app.post('/quests/reset-daily', resetDailyQuests);
 
+// 상점 아이템 구매 API
+app.post("/shop/buy-item", handleBuyItem);
+// 아이템 추가 API
+app.post("/shop/items", handleAddItem);
+// 유저가 소유한 아이템 목록 조회
+app.get("/shop/my-items", handleGetUserItems);
+// 상점 아이템 전체 조회
+app.get("/shop/items", handleGetShopItems);
+// 아이템 정보 수정 API
+app.post("/shop/items/update", handleUpdateItem);
+// 아이템 삭제 API
+//app.delete("/shop/items/:itemId", handleDeleteItem);
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
+
+
