@@ -864,6 +864,10 @@ export const handleBuyItem = async (req, res) => {
   }
   */
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const userId = req.userId;
     const { itemId } = req.body;
 
@@ -962,6 +966,10 @@ export const handleAddItem = async (req, res) => {
   */
 
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const { name, context, cost } = req.body;
 
     if (!name || !cost) {
@@ -1029,6 +1037,10 @@ export const handleGetUserItems = async (req, res) => {
     }
   */
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const userId = req.userId;
     const items = await getUserItems(userId);
     res.send(response(status.SUCCESS, items));
