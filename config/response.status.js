@@ -197,7 +197,13 @@ export const status = {
     isSuccess: false,
     code: "QUEST000",
     message: "완료하지 못한 퀘스트입니다.",
-   }, 
+  }, 
+  ALREADY_CLAIM_REWARD : {
+    status : StatusCodes.ALREADY_CLAIM_REWARD,
+    isSuccess: false, 
+    code: "QUEST001",
+    message: "이미 보상을 받은 퀘스트입니다.",
+  }
 }
 
 

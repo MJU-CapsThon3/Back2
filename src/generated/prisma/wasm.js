@@ -152,7 +152,8 @@ exports.Prisma.QuestScalarFieldEnum = {
   description: 'description',
   type: 'type',
   rewardPts: 'rewardPts',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  goal: 'goal'
 };
 
 exports.Prisma.RoomParticipantScalarFieldEnum = {
@@ -225,7 +226,8 @@ exports.Prisma.QuestCompletionScalarFieldEnum = {
   questId: 'questId',
   isCompleted: 'isCompleted',
   completedAt: 'completedAt',
-  rewardClaimed: 'rewardClaimed'
+  rewardClaimed: 'rewardClaimed',
+  progress: 'progress'
 };
 
 exports.Prisma.PointTransactionScalarFieldEnum = {

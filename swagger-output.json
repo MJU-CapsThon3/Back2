@@ -2103,7 +2103,7 @@
           "Quest"
         ],
         "summary": "퀘스트 완료 처리 API",
-        "description": "JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID 1번에 대한 완료 처리를 수행합니다.",
+        "description": "JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID에 대한 완료 처리를 수행합니다.",
         "parameters": [
           {
             "name": "questId",
@@ -2111,7 +2111,9 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "완료할 퀘스트의 ID",
+            "example": 1
           }
         ],
         "responses": {
@@ -2128,7 +2130,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "퀘스트를 성공적으로 완료했습니다."
+                      "example": "퀘스트를 성공했습니다."
                     },
                     "result": {
                       "type": "object",
@@ -2140,6 +2142,10 @@
                         "isCompleted": {
                           "type": "boolean",
                           "example": true
+                        },
+                        "progress": {
+                          "type": "number",
+                          "example": 1
                         }
                       }
                     }
@@ -2149,7 +2155,7 @@
             }
           },
           "400": {
-            "description": "퀘스트 조건 불충족 또는 잘못된 요청",
+            "description": "보상 이미 수령함, 목표치 달성, 또는 퀘스트 조건 불충족",
             "content": {
               "application/json": {
                 "schema": {
@@ -2161,12 +2167,39 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "퀘스트 조건을 만족하지 않습니다."
+                      "oneOf": [
+                        {
+                          "example": "이미 보상을 수령한 퀘스트입니다."
+                        },
+                        {
+                          "example": "이미 목표치를 달성했습니다."
+                        },
+                        {
+                          "example": "퀘스트 조건을 만족하지 않습니다."
+                        }
+                      ]
                     },
                     "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "nullable": true,
+                          "example": null
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "progress": {
+                              "type": "number",
+                              "example": 5
+                            },
+                            "goal": {
+                              "type": "number",
+                              "example": 5
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -2368,14 +2401,95 @@
               }
             }
           },
+          "400": {
+            "description": "잘못된 요청 (퀘스트 미완료, 이미 보상 수령, 잘못된 파라미터 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "퀘스트를 완료하지 않았습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "TOKEN_FORMAT_INCORRECT"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 형식이 올바르지 않습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "서버 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "SERVER_ERROR"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 오류 발생"
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2584,7 +2698,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "서버 오류로 퀘스트 초기화에 실패했습니다."
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
                     },
                     "result": {
                       "type": "object",
