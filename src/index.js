@@ -6,6 +6,7 @@ import './cron-quest.js';
 import swaggerUiExpress from "swagger-ui-express";
 const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 import { verify } from "../src/middleware/jwt.js";
+
 import {
   handleUserSignUp,
   handleLogin,
@@ -14,7 +15,14 @@ import {
   handleGetDailyQuests,
   completeQuest,
   claimQuestReward,
-  resetDailyQuests
+  resetDailyQuests,
+  handleBuyItem,
+  handleAddItem,
+  handleGetUserItems,
+  handleGetShopItems,
+  handleUpdateItem,
+  //handleDeleteItem,
+
 } from "./controllers/user.controller.js";
 import {
   handleCreateRoom,
@@ -32,12 +40,30 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 const corsOptions = {
-  origin: 'https://thiscatthatcat.shop',  // 프론트엔드 도메인으로 수정
-  credentials: true                 // 자격 증명 허용
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://localhost:3000',
+      'https://thiscatthatcat.shop',
+      'https://13.209.12.236:3000'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      // origin이 허용된 도메인 목록에 포함되거나, origin이 없을 경우(로컬 테스트 등)
+      callback(null, true);
+    } else {
+      // origin이 허용되지 않으면 CORS 오류 발생
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
+  credentials: true,                 // 자격 증명 허용
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
-app.use(cors(corsOptions));
 
-// app.use(cors());
+app.use(cors(corsOptions));
+// app.options('*', cors(corsOptions)); 
+
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -75,6 +101,21 @@ app.post('/quests/reward/:questId', claimQuestReward);
 // 퀘스트 초기화
 app.post('/quests/reset-daily', resetDailyQuests);
 
+// 상점 아이템 구매 API
+app.post("/shop/buy-item", handleBuyItem);
+// 아이템 추가 API
+app.post("/shop/items", handleAddItem);
+// 유저가 소유한 아이템 목록 조회
+app.get("/shop/my-items", handleGetUserItems);
+// 상점 아이템 전체 조회
+app.get("/shop/items", handleGetShopItems);
+// 아이템 정보 수정 API
+app.post("/shop/items/update", handleUpdateItem);
+// 아이템 삭제 API
+//app.delete("/shop/items/:itemId", handleDeleteItem);
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
+
+

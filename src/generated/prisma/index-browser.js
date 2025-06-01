@@ -160,9 +160,9 @@ exports.Prisma.RoomParticipantScalarFieldEnum = {
   userId: 'userId',
   roomId: 'roomId',
   role: 'role',
-  side: 'side',
   joinedAt: 'joinedAt',
-  endAt: 'endAt'
+  endAt: 'endAt',
+  side: 'side'
 };
 
 exports.Prisma.AiJudgementScalarFieldEnum = {
@@ -212,11 +212,11 @@ exports.Prisma.BattleRoomScalarFieldEnum = {
 exports.Prisma.BattleTitleScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
-  side: 'side',
   title: 'title',
   suggestedBy: 'suggestedBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  side: 'side'
 };
 
 exports.Prisma.QuestCompletionScalarFieldEnum = {
@@ -308,9 +308,9 @@ exports.Prisma.BattleRoomOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.BattleTitleOrderByRelevanceFieldEnum = {
-  side: 'side',
   title: 'title',
-  suggestedBy: 'suggestedBy'
+  suggestedBy: 'suggestedBy',
+  side: 'side'
 };
 
 exports.Prisma.PointTransactionOrderByRelevanceFieldEnum = {
