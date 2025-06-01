@@ -9,6 +9,12 @@ import { handleUserSignUp,
         handleLogin,
         handleUserInfo,
         handleGetTopRankings,
+        handleBuyItem,
+        handleAddItem,
+        handleGetUserItems,
+        handleGetShopItems,
+        handleUpdateItem,
+        //handleDeleteItem,
 } from "./controllers/user.controller.js";
 
 import { handleCreateRoom,
@@ -113,3 +119,21 @@ app.post('/battle/rooms/:roomId/participants', handleJoinRoom);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+// 상점 아이템 구매 API
+app.post("/shop/buy-item", handleBuyItem);
+
+// 아이템 추가 API
+app.post("/shop/items", handleAddItem);
+
+// 유저가 소유한 아이템 목록 조회
+app.get("/shop/my-items", handleGetUserItems);
+
+// 상점 아이템 전체 조회
+app.get("/shop/items", handleGetShopItems);
+
+// 아이템 정보 수정 API
+app.put("/shop/items", handleUpdateItem);
+
+// 아이템 삭제 API
+//app.delete("/shop/items/:itemId", handleDeleteItem);

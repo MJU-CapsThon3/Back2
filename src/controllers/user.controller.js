@@ -8,6 +8,12 @@ import { userSignUp,
     loginService,
     userInfoService,
     topRankingService,
+    buyItem,
+    addItem,
+    getUserItems,
+    getAllShopItems,
+    updateItem,
+    //deleteItem,
  } from "../services/user.service.js";
 import { loginRequestDTO,
   responseFromRankingList,
@@ -371,3 +377,326 @@ export const handleGetTopRankings = async (req, res, next) => {
     res.send(response(BaseError));
   }
 };
+
+// 아이템 구매
+export const handleBuyItem = async (req, res) => {
+  /*
+  #swagger.summary = '아이템 구매 API'
+  #swagger.tags = ['Shop']
+  #swagger.security = [{"BearerAuth": []}]
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            itemId: { type: "number", example: 1 }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[200] = {
+    description: "아이템 구매 성공",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: true },
+            code: { type: "number", example: 200 },
+            message: { type: "string", example: "요청에 성공하였습니다." },
+            result: {
+              type: "object",
+              properties: {
+                message: { type: "string", example: "아이템을 성공적으로 구매했습니다." },
+                remainPoint: { type: "number", example: 950 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: "포인트 부족",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "number", example: 400 },
+            message: { type: "string", example: "포인트가 부족합니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[404] = {
+    description: "아이템이 존재하지 않음",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "number", example: 404 },
+            message: { type: "string", example: "존재하지 않는 아이템입니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+  }
+*/
+  try {
+    const userId = req.userId;
+    const { itemId } = req.body;
+
+    const result = await buyItem(userId, itemId);
+    res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error(err);
+
+    if (err.message === "존재하지 않는 아이템입니다.") {
+      res.status(404).send(response(status.NOT_FOUND, { message: err.message }));
+    } else if (err.message === "포인트가 부족합니다.") {
+      res.status(400).send(response(status.BAD_REQUEST, { message: err.message }));
+    } else {
+      res.status(500).send(response(BaseError));
+    }
+  }
+};
+
+// 새로운 아이템 추가
+export const handleAddItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 추가 API'
+    #swagger.tags = ['Shop']
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["name", "cost"],
+            properties: {
+              name: { type: "string", example: "멋진 아이템" },
+              context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+              cost: { type: "number", example: 300 }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: "아이템 추가 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "아이템이 성공적으로 추가되었습니다." },
+              result: {
+                type: "object",
+                properties: {
+                  id: { type: "number", example: 1 },
+                  name: { type: "string", example: "멋진 아이템" },
+                  context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                  cost: { type: "number", example: 300 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  */
+
+  try {
+    const { name, context, cost } = req.body;
+
+    if (!name || !cost) {
+      return res.send(response(status.MEMBER_NOT_FOUND, { message: "name, cost는 필수입니다." }));
+    }
+
+    const newItem = await addItem({ name, context, cost });
+    res.send(response(status.SUCCESS, newItem));
+  } catch (err) {
+    console.error(err);
+    res.send(response(BaseError));
+  }
+};
+
+// 유저가 소유한 아이템 목록 조회
+export const handleGetUserItems = async (req, res) => {
+  /*
+    #swagger.summary = '유저 소유 아이템 목록 조회 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
+    #swagger.responses[200] = {
+      description: "유저가 가진 아이템 목록 조회 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "요청에 성공하였습니다." },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "number", example: 1 },
+                    name: { type: "string", example: "멋진 아이템" },
+                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                    cost: { type: "number", example: 300 },
+                    acquiredAt: { type: "string", example: "2025-05-30T10:15:30.000Z" },
+                    isEquipped: { type: "boolean", example: false },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+  */
+  try {
+    const userId = req.userId;
+    const items = await getUserItems(userId);
+    res.send(response(status.SUCCESS, items));
+  } catch (err) {
+    console.error(err);
+    res.send(response(BaseError));
+  }
+};
+
+// 상점 아이템 전체 조회
+export const handleGetShopItems = async (req, res) => {
+  /*
+    #swagger.summary = '상점 아이템 전체 조회 API'
+    #swagger.tags = ['Shop']
+    #swagger.responses[200] = {
+      description: "아이템 목록 조회 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "요청에 성공하였습니다." },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "number", example: 1 },
+                    name: { type: "string", example: "멋진 아이템" },
+                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
+                    cost: { type: "number", example: 300 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  */
+  try {
+    const items = await getAllShopItems();
+    res.send(response(status.SUCCESS, items));
+  } catch (err) {
+    console.error(err);
+    res.send(response(BaseError));
+  }
+};
+
+// 아이템 정보 수정
+export const handleUpdateItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 수정 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["itemId"],
+            properties: {
+              itemId: { type: "number", example: 1 },
+              name: { type: "string", example: "수정된 이름" },
+              context: { type: "string", example: "수정된 설명" },
+              cost: { type: "number", example: 200 }
+            }
+          }
+        }
+      }
+    }
+  */
+  try {
+    const { itemId, name, context, cost } = req.body;
+    const updatedItem = await updateItem(itemId, { name, context, cost });
+    res.send(response(status.SUCCESS, updatedItem));
+  } catch (err) {
+    console.error(err);
+    res.send(response(BaseError));
+  }
+};
+
+// 아이템 삭제
+//export const handleDeleteItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 삭제 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
+    #swagger.parameters['itemId'] = {
+      in: 'path',
+      description: '삭제할 아이템의 ID',
+      required: true,
+      schema: { type: 'integer', example: 1 }
+    }
+    #swagger.responses[200] = { description: "아이템 삭제 성공" }
+  */
+ /*
+  try {
+    const itemId = Number(req.params.itemId);
+    if (isNaN(itemId)) {
+      return res.status(400).send({
+        isSuccess: false,
+        code: "ITEM_ID_INVALID",
+        message: "itemId는 숫자여야 합니다.",
+        result: null
+      });
+    }
+
+    await deleteItem(itemId);
+
+    res.send({
+      isSuccess: true,
+      code: 200,
+      message: "아이템 삭제 성공",
+      result: null
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      isSuccess: false,
+      code: "SERVER_ERROR",
+      message: "서버 오류가 발생했습니다.",
+      result: null
+    });
+  }
+};
+*/

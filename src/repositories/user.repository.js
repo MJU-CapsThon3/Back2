@@ -143,3 +143,104 @@ export const getTopRankings = async (limit) => {
     }
   });
 };
+
+//아이템 정보 조회
+export const findItemById = async (itemId) => {
+  return prisma.item.findUnique({
+    where: { id: itemId },
+  });
+};
+
+//포인트 차감
+export const deductUserPoints = async (userId, amount) => {
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      point: {
+        decrement: amount,
+      },
+    },
+  });
+};
+
+//구매한 아이템 저장
+export const createUserItem = async (userId, itemId) => {
+  return prisma.userItem.create({
+    data: {
+      userId,
+      itemId,
+    },
+  });
+};
+
+//포인트 거래 내역 저장
+export const createPointTransaction = async (userId, amount, reason) => {
+  return prisma.pointTransaction.create({
+    data: {
+      userId,
+      change: amount,
+      reason,
+    },
+  });
+};
+
+//아이템 추가
+export const createItem = async (itemData) => {
+  return prisma.item.create({
+    data: itemData,
+  });
+};
+
+//유저가 소유한 아이템 목록 조회
+export const findUserItems = async (userId) => {
+  return prisma.userItem.findMany({
+    where: { userId },
+    include: {
+      item: {
+        select: {
+          id: true,
+          name: true,
+          context: true,
+          cost: true,
+        },
+      },
+    },
+  });
+};
+
+// 상점 아이템 전체 조회
+export const getShopItemsFromDB = async () => {
+  return prisma.item.findMany({
+    select: {
+      id: true,
+      name: true,
+      context: true,
+      cost: true,
+    },
+    orderBy: { id: 'asc' }, // 원하는 정렬 기준 (id 기준 오름차순)
+  });
+};
+
+// 아이템 수정
+export const updateItemRepo = async (itemId, updateData) => {
+  return prisma.item.update({
+    where: { id: itemId },
+    data: updateData,
+  });
+};
+
+/*
+// user_items 레코드 먼저 삭제
+export const deleteUserItemsByItemId = async (itemId) => {
+  return await prisma.userItem.deleteMany({
+    where: { itemId: BigInt(itemId) },
+  });
+};
+
+// 아이템 자체 삭제
+export const deleteItemRepo = async (itemId) => {
+  return await prisma.item.delete({
+    where: { id: BigInt(itemId) },
+  });
+};
+*/

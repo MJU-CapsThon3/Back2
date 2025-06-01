@@ -11,6 +11,16 @@ import {
   updateRankingById,
   getRankingByUserId,
   getTopRankings,
+  findItemById,
+  createUserItem,
+  createPointTransaction,
+  deductUserPoints,
+  createItem,
+  findUserItems,
+  getShopItemsFromDB,
+  updateItemRepo,
+  //deleteUserItemsByItemId,
+  //deleteItemRepo,
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -175,3 +185,72 @@ export const topRankingService = async (limit = 10) => {
     totalPoints:   r.totalPoints,
   }));
 };
+
+// 아이템 구매 서비스
+export const buyItem = async (userId, itemId) => {
+  const item = await findItemById(itemId);
+
+  if (!item) {
+    throw new Error("존재하지 않는 아이템입니다.");
+  }
+
+  const user = await getUser(userId);
+
+  if (user.point < item.cost) {
+    throw new Error("포인트가 부족합니다.");
+  }
+
+  // 포인트 차감
+  await deductUserPoints(userId, item.cost);
+
+  // 아이템 지급
+  await createUserItem(userId, itemId);
+
+  // 포인트 거래 기록
+  await createPointTransaction(userId, -item.cost, `아이템 구매: ${item.name}`);
+
+  return {
+    success: true,
+    message: `${item.name} 아이템을 구매했습니다.`,
+    remainingPoints: user.point - item.cost,
+  };
+};
+
+// 아이템 추가
+export const addItem = async (itemData) => {
+  return await createItem(itemData);
+};
+
+// 유저가 소유한 아이템 목록 조회
+export const getUserItems = async (userId) => {
+  const userItems = await findUserItems(userId);
+
+  return userItems.map((userItem) => ({
+    id: userItem.item.id,
+    name: userItem.item.name,
+    context: userItem.item.context,
+    cost: userItem.item.cost,
+    acquiredAt: userItem.acquiredAt,
+    isEquipped: userItem.isEquipped,
+  }));
+};
+
+// 상점 아이템 전체 조회
+export const getAllShopItems = async () => {
+  return await getShopItemsFromDB();
+};
+
+// 아이템 수정
+export const updateItem = async (itemId, updateData) => {
+  return await updateItemRepo(itemId, updateData);
+};
+
+/*
+// 아이템 삭제
+export const deleteItem = async (itemId) => {
+  // user_items 테이블에서 이 itemId를 참조 중인 레코드 먼저 삭제
+  await deleteUserItemsByItemId(itemId);
+  // 그 다음에 items 테이블에서 아이템 삭제
+  await deleteItemRepo(itemId);
+};
+*/
