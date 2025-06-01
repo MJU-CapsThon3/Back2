@@ -224,10 +224,11 @@ export const getShopItemsFromDB = async () => {
 // 아이템 수정
 export const updateItemRepo = async (itemId, updateData) => {
   return prisma.item.update({
-    where: { id: itemId },
+    where: { id: BigInt(itemId) },
     data: updateData,
   });
 };
+
 
 /*
 // user_items 레코드 먼저 삭제

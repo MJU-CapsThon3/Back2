@@ -133,7 +133,7 @@ app.get("/shop/my-items", handleGetUserItems);
 app.get("/shop/items", handleGetShopItems);
 
 // 아이템 정보 수정 API
-app.put("/shop/items", handleUpdateItem);
+app.post("/shop/items/update", handleUpdateItem);
 
 // 아이템 삭제 API
 //app.delete("/shop/items/:itemId", handleDeleteItem);
