@@ -385,7 +385,7 @@ export const handleGetTopRankings = async (req, res, next) => {
 
 // 퀘스트 관련 추가한 부분
 export const handleGetDailyQuests = async (req, res) => {
-  /**
+  /*
     #swagger.summary = '전체 일일 퀘스트 목록 조회 API'
     #swagger.tags = ['Quest']
     #swagger.security = [{ "BearerAuth": [] }]
@@ -454,7 +454,6 @@ export const handleGetDailyQuests = async (req, res) => {
       }
     }
   */
-  
     try {
       console.log("퀘스트 정보를 불러옵니다.");
     
@@ -476,7 +475,7 @@ export const handleGetDailyQuests = async (req, res) => {
   };
   
   export const completeQuest = async (req, res) => {
-  /**
+  /*
     #swagger.summary = '퀘스트 완료 처리 API'
     #swagger.description = 'JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID 1번에 대한 완료 처리를 수행합니다.'
     #swagger.tags = ['Quest']
@@ -587,7 +586,7 @@ export const handleGetDailyQuests = async (req, res) => {
   };
   
   export const claimQuestReward = async (req, res) => {
-  /**
+  /*
     #swagger.summary = '퀘스트 보상 수령 API'
     #swagger.tags = ['Quest']
     #swagger.security = [{ "BearerAuth": [] }]
@@ -715,7 +714,7 @@ export const handleGetDailyQuests = async (req, res) => {
   
   //퀘스트 초기화
   export const resetDailyQuests = async (req, res) => {
-    /**
+    /*
     #swagger.summary = '일일 퀘스트 초기화 API'
     #swagger.tags = ['Quest']
     #swagger.description = '매일 자정마다 모든 사용자의 퀘스트 완료 및 보상 상태를 초기화합니다.'
@@ -864,6 +863,10 @@ export const handleBuyItem = async (req, res) => {
   }
   */
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const userId = req.userId;
     const { itemId } = req.body;
 
@@ -962,6 +965,10 @@ export const handleAddItem = async (req, res) => {
   */
 
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const { name, context, cost } = req.body;
 
     if (!name || !cost) {
@@ -1029,6 +1036,10 @@ export const handleGetUserItems = async (req, res) => {
     }
   */
   try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
     const userId = req.userId;
     const items = await getUserItems(userId);
     res.send(response(status.SUCCESS, items));
