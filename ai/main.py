@@ -1,22 +1,31 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from openai import OpenAI
-from dotenv import load_dotenv
 from soynlp.normalizer import repeat_normalize
 
 import re
 import emoji
-import torch
-import torch.nn.functional as F
 import os
 import json
+import random
+import torch
+import torch.nn.functional as F
 
 # OpenAI API Key
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# 감정 분석 모델 로드
+model_name = "nlp04/korean_sentiment_analysis_kcelectra"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
+config = model.config
+id2label = config.id2label
+LABELS = [id2label[i] for i in sorted(id2label.keys())]
 
 app = FastAPI()
 
@@ -32,17 +41,9 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-# 감정 분석 모델 로드
-model_name = "nlp04/korean_sentiment_analysis_kcelectra"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSequenceClassification.from_pretrained(model_name)
-config = model.config
-id2label = config.id2label
-LABELS = [id2label[i] for i in sorted(id2label.keys())]
-
 # 이모티콘 필터링
 emojis = ''.join(emoji.EMOJI_DATA.keys())
-pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x00-\x7Fㄱ-ㅣ가-힣{emojis}]+')
+pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x41-\x5A\x61-\x7Aㄱ-ㅣ가-힣{emojis}]+')
 url_pattern = re.compile(
     r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
 
@@ -55,7 +56,7 @@ def clean(x):
     return x
 
 def normalize_text(text: str) -> str:
-    text = re.sub(r'[^0-9a-zA-Zㄱ-ㅎ가-힣\s]', '', text)
+    text = re.sub(r'[^a-zA-Zㄱ-ㅎ가-힣\s]', '', text)
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
@@ -90,7 +91,7 @@ class DebateRequest(BaseModel):
     topic: str
     content: str
 
-# 감정 분석 함수
+# 감정 분석 모델
 def analyze_sentiment(text: str):
     text = clean(text)
     inputs = tokenizer(
@@ -155,8 +156,8 @@ async def filter_options():
 
 @app.post("/analyze_debate")
 async def analyze_debate(request: DebateRequest):
-    topic = clean(request.topic)
-    content = clean(request.content)
+    topic = request.topic
+    content = request.content
 
     if not request.content:
         raise HTTPException(status_code=400, detail="Debate content is required")
@@ -191,6 +192,9 @@ async def analyze_debate(request: DebateRequest):
         "  - 감정/태도: /100\n"
         "  - 평균 : /100\n"
         "- 평가 이유:\n"
+
+        "- 최종 승자: A 또는 B 또는 무승부\n"
+        "- 판정 이유:\n"
     )
 
     try:
@@ -209,14 +213,23 @@ async def analyze_debate(request: DebateRequest):
 @app.post("/generate_topic")
 async def generate_topic():
 
+    topic_style = random.choice(["진지한", "가벼운", "유머러스한", "밸런스 게임 형태의", "황당한", "도발적인", "논쟁적인", 
+                                 "창의적인", "비교하는", "선택지를 제시하는", "사회적 이슈에 대한", "철학적 질문에 대한", 
+                                 "과학적 주제에 대한", "문화적 차이에 대한", "역사적 사건에 대한", "기술 발전에 대한", "일상 생활에 대한", 
+                                 "가상의 상황에 대한", "인간 관계에 대한", "윤리적 딜레마에 대한", "정치적 주제에 대한", "경제적 이슈에 대한"])
+
     prompt = (
-        "당신은 토론의 주제를 생성하는 AI입니다.\n"
+        "당신은 매우 창의적이고 도발적인 토론 주제를 생성하는 AI입니다.\n"
         "다음은 토론 주제를 생성하기 위한 지침입니다:\n"
+        f"이번에는 {topic_style} 주제를 생성하세요.\n"
         "1. 주제는 명확하고 논쟁의 여지가 있어야 합니다.\n"
-        "2. 주제는 2가지 입장으로 나뉘어야 합니다.\n"
-        "3. 주제는 가벼운 주제에서부터 심각한 주제까지 다양해야 합니다.\n"
-        "4. 하나의 토론 주제를 생성하세요.\n"
-        "5. 주제만을 출력하세요.\n"
+        "2. 찬반으로 나뉘거나 선택지를 비교하는 형태여야 합니다.\n"
+        "3. 진지한 주제뿐 아니라 유머러스하고 황당한 주제도 괜찮습니다.\n"
+        "   예시: '똥맛 카레 vs 카레맛 똥'\n"
+        "4. 매번 새로운 주제를 만들어 주세요. 반복되는 형식은 피하세요.\n"
+        "5. 주제는 하나만 출력하세요.\n"
+        "6. 출력 형식은 다음과 같습니다:\n"
+
         "### 출력 형식:\n"
         "- 토론 주제: [여기에 주제를 작성하세요]\n"
     )
@@ -225,7 +238,9 @@ async def generate_topic():
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "system", "content": prompt}],
-            temperature=0.7,
+            temperature=0.9,
+            top_p=0.9,
+            frequency_penalty=0.3,
         )
         result = response.choices[0].message.content
         return {"topic": result}
