@@ -43,6 +43,7 @@ const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
       'http://localhost:3000',
+      'https://localhost:3000',
       'https://thiscatthatcat.shop',
       'https://13.209.12.236:3000'
     ];
@@ -55,10 +56,14 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'), false);
     }
   },
-  credentials: true                    // 자격 증명 허용
+  credentials: true,                 // 자격 증명 허용
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
+// app.options('*', cors(corsOptions)); 
+
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
