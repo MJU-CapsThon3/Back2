@@ -31,8 +31,13 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
+const corsOptions = {
+  origin: 'https://thiscatthatcat.shop',  // 프론트엔드 도메인으로 수정
+  credentials: true                 // 자격 증명 허용
+};
+app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

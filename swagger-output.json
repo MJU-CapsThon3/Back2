@@ -2041,11 +2041,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "MEMBER4006"
+                      "example": "TOKEN_FORMAT_INCORRECT"
                     },
                     "message": {
                       "type": "string",
-                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                      "example": "토큰 형식이 올바르지 않습니다."
                     },
                     "result": {
                       "type": "object",
@@ -2073,11 +2073,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "COMMON000"
+                      "example": "SERVER_ERROR"
                     },
                     "message": {
                       "type": "string",
-                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                      "example": "서버 오류 발생"
                     },
                     "result": {
                       "type": "object",
@@ -2122,7 +2122,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "isSuccess": {
+                    "success": {
                       "type": "boolean",
                       "example": true
                     },
@@ -2155,7 +2155,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "isSuccess": {
+                    "success": {
                       "type": "boolean",
                       "example": false
                     },
@@ -2180,17 +2180,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "isSuccess": {
+                    "success": {
                       "type": "boolean",
                       "example": false
                     },
-                    "code": {
-                      "type": "string",
-                      "example": "MEMBER4006"
-                    },
                     "message": {
                       "type": "string",
-                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                      "example": "토큰이 없습니다."
                     },
                     "result": {
                       "type": "object",
@@ -2209,7 +2205,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "isSuccess": {
+                    "success": {
                       "type": "boolean",
                       "example": false
                     },
@@ -2234,17 +2230,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "isSuccess": {
+                    "success": {
                       "type": "boolean",
                       "example": false
                     },
-                    "code": {
-                      "type": "string",
-                      "example": "COMMON000"
-                    },
                     "message": {
                       "type": "string",
-                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                      "example": "서버 오류 발생"
                     },
                     "result": {
                       "type": "object",
@@ -2376,117 +2368,14 @@
               }
             }
           },
-          "400": {
-            "description": "퀘스트 미완료",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "isSuccess": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "code":{
-                      "type": "string",
-                      "example": "QUEST000"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "완료하지 못한 퀘스트입니다."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401": {
-            "description": "토큰 없음",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "isSuccess": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "code": {
-                      "type": "string",
-                      "example": "MEMBER4006"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "403": {
-            "description": "유효하지 않은 토큰",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "isSuccess": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "유효하지 않은 토큰입니다."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Forbidden"
           },
           "500": {
-            "description": "서버 오류",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "isSuccess": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "code": {
-                      "type": "string",
-                      "example": "COMMON000"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "서버 에러, 관리자에게 문의 바랍니다."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         },
         "security": [
@@ -2551,12 +2440,12 @@
                       "example": false
                     },
                     "code": {
-                      "type": "string",
-                      "example": "COMMON000"
+                      "type": "number",
+                      "example": 500
                     },
                     "message": {
                       "type": "string",
-                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                      "example": "서버 오류로 퀘스트 초기화에 실패했습니다."
                     },
                     "result": {
                       "type": "object",
