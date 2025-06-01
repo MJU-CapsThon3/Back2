@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "darwin-arm64"]
 }
 
 datasource db {
@@ -124,22 +125,23 @@ model Item {
 }
 
 model BattleRoom {
-  id               BigInt            @id @default(autoincrement()) @map("id")
-  admin            BigInt            @map("admin")
-  status           String            @map("status") @db.VarChar(20)
-  createdAt        DateTime          @default(now()) @map("created_at") @db.DateTime(6)
-  endedAt          DateTime?         @map("ended_at") @db.DateTime(6)
-  approvalNum      Int               @default(0) @map("approval_num")
-  oppositeNum      Int               @default(0) @map("opposite_num")
-  started_at       DateTime?         @db.DateTime(6)
-  topicA           String            @map("topic_a") @db.VarChar(100)
-  topicB           String            @map("topic_b") @db.VarChar(100)
-  aiJudgements     AiJudgement[]
-  aiSummaries      AiSummary[]
-  battleTitle      BattleTitle[]
-  votes            BattleVote[]
-  chatMessages     ChatMessage[]     @relation("ChatMessagesByRoom")
+  id          BigInt   @id @default(autoincrement()) @map("id")
+  admin       BigInt   @map("admin")
+  topicA      String         @db.VarChar(100) @map("topic_a")
+  topicB      String         @db.VarChar(100) @map("topic_b")
+  status      String   @db.VarChar(20) @map("status")  // Enum을 String으로 수정
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
+  startedAt    DateTime?     @map("started_at") @db.DateTime(6)
+  endedAt     DateTime? @map("ended_at") @db.DateTime(6)
+  approvalNum Int      @default(0) @map("approval_num")
+  oppositeNum Int      @default(0) @map("opposite_num")
+
+  battleTitle BattleTitle[]
   roomParticipants RoomParticipant[]
+  aiSummaries AiSummary[]  // 추가됨
+  aiJudgements AiJudgement[]
+  chatMessages      ChatMessage[]  @relation("ChatMessagesByRoom")
+  votes       BattleVote[]
 
   @@map("battle_room")
 }
@@ -159,17 +161,16 @@ model BattleTitle {
 }
 
 model QuestCompletion {
-  id             BigInt    @id @default(autoincrement()) @map("id")
-  userId         BigInt    @map("user_id")
-  questId        BigInt    @map("quest_id")
-  isCompleted    Boolean   @default(false) @map("is_completed")
-  completedAt    DateTime? @map("completed_at") @db.DateTime(6)
-  reward_claimed Boolean   @default(false)
-  quest          Quest     @relation(fields: [questId], references: [id])
-  user           User      @relation(fields: [userId], references: [id])
+  id        BigInt   @id @default(autoincrement()) @map("id")
+  userId    BigInt   @map("user_id")
+  questId   BigInt   @map("quest_id")
+  isCompleted Boolean @default(false) @map("is_completed")
+  completedAt DateTime? @map("completed_at") @db.DateTime(6)
+  rewardClaimed Boolean  @default(false) @map("reward_claimed")
 
-  @@index([questId], map: "quest_completion_quest_id_fkey")
-  @@index([userId], map: "quest_completion_user_id_fkey")
+  user      User     @relation(fields: [userId], references: [id])
+  quest     Quest    @relation(fields: [questId], references: [id])
+
   @@map("quest_completion")
 }
 

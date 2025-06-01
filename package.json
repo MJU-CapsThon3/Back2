@@ -1,18 +1,20 @@
 {
   "name": "backend",
-  "type": "module",
   "version": "1.0.0",
-  "description": "| 머릿말  | 설명                               |\r | ------- | ---------------------------------- |\r | main    | 서비스 브랜치                      |\r | develop | 배포 전 작업 기준                  |\r | feat    | 기능 단위 구현                     |\r | hotfix  | 서비스 중 긴급 수정 건에 대한 처리 |",
+  "description": "백엔드 서비스 프로젝트",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "nodemon -e js,json,prisma --exec \"prisma generate && node src/index.js\""
+    "generate": "prisma generate",
+    "start": "node dist/index.js",
+    "dev": "npm run generate && nodemon --exec babel-node src/index.js",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.7.0",
+    "@prisma/client": "^6.8.2",
+    "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -21,12 +23,28 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "node-cron": "^4.0.7",
-    "prisma": "^6.7.0",
+    "recharts": "^2.15.3",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.3",
+    "@babel/node": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "babel-loader": "^10.0.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.8.2",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "keywords": []
 }

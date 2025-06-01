@@ -37,3 +37,55 @@ export const createRoomParticipant = async ({ roomId, userId, role }) => {
         }
     });
 };
+
+// 방 정보 조회
+export const findBattleRoomById = (roomId) => {
+    return prisma.battleRoom.findUnique({
+        where: { id: roomId },
+        select: {
+            id:        true,
+            admin:     true,
+            topicA:    true,
+            topicB:    true,
+            status:    true,
+            createdAt: true
+        }
+    });
+};
+
+// 방의 참가자 목록 조회
+export const listRoomParticipants = (roomId) => {
+    return prisma.roomParticipant.findMany({
+        where: { roomId },
+        select: {
+            userId:   true,
+            role:     true,
+            joinedAt: true
+        },
+        orderBy: { joinedAt: 'asc' }
+    });
+};
+
+// 방의 관전자 수
+export const countRoomSpectators = (roomId) => {
+    return prisma.roomParticipant.count({
+        where: {
+            roomId,
+            role: 'P'
+        }
+    });
+};
+
+export const find1BattleRoomById = (roomId) => {
+    return prisma.battleRoom.findUnique({
+        where: { id: roomId }
+    });
+};
+
+// 방 상태 변경하기
+export const updateBattleRoom = (roomId, data) => {
+    return prisma.battleRoom.update({
+        where: { id: roomId },
+        data
+    });
+};

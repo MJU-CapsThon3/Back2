@@ -4,8 +4,15 @@ import { createBattleRoom,
     createBattleTitle,
     countParticipants,
     createRoomParticipant,
+    findBattleRoomById,
+    listRoomParticipants,
+    countRoomSpectators,
+    find1BattleRoomById,
+    updateBattleRoom
 } from '../repositories/chat.repository.js';
-import { toCreateRoomDto, responseFromRoom } from '../dtos/chat.dto.js';
+import { toCreateRoomDto, 
+  responseFromRoom 
+} from '../dtos/chat.dto.js';
 
 // 방 생성 service
 export const createRoom = async (req, res) => {
@@ -72,3 +79,55 @@ export const joinRoom = async ({ roomId, userId, role }) => {
   };
 };
 
+// 방 정보 불러오기
+export const getRoomInfo = async ({ roomId }) => {
+  // 1) 방 기본 정보
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    return res.send(response(status.ROOM_NOT_FOUND, null));
+  }
+  // 2) 참가자 목록
+  const participants = await listRoomParticipants(roomId);
+
+  // 3) 관전자 수 (role === 'P')
+  const spectatorCount = await countRoomSpectators(roomId);
+
+  // 4) 응답 객체 조합
+  return {
+    roomId:         room.id,
+    adminId:        room.admin,
+    topicA:         room.topicA,
+    topicB:         room.topicB,
+    status:         room.status,
+    createdAt:      room.createdAt,
+    participants,   // [{ userId, role, joinedAt }, …]
+    spectatorCount  // number
+  };
+};
+
+// 배틀방 시작하기
+export const startBattle = async ({ roomId, userId }) => {
+  // 1) 방 조회
+  const room = await find1BattleRoomById(roomId);
+  if (!room) {
+    throw new Error('ROOM_NOT_FOUND');
+  }
+  // 2) 방장만 시작 가능
+  if (room.admin !== BigInt(userId)) {
+    throw new Error('FORBIDDEN');
+  }
+  // 3) 대기 상태인 경우만
+  if (room.status !== 'WAITING') {
+    throw new Error('INVALID_STATE');
+  }
+  // 4) 상태 변경 및 시작 시간 기록
+  const updated = await updateBattleRoom(roomId, {
+    status:    'PLAYING',
+    startedAt: new Date()
+  });
+  return {
+    roomId:    updated.id,
+    status:    updated.status,
+    startedAt: updated.startedAt
+  };
+};

@@ -14,9 +14,14 @@ import { userSignUp,
     getAllShopItems,
     updateItem,
     //deleteItem,
+    getDailyQuestsService,
+    completeQuestIfEligible,
+    claimQuestRewardService,
+    resetDailyQuestsService
  } from "../services/user.service.js";
 import { loginRequestDTO,
   responseFromRankingList,
+  responseFromQuestList
 } from "../dtos/user.dto.js"
 
 // 회원가입
@@ -205,7 +210,7 @@ export const handleLogin = async (req, res, next) => {
   }
 */
 
-      try {
+    try {
     console.log("로그인");
     const result = await loginService(loginRequestDTO(req.body));
     if (result === 1) {
@@ -378,6 +383,396 @@ export const handleGetTopRankings = async (req, res, next) => {
   }
 };
 
+// 퀘스트 관련 추가한 부분
+export const handleGetDailyQuests = async (req, res) => {
+  /**
+    #swagger.summary = '전체 일일 퀘스트 목록 조회 API'
+    #swagger.tags = ['Quest']
+    #swagger.security = [{ "BearerAuth": [] }]
+  
+    #swagger.responses[200] = {
+      description: '퀘스트 목록 조회 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "성공" },
+              result: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "integer", example: 1 },
+                    name: { type: "string", example: "첫 번째 퀘스트" },
+                    description: { type: "string", example: "퀘스트 상세 설명" },
+                    type: { type: "string", example: "daily" },
+                    rewardPts: { type: "integer", example: 100 },
+                    createdAt: { type: "string", format: "date-time", example: "2025-05-31T00:00:00.000Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[401] = {
+      description: '토큰 형식 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+              message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[500] = {
+      description: '서버 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SERVER_ERROR" },
+              message: { type: "string", example: "서버 오류 발생" },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  */
+  
+    try {
+      console.log("퀘스트 정보를 불러옵니다.");
+    
+      const token = await checkFormat(req.get("Authorization"));
+      if(token !== null) {
+        // 토큰 이상 없음
+        // 서비스 호출
+        const rawList = await getDailyQuestsService();
+        // DTO 변환
+        const payload = responseFromQuestList(rawList);
+        res.send(response(status.SUCCESS, rawList));
+      } else {
+        res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+      }
+    } catch (err) {
+      console.error(err);
+      res.send(response(BaseError));
+    }
+  };
+  
+  export const completeQuest = async (req, res) => {
+  /**
+    #swagger.summary = '퀘스트 완료 처리 API'
+    #swagger.description = 'JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID 1번에 대한 완료 처리를 수행합니다.'
+    #swagger.tags = ['Quest']
+    #swagger.security = [{ "BearerAuth": [] }]
+  
+    #swagger.responses[200] = {
+      description: "퀘스트 완료 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: true },
+              message: { type: "string", example: "퀘스트를 성공적으로 완료했습니다." },
+              result: {
+                type: "object",
+                properties: {
+                  questId: { type: "number", example: 1 },
+                  isCompleted: { type: "boolean", example: true }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[400] = {
+      description: "퀘스트 조건 불충족 또는 잘못된 요청",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: false },
+              message: { type: "string", example: "퀘스트 조건을 만족하지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[401] = {
+      description: "토큰 없음",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: false },
+              message: { type: "string", example: "토큰이 없습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[403] = {
+      description: "유효하지 않은 토큰",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: false },
+              message: { type: "string", example: "유효하지 않은 토큰입니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: false },
+              message: { type: "string", example: "서버 오류 발생" },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+   */
+    try {
+      console.log("퀘스트 진행 상태를 확인합니다");
+      const token = await checkFormat(req.get("Authorization"));
+      if(token !== null) {
+        //토큰 이상 없음
+        //서비스 호출
+        const questId = parseInt(req.params.questId);
+        res.status(200).json(await completeQuestIfEligible(req.userId, questId));
+      } else {
+        //토큰 이상감지
+        res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: '서버 오류 발생' });
+    }
+  };
+  
+  export const claimQuestReward = async (req, res) => {
+  /**
+    #swagger.summary = '퀘스트 보상 수령 API'
+    #swagger.tags = ['Quest']
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: '퀘스트 보상 요청 정보',
+      required: true,
+      schema: {
+        type: 'object',
+        properties: {
+          userId: {
+            type: 'integer',
+            example: 1,
+            description: '유저 ID'
+          },
+          questId: {
+            type: 'integer',
+            example: 2,
+            description: '보상을 받을 퀘스트 ID'
+          }
+        },
+        required: ['userId', 'questId']
+      }
+    }
+    #swagger.responses[200] = {
+      description: '보상 수령 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "보상을 성공적으로 받았습니다." },
+              result: { 
+                type: "object",
+                example: {
+                  reward: 100
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: '잘못된 요청 (퀘스트 미완료, 이미 보상 수령, 잘못된 파라미터 등)',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "number", example: 400 },
+              message: { 
+                type: "string", 
+                example: "퀘스트를 완료하지 않았습니다." // 또는 "이미 보상을 받았습니다.", "userId 혹은 questId가 올바르지 않습니다."
+              },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[401] = {
+      description: '토큰 형식 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+              message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: '서버 오류',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SERVER_ERROR" },
+              message: { type: "string", example: "서버 오류 발생" },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  */
+    try {
+      console.log("퀘스트 보상 상태를 확인합니다");
+      const token = await checkFormat(req.get("Authorization"));
+      if (token !== null) {
+        //토큰 이상 없음
+        //서비스 호출
+        const questId = parseInt(req.params.questId);
+        const result = await claimQuestRewardService(req.userId, questId);
+        if (result.status === 'not_completed' || result.status === 'already_claimed') {
+          return res.status(200).json(response({ isSuccess: false, code: 200, message: result.message }, result));
+        }
+        return res.status(200).json(response({ isSuccess: true, code: 200, message: '보상을 성공적으로 받았습니다.' }, result));
+      } else {
+        //토큰 이상감지
+        res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+      }
+    } catch (err) {
+      if (err instanceof BaseError) {
+        return res.status(err.data.code).json({
+          success: false,
+          message: err.data.message
+        });
+      }
+      console.error(err);
+      res.status(500).json({ success: false, message: '서버 오류 발생' });
+    }
+  };
+  
+  //퀘스트 초기화
+  export const resetDailyQuests = async (req, res) => {
+    /**
+    #swagger.summary = '일일 퀘스트 초기화 API'
+    #swagger.tags = ['Quest']
+    #swagger.description = '매일 자정마다 모든 사용자의 퀘스트 완료 및 보상 상태를 초기화합니다.'
+  
+    #swagger.responses[200] = {
+      description: '일일 퀘스트 초기화 성공',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "일일 퀘스트가 초기화되었습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+  
+    #swagger.responses[500] = {
+      description: '서버 오류로 초기화 실패',
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "number", example: 500 },
+              message: { type: "string", example: "서버 오류로 퀘스트 초기화에 실패했습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
+   */
+    try {
+      console.log("퀘스트를 초기화합니다");
+      await resetDailyQuestsService();
+      res.status(200).json({
+        isSuccess: true,
+        code: 200,
+        message: '일일 퀘스트가 초기화되었습니다.',
+        result: null,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        isSuccess: false,
+        code: 500,
+        message: '서버 오류로 퀘스트 초기화에 실패했습니다.',
+        result: null,
+      });
+    }
+  };
 // 아이템 구매
 export const handleBuyItem = async (req, res) => {
   /*
@@ -795,49 +1190,3 @@ export const handleUpdateItem = async (req, res) => {
     res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
-
-// 아이템 삭제
-//export const handleDeleteItem = async (req, res) => {
-  /*
-    #swagger.summary = '아이템 삭제 API'
-    #swagger.tags = ['Shop']
-    #swagger.security = [{"BearerAuth": []}]
-    #swagger.parameters['itemId'] = {
-      in: 'path',
-      description: '삭제할 아이템의 ID',
-      required: true,
-      schema: { type: 'integer', example: 1 }
-    }
-    #swagger.responses[200] = { description: "아이템 삭제 성공" }
-  */
- /*
-  try {
-    const itemId = Number(req.params.itemId);
-    if (isNaN(itemId)) {
-      return res.status(400).send({
-        isSuccess: false,
-        code: "ITEM_ID_INVALID",
-        message: "itemId는 숫자여야 합니다.",
-        result: null
-      });
-    }
-
-    await deleteItem(itemId);
-
-    res.send({
-      isSuccess: true,
-      code: 200,
-      message: "아이템 삭제 성공",
-      result: null
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      isSuccess: false,
-      code: "SERVER_ERROR",
-      message: "서버 오류가 발생했습니다.",
-      result: null
-    });
-  }
-};
-*/

@@ -10341,6 +10341,7 @@ export namespace Prisma {
     topicB: string | null
     status: string | null
     createdAt: Date | null
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
@@ -10353,6 +10354,7 @@ export namespace Prisma {
     topicB: string | null
     status: string | null
     createdAt: Date | null
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
@@ -10365,6 +10367,7 @@ export namespace Prisma {
     topicB: number
     status: number
     createdAt: number
+    startedAt: number
     endedAt: number
     approvalNum: number
     oppositeNum: number
@@ -10393,6 +10396,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10405,6 +10409,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10417,6 +10422,7 @@ export namespace Prisma {
     topicB?: true
     status?: true
     createdAt?: true
+    startedAt?: true
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
@@ -10516,6 +10522,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt: Date
+    startedAt: Date | null
     endedAt: Date | null
     approvalNum: number
     oppositeNum: number
@@ -10547,6 +10554,7 @@ export namespace Prisma {
     topicB?: boolean
     status?: boolean
     createdAt?: boolean
+    startedAt?: boolean
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
@@ -10568,12 +10576,13 @@ export namespace Prisma {
     topicB?: boolean
     status?: boolean
     createdAt?: boolean
+    startedAt?: boolean
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
@@ -10601,6 +10610,7 @@ export namespace Prisma {
       topicB: string
       status: string
       createdAt: Date
+      startedAt: Date | null
       endedAt: Date | null
       approvalNum: number
       oppositeNum: number
@@ -10985,6 +10995,7 @@ export namespace Prisma {
     readonly topicB: FieldRef<"BattleRoom", 'String'>
     readonly status: FieldRef<"BattleRoom", 'String'>
     readonly createdAt: FieldRef<"BattleRoom", 'DateTime'>
+    readonly startedAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly endedAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly approvalNum: FieldRef<"BattleRoom", 'Int'>
     readonly oppositeNum: FieldRef<"BattleRoom", 'Int'>
@@ -12512,6 +12523,7 @@ export namespace Prisma {
     questId: bigint | null
     isCompleted: boolean | null
     completedAt: Date | null
+    rewardClaimed: boolean | null
   }
 
   export type QuestCompletionMaxAggregateOutputType = {
@@ -12520,6 +12532,7 @@ export namespace Prisma {
     questId: bigint | null
     isCompleted: boolean | null
     completedAt: Date | null
+    rewardClaimed: boolean | null
   }
 
   export type QuestCompletionCountAggregateOutputType = {
@@ -12528,6 +12541,7 @@ export namespace Prisma {
     questId: number
     isCompleted: number
     completedAt: number
+    rewardClaimed: number
     _all: number
   }
 
@@ -12550,6 +12564,7 @@ export namespace Prisma {
     questId?: true
     isCompleted?: true
     completedAt?: true
+    rewardClaimed?: true
   }
 
   export type QuestCompletionMaxAggregateInputType = {
@@ -12558,6 +12573,7 @@ export namespace Prisma {
     questId?: true
     isCompleted?: true
     completedAt?: true
+    rewardClaimed?: true
   }
 
   export type QuestCompletionCountAggregateInputType = {
@@ -12566,6 +12582,7 @@ export namespace Prisma {
     questId?: true
     isCompleted?: true
     completedAt?: true
+    rewardClaimed?: true
     _all?: true
   }
 
@@ -12661,6 +12678,7 @@ export namespace Prisma {
     questId: bigint
     isCompleted: boolean
     completedAt: Date | null
+    rewardClaimed: boolean
     _count: QuestCompletionCountAggregateOutputType | null
     _avg: QuestCompletionAvgAggregateOutputType | null
     _sum: QuestCompletionSumAggregateOutputType | null
@@ -12688,6 +12706,7 @@ export namespace Prisma {
     questId?: boolean
     isCompleted?: boolean
     completedAt?: boolean
+    rewardClaimed?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     quest?: boolean | QuestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["questCompletion"]>
@@ -12700,9 +12719,10 @@ export namespace Prisma {
     questId?: boolean
     isCompleted?: boolean
     completedAt?: boolean
+    rewardClaimed?: boolean
   }
 
-  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "questId" | "isCompleted" | "completedAt", ExtArgs["result"]["questCompletion"]>
+  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "questId" | "isCompleted" | "completedAt" | "rewardClaimed", ExtArgs["result"]["questCompletion"]>
   export type QuestCompletionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     quest?: boolean | QuestDefaultArgs<ExtArgs>
@@ -12720,6 +12740,7 @@ export namespace Prisma {
       questId: bigint
       isCompleted: boolean
       completedAt: Date | null
+      rewardClaimed: boolean
     }, ExtArgs["result"]["questCompletion"]>
     composites: {}
   }
@@ -13096,6 +13117,7 @@ export namespace Prisma {
     readonly questId: FieldRef<"QuestCompletion", 'BigInt'>
     readonly isCompleted: FieldRef<"QuestCompletion", 'Boolean'>
     readonly completedAt: FieldRef<"QuestCompletion", 'DateTime'>
+    readonly rewardClaimed: FieldRef<"QuestCompletion", 'Boolean'>
   }
     
 
@@ -16510,6 +16532,7 @@ export namespace Prisma {
     topicB: 'topicB',
     status: 'status',
     createdAt: 'createdAt',
+    startedAt: 'startedAt',
     endedAt: 'endedAt',
     approvalNum: 'approvalNum',
     oppositeNum: 'oppositeNum'
@@ -16536,7 +16559,8 @@ export namespace Prisma {
     userId: 'userId',
     questId: 'questId',
     isCompleted: 'isCompleted',
-    completedAt: 'completedAt'
+    completedAt: 'completedAt',
+    rewardClaimed: 'rewardClaimed'
   };
 
   export type QuestCompletionScalarFieldEnum = (typeof QuestCompletionScalarFieldEnum)[keyof typeof QuestCompletionScalarFieldEnum]
@@ -17305,6 +17329,7 @@ export namespace Prisma {
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
@@ -17323,6 +17348,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -17345,6 +17371,7 @@ export namespace Prisma {
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
@@ -17363,6 +17390,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -17383,6 +17411,7 @@ export namespace Prisma {
     topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleRoom"> | Date | string
+    startedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
     endedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntWithAggregatesFilter<"BattleRoom"> | number
     oppositeNum?: IntWithAggregatesFilter<"BattleRoom"> | number
@@ -17465,6 +17494,7 @@ export namespace Prisma {
     questId?: BigIntFilter<"QuestCompletion"> | bigint | number
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
+    rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
   }
@@ -17475,6 +17505,7 @@ export namespace Prisma {
     questId?: SortOrder
     isCompleted?: SortOrder
     completedAt?: SortOrderInput | SortOrder
+    rewardClaimed?: SortOrder
     user?: UserOrderByWithRelationInput
     quest?: QuestOrderByWithRelationInput
   }
@@ -17488,6 +17519,7 @@ export namespace Prisma {
     questId?: BigIntFilter<"QuestCompletion"> | bigint | number
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
+    rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
   }, "id">
@@ -17498,6 +17530,7 @@ export namespace Prisma {
     questId?: SortOrder
     isCompleted?: SortOrder
     completedAt?: SortOrderInput | SortOrder
+    rewardClaimed?: SortOrder
     _count?: QuestCompletionCountOrderByAggregateInput
     _avg?: QuestCompletionAvgOrderByAggregateInput
     _max?: QuestCompletionMaxOrderByAggregateInput
@@ -17514,6 +17547,7 @@ export namespace Prisma {
     questId?: BigIntWithAggregatesFilter<"QuestCompletion"> | bigint | number
     isCompleted?: BoolWithAggregatesFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableWithAggregatesFilter<"QuestCompletion"> | Date | string | null
+    rewardClaimed?: BoolWithAggregatesFilter<"QuestCompletion"> | boolean
   }
 
   export type PointTransactionWhereInput = {
@@ -18269,6 +18303,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18287,6 +18322,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18305,6 +18341,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18323,6 +18360,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18341,6 +18379,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -18353,6 +18392,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18365,6 +18405,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -18443,6 +18484,7 @@ export namespace Prisma {
     id?: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
     user: UserCreateNestedOneWithoutQuestCompletionsInput
     quest: QuestCreateNestedOneWithoutQuestCompletionsInput
   }
@@ -18453,12 +18495,14 @@ export namespace Prisma {
     questId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type QuestCompletionUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutQuestCompletionsNestedInput
     quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
@@ -18469,6 +18513,7 @@ export namespace Prisma {
     questId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type QuestCompletionCreateManyInput = {
@@ -18477,12 +18522,14 @@ export namespace Prisma {
     questId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type QuestCompletionUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type QuestCompletionUncheckedUpdateManyInput = {
@@ -18491,6 +18538,7 @@ export namespace Prisma {
     questId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PointTransactionCreateInput = {
@@ -19395,6 +19443,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -19414,6 +19463,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -19426,6 +19476,7 @@ export namespace Prisma {
     topicB?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    startedAt?: SortOrder
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
@@ -19495,6 +19546,7 @@ export namespace Prisma {
     questId?: SortOrder
     isCompleted?: SortOrder
     completedAt?: SortOrder
+    rewardClaimed?: SortOrder
   }
 
   export type QuestCompletionAvgOrderByAggregateInput = {
@@ -19509,6 +19561,7 @@ export namespace Prisma {
     questId?: SortOrder
     isCompleted?: SortOrder
     completedAt?: SortOrder
+    rewardClaimed?: SortOrder
   }
 
   export type QuestCompletionMinOrderByAggregateInput = {
@@ -19517,6 +19570,7 @@ export namespace Prisma {
     questId?: SortOrder
     isCompleted?: SortOrder
     completedAt?: SortOrder
+    rewardClaimed?: SortOrder
   }
 
   export type QuestCompletionSumOrderByAggregateInput = {
@@ -20891,6 +20945,7 @@ export namespace Prisma {
     id?: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
     quest: QuestCreateNestedOneWithoutQuestCompletionsInput
   }
 
@@ -20899,6 +20954,7 @@ export namespace Prisma {
     questId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type QuestCompletionCreateOrConnectWithoutUserInput = {
@@ -21096,6 +21152,7 @@ export namespace Prisma {
     questId?: BigIntFilter<"QuestCompletion"> | bigint | number
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
+    rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
   }
 
   export type PointTransactionUpsertWithWhereUniqueWithoutUserInput = {
@@ -21284,6 +21341,7 @@ export namespace Prisma {
     id?: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
     user: UserCreateNestedOneWithoutQuestCompletionsInput
   }
 
@@ -21292,6 +21350,7 @@ export namespace Prisma {
     userId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type QuestCompletionCreateOrConnectWithoutQuestInput = {
@@ -21374,6 +21433,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21391,6 +21451,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21477,6 +21538,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21494,6 +21556,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21511,6 +21574,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21528,6 +21592,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21561,6 +21626,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21578,6 +21644,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21595,6 +21662,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21612,6 +21680,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -21645,6 +21714,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -21662,6 +21732,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22149,6 +22220,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22166,6 +22238,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22199,6 +22272,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22216,6 +22290,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22532,6 +22607,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22549,6 +22625,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22635,6 +22712,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22652,6 +22730,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22669,6 +22748,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22686,6 +22766,7 @@ export namespace Prisma {
     topicB: string
     status: string
     createdAt?: Date | string
+    startedAt?: Date | string | null
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
@@ -22766,6 +22847,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22783,6 +22865,7 @@ export namespace Prisma {
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
@@ -22877,6 +22960,7 @@ export namespace Prisma {
     questId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type PointTransactionCreateManyUserInput = {
@@ -22983,6 +23067,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
     quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
 
@@ -22991,6 +23076,7 @@ export namespace Prisma {
     questId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type QuestCompletionUncheckedUpdateManyWithoutUserInput = {
@@ -22998,6 +23084,7 @@ export namespace Prisma {
     questId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PointTransactionUpdateWithoutUserInput = {
@@ -23071,12 +23158,14 @@ export namespace Prisma {
     userId: bigint | number
     isCompleted?: boolean
     completedAt?: Date | string | null
+    rewardClaimed?: boolean
   }
 
   export type QuestCompletionUpdateWithoutQuestInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
 
@@ -23085,6 +23174,7 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type QuestCompletionUncheckedUpdateManyWithoutQuestInput = {
@@ -23092,6 +23182,7 @@ export namespace Prisma {
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserItemCreateManyItemInput = {

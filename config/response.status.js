@@ -161,23 +161,43 @@ export const status = {
     message: "이미 참가했습니다.",
   },
   ITEM_NOT_FOUND: {
-  status: StatusCodes.NOT_FOUND,
+  status: StatusCodes.ITEM_NOT_FOUND,
   isSuccess: false,
   code: "SHOP4041",
   message: "존재하지 않는 아이템입니다.",
   },
   INSUFFICIENT_POINTS: {
-  status: StatusCodes.BAD_REQUEST,
+  status: StatusCodes.INSUFFICIENT_POINTS,
   isSuccess: false,
   code: "SHOP4001",
   message: "포인트가 부족합니다.",
   },
   ITEM_PARAM_REQUIRED: {
-  status: StatusCodes.BAD_REQUEST,
+  status: StatusCodes.ITEM_PARAM_REQUIRED,
   isSuccess: false,
   code: "SHOP4002",
   message: "아이템 이름과 가격은 필수입니다.",
   },
+    ROOM_NOT_FOUND : {
+    status: StatusCodes.ROOM_NOT_FOUND,
+    isSuccess: false,
+    code: "ROOMIN4005",
+    message: "방을 찾을 수가 없습니다.",
+  },
+    INVALID_STATE : {
+    status: StatusCodes.INVALID_STATE,
+    isSuccess: false,
+    code: "ROOMIN4005",
+    message: "올바르지 않은 상태입니다.",
+  },
+
+  //퀘스트
+  INCOMPLETE : {
+    status: StatusCodes.INCOMPLETE,
+    isSuccess: false,
+    code: "QUEST000",
+    message: "완료하지 못한 퀘스트입니다.",
+   }, 
 }
 
 

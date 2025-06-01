@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "darwin-arm64"]
 }
 
 datasource db {
@@ -137,6 +138,7 @@ model BattleRoom {
   topicB      String    @map("topic_b") @db.VarChar(100)
   status      String    @map("status") @db.VarChar(20) // Enum을 String으로 수정
   createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(6)
+  startedAt   DateTime? @map("started_at") @db.DateTime(6)
   endedAt     DateTime? @map("ended_at") @db.DateTime(6)
   approvalNum Int       @default(0) @map("approval_num")
   oppositeNum Int       @default(0) @map("opposite_num")
@@ -166,11 +168,12 @@ model BattleTitle {
 }
 
 model QuestCompletion {
-  id          BigInt    @id @default(autoincrement()) @map("id")
-  userId      BigInt    @map("user_id")
-  questId     BigInt    @map("quest_id")
-  isCompleted Boolean   @default(false) @map("is_completed")
-  completedAt DateTime? @map("completed_at") @db.DateTime(6)
+  id            BigInt    @id @default(autoincrement()) @map("id")
+  userId        BigInt    @map("user_id")
+  questId       BigInt    @map("quest_id")
+  isCompleted   Boolean   @default(false) @map("is_completed")
+  completedAt   DateTime? @map("completed_at") @db.DateTime(6)
+  rewardClaimed Boolean   @default(false) @map("reward_claimed")
 
   user  User  @relation(fields: [userId], references: [id])
   quest Quest @relation(fields: [questId], references: [id])

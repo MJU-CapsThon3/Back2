@@ -245,3 +245,161 @@ export const deleteItemRepo = async (itemId) => {
   });
 };
 */
+
+// 퀘스트 관련 추가한 부분
+//퀘스트 목록 조회
+export const getAllQuests = async () => {
+  try {
+    const quests = await prisma.quest.findMany({
+      orderBy: {
+        id: 'asc',  // 필요에 따라 정렬
+      },
+    });
+    return quests;
+  } catch (error) {
+    console.error('Error fetching quests:', error);
+    throw error;
+  }
+};
+
+//퀘스트 진행 상태 조회
+export const checkQuestCondition = async (userId, questId) => {
+  switch (questId) {
+    case 1: // 로그인하기
+      return true; // 로그인 시점에 체크하므로 true 반환
+  
+    case 2: // 토론 참여하기
+      const participated = await prisma.roomParticipant.findFirst({
+        where: { userId },
+      });
+      return !!participated;
+  
+    case 3: // 방 생성하기
+      const createdRoom = await prisma.battleRoom.findFirst({
+        where: { admin: userId },
+      });
+      return !!createdRoom;
+  
+    case 4: // 채팅하기
+      const chatted = await prisma.chatMessage.findFirst({
+        where: { userId },
+      });
+      return !!chatted;
+  
+    case 5: // 아이템 구매하기
+      const purchasedItem = await prisma.userItem.findFirst({
+        where: { userId },
+      });
+      return !!purchasedItem;
+  
+    case 6: // 일일 퀘스트 클리어
+      const otherCompletions = await prisma.questCompletion.findMany({
+        where: {
+          userId,
+          questId: { in: [1, 2, 3, 4, 5] },
+          isCompleted: true,
+        },
+      });
+      return otherCompletions.length === 5;
+  
+    default:
+      return false;
+  }
+};
+
+//퀘스트 완료 처리
+export const markQuestCompleted = async (userId, questId) => {
+  const existing = await prisma.questCompletion.findFirst({
+    where: {
+      userId,
+      questId,
+    },
+  });
+  
+  if (existing) {
+    // 이미 존재하면 업데이트
+    return prisma.questCompletion.update({
+      where: { id: existing.id }, // ← 기본 키로 식별
+      data: {
+        isCompleted: true,
+        completedAt: new Date(),
+      },
+    });
+  } else {
+    // 존재하지 않으면 생성
+    return prisma.questCompletion.create({
+      data: {
+        userId,
+        questId,
+        isCompleted: true,
+        completedAt: new Date(),
+      },
+    });
+  }
+};
+
+// 퀘스트 완료 여부 + 보상 여부 조회
+export const getQuestCompletion = async (userId, questId) => {
+  return await prisma.questCompletion.findFirst({
+    where: {
+      userId: userId,
+      questId: questId,
+    },
+  });
+};
+
+// 사용자에게 보상 지급
+export const addUserPoint = async (userId, point, reason = '퀘스트 보상') => {
+  await prisma.user.update({
+    where: { id: userId },
+    data: { point: { increment: point } },
+  });
+
+  await prisma.pointTransaction.create({
+    data: {
+      userId,
+      change: point,
+      reason,
+    },
+  });
+};
+
+// 보상 지급 상태 업데이트
+export const markQuestRewardClaimed = async (userId, questId) => {
+  return await prisma.questCompletion.updateMany({
+    where: {
+      userId: userId,
+      questId: questId,
+    },
+    data: {
+      rewardClaimed: true,
+    },
+  });
+};
+
+// 모든 사용자의 퀘스트 상태 초기화
+export const resetAllQuestCompletions = async () => {
+  return await prisma.questCompletion.updateMany({
+    data: {
+      isCompleted: false,
+      rewardClaimed: false,
+    },
+  });
+};
+
+//회원가입시 quest_completion 생성
+// 모든 퀘스트 ID만 가져오기
+export const getAllQuestIds = async () => {
+  const quests = await prisma.quest.findMany({
+    select: { id: true }
+  });
+  return quests.map((quest) => quest.id);
+};
+
+// QuestCompletion 생성 (배열 형태로)
+export const createQuestCompletions = async (questCompletions) => {
+  return await prisma.questCompletion.createMany({
+    data: questCompletions,
+    skipDuplicates: true, // 중복 방지 (unique 제약조건 있을 경우)
+  });
+};
