@@ -358,11 +358,7 @@ export const getQuestProgress = async (userId, questId) => {
     select: { progress: true },
   });
 
-  if (!completion) {
-    return null;
-  }
-
-  return completion.progress;
+  return completion?.progress ?? 0; // completion이 없으면 0
 };
 
 // 퀘스트 완료 처리

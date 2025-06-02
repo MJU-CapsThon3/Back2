@@ -2124,7 +2124,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
+                    "isSuccess": {
                       "type": "boolean",
                       "example": true
                     },
@@ -2179,7 +2179,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "success": false,
+                  "isSuccess": false,
                   "message": "토큰이 없습니다.",
                   "result": null
                 }
@@ -2191,7 +2191,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "success": false,
+                  "isSuccess": false,
                   "message": "유효하지 않은 토큰입니다.",
                   "result": null
                 }
@@ -2203,7 +2203,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "success": false,
+                  "uccess": false,
                   "message": "서버 오류 발생",
                   "result": null
                 }

@@ -497,7 +497,7 @@ export const handleGetDailyQuests = async (req, res) => {
         schema: {
           type: "object",
           properties: {
-            success: { type: "boolean", example: true },
+            isSuccess: { type: "boolean", example: true },
             message: { type: "string", example: "퀘스트를 성공했습니다." },
             result: {
               type: "object",
@@ -526,7 +526,7 @@ export const handleGetDailyQuests = async (req, res) => {
     content: {
       "application/json": {
         schema: {
-          success: false,
+          isSuccess: false,
           message: "토큰이 없습니다.",
           result: null
         }
@@ -538,7 +538,7 @@ export const handleGetDailyQuests = async (req, res) => {
     content: {
       "application/json": {
         schema: {
-          success: false,
+          isSuccess: false,
           message: "유효하지 않은 토큰입니다.",
           result: null
         }
@@ -550,7 +550,7 @@ export const handleGetDailyQuests = async (req, res) => {
     content: {
       "application/json": {
         schema: {
-          success: false,
+          uccess: false,
           message: "서버 오류 발생",
           result: null
         }
@@ -576,43 +576,35 @@ export const handleGetDailyQuests = async (req, res) => {
         if (alreadyCompleted && alreadyCompleted.status === 'already_claimed') {
           return res.status(200).json({
             isSuccess: false,
+            code: 200,
             message: "이미 보상을 수령한 퀘스트입니다.",
             result: {
               status : "complete",
             },
+            alreadyCompleted
           });
-        } else if(checkProgress && checkProgress.status === 'goal_reached') {
+        } else if(checkProgress && checkProgress.status === 'goal_reached') { // 2. 퀘스트 진행도와 목표치 비교
           return res.status(200).json({
             isSuccess: false,
             message: "이미 목표치를 달성했습니다.",
             result: {
               status : "goal_reached",
-              progress,
-              goal,
             },
+            checkProgress
           });
-        } else {
-          res.status(200).json(await completeQuestIfEligible(req.userId, questId));
-        }
-        
-        // 2. 퀘스트 진행도와 목표치 비교
-        //const progress = await getUserQuestProgress(req.userId, questId);
-        //const goal = await getQuestsGoal(questId);
+        } else { // 3. 퀘스트 성공 여부 확인 및 진행도 상승
+          const checkQuestClear = await completeQuestIfEligible(req.userId, questId);
 
-        /*if (progress === goal) {
           return res.status(200).json({
-            success: true,
-            message: "이미 목표치를 달성했습니다.",
+            isSuccess: checkQuestClear.success,
+            message: checkQuestClear.message,
             result: {
-              status : "goal reached",
-              progress,
-              goal,
-            },
+              status: checkQuestClear.success ? 'progress_updated' : 'failed',
+              progress: checkQuestClear.progress,
+              goal: checkQuestClear.goal,
+            }
           });
-        }*/
-        
-        // 3. 퀘스트 성공 여부 확인 및 진행도 상승
-        //res.status(200).json(await completeQuestIfEligible(req.userId, questId));
+        }
       } else {
         //토큰 이상감지
         res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
