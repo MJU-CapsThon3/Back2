@@ -4427,11 +4427,13 @@ export namespace Prisma {
   export type QuestAvgAggregateOutputType = {
     id: number | null
     rewardPts: number | null
+    goal: number | null
   }
 
   export type QuestSumAggregateOutputType = {
     id: bigint | null
     rewardPts: number | null
+    goal: number | null
   }
 
   export type QuestMinAggregateOutputType = {
@@ -4441,6 +4443,7 @@ export namespace Prisma {
     type: string | null
     rewardPts: number | null
     createdAt: Date | null
+    goal: number | null
   }
 
   export type QuestMaxAggregateOutputType = {
@@ -4450,6 +4453,7 @@ export namespace Prisma {
     type: string | null
     rewardPts: number | null
     createdAt: Date | null
+    goal: number | null
   }
 
   export type QuestCountAggregateOutputType = {
@@ -4459,6 +4463,7 @@ export namespace Prisma {
     type: number
     rewardPts: number
     createdAt: number
+    goal: number
     _all: number
   }
 
@@ -4466,11 +4471,13 @@ export namespace Prisma {
   export type QuestAvgAggregateInputType = {
     id?: true
     rewardPts?: true
+    goal?: true
   }
 
   export type QuestSumAggregateInputType = {
     id?: true
     rewardPts?: true
+    goal?: true
   }
 
   export type QuestMinAggregateInputType = {
@@ -4480,6 +4487,7 @@ export namespace Prisma {
     type?: true
     rewardPts?: true
     createdAt?: true
+    goal?: true
   }
 
   export type QuestMaxAggregateInputType = {
@@ -4489,6 +4497,7 @@ export namespace Prisma {
     type?: true
     rewardPts?: true
     createdAt?: true
+    goal?: true
   }
 
   export type QuestCountAggregateInputType = {
@@ -4498,6 +4507,7 @@ export namespace Prisma {
     type?: true
     rewardPts?: true
     createdAt?: true
+    goal?: true
     _all?: true
   }
 
@@ -4594,6 +4604,7 @@ export namespace Prisma {
     type: string | null
     rewardPts: number
     createdAt: Date
+    goal: number
     _count: QuestCountAggregateOutputType | null
     _avg: QuestAvgAggregateOutputType | null
     _sum: QuestSumAggregateOutputType | null
@@ -4622,6 +4633,7 @@ export namespace Prisma {
     type?: boolean
     rewardPts?: boolean
     createdAt?: boolean
+    goal?: boolean
     questCompletions?: boolean | Quest$questCompletionsArgs<ExtArgs>
     _count?: boolean | QuestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quest"]>
@@ -4635,9 +4647,10 @@ export namespace Prisma {
     type?: boolean
     rewardPts?: boolean
     createdAt?: boolean
+    goal?: boolean
   }
 
-  export type QuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "rewardPts" | "createdAt", ExtArgs["result"]["quest"]>
+  export type QuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "rewardPts" | "createdAt" | "goal", ExtArgs["result"]["quest"]>
   export type QuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     questCompletions?: boolean | Quest$questCompletionsArgs<ExtArgs>
     _count?: boolean | QuestCountOutputTypeDefaultArgs<ExtArgs>
@@ -4655,6 +4668,7 @@ export namespace Prisma {
       type: string | null
       rewardPts: number
       createdAt: Date
+      goal: number
     }, ExtArgs["result"]["quest"]>
     composites: {}
   }
@@ -5031,6 +5045,7 @@ export namespace Prisma {
     readonly type: FieldRef<"Quest", 'String'>
     readonly rewardPts: FieldRef<"Quest", 'Int'>
     readonly createdAt: FieldRef<"Quest", 'DateTime'>
+    readonly goal: FieldRef<"Quest", 'Int'>
   }
     
 
@@ -12509,12 +12524,14 @@ export namespace Prisma {
     id: number | null
     userId: number | null
     questId: number | null
+    progress: number | null
   }
 
   export type QuestCompletionSumAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
     questId: bigint | null
+    progress: number | null
   }
 
   export type QuestCompletionMinAggregateOutputType = {
@@ -12524,6 +12541,7 @@ export namespace Prisma {
     isCompleted: boolean | null
     completedAt: Date | null
     rewardClaimed: boolean | null
+    progress: number | null
   }
 
   export type QuestCompletionMaxAggregateOutputType = {
@@ -12533,6 +12551,7 @@ export namespace Prisma {
     isCompleted: boolean | null
     completedAt: Date | null
     rewardClaimed: boolean | null
+    progress: number | null
   }
 
   export type QuestCompletionCountAggregateOutputType = {
@@ -12542,6 +12561,7 @@ export namespace Prisma {
     isCompleted: number
     completedAt: number
     rewardClaimed: number
+    progress: number
     _all: number
   }
 
@@ -12550,12 +12570,14 @@ export namespace Prisma {
     id?: true
     userId?: true
     questId?: true
+    progress?: true
   }
 
   export type QuestCompletionSumAggregateInputType = {
     id?: true
     userId?: true
     questId?: true
+    progress?: true
   }
 
   export type QuestCompletionMinAggregateInputType = {
@@ -12565,6 +12587,7 @@ export namespace Prisma {
     isCompleted?: true
     completedAt?: true
     rewardClaimed?: true
+    progress?: true
   }
 
   export type QuestCompletionMaxAggregateInputType = {
@@ -12574,6 +12597,7 @@ export namespace Prisma {
     isCompleted?: true
     completedAt?: true
     rewardClaimed?: true
+    progress?: true
   }
 
   export type QuestCompletionCountAggregateInputType = {
@@ -12583,6 +12607,7 @@ export namespace Prisma {
     isCompleted?: true
     completedAt?: true
     rewardClaimed?: true
+    progress?: true
     _all?: true
   }
 
@@ -12679,6 +12704,7 @@ export namespace Prisma {
     isCompleted: boolean
     completedAt: Date | null
     rewardClaimed: boolean
+    progress: number
     _count: QuestCompletionCountAggregateOutputType | null
     _avg: QuestCompletionAvgAggregateOutputType | null
     _sum: QuestCompletionSumAggregateOutputType | null
@@ -12707,6 +12733,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: boolean
     rewardClaimed?: boolean
+    progress?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     quest?: boolean | QuestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["questCompletion"]>
@@ -12720,9 +12747,10 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: boolean
     rewardClaimed?: boolean
+    progress?: boolean
   }
 
-  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "questId" | "isCompleted" | "completedAt" | "rewardClaimed", ExtArgs["result"]["questCompletion"]>
+  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "questId" | "isCompleted" | "completedAt" | "rewardClaimed" | "progress", ExtArgs["result"]["questCompletion"]>
   export type QuestCompletionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     quest?: boolean | QuestDefaultArgs<ExtArgs>
@@ -12741,6 +12769,7 @@ export namespace Prisma {
       isCompleted: boolean
       completedAt: Date | null
       rewardClaimed: boolean
+      progress: number
     }, ExtArgs["result"]["questCompletion"]>
     composites: {}
   }
@@ -13118,6 +13147,7 @@ export namespace Prisma {
     readonly isCompleted: FieldRef<"QuestCompletion", 'Boolean'>
     readonly completedAt: FieldRef<"QuestCompletion", 'DateTime'>
     readonly rewardClaimed: FieldRef<"QuestCompletion", 'Boolean'>
+    readonly progress: FieldRef<"QuestCompletion", 'Int'>
   }
     
 
@@ -16463,7 +16493,8 @@ export namespace Prisma {
     description: 'description',
     type: 'type',
     rewardPts: 'rewardPts',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    goal: 'goal'
   };
 
   export type QuestScalarFieldEnum = (typeof QuestScalarFieldEnum)[keyof typeof QuestScalarFieldEnum]
@@ -16560,7 +16591,8 @@ export namespace Prisma {
     questId: 'questId',
     isCompleted: 'isCompleted',
     completedAt: 'completedAt',
-    rewardClaimed: 'rewardClaimed'
+    rewardClaimed: 'rewardClaimed',
+    progress: 'progress'
   };
 
   export type QuestCompletionScalarFieldEnum = (typeof QuestCompletionScalarFieldEnum)[keyof typeof QuestCompletionScalarFieldEnum]
@@ -16966,6 +16998,7 @@ export namespace Prisma {
     type?: StringNullableFilter<"Quest"> | string | null
     rewardPts?: IntFilter<"Quest"> | number
     createdAt?: DateTimeFilter<"Quest"> | Date | string
+    goal?: IntFilter<"Quest"> | number
     questCompletions?: QuestCompletionListRelationFilter
   }
 
@@ -16976,6 +17009,7 @@ export namespace Prisma {
     type?: SortOrderInput | SortOrder
     rewardPts?: SortOrder
     createdAt?: SortOrder
+    goal?: SortOrder
     questCompletions?: QuestCompletionOrderByRelationAggregateInput
     _relevance?: QuestOrderByRelevanceInput
   }
@@ -16990,6 +17024,7 @@ export namespace Prisma {
     type?: StringNullableFilter<"Quest"> | string | null
     rewardPts?: IntFilter<"Quest"> | number
     createdAt?: DateTimeFilter<"Quest"> | Date | string
+    goal?: IntFilter<"Quest"> | number
     questCompletions?: QuestCompletionListRelationFilter
   }, "id">
 
@@ -17000,6 +17035,7 @@ export namespace Prisma {
     type?: SortOrderInput | SortOrder
     rewardPts?: SortOrder
     createdAt?: SortOrder
+    goal?: SortOrder
     _count?: QuestCountOrderByAggregateInput
     _avg?: QuestAvgOrderByAggregateInput
     _max?: QuestMaxOrderByAggregateInput
@@ -17017,6 +17053,7 @@ export namespace Prisma {
     type?: StringNullableWithAggregatesFilter<"Quest"> | string | null
     rewardPts?: IntWithAggregatesFilter<"Quest"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Quest"> | Date | string
+    goal?: IntWithAggregatesFilter<"Quest"> | number
   }
 
   export type RoomParticipantWhereInput = {
@@ -17495,6 +17532,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
     rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
+    progress?: IntFilter<"QuestCompletion"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
   }
@@ -17506,6 +17544,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     completedAt?: SortOrderInput | SortOrder
     rewardClaimed?: SortOrder
+    progress?: SortOrder
     user?: UserOrderByWithRelationInput
     quest?: QuestOrderByWithRelationInput
   }
@@ -17520,6 +17559,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
     rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
+    progress?: IntFilter<"QuestCompletion"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
   }, "id">
@@ -17531,6 +17571,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     completedAt?: SortOrderInput | SortOrder
     rewardClaimed?: SortOrder
+    progress?: SortOrder
     _count?: QuestCompletionCountOrderByAggregateInput
     _avg?: QuestCompletionAvgOrderByAggregateInput
     _max?: QuestCompletionMaxOrderByAggregateInput
@@ -17548,6 +17589,7 @@ export namespace Prisma {
     isCompleted?: BoolWithAggregatesFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableWithAggregatesFilter<"QuestCompletion"> | Date | string | null
     rewardClaimed?: BoolWithAggregatesFilter<"QuestCompletion"> | boolean
+    progress?: IntWithAggregatesFilter<"QuestCompletion"> | number
   }
 
   export type PointTransactionWhereInput = {
@@ -17951,6 +17993,7 @@ export namespace Prisma {
     type?: string | null
     rewardPts: number
     createdAt?: Date | string
+    goal?: number
     questCompletions?: QuestCompletionCreateNestedManyWithoutQuestInput
   }
 
@@ -17961,6 +18004,7 @@ export namespace Prisma {
     type?: string | null
     rewardPts: number
     createdAt?: Date | string
+    goal?: number
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
   }
 
@@ -17971,6 +18015,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
     questCompletions?: QuestCompletionUpdateManyWithoutQuestNestedInput
   }
 
@@ -17981,6 +18026,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
   }
 
@@ -17991,6 +18037,7 @@ export namespace Prisma {
     type?: string | null
     rewardPts: number
     createdAt?: Date | string
+    goal?: number
   }
 
   export type QuestUpdateManyMutationInput = {
@@ -18000,6 +18047,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestUncheckedUpdateManyInput = {
@@ -18009,6 +18057,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
   }
 
   export type RoomParticipantCreateInput = {
@@ -18485,6 +18534,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
     user: UserCreateNestedOneWithoutQuestCompletionsInput
     quest: QuestCreateNestedOneWithoutQuestCompletionsInput
   }
@@ -18496,6 +18546,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type QuestCompletionUpdateInput = {
@@ -18503,6 +18554,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutQuestCompletionsNestedInput
     quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
@@ -18514,6 +18566,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestCompletionCreateManyInput = {
@@ -18523,6 +18576,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type QuestCompletionUpdateManyMutationInput = {
@@ -18530,6 +18584,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestCompletionUncheckedUpdateManyInput = {
@@ -18539,6 +18594,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type PointTransactionCreateInput = {
@@ -19092,11 +19148,13 @@ export namespace Prisma {
     type?: SortOrder
     rewardPts?: SortOrder
     createdAt?: SortOrder
+    goal?: SortOrder
   }
 
   export type QuestAvgOrderByAggregateInput = {
     id?: SortOrder
     rewardPts?: SortOrder
+    goal?: SortOrder
   }
 
   export type QuestMaxOrderByAggregateInput = {
@@ -19106,6 +19164,7 @@ export namespace Prisma {
     type?: SortOrder
     rewardPts?: SortOrder
     createdAt?: SortOrder
+    goal?: SortOrder
   }
 
   export type QuestMinOrderByAggregateInput = {
@@ -19115,11 +19174,13 @@ export namespace Prisma {
     type?: SortOrder
     rewardPts?: SortOrder
     createdAt?: SortOrder
+    goal?: SortOrder
   }
 
   export type QuestSumOrderByAggregateInput = {
     id?: SortOrder
     rewardPts?: SortOrder
+    goal?: SortOrder
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -19547,12 +19608,14 @@ export namespace Prisma {
     isCompleted?: SortOrder
     completedAt?: SortOrder
     rewardClaimed?: SortOrder
+    progress?: SortOrder
   }
 
   export type QuestCompletionAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     questId?: SortOrder
+    progress?: SortOrder
   }
 
   export type QuestCompletionMaxOrderByAggregateInput = {
@@ -19562,6 +19625,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     completedAt?: SortOrder
     rewardClaimed?: SortOrder
+    progress?: SortOrder
   }
 
   export type QuestCompletionMinOrderByAggregateInput = {
@@ -19571,12 +19635,14 @@ export namespace Prisma {
     isCompleted?: SortOrder
     completedAt?: SortOrder
     rewardClaimed?: SortOrder
+    progress?: SortOrder
   }
 
   export type QuestCompletionSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     questId?: SortOrder
+    progress?: SortOrder
   }
 
   export type PointTransactionOrderByRelevanceInput = {
@@ -20938,6 +21004,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
     quest: QuestCreateNestedOneWithoutQuestCompletionsInput
   }
 
@@ -20947,6 +21014,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type QuestCompletionCreateOrConnectWithoutUserInput = {
@@ -21149,6 +21217,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"QuestCompletion"> | boolean
     completedAt?: DateTimeNullableFilter<"QuestCompletion"> | Date | string | null
     rewardClaimed?: BoolFilter<"QuestCompletion"> | boolean
+    progress?: IntFilter<"QuestCompletion"> | number
   }
 
   export type RankingUpsertWithWhereUniqueWithoutUserInput = {
@@ -21342,6 +21411,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
     user: UserCreateNestedOneWithoutQuestCompletionsInput
   }
 
@@ -21351,6 +21421,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type QuestCompletionCreateOrConnectWithoutQuestInput = {
@@ -22355,6 +22426,7 @@ export namespace Prisma {
     type?: string | null
     rewardPts: number
     createdAt?: Date | string
+    goal?: number
   }
 
   export type QuestUncheckedCreateWithoutQuestCompletionsInput = {
@@ -22364,6 +22436,7 @@ export namespace Prisma {
     type?: string | null
     rewardPts: number
     createdAt?: Date | string
+    goal?: number
   }
 
   export type QuestCreateOrConnectWithoutQuestCompletionsInput = {
@@ -22442,6 +22515,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestUncheckedUpdateWithoutQuestCompletionsInput = {
@@ -22451,6 +22525,7 @@ export namespace Prisma {
     type?: NullableStringFieldUpdateOperationsInput | string | null
     rewardPts?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    goal?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserCreateWithoutPointTransactionsInput = {
@@ -22957,6 +23032,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type RankingCreateManyUserInput = {
@@ -23056,6 +23132,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     quest?: QuestUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
 
@@ -23065,6 +23142,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestCompletionUncheckedUpdateManyWithoutUserInput = {
@@ -23073,6 +23151,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type RankingUpdateWithoutUserInput = {
@@ -23159,6 +23238,7 @@ export namespace Prisma {
     isCompleted?: boolean
     completedAt?: Date | string | null
     rewardClaimed?: boolean
+    progress?: number
   }
 
   export type QuestCompletionUpdateWithoutQuestInput = {
@@ -23166,6 +23246,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutQuestCompletionsNestedInput
   }
 
@@ -23175,6 +23256,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuestCompletionUncheckedUpdateManyWithoutQuestInput = {
@@ -23183,6 +23265,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserItemCreateManyItemInput = {

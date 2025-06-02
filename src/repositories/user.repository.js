@@ -246,7 +246,6 @@ export const deleteItemRepo = async (itemId) => {
 };
 */
 
-// 퀘스트 관련 추가한 부분
 //퀘스트 목록 조회
 export const getAllQuests = async () => {
   try {
@@ -260,6 +259,13 @@ export const getAllQuests = async () => {
     console.error('Error fetching quests:', error);
     throw error;
   }
+};
+
+// 퀘스트 아이디 기준 조회
+export const findQuestById = async (questId) => {
+  return await prisma.quest.findUnique({
+    where: { id: questId },
+  });
 };
 
 //퀘스트 진행 상태 조회
@@ -307,7 +313,55 @@ export const checkQuestCondition = async (userId, questId) => {
   }
 };
 
-//퀘스트 완료 처리
+// 퀘스트 진행 현황 증가
+export const addQuestProgress = async (userId, questId) => {
+  const existing = await prisma.questCompletion.findFirst({
+    where: {
+      userId,
+      questId,
+    },
+  });
+  
+  if (!existing) {
+    throw new Error("해당 유저의 퀘스트 진행 정보가 없습니다.");
+  }
+
+  return prisma.questCompletion.update({
+    where: { id: existing.id },
+    data: {
+      progress: { increment: 1 },
+    },
+  });
+};
+
+// 퀘스트 목표 조회
+export const getQuestGoal = async (questId) => {
+  const quest = await prisma.quest.findUnique({
+    where: { id: questId },
+    select: { goal: true },
+  });
+
+  if (!quest) {
+    throw new Error("해당 퀘스트를 찾을 수 없습니다.");
+  }
+
+  return quest.goal;
+};
+
+// 퀘스트 진행 현황 
+export const getQuestProgress = async (userId, questId) => {
+  const completion = await prisma.questCompletion.findFirst({
+    where: {
+      userId,
+      questId,
+    },
+    select: { progress: true },
+  });
+
+  return completion?.progress ?? 0; // completion이 없으면 0
+};
+
+// 퀘스트 완료 처리
 export const markQuestCompleted = async (userId, questId) => {
   const existing = await prisma.questCompletion.findFirst({
     where: {
@@ -319,7 +373,7 @@ export const markQuestCompleted = async (userId, questId) => {
   if (existing) {
     // 이미 존재하면 업데이트
     return prisma.questCompletion.update({
-      where: { id: existing.id }, // ← 기본 키로 식별
+      where: { id: existing.id }, 
       data: {
         isCompleted: true,
         completedAt: new Date(),
@@ -364,6 +418,19 @@ export const addUserPoint = async (userId, point, reason = '퀘스트 보상') =
   });
 };
 
+// 보상 지급 상태 확인
+export const findQuestCompletion = async (userId, questId) => {
+  return await prisma.questCompletion.findFirst({
+    where: {
+      userId: userId,
+      questId: questId,
+    },
+    select: {
+      rewardClaimed: true,
+    },
+  });
+}
+
 // 보상 지급 상태 업데이트
 export const markQuestRewardClaimed = async (userId, questId) => {
   return await prisma.questCompletion.updateMany({
@@ -383,6 +450,7 @@ export const resetAllQuestCompletions = async () => {
     data: {
       isCompleted: false,
       rewardClaimed: false,
+      progress : 0,
     },
   });
 };
@@ -402,4 +470,80 @@ export const createQuestCompletions = async (questCompletions) => {
     data: questCompletions,
     skipDuplicates: true, // 중복 방지 (unique 제약조건 있을 경우)
   });
+};
+
+// 오늘 생성한 토론방 수
+export const countUserRoomCreatesToday = async (userId) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return await prisma.battleRoom.count({
+    where: {
+      admin: userId,
+      createdAt: {
+        gte: today,
+      },
+    },
+  });
+};
+
+// 오늘 보낸 채팅 수
+export const countUserChatsToday = async (userId) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return await prisma.chatMessage.count({
+    where: {
+      userId,
+      createdAt: {
+        gte: today,
+      },
+    },
+  });
+};
+
+// 오늘 아이템 구매 횟수
+export const countUserItemBuysToday = async (userId) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return await prisma.userItem.count({
+    where: {
+      userId,
+      acquiredAt: {
+        gte: today,
+      },
+    },
+  });
+};
+
+// 퀘스트 진행도만 업데이트
+export const updateQuestProgress = async (userId, questId, progress) => {
+  return await prisma.questCompletion.updateMany({
+    where: { userId, questId },
+    data: { progress },
+  });
+};
+
+// 토론 참여 기록 확인
+export const hasUserParticipatedInAnyRoom = async (userId) => {
+  const count = await prisma.roomParticipant.count({
+    where: {
+      userId: userId,
+    },
+  });
+  return count > 0;
+};
+
+//
+export const hasUserClearedAllDailyQuests = async (userId) => {
+  const completedCount = await prisma.questCompletion.count({
+    where: {
+      userId: userId,
+      questId: { in: [1, 2, 3, 4, 5] },
+      isCompleted: true,
+    },
+  });
+
+  return completedCount === 5;
 };
