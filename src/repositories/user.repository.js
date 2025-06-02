@@ -200,8 +200,9 @@ export const findUserItems = async (userId) => {
         select: {
           id: true,
           name: true,
-          context: true,
-          cost: true,
+          category: true,  
+          icon: true,      
+          price: true,
         },
       },
     },
@@ -214,8 +215,9 @@ export const getShopItemsFromDB = async () => {
     select: {
       id: true,
       name: true,
-      context: true,
-      cost: true,
+      category: true,  
+      icon: true,      
+      price: true,
     },
     orderBy: { id: 'asc' }, // 원하는 정렬 기준 (id 기준 오름차순)
   });

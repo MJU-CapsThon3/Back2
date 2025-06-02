@@ -8,7 +8,8 @@
     "generate": "prisma generate",
     "start": "node dist/index.js",
     "dev": "npm run generate && nodemon --exec babel-node src/index.js",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "swagger": "npx swagger-autogen --output ./swagger-output.json ./src/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +39,7 @@
     "babel-loader": "^10.0.0",
     "nodemon": "^3.1.10",
     "prisma": "^6.8.2",
+    "swagger-autogen": "^2.23.7",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
     "webpack-node-externals": "^3.0.0"

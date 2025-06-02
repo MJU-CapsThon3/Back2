@@ -229,23 +229,23 @@ export const buyItem = async (userId, itemId) => {
 
   const user = await getUser(userId);
 
-  if (user.point < item.cost) {
+  if (user.point < item.price) {
     throw new Error("포인트가 부족합니다.");
   }
 
   // 포인트 차감
-  await deductUserPoints(userId, item.cost);
+  await deductUserPoints(userId, item.price);
 
   // 아이템 지급
   await createUserItem(userId, itemId);
 
   // 포인트 거래 기록
-  await createPointTransaction(userId, -item.cost, `아이템 구매: ${item.name}`);
+  await createPointTransaction(userId, -item.price, `아이템 구매: ${item.name}`);
 
   return {
     success: true,
     message: `${item.name} 아이템을 구매했습니다.`,
-    remainingPoints: user.point - item.cost,
+    remainingPoints: user.point - item.price,
   };
 };
 
@@ -261,8 +261,9 @@ export const getUserItems = async (userId) => {
   return userItems.map((userItem) => ({
     id: userItem.item.id,
     name: userItem.item.name,
-    context: userItem.item.context,
-    cost: userItem.item.cost,
+    category: userItem.item.category,  
+    icon: userItem.item.icon,          
+    price: userItem.item.price,        
     acquiredAt: userItem.acquiredAt,
     isEquipped: userItem.isEquipped,
   }));

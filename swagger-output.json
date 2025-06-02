@@ -5221,31 +5221,31 @@
                       "example": true
                     },
                     "code": {
-                      "type": "number",
-                      "example": 200
+                      "type": "string",
+                      "example": "200"
                     },
                     "message": {
                       "type": "string",
-                      "example": "아이템이 성공적으로 추가되었습니다."
+                      "example": "success!"
                     },
                     "result": {
                       "type": "object",
                       "properties": {
-                        "id": {
-                          "type": "number",
-                          "example": 1
-                        },
                         "name": {
                           "type": "string",
-                          "example": "멋진 아이템"
+                          "example": "커스텀 팀 아이콘"
                         },
-                        "context": {
-                          "type": "string",
-                          "example": "이 아이템을 사용하면 멋있어집니다!"
-                        },
-                        "cost": {
+                        "price": {
                           "type": "number",
-                          "example": 300
+                          "example": 11500
+                        },
+                        "icon": {
+                          "type": "string",
+                          "example": "<svg .../>"
+                        },
+                        "category": {
+                          "type": "string",
+                          "example": "팀 아이콘"
                         }
                       }
                     }
@@ -5271,7 +5271,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "아이템 이름과 가격은 필수입니다."
+                      "example": "아이템 name, price, category는 필수입니다."
                     },
                     "result": {
                       "type": "object",
@@ -5317,6 +5317,11 @@
             }
           }
         },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5324,21 +5329,27 @@
               "schema": {
                 "type": "object",
                 "required": [
+                  "id",
                   "name",
-                  "cost"
+                  "price",
+                  "category"
                 ],
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "멋진 아이템"
+                    "example": "커스텀 팀 아이콘"
                   },
-                  "context": {
-                    "type": "string",
-                    "example": "이 아이템을 사용하면 멋있어집니다!"
-                  },
-                  "cost": {
+                  "price": {
                     "type": "number",
-                    "example": 300
+                    "example": 11500
+                  },
+                  "icon": {
+                    "type": "string",
+                    "example": "<svg .../>"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "팀 아이콘"
                   }
                 }
               }
@@ -5383,15 +5394,19 @@
                           },
                           "name": {
                             "type": "string",
-                            "example": "멋진 아이템"
+                            "example": "커스텀 팀 아이콘"
                           },
-                          "context": {
+                          "category": {
                             "type": "string",
-                            "example": "이 아이템을 사용하면 멋있어집니다!"
+                            "example": "팀 아이콘"
                           },
-                          "cost": {
+                          "icon": {
+                            "type": "string",
+                            "example": "<svg .../>"
+                          },
+                          "price": {
                             "type": "number",
-                            "example": 300
+                            "example": 11500
                           }
                         }
                       }
@@ -5476,15 +5491,19 @@
                           },
                           "name": {
                             "type": "string",
-                            "example": "멋진 아이템"
+                            "example": "커스텀 팀 아이콘"
                           },
-                          "context": {
+                          "category": {
                             "type": "string",
-                            "example": "이 아이템을 사용하면 멋있어집니다!"
+                            "example": "팀 아이콘"
                           },
-                          "cost": {
+                          "icon": {
+                            "type": "string",
+                            "example": "<svg .../>"
+                          },
+                          "price": {
                             "type": "number",
-                            "example": 300
+                            "example": 11500
                           },
                           "acquiredAt": {
                             "type": "string",
@@ -5574,7 +5593,7 @@
                     "result": {
                       "type": "object",
                       "properties": {
-                        "id": {
+                        "itemId": {
                           "type": "number",
                           "example": 1
                         },
@@ -5582,13 +5601,17 @@
                           "type": "string",
                           "example": "수정된 이름"
                         },
-                        "context": {
+                        "category": {
                           "type": "string",
-                          "example": "수정된 설명"
+                          "example": "팀 아이콘"
                         },
-                        "cost": {
+                        "icon": {
+                          "type": "string",
+                          "example": "<svg .../>"
+                        },
+                        "price": {
                           "type": "number",
-                          "example": 200
+                          "example": 12000
                         }
                       }
                     }
@@ -5683,13 +5706,17 @@
                     "type": "string",
                     "example": "수정된 이름"
                   },
-                  "context": {
+                  "category": {
                     "type": "string",
-                    "example": "수정된 설명"
+                    "example": "팀 아이콘"
                   },
-                  "cost": {
+                  "icon": {
+                    "type": "string",
+                    "example": "<svg .../>"
+                  },
+                  "price": {
                     "type": "number",
-                    "example": 200
+                    "example": 12000
                   }
                 }
               }

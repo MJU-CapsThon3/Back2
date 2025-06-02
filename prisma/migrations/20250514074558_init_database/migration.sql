@@ -88,10 +88,11 @@ CREATE TABLE `user_items` (
 
 -- CreateTable
 CREATE TABLE `items` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` BIGINT NOT NULL,
     `name` VARCHAR(100) NOT NULL,
-    `context` TEXT NULL,
-    `cost` INTEGER NOT NULL,
+    `price` INTEGER NOT NULL,
+    `category` VARCHAR(50) NOT NULL,
+    `icon` VARCHAR(1000) NULL,
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 
     PRIMARY KEY (`id`)

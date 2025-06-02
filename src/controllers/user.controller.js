@@ -919,17 +919,19 @@ export const handleAddItem = async (req, res) => {
   /*
     #swagger.summary = '아이템 추가 API'
     #swagger.tags = ['Shop']
+    #swagger.security = [{"BearerAuth": []}]
     #swagger.requestBody = {
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["name", "cost"],
+            required: ["id", "name", "price", "category"],
             properties: {
-              name: { type: "string", example: "멋진 아이템" },
-              context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
-              cost: { type: "number", example: 300 }
+              name: { type: "string", example: "커스텀 팀 아이콘" },
+              price: { type: "number", example: 11500 },
+              icon: { type: "string", example: "<svg .../>" },
+              category: { type: "string", example: "팀 아이콘" }
             }
           }
         }
@@ -943,15 +945,15 @@ export const handleAddItem = async (req, res) => {
             type: "object",
             properties: {
               isSuccess: { type: "boolean", example: true },
-              code: { type: "number", example: 200 },
-              message: { type: "string", example: "아이템이 성공적으로 추가되었습니다." },
+              code: { type: "string", example: "200" },
+              message: { type: "string", example: "success!" },
               result: {
                 type: "object",
                 properties: {
-                  id: { type: "number", example: 1 },
-                  name: { type: "string", example: "멋진 아이템" },
-                  context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
-                  cost: { type: "number", example: 300 }
+                  name: { type: "string", example: "커스텀 팀 아이콘" },
+                  price: { type: "number", example: 11500 },
+                  icon: { type: "string", example: "<svg .../>" },
+                  category: { type: "string", example: "팀 아이콘" }
                 }
               }
             }
@@ -968,7 +970,7 @@ export const handleAddItem = async (req, res) => {
             properties: {
               isSuccess: { type: "boolean", example: false },
               code: { type: "string", example: "SHOP4002" },
-              message: { type: "string", example: "아이템 이름과 가격은 필수입니다." },
+              message: { type: "string", example: "아이템 name, price, category는 필수입니다." },
               result: { type: "object", nullable: true }
             }
           }
@@ -998,13 +1000,14 @@ export const handleAddItem = async (req, res) => {
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT));
     }
-    const { name, context, cost } = req.body;
 
-    if (!name || !cost) {
+    const { name, category, icon, price } = req.body;
+
+    if (!name || !category || !price) {
       return res.send(response(status.ITEM_PARAM_REQUIRED, null));
     }
 
-    const newItem = await addItem({ name, context, cost });
+    const newItem = await addItem({ name, category, icon, price });
     res.send(response(status.SUCCESS, newItem));
   } catch (err) {
     console.error(err);
@@ -1034,9 +1037,10 @@ export const handleGetUserItems = async (req, res) => {
                   type: "object",
                   properties: {
                     id: { type: "number", example: 1 },
-                    name: { type: "string", example: "멋진 아이템" },
-                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
-                    cost: { type: "number", example: 300 },
+                    name: { type: "string", example: "커스텀 팀 아이콘" },
+                    category: { type: "string", example: "팀 아이콘" },
+                    icon: { type: "string", example: "<svg .../>" },
+                    price: { type: "number", example: 11500 },
                     acquiredAt: { type: "string", example: "2025-05-30T10:15:30.000Z" },
                     isEquipped: { type: "boolean", example: false }
                   }
@@ -1099,9 +1103,10 @@ export const handleGetShopItems = async (req, res) => {
                   type: "object",
                   properties: {
                     id: { type: "number", example: 1 },
-                    name: { type: "string", example: "멋진 아이템" },
-                    context: { type: "string", example: "이 아이템을 사용하면 멋있어집니다!" },
-                    cost: { type: "number", example: 300 }
+                    name: { type: "string", example: "커스텀 팀 아이콘" },
+                    category: { type: "string", example: "팀 아이콘" },
+                    icon: { type: "string", example: "<svg .../>" },
+                    price: { type: "number", example: 11500 }
                   }
                 }
               }
@@ -1152,8 +1157,9 @@ export const handleUpdateItem = async (req, res) => {
             properties: {
               itemId: { type: "number", example: 1 },
               name: { type: "string", example: "수정된 이름" },
-              context: { type: "string", example: "수정된 설명" },
-              cost: { type: "number", example: 200 }
+              category: { type: "string", example: "팀 아이콘" },
+              icon: { type: "string", example: "<svg .../>" },
+              price: { type: "number", example: 12000 }
             }
           }
         }
@@ -1172,10 +1178,11 @@ export const handleUpdateItem = async (req, res) => {
               result: {
                 type: "object",
                 properties: {
-                  id: { type: "number", example: 1 },
+                  itemId: { type: "number", example: 1 },
                   name: { type: "string", example: "수정된 이름" },
-                  context: { type: "string", example: "수정된 설명" },
-                  cost: { type: "number", example: 200 }
+                  category: { type: "string", example: "팀 아이콘" },
+                  icon: { type: "string", example: "<svg .../>" },
+                  price: { type: "number", example: 12000 }
                 }
               }
             }
@@ -1217,13 +1224,13 @@ export const handleUpdateItem = async (req, res) => {
     }
   */
   try {
-    const { itemId, name, context, cost } = req.body;
+    const { itemId, name, category, icon, price } = req.body;
 
     if (!itemId || isNaN(itemId)) {
       return res.send(response(status.PARAMETER_IS_WRONG, null));
     }
 
-    const updatedItem = await updateItem(itemId, { name, context, cost });
+    const updatedItem = await updateItem(itemId, { name, category, icon, price });
     res.send(response(status.SUCCESS, updatedItem));
   } catch (err) {
     console.error(err);
