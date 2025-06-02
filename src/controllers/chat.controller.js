@@ -10,7 +10,8 @@ import { createRoom,
   createChat,
   getChatHistory,
   voteInRoom,
-  getVoteHistory
+  getVoteHistory,
+  endBattle
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -1115,6 +1116,162 @@ export const handleGetVoteHistory = async (req, res) => {
     }
     if (err.code === "FORBIDDEN") {
       return res.send(response(status.FORBIDDEN, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 토론(배틀) 종료 API
+export const handleEndBattle = async (req, res) => {
+  /**
+    #swagger.summary = '토론(배틀) 종료 API'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['BattleRoom']
+
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+
+    #swagger.responses[200] = {
+      description: "토론 종료 성공",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: true,
+            code: "200",
+            message: "success!",
+            result: {
+              roomId: "1",
+              status: "ENDED",
+              endedAt: "2025-05-30T12:00:00.000Z"
+            }
+          }
+        }
+      }
+    }
+
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (roomId 누락 또는 형식 오류 등)",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON001",
+            message: "잘못된 요청입니다.",
+            result: null
+          }
+        }
+      }
+    }
+
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "MEMBER4006",
+            message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+            result: null
+          }
+        }
+      }
+    }
+
+    #swagger.responses[403] = {
+      description: "권한 오류 (방장만 종료 가능)",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON004",
+            message: "금지된 요청입니다.",
+            result: null
+          }
+        }
+      }
+    }
+
+    #swagger.responses[404] = {
+      description: "방을 찾을 수 없음",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "ROOMIN4005",
+            message: "방을 찾을 수가 없습니다.",
+            result: null
+          }
+        }
+      }
+    }
+
+    #swagger.responses[409] = {
+      description: "잘못된 상태 (시작되지 않았거나 이미 종료된 방)",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "ROOMIN4006",
+            message: "유효하지 않은 상태입니다.",
+            result: null
+          }
+        }
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON000",
+            message: "서버 에러, 관리자에게 문의 바랍니다.",
+            result: null
+          }
+        }
+      }
+    }
+  */
+  try {
+    // 1) 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    // 2) roomId 파라미터 확인
+    const roomId = Number(req.params.roomId);
+    if (isNaN(roomId)) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 3) 서비스 호출
+    const result = await endBattle({
+      roomId,
+      userId: req.userId
+    });
+
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error("🔴 handleEndBattle 오류:", err);
+
+    if (err.code === "ROOM_NOT_FOUND") {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
+    }
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
+    }
+    if (err.code === "INVALID_STATE") {
+      // status.ROOM_INVALID_STATE 또는 별도 정의 필요
+      return res.send(response(status.ROOM_INVALID_STATE, null));
     }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
