@@ -21,7 +21,9 @@ import {
   updateItemRepo,
   //deleteUserItemsByItemId,
   //deleteItemRepo,
-  checkQuestCondition,
+  countUserRoomCreatesToday,
+  countUserChatsToday,
+  countUserItemBuysToday,
   markQuestCompleted,
   getQuestCompletion,
   addUserPoint,
@@ -29,7 +31,15 @@ import {
   resetAllQuestCompletions,
   getAllQuests,
   getAllQuestIds,
-  createQuestCompletions
+  createQuestCompletions,
+  findQuestCompletion,
+  findQuestById,
+  addQuestProgress,
+  getQuestGoal,
+  getQuestProgress,
+  hasUserParticipatedInAnyRoom,
+  hasUserClearedAllDailyQuests,
+  updateQuestProgress
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -278,6 +288,7 @@ export const deleteItem = async (itemId) => {
   await deleteItemRepo(itemId);
 };
 */
+
 //퀘스트 관련 추가한 부분
 export const getDailyQuestsService = async () => {
   // DB에서 퀘스트 리스트 전체를 가져옴
@@ -285,17 +296,141 @@ export const getDailyQuestsService = async () => {
   return quests;
 };
 
-export const completeQuestIfEligible = async (userId, questId) => {
-  const isEligible = await checkQuestCondition(userId, questId);
+// 퀘스트 진행 상황
+export const getUserQuestProgress = async (userId, questId) => {
+  return await getQuestProgress(userId, questId);
+};
 
-  if (!isEligible) {
-    return { success: false, message: '퀘스트 조건을 만족하지 않습니다.' };
+// 퀘스트 목표
+export const getQuestsGoal = async (questId) => {
+  const quest = await findQuestById(questId);
+  if (!quest) throw new Error('존재하지 않는 퀘스트입니다.');
+  return quest.goal;
+};
+
+// 퀘스트 보상 수령 확인
+export const isRewardReceived = async (userId, questId) => {
+  const completion = await findQuestCompletion(userId, questId);
+  // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
+  if (!completion) {
+    return {
+      status: 'not_started',
+      message: '해당 퀘스트에 대한 진행 정보가 없습니다.',
+    };
+  }
+  
+  if (completion.rewardClaimed) {
+    return {status: 'already_claimed', message: '이미 보상을 받았습니다.' };
+  } 
+
+  return {status: 'not_yet', message: '아직 보상을 받지 않았습니다.'};
+};
+
+// 퀘스트 성공 확인 및 업데이트
+export const completeQuestIfEligible = async (userId, questId) => {
+  let progress = await getQuestProgress(userId, questId);
+  const goal = await getQuestsGoal(questId);
+  
+  switch (questId) {
+    case 1: // 로그인하기
+      await addQuestProgress(userId, questId);
+      await markQuestCompleted(userId, questId);
+      progress = await getQuestProgress(userId, questId);
+      return {
+        success: true,
+        message: '퀘스트를 성공적으로 완료했습니다.',
+        progress,
+        goal,
+      };
+    case 2: // 토론 참여하기
+      const participated = await hasUserParticipatedInAnyRoom(userId);
+      if(participated){
+        await addQuestProgress(userId, questId);
+        await markQuestCompleted(userId, questId);
+        progress = await getQuestProgress(userId, questId);
+        return {
+          success: true,
+          message: '퀘스트를 성공적으로 완료했습니다.',
+          progress,
+          goal,
+        };
+      } else {
+        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+      }
+    case 3: // 방 생성하기
+      const createdRoom = await countUserRoomCreatesToday(userId);
+      progress = await getQuestProgress(userId, questId);
+      if (createdRoom >= goal) {
+        await updateQuestProgress(userId, questId, createdRoom);
+        await markQuestCompleted(userId, questId);
+        progress = await getQuestProgress(userId, questId);
+        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
+      } else if (createdRoom > progress) {
+        await updateQuestProgress(userId, questId, createdRoom);
+        progress = await getQuestProgress(userId, questId);
+        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
+      } else {
+        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+      }
+    case 4: // 채팅하기
+      const chatted = await countUserChatsToday(userId);
+      progress = await getQuestProgress(userId, questId);
+      if (chatted >= goal) {
+        await updateQuestProgress(userId, questId, goal);
+        await markQuestCompleted(userId, questId);
+        progress = await getQuestProgress(userId, questId);
+        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
+      } else if (chatted > progress) {
+        await updateQuestProgress(userId, questId, chatted);
+        progress = await getQuestProgress(userId, questId);
+        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
+      } else {
+        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+      }
+    case 5: // 아이템 구매하기
+      const purchasedItem = await countUserItemBuysToday(userId);
+      if (purchasedItem > 0) {
+        await addQuestProgress(userId, questId);
+        await markQuestCompleted(userId, questId);
+        progress = await getQuestProgress(userId, questId);
+        return {
+          success: true,
+          message: '퀘스트를 성공적으로 완료했습니다.',
+          progress,
+          goal,
+        };
+      } else {
+        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+      }
+    case 6: // 일일 퀘스트 클리어
+      const otherCompletions = await hasUserClearedAllDailyQuests(userId);
+      if (otherCompletions) {
+        await addQuestProgress(userId, questId);
+        await markQuestCompleted(userId, questId);
+        progress = await getQuestProgress(userId, questId);
+        return {
+          success: true,
+          message: '퀘스트를 성공적으로 완료했습니다.',
+          progress,
+          goal,
+        };
+      } else {
+        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+      }
+    default:
+      return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+  }
+};
+
+export const checkGoalProgress = async (userId, questId) => {
+  const goal = await getQuestGoal(questId);
+  const progress = await getQuestProgress(userId,questId);
+  if(goal === progress) {
+    return {status: 'goal_reached', message: '이미 목표치를 달성했습니다.' , progress , goal};
   }
 
-  await markQuestCompleted(userId, questId);
-
-  return { success: true, message: '퀘스트를 성공적으로 완료했습니다.' };
-};
+  return { status: 'in_progress', message:  '아직 목표치에 도달하지 않았습니다.', progress, goal};
+}
 
 export const claimQuestRewardService = async (userId, questId) => {
   // 숫자 변환 및 유효성 검사

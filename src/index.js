@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import './corn-job.js';
-import './cron-quest.js';
+import http from "http";
 import swaggerUiExpress from "swagger-ui-express";
-const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
-import { verify } from "../src/middleware/jwt.js";
+import { Server as SocketIOServer } from "socket.io";
+import { verify } from "./middleware/jwt.js";
+import './cron-quest.js';
 
 import {
   handleUserSignUp,
@@ -29,7 +29,21 @@ import {
   handleJoinRoom,
   handleGetRoomInfo,
   handleStartBattle,
+  handleGetChatHistory,
+  handlePostChatMessage,
+  handlePostVote,
+  handleGetVoteHistory
 } from "./controllers/chat.controller.js";
+import { registerChatHandlers
+} from "./socket/chat.socket.js";
+import {
+  handleFilterProfanity,
+  handleAnalyzeSentiment,
+  handleAnalyzeDebate,
+  handleGenerateTopic,
+} from "./controllers/ai.controller.js";
+
+const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 
 BigInt.prototype.toJSON = function () {
   return this.toString();
@@ -38,14 +52,15 @@ BigInt.prototype.toJSON = function () {
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
       'http://localhost:3000',
       'https://localhost:3000',
       'https://thiscatthatcat.shop',
-      'https://13.209.12.236:3000'
+      'https://13.209.12.236:3000',
+      'https://api.thiscatthatcat.shop'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -62,34 +77,53 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions)); 
+//app.options('*', cors(corsOptions)); 
 
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Swagger UI 연결
-app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerFile, {
-  swaggerOptions: {
-    persistAuthorization: true,
-  },
-}));
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.use(verify);
+app.use("/docs", 
+  swaggerUiExpress.serve, 
+  swaggerUiExpress.setup(swaggerFile, {
+  swaggerOptions: {persistAuthorization: true,},
+  })
+);
 
 // API 엔드포인트 등록
 app.post("/users/signup", handleUserSignUp);
 app.post("/users/login", handleLogin);
+
+app.use(verify);
+
 app.get("/users/info", handleUserInfo);
 app.get("/rankings/top", handleGetTopRankings);
 app.post("/battle/rooms", handleCreateRoom);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
+app.get("/battle/rooms/:roomId/chat/messages", handleGetChatHistory);
+app.post("/battle/rooms/:roomId/chat/messages", handlePostChatMessage);
+
+app.post("/battle/rooms/:roomId/votes", handlePostVote);
+app.get("/battle/rooms/:roomId/votes", handleGetVoteHistory);
+
+app.post("/ai/filter", handleFilterProfanity);
+app.post("/ai/analyze", handleAnalyzeSentiment);
+app.post("/ai/analyze_debate", handleAnalyzeDebate);
+app.post("/ai/generate_topic", handleGenerateTopic);
+
+// Express 기반 HTTP 서버를 만들어 줍니다.
+const httpServer = http.createServer(app);
+
+// Socket.IO 서버 생성
+const io = new SocketIOServer(httpServer, {
+  cors: { origin: "*" },
+});
+
+// Socket.IO 이벤트 핸들러 등록
+registerChatHandlers(io);
 
 // 퀘스트 관련 추가한 부분
 // 퀘스트 목록 조회
@@ -114,8 +148,11 @@ app.post("/shop/items/update", handleUpdateItem);
 // 아이템 삭제 API
 //app.delete("/shop/items/:itemId", handleDeleteItem);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+// 최종 리스닝
+httpServer.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
 
-
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`);
+// });

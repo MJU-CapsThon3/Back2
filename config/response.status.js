@@ -190,14 +190,25 @@ export const status = {
     code: "ROOMIN4005",
     message: "올바르지 않은 상태입니다.",
   },
-
+    VOTE_ALREADY_DONE: {
+    status: StatusCodes.VOTE_ALREADY_DONE,
+    isSuccess: false,
+    code: "VOTE4001",
+    message: "이미 투표를 완료했습니다."
+  },
   //퀘스트
   INCOMPLETE : {
     status: StatusCodes.INCOMPLETE,
     isSuccess: false,
     code: "QUEST000",
     message: "완료하지 못한 퀘스트입니다.",
-   }, 
+  }, 
+  ALREADY_CLAIM_REWARD : {
+    status : StatusCodes.ALREADY_CLAIM_REWARD,
+    isSuccess: false, 
+    code: "QUEST001",
+    message: "이미 보상을 받은 퀘스트입니다.",
+  }
 }
 
 
