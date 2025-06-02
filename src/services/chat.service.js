@@ -273,3 +273,40 @@ export const getVoteHistory = async ({ roomId, userId }) => {
     votes
   };
 };
+
+// 배틀방 종료
+export const endBattle = async ({ roomId, userId }) => {
+  // 1) 방 존재 여부 확인
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) 방장만 종료 가능
+  if (room.admin !== BigInt(userId)) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 현재 상태가 PLAYING이어야 종료 가능
+  if (room.status !== "PLAYING") {
+    const err = new Error("INVALID_STATE");
+    err.code = "INVALID_STATE";
+    throw err;
+  }
+
+  // 4) 상태 변경 및 종료 시간 기록
+  const updated = await updateBattleRoom(roomId, {
+    status:    "ENDED",
+    endedAt:   new Date()
+  });
+
+  return {
+    roomId:  updated.id.toString(),
+    status:  updated.status,
+    endedAt: updated.endedAt.toISOString()
+  };
+};
