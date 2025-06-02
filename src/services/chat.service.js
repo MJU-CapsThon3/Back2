@@ -15,6 +15,7 @@ import { createBattleRoom,
     countRoomParticipant,
     createBattleVote,
     findVotesByRoomId,
+    getRoomsInfoRep,
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -85,6 +86,11 @@ export const joinRoom = async ({ roomId, userId, role }) => {
     role:          participant.role,
     joinedAt:      participant.joinedAt
   };
+};
+
+// 배틀방 전체 정보 불러오기
+export const getRoomsInfo = async () => {
+  return await getRoomsInfoRep();
 };
 
 // 방 정보 불러오기

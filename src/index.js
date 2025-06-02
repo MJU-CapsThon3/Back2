@@ -28,6 +28,7 @@ import {
   handleCreateRoom,
   handleJoinRoom,
   handleGetRoomInfo,
+  handleGetRoomsInfo,
   handleStartBattle,
   handleGetChatHistory,
   handlePostChatMessage,
@@ -100,6 +101,7 @@ app.use(verify);
 app.get("/users/info", handleUserInfo);
 app.get("/rankings/top", handleGetTopRankings);
 app.post("/battle/rooms", handleCreateRoom);
+app.get("/battle/rooms",handleGetRoomsInfo);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);

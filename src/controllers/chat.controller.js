@@ -5,6 +5,7 @@ import { BaseError } from "../errors.js";
 import { createRoom, 
   joinRoom,
   getRoomInfo,
+  getRoomsInfo,
   startBattle,
   getChatHistory,
   voteInRoom,
@@ -267,6 +268,98 @@ export const handleJoinRoom = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return res.send(response(status.FAILURE, null));
+  }
+};
+
+// 배틀방 전체 정보 불러오기
+export const handleGetRoomsInfo = async (req, res, next) => {
+/**
+  #swagger.summary = '전체 배틀방 정보 불러오는 API'
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.tags = ['BattleRoom']
+
+  #swagger.responses[200] = {
+    description: "조회 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: [
+        {
+          roomId: 1,
+          status: "WAITING",
+          topicA: "초보자 환영!",
+          topicB: "복귀유저와 함께!"
+        },
+        {
+          roomId: 2,
+          status: "PLAYING",
+          topicA: "매너 필수",
+          topicB: "맥북 유저"
+        },
+        {
+          roomId: 3,
+          status: "FULL",
+          topicA: "테스트 A",
+          topicB: "즐겁게 게임"
+        }
+      ]
+    }
+  }
+  #swagger.responses[400] = {
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+  #swagger.responses[401] = {
+    description: "토큰 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
+  try {
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get('Authorization'));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+    // 2) 서비스 호출
+    const roomsInfo = await getRoomsInfo();
+    // 3) 응답
+    return res.send(response(status.SUCCESS, roomsInfo));
+  } catch (err) {
+    console.error(err);
+    // 방이 없으면 NOT_FOUND, 그 외엔 SERVER_ERROR
+    if (err.message === 'ROOM_NOT_FOUND') {
+      return res.send(response(status.NOT_FOUND, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
 

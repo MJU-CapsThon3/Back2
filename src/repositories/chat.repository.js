@@ -38,6 +38,21 @@ export const createRoomParticipant = async ({ roomId, userId, role }) => {
     });
 };
 
+// 배틀방 전체 정보 조회
+export const getRoomsInfoRep = () => {
+    return prisma.battleRoom.findMany({
+    select: {
+      id: true,       // 방 번호
+      status: true,   // 배틀방 상태 (예: "WAITING", "PLAYING", "FULL" 등)
+      topicA: true,   // 주제 A
+      topicB: true    // 주제 B
+    },
+    orderBy: {
+      id: "asc"       // 방 번호 순으로 오름차순 정렬 (원하는 정렬 방식이 있다면 수정)
+    }
+    });
+};
+
 // 방 정보 조회
 export const findBattleRoomById = (roomId) => {
     return prisma.battleRoom.findUnique({
