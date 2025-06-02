@@ -325,7 +325,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Back2\\src\\generated\\prisma",
+      "value": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -347,7 +347,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Back2\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

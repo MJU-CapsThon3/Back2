@@ -6,7 +6,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import { Server as SocketIOServer } from "socket.io";
 
 import './corn-job.js';
-import { verify } from "../src/middleware/jwt.js";
+import { verify } from "./middleware/jwt.js";
 import {
   handleUserSignUp,
   handleLogin,
@@ -19,9 +19,18 @@ import {
   handleGetRoomInfo,
   handleStartBattle,
   handleGetChatHistory,
+  handlePostChatMessage,
+  handlePostVote,
+  handleGetVoteHistory
 } from "./controllers/chat.controller.js";
 import { registerChatHandlers
 } from "./socket/chat.socket.js";
+import {
+  handleFilterProfanity,
+  handleAnalyzeSentiment,
+  handleAnalyzeDebate,
+  handleGenerateTopic,
+} from "./controllers/ai.controller.js";
 
 const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 
@@ -62,10 +71,19 @@ app.post("/battle/rooms", handleCreateRoom);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
-app.get("/battle/rooms/:roomId/messages", handleGetChatHistory);
+app.get("/battle/rooms/:roomId/chat/messages", handleGetChatHistory);
+app.post("/battle/rooms/:roomId/chat/messages", handlePostChatMessage);
+
+app.post("/battle/rooms/:roomId/votes", handlePostVote);
+app.get("/battle/rooms/:roomId/votes", handleGetVoteHistory);
+
+app.post("/ai/filter", handleFilterProfanity);
+app.post("/ai/analyze", handleAnalyzeSentiment);
+app.post("/ai/analyze_debate", handleAnalyzeDebate);
+app.post("/ai/generate_topic", handleGenerateTopic);
+
 // Express 기반 HTTP 서버를 만들어 줍니다.
 const httpServer = http.createServer(app);
-
 
 // Socket.IO 서버 생성
 const io = new SocketIOServer(httpServer, {

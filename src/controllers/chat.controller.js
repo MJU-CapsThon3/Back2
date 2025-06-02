@@ -7,6 +7,8 @@ import { createRoom,
   getRoomInfo,
   startBattle,
   getChatHistory,
+  voteInRoom,
+  getVoteHistory
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -250,12 +252,6 @@ export const handleJoinRoom = async (req, res, next) => {
     if (token === null) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
-    // let roomId;
-    // try {
-    //   roomId = BigInt(req.params.roomId);
-    // } catch {
-    //   return res.send(response(status.BAD_REQUEST, null));
-    // }
     // DTO 변환/검증…
     const dto = toJoinRoomDto(req.body);
     if (dto.info === false) {
@@ -482,7 +478,7 @@ export const handleStartBattle = async (req, res, next) => {
   }
 };
 
-// 방 채팅 조회
+// 배틀방 채팅 불러오기
 export const handleGetChatHistory = async (req, res) => {
   /**
   #swagger.summary = '채팅 내역 조회 API'
@@ -578,26 +574,454 @@ export const handleGetChatHistory = async (req, res) => {
       result: null
     }
   }
-*/
+  */
+
   try {
-    // 토큰 포맷 검사
+    // 1) 토큰 검증
     const token = checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
+    // 2) roomId 파라미터 확인
     const roomId = Number(req.params.roomId);
-    const data   = await getChatHistory({ roomId, userId: req.userId });
-    return res.send(response(status.SUCCESS, data));
+    if (isNaN(roomId)) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
 
+    // 3) 서비스 호출 (참가 여부 등 권한 체크는 내부 구현에 따라 추가)
+    const history = await getChatHistory(roomId);
+    if (!history) {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
+    }
+
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, history));
   } catch (err) {
+    console.error("🔴 handleGetChatHistory 오류:", err);
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 배틀방 채팅 메세지 저장하기
+export const handlePostChatMessage = async (req, res) => {
+/**
+  #swagger.summary = '채팅 메시지 저장 API'
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.tags = ['Chat']
+
+  #swagger.parameters['roomId'] = {
+    in: 'path',
+    description: '배틀방 ID',
+    required: true,
+    type: 'integer',
+    format: 'int64',
+    example: 1
+  }
+
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            side: { type: "string", description: "A 또는 B (토론 측)", example: "A" },
+            message: { type: "string", description: "보낼 채팅 메시지 내용", example: "안녕하세요!" }
+          },
+          required: ["side", "message"]
+        }
+      }
+    }
+  }
+
+  #swagger.responses[200] = {
+    description: "채팅 메시지 저장 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        id: "3",
+        roomId: "1",
+        userId: "7",
+        side: "A",
+        message: "안녕하세요!",
+        createdAt: "2025-05-29T08:00:00.000Z"
+      }
+    }
+  }
+
+  #swagger.responses[400] = {
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[401] = {
+    description: "토큰 형식 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+
+  #swagger.responses[403] = {
+    description: "권한 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON004",
+      message: "금지된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
+  try {
+    // 1) 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+
+    // 2) path 변수, body에서 값 추출
+    const roomId = Number(req.params.roomId);
+    const { side, message } = req.body;
+
+    // 3) 필수 입력 검증
+    if (!roomId || !side || !message) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 4) 서비스 호출 (AI 필터링 포함)
+    const chatRecord = await createChat({
+      roomId,
+      userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
+      side,
+      message
+    });
+
+    // 5) 성공 응답
+    return res.send(response(status.SUCCESS, {
+      id:        chatRecord.id.toString(),
+      roomId:    chatRecord.roomId.toString(),
+      userId:    chatRecord.userId.toString(),
+      side:      chatRecord.side,
+      message:   chatRecord.message,
+      createdAt: chatRecord.createdAt
+    }));
+  } catch (err) {
+    console.error("🔴 handlePostChatMessage 오류:", err);
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 배틀방 관전자 투표하기
+export const handlePostVote = async (req, res) => {
+  /*
+    #swagger.summary = '관전자 투표 저장 API'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['Vote']
+
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+
+    #swagger.requestBody = {
+      description: '투표 정보',
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              vote: {
+                type: "string",
+                enum: ["A", "B"],
+                example: "A"
+              }
+            },
+            required: ["vote"]
+          }
+        }
+      }
+    }
+
+    #swagger.responses[200] = {
+      description: "투표 저장 성공",
+      schema: {
+        isSuccess: true,
+        code: "200",
+        message: "success!",
+        result: {
+          id:        "5",
+          roomId:    "1",
+          userId:    "9",
+          vote:      "A",
+          createdAt: "2025-05-30T10:00:00.000Z"
+        }
+      }
+    }
+
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (vote 누락 또는 형식 오류 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
+      }
+    }
+
+    #swagger.responses[403] = {
+      description: "권한 오류 (관전자/참가자가 아닌 경우)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[404] = {
+      description: "방을 찾을 수 없음",
+      schema: {
+        isSuccess: false,
+        code: "ROOMIN4005",
+        message: "방을 찾을 수가 없습니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[409] = {
+      description: "중복 투표 (이미 투표함)",
+      schema: {
+        isSuccess: false,
+        code: "VOTE4001",
+        message: "이미 투표를 완료했습니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
+      }
+    }
+  */
+
+  try {
+    // 1) 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    // 2) path 변수 + body
+    const roomId = Number(req.params.roomId);
+    const { vote } = req.body; // "A" 또는 "B"
+
+    // 3) 필수 입력 검증
+    if (isNaN(roomId) || !vote || !["A", "B"].includes(vote)) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 4) 서비스 호출
+    const result = await voteInRoom({
+      roomId,
+      userId: req.userId,
+      vote
+    });
+
+    // 5) 성공 응답
+    return res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error("🔴 handlePostVote 오류:", err);
+
     if (err.code === "ROOM_NOT_FOUND") {
       return res.send(response(status.ROOM_NOT_FOUND, null));
     }
     if (err.code === "FORBIDDEN") {
       return res.send(response(status.FORBIDDEN, null));
     }
-    console.error(err);
+    if (err.code === "VOTE_ALREADY_DONE") {
+      // response.status.js에 VOTE4001 코드가 정의되어 있다면 사용
+      return res.send(response(status.ALREADY_JOINED, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 배틀방 관전자 투표
+export const handleGetVoteHistory = async (req, res) => {
+  /**
+    #swagger.summary = '투표 결과 조회 API'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['Vote']
+
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+
+    #swagger.responses[200] = {
+      description: "투표 결과 조회 성공",
+      schema: {
+        isSuccess: true,
+        code: "200",
+        message: "success!",
+        result: {
+          countA: 5,
+          countB: 3,
+          total: 8,
+          votes: [
+            {
+              id: "1",
+              roomId: "1",
+              userId: "9",
+              vote: "A",
+              createdAt: "2025-05-30T10:00:00.000Z"
+            },
+            {
+              id: "2",
+              roomId: "1",
+              userId: "11",
+              vote: "B",
+              createdAt: "2025-05-30T10:01:00.000Z"
+            }
+          ]
+        }
+      }
+    }
+
+    #swagger.responses[400] = {
+      description: "잘못된 요청",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
+      }
+    }
+
+    #swagger.responses[403] = {
+      description: "권한 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[404] = {
+      description: "방을 찾을 수 없음",
+      schema: {
+        isSuccess: false,
+        code: "ROOMIN4005",
+        message: "방을 찾을 수가 없습니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
+      }
+    }
+  */
+  try {
+    // 1) 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    // 2) roomId 파라미터 확인
+    const roomId = Number(req.params.roomId);
+    if (isNaN(roomId)) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 3) 서비스 호출
+    const result = await getVoteHistory({
+      roomId,
+      userId: req.userId
+    });
+
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error("🔴 handleGetVoteHistory 오류:", err);
+    if (err.code === "ROOM_NOT_FOUND") {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
+    }
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
+    }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };

@@ -172,6 +172,12 @@ export const status = {
     code: "ROOMIN4005",
     message: "올바르지 않은 상태입니다.",
   },
+    VOTE_ALREADY_DONE: {
+    status: StatusCodes.VOTE_ALREADY_DONE,
+    isSuccess: false,
+    code: "VOTE4001",
+    message: "이미 투표를 완료했습니다."
+  },
 }
 
 
