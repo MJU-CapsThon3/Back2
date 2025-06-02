@@ -192,8 +192,9 @@ exports.Prisma.UserItemScalarFieldEnum = {
 exports.Prisma.ItemScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  context: 'context',
-  cost: 'cost',
+  price: 'price',
+  category: 'category',
+  icon: 'icon',
   createdAt: 'createdAt'
 };
 
@@ -300,7 +301,8 @@ exports.Prisma.AiSummaryOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ItemOrderByRelevanceFieldEnum = {
   name: 'name',
-  context: 'context'
+  category: 'category',
+  icon: 'icon'
 };
 
 exports.Prisma.BattleRoomOrderByRelevanceFieldEnum = {
