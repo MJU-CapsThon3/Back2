@@ -406,8 +406,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.8.2
-   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+   * Prisma Client JS version: 6.7.0
+   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
    */
   export type PrismaVersion = {
     client: string
@@ -9329,35 +9329,38 @@ export namespace Prisma {
 
   export type ItemAvgAggregateOutputType = {
     id: number | null
-    cost: number | null
+    price: number | null
   }
 
   export type ItemSumAggregateOutputType = {
     id: bigint | null
-    cost: number | null
+    price: number | null
   }
 
   export type ItemMinAggregateOutputType = {
     id: bigint | null
     name: string | null
-    context: string | null
-    cost: number | null
+    price: number | null
+    category: string | null
+    icon: string | null
     createdAt: Date | null
   }
 
   export type ItemMaxAggregateOutputType = {
     id: bigint | null
     name: string | null
-    context: string | null
-    cost: number | null
+    price: number | null
+    category: string | null
+    icon: string | null
     createdAt: Date | null
   }
 
   export type ItemCountAggregateOutputType = {
     id: number
     name: number
-    context: number
-    cost: number
+    price: number
+    category: number
+    icon: number
     createdAt: number
     _all: number
   }
@@ -9365,35 +9368,38 @@ export namespace Prisma {
 
   export type ItemAvgAggregateInputType = {
     id?: true
-    cost?: true
+    price?: true
   }
 
   export type ItemSumAggregateInputType = {
     id?: true
-    cost?: true
+    price?: true
   }
 
   export type ItemMinAggregateInputType = {
     id?: true
     name?: true
-    context?: true
-    cost?: true
+    price?: true
+    category?: true
+    icon?: true
     createdAt?: true
   }
 
   export type ItemMaxAggregateInputType = {
     id?: true
     name?: true
-    context?: true
-    cost?: true
+    price?: true
+    category?: true
+    icon?: true
     createdAt?: true
   }
 
   export type ItemCountAggregateInputType = {
     id?: true
     name?: true
-    context?: true
-    cost?: true
+    price?: true
+    category?: true
+    icon?: true
     createdAt?: true
     _all?: true
   }
@@ -9487,8 +9493,9 @@ export namespace Prisma {
   export type ItemGroupByOutputType = {
     id: bigint
     name: string
-    context: string | null
-    cost: number
+    price: number
+    category: string
+    icon: string | null
     createdAt: Date
     _count: ItemCountAggregateOutputType | null
     _avg: ItemAvgAggregateOutputType | null
@@ -9514,8 +9521,9 @@ export namespace Prisma {
   export type ItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    context?: boolean
-    cost?: boolean
+    price?: boolean
+    category?: boolean
+    icon?: boolean
     createdAt?: boolean
     userItems?: boolean | Item$userItemsArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
@@ -9526,12 +9534,13 @@ export namespace Prisma {
   export type ItemSelectScalar = {
     id?: boolean
     name?: boolean
-    context?: boolean
-    cost?: boolean
+    price?: boolean
+    category?: boolean
+    icon?: boolean
     createdAt?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "context" | "cost" | "createdAt", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "category" | "icon" | "createdAt", ExtArgs["result"]["item"]>
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userItems?: boolean | Item$userItemsArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
@@ -9545,8 +9554,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       name: string
-      context: string | null
-      cost: number
+      price: number
+      category: string
+      icon: string | null
       createdAt: Date
     }, ExtArgs["result"]["item"]>
     composites: {}
@@ -9920,8 +9930,9 @@ export namespace Prisma {
   interface ItemFieldRefs {
     readonly id: FieldRef<"Item", 'BigInt'>
     readonly name: FieldRef<"Item", 'String'>
-    readonly context: FieldRef<"Item", 'String'>
-    readonly cost: FieldRef<"Item", 'Int'>
+    readonly price: FieldRef<"Item", 'Int'>
+    readonly category: FieldRef<"Item", 'String'>
+    readonly icon: FieldRef<"Item", 'String'>
     readonly createdAt: FieldRef<"Item", 'DateTime'>
   }
     
@@ -16517,8 +16528,9 @@ export namespace Prisma {
   export const ItemScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    context: 'context',
-    cost: 'cost',
+    price: 'price',
+    category: 'category',
+    icon: 'icon',
     createdAt: 'createdAt'
   };
 
@@ -16669,7 +16681,8 @@ export namespace Prisma {
 
   export const ItemOrderByRelevanceFieldEnum: {
     name: 'name',
-    context: 'context'
+    category: 'category',
+    icon: 'icon'
   };
 
   export type ItemOrderByRelevanceFieldEnum = (typeof ItemOrderByRelevanceFieldEnum)[keyof typeof ItemOrderByRelevanceFieldEnum]
@@ -17267,8 +17280,9 @@ export namespace Prisma {
     NOT?: ItemWhereInput | ItemWhereInput[]
     id?: BigIntFilter<"Item"> | bigint | number
     name?: StringFilter<"Item"> | string
-    context?: StringNullableFilter<"Item"> | string | null
-    cost?: IntFilter<"Item"> | number
+    price?: IntFilter<"Item"> | number
+    category?: StringFilter<"Item"> | string
+    icon?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     userItems?: UserItemListRelationFilter
   }
@@ -17276,8 +17290,9 @@ export namespace Prisma {
   export type ItemOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    context?: SortOrderInput | SortOrder
-    cost?: SortOrder
+    price?: SortOrder
+    category?: SortOrder
+    icon?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     userItems?: UserItemOrderByRelationAggregateInput
     _relevance?: ItemOrderByRelevanceInput
@@ -17289,8 +17304,9 @@ export namespace Prisma {
     OR?: ItemWhereInput[]
     NOT?: ItemWhereInput | ItemWhereInput[]
     name?: StringFilter<"Item"> | string
-    context?: StringNullableFilter<"Item"> | string | null
-    cost?: IntFilter<"Item"> | number
+    price?: IntFilter<"Item"> | number
+    category?: StringFilter<"Item"> | string
+    icon?: StringNullableFilter<"Item"> | string | null
     createdAt?: DateTimeFilter<"Item"> | Date | string
     userItems?: UserItemListRelationFilter
   }, "id">
@@ -17298,8 +17314,9 @@ export namespace Prisma {
   export type ItemOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    context?: SortOrderInput | SortOrder
-    cost?: SortOrder
+    price?: SortOrder
+    category?: SortOrder
+    icon?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ItemCountOrderByAggregateInput
     _avg?: ItemAvgOrderByAggregateInput
@@ -17314,8 +17331,9 @@ export namespace Prisma {
     NOT?: ItemScalarWhereWithAggregatesInput | ItemScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Item"> | bigint | number
     name?: StringWithAggregatesFilter<"Item"> | string
-    context?: StringNullableWithAggregatesFilter<"Item"> | string | null
-    cost?: IntWithAggregatesFilter<"Item"> | number
+    price?: IntWithAggregatesFilter<"Item"> | number
+    category?: StringWithAggregatesFilter<"Item"> | string
+    icon?: StringNullableWithAggregatesFilter<"Item"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
   }
 
@@ -18239,8 +18257,9 @@ export namespace Prisma {
   export type ItemCreateInput = {
     id?: bigint | number
     name: string
-    context?: string | null
-    cost: number
+    price: number
+    category: string
+    icon?: string | null
     createdAt?: Date | string
     userItems?: UserItemCreateNestedManyWithoutItemInput
   }
@@ -18248,8 +18267,9 @@ export namespace Prisma {
   export type ItemUncheckedCreateInput = {
     id?: bigint | number
     name: string
-    context?: string | null
-    cost: number
+    price: number
+    category: string
+    icon?: string | null
     createdAt?: Date | string
     userItems?: UserItemUncheckedCreateNestedManyWithoutItemInput
   }
@@ -18257,8 +18277,9 @@ export namespace Prisma {
   export type ItemUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userItems?: UserItemUpdateManyWithoutItemNestedInput
   }
@@ -18266,8 +18287,9 @@ export namespace Prisma {
   export type ItemUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userItems?: UserItemUncheckedUpdateManyWithoutItemNestedInput
   }
@@ -18275,24 +18297,27 @@ export namespace Prisma {
   export type ItemCreateManyInput = {
     id?: bigint | number
     name: string
-    context?: string | null
-    cost: number
+    price: number
+    category: string
+    icon?: string | null
     createdAt?: Date | string
   }
 
   export type ItemUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ItemUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -19369,35 +19394,38 @@ export namespace Prisma {
   export type ItemCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    context?: SortOrder
-    cost?: SortOrder
+    price?: SortOrder
+    category?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ItemAvgOrderByAggregateInput = {
     id?: SortOrder
-    cost?: SortOrder
+    price?: SortOrder
   }
 
   export type ItemMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    context?: SortOrder
-    cost?: SortOrder
+    price?: SortOrder
+    category?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ItemMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    context?: SortOrder
-    cost?: SortOrder
+    price?: SortOrder
+    category?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ItemSumOrderByAggregateInput = {
     id?: SortOrder
-    cost?: SortOrder
+    price?: SortOrder
   }
 
   export type BattleTitleListRelationFilter = {
@@ -21746,16 +21774,18 @@ export namespace Prisma {
   export type ItemCreateWithoutUserItemsInput = {
     id?: bigint | number
     name: string
-    context?: string | null
-    cost: number
+    price: number
+    category: string
+    icon?: string | null
     createdAt?: Date | string
   }
 
   export type ItemUncheckedCreateWithoutUserItemsInput = {
     id?: bigint | number
     name: string
-    context?: string | null
-    cost: number
+    price: number
+    category: string
+    icon?: string | null
     createdAt?: Date | string
   }
 
@@ -21825,16 +21855,18 @@ export namespace Prisma {
   export type ItemUpdateWithoutUserItemsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ItemUncheckedUpdateWithoutUserItemsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
-    cost?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    category?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

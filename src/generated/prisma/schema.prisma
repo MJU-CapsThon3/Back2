@@ -116,8 +116,9 @@ model UserItem {
 model Item {
   id        BigInt     @id @default(autoincrement()) @map("id")
   name      String     @map("name") @db.VarChar(100)
-  context   String?    @map("context") @db.Text
-  cost      Int        @map("cost")
+  price     Int        @map("price")
+  category  String     @map("category") @db.VarChar(50)
+  icon      String?    @map("icon") @db.VarChar(1000)
   createdAt DateTime   @default(now()) @map("created_at") @db.DateTime(6)
   userItems UserItem[]
 
