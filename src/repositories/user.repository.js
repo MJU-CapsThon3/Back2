@@ -359,7 +359,7 @@ export const getQuestProgress = async (userId, questId) => {
   });
 
   if (!completion) {
-    throw new Error("해당 유저의 퀘스트 진행 정보를 찾을 수 없습니다.");
+    return null;
   }
 
   return completion.progress;
@@ -454,6 +454,7 @@ export const resetAllQuestCompletions = async () => {
     data: {
       isCompleted: false,
       rewardClaimed: false,
+      progress : 0,
     },
   });
 };

@@ -20,7 +20,8 @@ import { userSignUp,
     isRewardReceived,
     completeQuestIfEligible,
     claimQuestRewardService,
-    resetDailyQuestsService
+    resetDailyQuestsService,
+    checkGoalProgress
  } from "../services/user.service.js";
 import { loginRequestDTO,
   responseFromRankingList,
@@ -478,124 +479,84 @@ export const handleGetDailyQuests = async (req, res) => {
   };
   
   export const completeQuest = async (req, res) => {
-  /*
-  #swagger.summary = '퀘스트 완료 처리 API'
-  #swagger.description = 'JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID에 대한 완료 처리를 수행합니다.'
-  #swagger.tags = ['Quest']
-  #swagger.security = [{ "BearerAuth": [] }]
-
-  #swagger.parameters['questId'] = {
-    in: 'path',
-    description: '완료할 퀘스트의 ID',
-    required: true,
-    type: 'number',
-    example: 1
-  }
-
-  #swagger.responses[200] = {
-    description: "퀘스트 완료 성공",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            success: { type: "boolean", example: true },
-            message: { type: "string", example: "퀘스트를 성공했습니다." },
-            result: {
-              type: "object",
-              properties: {
-                questId: { type: "number", example: 1 },
-                isCompleted: { type: "boolean", example: true },
-                progress: { type: "number", example: 1 }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #swagger.responses[400] = {
-    description: "보상 이미 수령함, 목표치 달성, 또는 퀘스트 조건 불충족",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            success: { type: "boolean", example: false },
-            message: {
-              type: "string",
-              oneOf: [
-                { example: "이미 보상을 수령한 퀘스트입니다." },
-                { example: "이미 목표치를 달성했습니다." },
-                { example: "퀘스트 조건을 만족하지 않습니다." }
-              ]
-            },
-            result: {
-              oneOf: [
-                { type: "object", nullable: true, example: null },
-                {
-                  type: "object",
-                  properties: {
-                    progress: { type: "number", example: 5 },
-                    goal: { type: "number", example: 5 }
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #swagger.responses[401] = {
-    description: "토큰 없음",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            success: { type: "boolean", example: false },
-            message: { type: "string", example: "토큰이 없습니다." },
-            result: { type: "object", nullable: true, example: null }
-          }
-        }
-      }
-    }
-  }
-
-  #swagger.responses[403] = {
-    description: "유효하지 않은 토큰",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            success: { type: "boolean", example: false },
-            message: { type: "string", example: "유효하지 않은 토큰입니다." },
-            result: { type: "object", nullable: true, example: null }
-          }
-        }
-      }
-    }
-  }
-
-  #swagger.responses[500] = {
-    description: "서버 오류",
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            success: { type: "boolean", example: false },
-            message: { type: "string", example: "서버 오류 발생" },
-            result: { type: "object", nullable: true, example: null }
-          }
-        }
-      }
-    }
-  }
+    /*
+  #swagger.summary = '퀘스트 완료 처리 API'
+  #swagger.tags = ['Quest']
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.parameters['questId'] = {
+    in: 'path',
+    description: '완료할 퀘스트의 ID',
+    required: true,
+    type: 'integer',
+    example: 1
+  }
+  #swagger.responses[200] = {
+    description: '퀘스트 완료 처리 결과',
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            success: { type: "boolean", example: true },
+            message: { type: "string", example: "퀘스트를 성공했습니다." },
+            result: {
+              type: "object",
+              properties: {
+                status: { type: "string", example: "success", enum: ["complete", "goal reached", "success"] },
+                questId: { type: "integer", example: 1 },
+                isCompleted: { type: "boolean", example: true },
+                progress: { type: "integer", example: 5 },
+                goal: { type: "integer", example: 5 }
+              },
+              example: {
+                status: "success",
+                questId: 1,
+                isCompleted: true,
+                progress: 5,
+                goal: 5
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #swagger.responses[401] = {
+    description: '토큰 없음',
+    content: {
+      "application/json": {
+        schema: {
+          success: false,
+          message: "토큰이 없습니다.",
+          result: null
+        }
+      }
+    }
+  }
+  #swagger.responses[403] = {
+    description: '유효하지 않은 토큰',
+    content: {
+      "application/json": {
+        schema: {
+          success: false,
+          message: "유효하지 않은 토큰입니다.",
+          result: null
+        }
+      }
+    }
+  }
+  #swagger.responses[500] = {
+    description: '서버 오류',
+    content: {
+      "application/json": {
+        schema: {
+          success: false,
+          message: "서버 오류 발생",
+          result: null
+        }
+      }
+    }
+  }
 */
     try {
       console.log("퀘스트 진행 상태를 확인합니다");
@@ -605,34 +566,53 @@ export const handleGetDailyQuests = async (req, res) => {
         //서비스 호출
   
         const questId = parseInt(req.params.questId);
+        const checkProgress = await checkGoalProgress(req.userId, questId);
+
+        const progress = await getUserQuestProgress(req.userId, questId);
+        const goal = await getQuestsGoal(questId);
         
         // 1. 보상 수령 여부 확인
         const alreadyCompleted = await isRewardReceived(req.userId, questId);
-        if (alreadyCompleted) {
-          return res.status(400).json({
-            success: false,
+        if (alreadyCompleted && alreadyCompleted.status === 'already_claimed') {
+          return res.status(200).json({
+            isSuccess: false,
             message: "이미 보상을 수령한 퀘스트입니다.",
-            result: null,
+            result: {
+              status : "complete",
+            },
           });
-        }
-        
-        // 2. 퀘스트 진행도와 목표치 비교
-        const progress = await getUserQuestProgress(req.userId, questId);
-        const goal = await getQuestsGoal(questId);
-
-        if (progress === goal) {
-          return res.status(400).json({
-            success: false,
+        } else if(checkProgress && checkProgress.status === 'goal_reached') {
+          return res.status(200).json({
+            isSuccess: false,
             message: "이미 목표치를 달성했습니다.",
             result: {
+              status : "goal_reached",
               progress,
               goal,
             },
           });
+        } else {
+          res.status(200).json(await completeQuestIfEligible(req.userId, questId));
         }
         
+        // 2. 퀘스트 진행도와 목표치 비교
+        //const progress = await getUserQuestProgress(req.userId, questId);
+        //const goal = await getQuestsGoal(questId);
+
+        /*if (progress === goal) {
+          return res.status(200).json({
+            success: true,
+            message: "이미 목표치를 달성했습니다.",
+            result: {
+              status : "goal reached",
+              progress,
+              goal,
+            },
+          });
+        }*/
+        
         // 3. 퀘스트 성공 여부 확인 및 진행도 상승
-        res.status(200).json(await completeQuestIfEligible(req.userId, questId));
+        //res.status(200).json(await completeQuestIfEligible(req.userId, questId));
       } else {
         //토큰 이상감지
         res.send(response(status.TOKEN_FORMAT_INCORRECT, null));

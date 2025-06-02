@@ -310,7 +310,19 @@ export const getQuestsGoal = async (questId) => {
 // 퀘스트 보상 수령 확인
 export const isRewardReceived = async (userId, questId) => {
   const completion = await findQuestCompletion(userId, questId);
-  return completion?.isCompleted || false;
+  // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
+  if (!completion) {
+    return {
+      status: 'not_started',
+      message: '해당 퀘스트에 대한 진행 정보가 없습니다.',
+    };
+  }
+  
+  if (completion.rewardClaimed) {
+    return {status: 'already_claimed', message: '이미 보상을 받았습니다.' };
+  } 
+
+  return {status: 'not_yet', message: '아직 보상을 받지 않았습니다.'};
 };
 
 // 퀘스트 성공 확인 및 업데이트
@@ -331,7 +343,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       }
     case 3: // 방 생성하기
       const createdRoom = await countUserRoomCreatesToday(userId);
-      const RoomGoal = getQuestGoal(questId);
+      const RoomGoal = await getQuestGoal(questId);
       if(createdRoom > RoomGoal){
         await addQuestProgress(userId, questId);
         const RoomProgress = await getQuestProgress(userId,questId);
@@ -377,6 +389,16 @@ export const completeQuestIfEligible = async (userId, questId) => {
       return { success: false, message: '퀘스트를 성공하지 못했습니다.' };
   }
 };
+
+export const checkGoalProgress = async (userId, questId) => {
+  const goal = await getQuestGoal(questId);
+  const progress = await getQuestProgress(userId,questId);
+  if(goal === progress) {
+    return {status: 'goal_reached', message: '이미 목표치를 달성했습니다.' };
+  }
+
+  return { status: 'in_progress', message:  '아직 목표치에 도달하지 않았습니다.'};
+}
 
 export const claimQuestRewardService = async (userId, questId) => {
   // 숫자 변환 및 유효성 검사

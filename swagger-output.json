@@ -2103,7 +2103,7 @@
           "Quest"
         ],
         "summary": "퀘스트 완료 처리 API",
-        "description": "JWT 토큰에서 유저 정보를 추출하고, 퀘스트 ID에 대한 완료 처리를 수행합니다.",
+        "description": "",
         "parameters": [
           {
             "name": "questId",
@@ -2118,7 +2118,7 @@
         ],
         "responses": {
           "200": {
-            "description": "퀘스트 완료 성공",
+            "description": "퀘스트 완료 처리 결과",
             "content": {
               "application/json": {
                 "schema": {
@@ -2135,8 +2135,17 @@
                     "result": {
                       "type": "object",
                       "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "success",
+                          "enum": [
+                            "complete",
+                            "goal reached",
+                            "success"
+                          ]
+                        },
                         "questId": {
-                          "type": "number",
+                          "type": "integer",
                           "example": 1
                         },
                         "isCompleted": {
@@ -2144,62 +2153,21 @@
                           "example": true
                         },
                         "progress": {
-                          "type": "number",
-                          "example": 1
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "goal": {
+                          "type": "integer",
+                          "example": 5
                         }
+                      },
+                      "example": {
+                        "status": "success",
+                        "questId": 1,
+                        "isCompleted": true,
+                        "progress": 5,
+                        "goal": 5
                       }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "보상 이미 수령함, 목표치 달성, 또는 퀘스트 조건 불충족",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "message": {
-                      "type": "string",
-                      "oneOf": [
-                        {
-                          "example": "이미 보상을 수령한 퀘스트입니다."
-                        },
-                        {
-                          "example": "이미 목표치를 달성했습니다."
-                        },
-                        {
-                          "example": "퀘스트 조건을 만족하지 않습니다."
-                        }
-                      ]
-                    },
-                    "result": {
-                      "oneOf": [
-                        {
-                          "type": "object",
-                          "nullable": true,
-                          "example": null
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "progress": {
-                              "type": "number",
-                              "example": 5
-                            },
-                            "goal": {
-                              "type": "number",
-                              "example": 5
-                            }
-                          }
-                        }
-                      ]
                     }
                   }
                 }
@@ -2211,22 +2179,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "토큰이 없습니다."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
+                  "success": false,
+                  "message": "토큰이 없습니다.",
+                  "result": null
                 }
               }
             }
@@ -2236,22 +2191,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "유효하지 않은 토큰입니다."
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
+                  "success": false,
+                  "message": "유효하지 않은 토큰입니다.",
+                  "result": null
                 }
               }
             }
@@ -2261,22 +2203,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "서버 오류 발생"
-                    },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
-                  }
+                  "success": false,
+                  "message": "서버 오류 발생",
+                  "result": null
                 }
               }
             }
