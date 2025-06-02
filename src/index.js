@@ -52,14 +52,15 @@ BigInt.prototype.toJSON = function () {
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
       'http://localhost:3000',
       'https://localhost:3000',
       'https://thiscatthatcat.shop',
-      'https://13.209.12.236:3000'
+      'https://13.209.12.236:3000',
+      'https://api.thiscatthatcat.shop'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -76,7 +77,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions)); 
+//app.options('*', cors(corsOptions)); 
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -90,15 +91,12 @@ app.use("/docs",
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.use(verify);
-
 // API 엔드포인트 등록
 app.post("/users/signup", handleUserSignUp);
 app.post("/users/login", handleLogin);
+
+app.use(verify);
+
 app.get("/users/info", handleUserInfo);
 app.get("/rankings/top", handleGetTopRankings);
 app.post("/battle/rooms", handleCreateRoom);

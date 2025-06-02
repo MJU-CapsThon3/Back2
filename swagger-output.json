@@ -20,16 +20,6 @@
     }
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/users/signup": {
       "post": {
         "tags": [
@@ -125,12 +115,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "409": {
             "description": "회원 가입 실패 응답 (이메일 중복)",
             "content": {
@@ -159,9 +143,6 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -331,12 +312,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         },
         "requestBody": {
