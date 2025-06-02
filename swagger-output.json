@@ -5434,7 +5434,33 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "TOKEN_FORMAT_INCORRECT"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 형식이 올바르지 않습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
@@ -5601,7 +5627,33 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "TOKEN_FORMAT_INCORRECT"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 형식이 올바르지 않습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
@@ -5840,7 +5892,33 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "TOKEN_FORMAT_INCORRECT"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 형식이 올바르지 않습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
