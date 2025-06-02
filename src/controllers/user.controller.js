@@ -858,6 +858,22 @@ export const handleBuyItem = async (req, res) => {
       }
     }
   }
+  #swagger.responses[401] = {
+    description: "토큰 형식 오류",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+            message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
+        }
+      }
+    }
+  }
   #swagger.responses[404] = {
     description: "아이템이 존재하지 않음",
     content: {
@@ -894,7 +910,7 @@ export const handleBuyItem = async (req, res) => {
   try {
     const token = await checkFormat(req.get("Authorization"));
     if (!token) {
-      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+      return res.status(401).send(response(status.TOKEN_FORMAT_INCORRECT));
     }
     const userId = req.userId;
     const { itemId } = req.body;
@@ -905,11 +921,11 @@ export const handleBuyItem = async (req, res) => {
     console.error(err);
 
     if (err.message === "존재하지 않는 아이템입니다.") {
-      res.send(response(status.ITEM_NOT_FOUND, null));
+      res.status(404).send(response(status.ITEM_NOT_FOUND, null));
     } else if (err.message === "포인트가 부족합니다.") {
-      res.send(response(status.INSUFFICIENT_POINTS, null));
+      res.status(400).send(response(status.INSUFFICIENT_POINTS, null));
     } else {
-      res.send(response(status.INTERNAL_SERVER_ERROR, null));
+      res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
     }
   }
 };
@@ -977,6 +993,22 @@ export const handleAddItem = async (req, res) => {
         }
       }
     }
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+              message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
     #swagger.responses[500] = {
       description: "서버 오류",
       content: {
@@ -998,20 +1030,20 @@ export const handleAddItem = async (req, res) => {
   try {
     const token = await checkFormat(req.get("Authorization"));
     if (!token) {
-      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+      return res.status(401).send(response(status.TOKEN_FORMAT_INCORRECT));
     }
 
     const { name, category, icon, price } = req.body;
 
     if (!name || !category || !price) {
-      return res.send(response(status.ITEM_PARAM_REQUIRED, null));
+      return res.status(400).send(response(status.ITEM_PARAM_REQUIRED, null));
     }
 
     const newItem = await addItem({ name, category, icon, price });
     res.send(response(status.SUCCESS, newItem));
   } catch (err) {
     console.error(err);
-    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+    res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
 
@@ -1051,6 +1083,22 @@ export const handleGetUserItems = async (req, res) => {
         }
       }
     }
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+              message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+              result: { type: "object", nullable: true, example: null }
+            }
+          }
+        }
+      }
+    }
     #swagger.responses[500] = {
       description: "서버 오류",
       content: {
@@ -1071,14 +1119,14 @@ export const handleGetUserItems = async (req, res) => {
   try {
     const token = await checkFormat(req.get("Authorization"));
     if (!token) {
-      return res.send(response(status.TOKEN_FORMAT_INCORRECT));
+      return res.status(401).send(response(status.TOKEN_FORMAT_INCORRECT));
     }
     const userId = req.userId;
     const items = await getUserItems(userId);
     res.send(response(status.SUCCESS, items));
   } catch (err) {
     console.error(err);
-    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+    res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
 
@@ -1137,7 +1185,7 @@ export const handleGetShopItems = async (req, res) => {
     res.send(response(status.SUCCESS, items));
   } catch (err) {
     console.error(err);
-    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+    res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
 
@@ -1227,13 +1275,13 @@ export const handleUpdateItem = async (req, res) => {
     const { itemId, name, category, icon, price } = req.body;
 
     if (!itemId || isNaN(itemId)) {
-      return res.send(response(status.PARAMETER_IS_WRONG, null));
+      return res.status(400).send(response(status.PARAMETER_IS_WRONG, null));
     }
 
     const updatedItem = await updateItem(itemId, { name, category, icon, price });
     res.send(response(status.SUCCESS, updatedItem));
   } catch (err) {
     console.error(err);
-    res.send(response(status.INTERNAL_SERVER_ERROR, null));
+    res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
