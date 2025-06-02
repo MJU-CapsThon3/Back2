@@ -1,5 +1,6 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
+import { prisma } from "../db.config.js";
 import { createBattleRoom,
     createBattleTitle,
     countParticipants,
@@ -16,12 +17,16 @@ import { createBattleRoom,
     createBattleVote,
     findVotesByRoomId,
     getRoomsInfoRep,
+    findAllChatMessagesByRoomId,
+    findBattleVotesByRoomId
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
 } from '../dtos/chat.dto.js';
 
-import { callFilterProfanity } from "../repositories/ai.repository.js";
+import { callFilterProfanity,
+  callAnalyzeDebate
+} from "../repositories/ai.repository.js";
 
 // 방 생성 service
 export const createRoom = async (req, res) => {
@@ -310,3 +315,139 @@ export const endBattle = async ({ roomId, userId }) => {
     endedAt: updated.endedAt.toISOString()
   };
 };
+
+export const getFinalResultAndAward = async ({ roomId, userId }) => {
+  // 1) 방 존재 확인
+  const room = await prisma.battleRoom.findUnique({
+    where: { id: BigInt(roomId) },
+    select: { id: true, admin: true, topicA: true, topicB: true, isAwarded: true }
+  });
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) 방장인지 확인 (BigInt vs Number/String 비교)
+  const adminIdString = room.admin.toString();  // e.g. "1"
+  const requesterIdString = String(userId);     // e.g. "1"
+  if (adminIdString !== requesterIdString) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 이미 포인트 지급했는지 확인
+  if (room.isAwarded) {
+    const err = new Error("ALREADY_AWARDED");
+    err.code = "ALREADY_AWARDED";
+    throw err;
+  }
+
+  // 4) 관전자 투표 집계
+  const votes = await prisma.battleVote.findMany({
+    where: { roomId: BigInt(roomId) },
+    select: { vote: true }
+  });
+  const countA = votes.filter(v => v.vote === "A").length;
+  const countB = votes.filter(v => v.vote === "B").length;
+  let voteWinner = null;
+  if (countA > countB)      voteWinner = "A";
+  else if (countB > countA) voteWinner = "B";
+  // (동점인 경우 voteWinner는 null)
+
+  // 5) AI 토론 분석 호출
+  //    - 채팅 메시지를 “A: …\nB: …” 형태로 합친 후 전달
+  const debateContent = await fetchDebateContentAsString(roomId);
+  const aiResult = await callAnalyzeDebate({
+    topic: `${room.topicA} vs ${room.topicB}`,
+    content: debateContent
+  });
+  // aiResult 예시:
+  //   {
+  //     result: "A: (요약/평가)\nB: (요약/평가)\n최종 승자: B\n판정 이유: B가 더 설득력 ...",
+  //     speakerA: { summary, scores, reason }, 
+  //     speakerB: { ... },
+  //     winner: "B",
+  //     judgement_reason: "B가 더 설득력 ... (full reason)"
+  //   }
+  const aiWinner = aiResult.winner;               // "A" 또는 "B"
+  const aiAnalysisText = aiResult.result;         // 원본 문자열 전체
+
+  // 6) 참가자 정보 조회 (A 진영, B 진영 각각의 userId)
+  const participants = await prisma.roomParticipant.findMany({
+    where: { roomId: BigInt(roomId) },
+    select: { userId: true, side: true }
+  });
+  const sideAMember = participants.find(p => p.side === "A")?.userId ?? null;
+  const sideBMember = participants.find(p => p.side === "B")?.userId ?? null;
+
+  // 7) 포인트 지급 트랜잭션 준비
+  const pointTransactions = [];
+
+  // 7-1) 관전자 투표 우승자에게 500포인트 (voteWinner가 null이면 넘어감)
+  if (voteWinner === "A" && sideAMember) {
+    pointTransactions.push({
+      user_id: BigInt(sideAMember),
+      change: 500,
+      reason: "관전자 투표 우승 보상"
+    });
+  }
+  if (voteWinner === "B" && sideBMember) {
+    pointTransactions.push({
+      user_id: BigInt(sideBMember),
+      change: 500,
+      reason: "관전자 투표 우승 보상"
+    });
+  }
+
+  // 7-2) AI 분석 우승자에게 500포인트 (항상 비교 → aiWinner가 반드시 "A" 또는 "B")
+  if (aiWinner === "A" && sideAMember) {
+    pointTransactions.push({
+      user_id: BigInt(sideAMember),
+      change: 500,
+      reason: "AI 토론 분석 우승 보상"
+    });
+  }
+  if (aiWinner === "B" && sideBMember) {
+    pointTransactions.push({
+      user_id: BigInt(sideBMember),
+      change: 500,
+      reason: "AI 토론 분석 우승 보상"
+    });
+  }
+
+  // 8) 트랜잭션으로 한 번에 여러 포인트 기록을 생성
+  if (pointTransactions.length > 0) {
+    await prisma.pointTranscation.createMany({
+      data: pointTransactions
+    });
+  }
+
+  // 9) battleRoom.isAwarded = true 로 업데이트
+  await prisma.battleRoom.update({
+    where: { id: BigInt(roomId) },
+    data:  { isAwarded: true }
+  });
+
+  // 10) 최종 결과 반환
+  return {
+    voteCount: { A: countA, B: countB },
+    voteWinner,                 // "A", "B" 또는 null
+    aiWinner,                   // "A" 또는 "B"
+    judgementReason: aiResult.judgement_reason,
+    aiAnalysis: aiAnalysisText, // 전체 AI 분석 원본 문자열
+    pointsAwarded: pointTransactions.reduce((sum, t) => sum + t.change, 0)
+  };
+};
+
+
+async function fetchDebateContentAsString(roomId) {
+  const messages = await prisma.chatMessage.findMany({
+    where: { roomId: BigInt(roomId) },
+    orderBy: { createdAt: "asc" }
+  });
+  return messages
+    .map(m => `${m.side === "A" ? "A" : "B"}: ${m.message}`)
+    .join("\n");
+}

@@ -34,7 +34,8 @@ import {
   handlePostChatMessage,
   handlePostVote,
   handleGetVoteHistory,
-  handleEndBattle
+  handleEndBattle,
+  handleGetFinalResult
 } from "./controllers/chat.controller.js";
 import { registerChatHandlers
 } from "./socket/chat.socket.js";
@@ -112,6 +113,8 @@ app.post("/battle/rooms/:roomId/end", handleEndBattle);
 
 app.post("/battle/rooms/:roomId/votes", handlePostVote);
 app.get("/battle/rooms/:roomId/votes", handleGetVoteHistory);
+
+app.get("/battle/rooms/:roomId/result", handleGetFinalResult);
 
 app.post("/ai/filter", handleFilterProfanity);
 app.post("/ai/analyze", handleAnalyzeSentiment);

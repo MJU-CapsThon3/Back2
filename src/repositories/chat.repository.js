@@ -195,3 +195,34 @@ export const findVotesByRoomId = async (roomId) => {
   });
   return rows;
 };
+
+// 방의 채팅을 시간 순서대로 불러오기
+export const findAllChatMessagesByRoomId = async (roomId) => {
+  const chats = await prisma.chatMessage.findMany({
+    where: { roomId: BigInt(roomId) },
+    orderBy: { createdAt: "asc" },
+    select: {
+      id: true,
+      side: true,       // "A" 또는 "B"
+      message: true,
+      createdAt: true,
+      userId: true,
+    },
+  });
+  return chats;
+};
+
+// 투표 내역 불러오기
+export const findBattleVotesByRoomId = async (roomId) => {
+  const votes = await prisma.battleVote.findMany({
+    where: { roomId: BigInt(roomId) },
+    orderBy: { createdAt: "asc" },
+    select: {
+      id: true,
+      userId: true,
+      vote: true,       // "A" 또는 "B"
+      createdAt: true,
+    },
+  });
+  return votes;
+};

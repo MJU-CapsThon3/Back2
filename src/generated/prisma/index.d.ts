@@ -10371,6 +10371,7 @@ export namespace Prisma {
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
+    isAwarded: boolean | null
   }
 
   export type BattleRoomMaxAggregateOutputType = {
@@ -10384,6 +10385,7 @@ export namespace Prisma {
     endedAt: Date | null
     approvalNum: number | null
     oppositeNum: number | null
+    isAwarded: boolean | null
   }
 
   export type BattleRoomCountAggregateOutputType = {
@@ -10397,6 +10399,7 @@ export namespace Prisma {
     endedAt: number
     approvalNum: number
     oppositeNum: number
+    isAwarded: number
     _all: number
   }
 
@@ -10426,6 +10429,7 @@ export namespace Prisma {
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
+    isAwarded?: true
   }
 
   export type BattleRoomMaxAggregateInputType = {
@@ -10439,6 +10443,7 @@ export namespace Prisma {
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
+    isAwarded?: true
   }
 
   export type BattleRoomCountAggregateInputType = {
@@ -10452,6 +10457,7 @@ export namespace Prisma {
     endedAt?: true
     approvalNum?: true
     oppositeNum?: true
+    isAwarded?: true
     _all?: true
   }
 
@@ -10552,6 +10558,7 @@ export namespace Prisma {
     endedAt: Date | null
     approvalNum: number
     oppositeNum: number
+    isAwarded: boolean
     _count: BattleRoomCountAggregateOutputType | null
     _avg: BattleRoomAvgAggregateOutputType | null
     _sum: BattleRoomSumAggregateOutputType | null
@@ -10584,6 +10591,7 @@ export namespace Prisma {
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
+    isAwarded?: boolean
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
     aiSummaries?: boolean | BattleRoom$aiSummariesArgs<ExtArgs>
@@ -10606,9 +10614,10 @@ export namespace Prisma {
     endedAt?: boolean
     approvalNum?: boolean
     oppositeNum?: boolean
+    isAwarded?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
@@ -10640,6 +10649,7 @@ export namespace Prisma {
       endedAt: Date | null
       approvalNum: number
       oppositeNum: number
+      isAwarded: boolean
     }, ExtArgs["result"]["battleRoom"]>
     composites: {}
   }
@@ -11025,6 +11035,7 @@ export namespace Prisma {
     readonly endedAt: FieldRef<"BattleRoom", 'DateTime'>
     readonly approvalNum: FieldRef<"BattleRoom", 'Int'>
     readonly oppositeNum: FieldRef<"BattleRoom", 'Int'>
+    readonly isAwarded: FieldRef<"BattleRoom", 'Boolean'>
   }
     
 
@@ -16578,7 +16589,8 @@ export namespace Prisma {
     startedAt: 'startedAt',
     endedAt: 'endedAt',
     approvalNum: 'approvalNum',
-    oppositeNum: 'oppositeNum'
+    oppositeNum: 'oppositeNum',
+    isAwarded: 'isAwarded'
   };
 
   export type BattleRoomScalarFieldEnum = (typeof BattleRoomScalarFieldEnum)[keyof typeof BattleRoomScalarFieldEnum]
@@ -17388,6 +17400,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
+    isAwarded?: BoolFilter<"BattleRoom"> | boolean
     battleTitle?: BattleTitleListRelationFilter
     roomParticipants?: RoomParticipantListRelationFilter
     aiSummaries?: AiSummaryListRelationFilter
@@ -17407,6 +17420,7 @@ export namespace Prisma {
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
+    isAwarded?: SortOrder
     battleTitle?: BattleTitleOrderByRelationAggregateInput
     roomParticipants?: RoomParticipantOrderByRelationAggregateInput
     aiSummaries?: AiSummaryOrderByRelationAggregateInput
@@ -17430,6 +17444,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
+    isAwarded?: BoolFilter<"BattleRoom"> | boolean
     battleTitle?: BattleTitleListRelationFilter
     roomParticipants?: RoomParticipantListRelationFilter
     aiSummaries?: AiSummaryListRelationFilter
@@ -17449,6 +17464,7 @@ export namespace Prisma {
     endedAt?: SortOrderInput | SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
+    isAwarded?: SortOrder
     _count?: BattleRoomCountOrderByAggregateInput
     _avg?: BattleRoomAvgOrderByAggregateInput
     _max?: BattleRoomMaxOrderByAggregateInput
@@ -17470,6 +17486,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
     approvalNum?: IntWithAggregatesFilter<"BattleRoom"> | number
     oppositeNum?: IntWithAggregatesFilter<"BattleRoom"> | number
+    isAwarded?: BoolWithAggregatesFilter<"BattleRoom"> | boolean
   }
 
   export type BattleTitleWhereInput = {
@@ -18381,6 +18398,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -18400,6 +18418,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -18419,6 +18438,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -18438,6 +18458,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -18457,6 +18478,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
   }
 
   export type BattleRoomUpdateManyMutationInput = {
@@ -18470,6 +18492,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BattleRoomUncheckedUpdateManyInput = {
@@ -18483,6 +18506,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BattleTitleCreateInput = {
@@ -19536,6 +19560,7 @@ export namespace Prisma {
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
+    isAwarded?: SortOrder
   }
 
   export type BattleRoomAvgOrderByAggregateInput = {
@@ -19556,6 +19581,7 @@ export namespace Prisma {
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
+    isAwarded?: SortOrder
   }
 
   export type BattleRoomMinOrderByAggregateInput = {
@@ -19569,6 +19595,7 @@ export namespace Prisma {
     endedAt?: SortOrder
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
+    isAwarded?: SortOrder
   }
 
   export type BattleRoomSumOrderByAggregateInput = {
@@ -21489,6 +21516,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -21507,6 +21535,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21588,6 +21617,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -21606,6 +21636,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -21677,6 +21708,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -21695,6 +21727,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21729,6 +21762,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -21747,6 +21781,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -21765,6 +21800,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -21783,6 +21819,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21817,6 +21854,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -21835,6 +21873,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22327,6 +22366,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -22345,6 +22385,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -22379,6 +22420,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -22397,6 +22439,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22671,6 +22714,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -22689,6 +22733,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -22770,6 +22815,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -22788,6 +22834,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22859,6 +22906,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -22877,6 +22925,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     approvalNum?: number
     oppositeNum?: number
+    isAwarded?: boolean
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -22958,6 +23007,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -22976,6 +23026,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput

@@ -208,7 +208,8 @@ exports.Prisma.BattleRoomScalarFieldEnum = {
   startedAt: 'startedAt',
   endedAt: 'endedAt',
   approvalNum: 'approvalNum',
-  oppositeNum: 'oppositeNum'
+  oppositeNum: 'oppositeNum',
+  isAwarded: 'isAwarded'
 };
 
 exports.Prisma.BattleTitleScalarFieldEnum = {

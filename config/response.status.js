@@ -208,6 +208,12 @@ export const status = {
     isSuccess: false, 
     code: "QUEST001",
     message: "이미 보상을 받은 퀘스트입니다.",
+  },
+  ALREADY_AWARDED : {
+    status : StatusCodes.ALREADY_AWARDED,
+    isSuccess: false, 
+    code: "COMMON409",
+    message: "이미 보상을 받았습니다.",
   }
 }
 

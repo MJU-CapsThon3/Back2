@@ -137,6 +137,7 @@ model BattleRoom {
   endedAt     DateTime? @map("ended_at") @db.DateTime(6)
   approvalNum Int      @default(0) @map("approval_num")
   oppositeNum Int      @default(0) @map("opposite_num")
+  isAwarded  Boolean  @default(false)
 
   battleTitle BattleTitle[]
   roomParticipants RoomParticipant[]

@@ -4145,6 +4145,460 @@
         ]
       }
     },
+    "/battle/rooms/{roomId}/result": {
+      "get": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "토론 최종 결과 조회 + 포인트 지급 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "최종 결과 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "voteCount": {
+                          "type": "object",
+                          "properties": {
+                            "A": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "B": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "voteWinner": {},
+                        "aiWinner": {
+                          "type": "string",
+                          "example": "B"
+                        },
+                        "judgementReason": {
+                          "type": "string",
+                          "example": "B가 A보다 논리적이고 설득력 있는 주장을 했으며, 점수 차이가 0.5점 이상으로 B가 승리했다."
+                        },
+                        "aiAnalysis": {
+                          "type": "string",
+                          "example": "A: …\nB: …\n최종 승자: B\n판정 이유: B가 더 설득력 …"
+                        },
+                        "pointsAwarded": {
+                          "type": "number",
+                          "example": 500
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "voteCount": {
+                          "type": "object",
+                          "properties": {
+                            "A": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "B": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "voteWinner": {},
+                        "aiWinner": {
+                          "type": "string",
+                          "example": "B"
+                        },
+                        "judgementReason": {
+                          "type": "string",
+                          "example": "B가 A보다 논리적이고 설득력 있는 주장을 했으며, 점수 차이가 0.5점 이상으로 B가 승리했다."
+                        },
+                        "aiAnalysis": {
+                          "type": "string",
+                          "example": "A: …\nB: …\n최종 승자: B\n판정 이유: B가 더 설득력 …"
+                        },
+                        "pointsAwarded": {
+                          "type": "number",
+                          "example": 500
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (roomId 누락 또는 형식 오류 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (방장만 사용 가능)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "이미 포인트 지급 완료됨",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON409"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이미 최종 결과가 처리되었습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON409"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이미 최종 결과가 처리되었습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
     "/ai/filter": {
       "post": {
         "tags": [
