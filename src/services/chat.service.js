@@ -8,11 +8,19 @@ import { createBattleRoom,
     listRoomParticipants,
     countRoomSpectators,
     find1BattleRoomById,
-    updateBattleRoom
+    updateBattleRoom,
+    saveChatMessage,
+    findChatHistoryByRoomId,
+    findChatMessagesByRoom,
+    countRoomParticipant,
+    createBattleVote,
+    findVotesByRoomId,
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
 } from '../dtos/chat.dto.js';
+
+import { callFilterProfanity } from "../repositories/ai.repository.js";
 
 // 방 생성 service
 export const createRoom = async (req, res) => {
@@ -129,5 +137,133 @@ export const startBattle = async ({ roomId, userId }) => {
     roomId:    updated.id,
     status:    updated.status,
     startedAt: updated.startedAt
+  };
+};
+
+// 채팅 저장
+export const createChat = async ({ roomId, userId, side, message }) => {
+  let finalMessage = message;
+
+  try {
+    const { filtered_text } = await callFilterProfanity(message);
+    finalMessage = filtered_text;
+  } catch (err) {
+    console.error("🔥 AI 필터링 실패, 원본 메시지로 저장합니다:", err.message);
+    // 실패 시에는 finalMessage = 원본 메시지
+  }
+
+  const chatRecord = await saveChatMessage({
+    roomId:   BigInt(roomId),
+    userId:   BigInt(userId),
+    side,
+    message:  finalMessage,
+  });
+
+  return chatRecord;
+};
+
+// 채팅 정보 조회
+export const getChatHistory = async (roomId) => {
+  const history = await findChatHistoryByRoomId(roomId);
+  return history;
+};
+
+// export const getChatHistory = async ({ roomId, userId }) => {
+//   // 1) 방 존재 확인
+//   const room = await findBattleRoomById(roomId);
+//   if (!room) {
+//     const err = new Error("ROOM_NOT_FOUND");
+//     err.code = "ROOM_NOT_FOUND";
+//     throw err;
+//   }
+
+//   //2) userId가 이 방의 참가자 혹은 관전자 인지 확인
+//   const cnt = await countRoomParticipant(roomId, userId);
+//   if (cnt === 0) {
+//     const err = new Error("FORBIDDEN");
+//     err.code = "FORBIDDEN";
+//     throw err;
+//   }
+
+//   //3) 채팅 메시지 조회
+//   const msgs = await findChatMessagesByRoom(roomId);
+
+//    //4) A/B 분리
+//   const sideA = [], sideB = [];
+//   msgs.forEach(m => {
+//     if (m.side === "A") sideA.push(m);
+//     else                sideB.push(m);
+//   });
+
+//   return { sideA, sideB };
+//   };
+
+export const voteInRoom = async ({ roomId, userId, vote }) => {
+  // 1) 방 존재 여부
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) userId가 이 방의 참가자/관전자 인지 확인
+  const cnt = await countRoomParticipant(roomId, userId);
+  if (cnt === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 투표 저장
+  const voteRecord = await createBattleVote({ roomId, userId, vote });
+  return {
+    id:        voteRecord.id.toString(),
+    roomId:    voteRecord.roomId.toString(),
+    userId:    voteRecord.userId.toString(),
+    vote:      voteRecord.vote,
+    createdAt: voteRecord.createdAt.toISOString(),
+  };
+};
+
+export const getVoteHistory = async ({ roomId, userId }) => {
+  // 1) 방 존재 여부
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) userId가 해당 방의 참가자/관전자 인지 확인
+  const cnt = await countRoomParticipant(roomId, userId);
+  if (cnt === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 모든 투표 기록 조회
+  const rows = await findVotesByRoomId(roomId);
+
+  let countA = 0;
+  let countB = 0;
+  const votes = rows.map((r) => {
+    if (r.vote === "A") countA += 1;
+    else if (r.vote === "B") countB += 1;
+    return {
+      id:        r.id.toString(),
+      roomId:    r.roomId.toString(),
+      userId:    r.userId.toString(),
+      vote:      r.vote,
+      createdAt: r.createdAt.toISOString(),
+    };
+  });
+
+  return {
+    countA,
+    countB,
+    total: votes.length,
+    votes
   };
 };

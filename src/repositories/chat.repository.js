@@ -89,3 +89,94 @@ export const updateBattleRoom = (roomId, data) => {
         data
     });
 };
+
+// 실시간 채팅 메세지 저장
+export const saveChatMessage = async ({ roomId, userId, side, message }) => {
+    return await prisma.chatMessage.create({
+    data: {
+        room_id:  BigInt(roomId),
+        user_id:  BigInt(userId),
+      side,     // 'A' 또는 'B'
+      message,  // 이미 AI 필터링된 메시지
+      // created_at: default CURRENT_TIMESTAMP(automatically set)
+    },
+    });
+};
+
+// 방 별 채팅 조회
+export const findChatHistoryByRoomId = async (roomId) => {
+  // 1) 해당 roomId의 채팅 메시지들을 생성일(createdAt) 순으로 모두 조회
+  const allChats = await prisma.chatMessage.findMany({
+    where:   { roomId: BigInt(roomId) },  // camelCase 필드명
+    orderBy: { createdAt: "asc" }          // 역시 camelCase
+  });
+
+  // 2) sideA, sideB 로 분리하기 위해 빈 배열 준비
+  const sideA = [];
+  const sideB = [];
+
+  // 3) 조회된 각 레코드를 camelCase로 된 프로퍼티로 매핑
+  allChats.forEach((c) => {
+    const item = {
+      id:        c.id.toString(),              // BigInt -> string
+      roomId:    c.roomId.toString(),          // Prisma에서 반환되는 필드는 `roomId`
+      userId:    c.userId.toString(),          // Prisma에서 반환되는 필드는 `userId`
+      side:      c.side,                       // "A" 또는 "B"
+      message:   c.message,                    // 메시지 본문
+      createdAt: c.createdAt.toISOString()     // Date -> ISO 문자열
+    };
+
+    if (c.side === "A") {
+      sideA.push(item);
+    } else if (c.side === "B") {
+      sideB.push(item);
+    }
+  });
+
+  return { sideA, sideB };
+};
+
+// 방 참가자/관전자 확인
+export const countRoomParticipant = async (roomId, userId) => {
+    const result = await prisma.roomParticipant.count({
+    where: {
+        roomId: BigInt(roomId),
+        userId: BigInt(userId),
+    },
+    });
+    return result;
+};
+
+export const createBattleVote = async ({ roomId, userId, vote }) => {
+  // (1) 먼저 같은 방/같은 유저가 투표했는지 확인
+  const existing = await prisma.battleVote.findFirst({
+    where: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+    }
+  });
+  if (existing) {
+    const err = new Error("ALREADY_VOTED");
+    err.code = "ALREADY_VOTED";
+    throw err;
+  }
+
+  // (2) 신규 투표 레코드 생성
+  const record = await prisma.battleVote.create({
+    data: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+      vote, // "A" 또는 "B"
+      // createdAt은 default now()로 채워짐
+    }
+  });
+  return record;
+};
+
+export const findVotesByRoomId = async (roomId) => {
+  const rows = await prisma.battleVote.findMany({
+    where:   { roomId: BigInt(roomId) },
+    orderBy: { createdAt: "asc" }
+  });
+  return rows;
+};

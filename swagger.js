@@ -38,6 +38,7 @@ const endpointsFiles = [
   "./src/index.js",
   "./src/controllers/user.controller.js",
   "./src/controllers/chat.controller.js",
+  "./src/controllers/ai.controller.js"
 ];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
