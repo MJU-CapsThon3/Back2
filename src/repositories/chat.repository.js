@@ -109,8 +109,8 @@ export const updateBattleRoom = (roomId, data) => {
 export const saveChatMessage = async ({ roomId, userId, side, message }) => {
     return await prisma.chatMessage.create({
     data: {
-        room_id:  BigInt(roomId),
-        user_id:  BigInt(userId),
+        roomId:  BigInt(roomId),
+        userId:  BigInt(userId),
       side,     // 'A' 또는 'B'
       message,  // 이미 AI 필터링된 메시지
       // created_at: default CURRENT_TIMESTAMP(automatically set)
