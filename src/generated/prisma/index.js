@@ -329,7 +329,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\User\\OneDrive\\Desktop\\폴더\\학교\\4-1\\캡스톤디자인\\프로젝트\\Back2\\src\\generated\\prisma",
+      "value": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -351,7 +351,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\User\\OneDrive\\Desktop\\폴더\\학교\\4-1\\캡스톤디자인\\프로젝트\\Back2\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\PC\\OneDrive\\바탕 화면\\Backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -365,6 +365,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
