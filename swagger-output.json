@@ -5032,37 +5032,62 @@
             }
           },
           "401": {
-            "description": "토큰 없음",
+            "description": "토큰 형식 오류",
             "content": {
               "application/json": {
                 "schema": {
-                  "isSuccess": false,
-                  "message": "토큰이 없습니다.",
-                  "result": null
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "TOKEN_FORMAT_INCORRECT"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 형식이 올바르지 않습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
                 }
               }
             }
           },
           "403": {
-            "description": "유효하지 않은 토큰",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "isSuccess": false,
-                  "message": "유효하지 않은 토큰입니다.",
-                  "result": null
-                }
-              }
-            }
+            "description": "Forbidden"
           },
           "500": {
             "description": "서버 오류",
             "content": {
               "application/json": {
                 "schema": {
-                  "uccess": false,
-                  "message": "서버 오류 발생",
-                  "result": null
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "SERVER_ERROR"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 오류 발생"
+                    },
+                    "result": {
+                      "type": "object",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
                 }
               }
             }

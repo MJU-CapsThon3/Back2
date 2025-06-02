@@ -289,10 +289,10 @@ export const deleteItem = async (itemId) => {
 };
 */
 
-//퀘스트 관련 추가한 부분
-export const getDailyQuestsService = async () => {
+//퀘스트 관련
+export const getDailyQuestsService = async (userId) => {
   // DB에서 퀘스트 리스트 전체를 가져옴
-  const quests = await getAllQuests();
+  const quests = await getAllQuests(userId);
   return quests;
 };
 
@@ -313,14 +313,15 @@ export const isRewardReceived = async (userId, questId) => {
   const completion = await findQuestCompletion(userId, questId);
   // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
   if (!completion) {
-    return {
+    /*return {
       status: 'not_started',
       message: '해당 퀘스트에 대한 진행 정보가 없습니다.',
-    };
+    };*/
+    throw new Error("해당 퀘스트에 대한 진행 정보가 없습니다.");
   }
   
   if (completion.rewardClaimed) {
-    return {status: 'already_claimed', message: '이미 보상을 받았습니다.' };
+    return {status: 'already_claimed', message: '이미 보상을 받았습니다.', result: {status: "complete"}};
   } 
 
   return {status: 'not_yet', message: '아직 보상을 받지 않았습니다.'};
@@ -360,31 +361,27 @@ export const completeQuestIfEligible = async (userId, questId) => {
     case 3: // 방 생성하기
       const createdRoom = await countUserRoomCreatesToday(userId);
       progress = await getQuestProgress(userId, questId);
-      if (createdRoom >= goal) {
-        await updateQuestProgress(userId, questId, createdRoom);
-        await markQuestCompleted(userId, questId);
+      if (createdRoom > progress) {
+        await addQuestProgress(userId, questId);
         progress = await getQuestProgress(userId, questId);
+        if(progress === goal) {
+          await markQuestCompleted(userId, questId);
+        }
         return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      } else if (createdRoom > progress) {
-        await updateQuestProgress(userId, questId, createdRoom);
-        progress = await getQuestProgress(userId, questId);
-        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      } else {
+      }  else {
         return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
       }
     case 4: // 채팅하기
       const chatted = await countUserChatsToday(userId);
       progress = await getQuestProgress(userId, questId);
-      if (chatted >= goal) {
-        await updateQuestProgress(userId, questId, goal);
-        await markQuestCompleted(userId, questId);
+      if (chatted > progress) {
+        await addQuestProgress(userId, questId);
         progress = await getQuestProgress(userId, questId);
+        if(progress === goal) {
+          await markQuestCompleted(userId, questId);
+        }
         return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      } else if (chatted > progress) {
-        await updateQuestProgress(userId, questId, chatted);
-        progress = await getQuestProgress(userId, questId);
-        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      } else {
+      }  else {
         return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
       }
     case 5: // 아이템 구매하기
