@@ -298,7 +298,6 @@ export const handleUserInfo = async (req, res) => {
     }
   }
 */
-
   console.log("유저 정보를 불러옵니다.");
   try {
     console.log("유저 정보를 불러옵니다.");
