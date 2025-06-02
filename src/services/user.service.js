@@ -11,11 +11,34 @@ import {
   updateRankingById,
   getRankingByUserId,
   getTopRankings,
+  findItemById,
+  createUserItem,
+  createPointTransaction,
+  deductUserPoints,
+  createItem,
+  findUserItems,
+  getShopItemsFromDB,
+  updateItemRepo,
+  //deleteUserItemsByItemId,
+  //deleteItemRepo,
+  checkQuestCondition,
+  markQuestCompleted,
+  getQuestCompletion,
+  addUserPoint,
+  markQuestRewardClaimed,
+  resetAllQuestCompletions,
+  getAllQuests,
+  getAllQuestIds,
+  createQuestCompletions
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
 import { encrypt } from '../middleware/encrypt.js'; 
 import { createJwt } from "../middleware/jwt.js";
+
+//퀘스트 추가한 점(변경점)
+import { prisma } from "../db.config.js";
+import { BaseError } from "../errors.js";
 
 // 포인트에 따른 티어 계산 헬퍼 (예시)
 const calculateTier = (points) => {
@@ -58,70 +81,80 @@ export const refreshRankings = async () => {
 
 // 회원가입 service
 export const userSignUp = async (req, res) => {
- // 1) 요청 바디에서 필요한 값 추출
-  const {
-    nickname,
-    name,
-    email,
-    password,
-    gender,
-    birth,
-    phoneNumber,
-  } = req.body;
-
-  // 2) 필수 항목 누락 검증
-  if (
-    !nickname ||
-    !name ||
-    !email ||
-    !password ||
-    !gender ||
-    !birth ||
-    !phoneNumber
-  ) {
-    // 필드가 하나라도 비어 있으면 실패 응답
-    return { info: false };
-  }
-
-  // 3) 비밀번호 암호화
-  const encryptedPassword = encrypt(password);
-
-  // 4) repository를 통해 사용자 생성
-  const userId = await addUser({
-    nickname,
-    name,
-    email,
-    password: encryptedPassword,
-    gender,                           // ex) 'M' or 'F'
-    birth: new Date(birth),           // ex) '1990-05-18'
-    phoneNumber,        // repository 레이어에서 컬럼명으로 매핑
-    profileImageUrl: null
-  });
-
-  if (!userId) {
-    // 생성에 실패했을 때
-    return null;
-  }
-  // 5) Ranking 초기 레코드 생성
-  const initialPoints = 0;
-  const initialTier = calculateTier(initialPoints);
-  await createInitialRanking(userId, initialPoints, initialTier);
-
-  // 6) 생성된 사용자 데이터 조회
-  const user = await getUser(userId);
-
-  // 7) 랭킹 정보 별도로 조회
-  const ranking = await getRankingByUserId(userId);
-
-  // 7) DTO 포맷으로 변환하여 반환
-  const userDto = responseFromUser(user);
-  userDto.ranking = {
-    rank: ranking.rank,
-    tier: ranking.tier,
-  };
-
-  return userDto;
-};
+  // 1) 요청 바디에서 필요한 값 추출
+   const {
+     nickname,
+     name,
+     email,
+     password,
+     gender,
+     birth,
+     phoneNumber,
+   } = req.body;
+ 
+   // 2) 필수 항목 누락 검증
+   if (
+     !nickname ||
+     !name ||
+     !email ||
+     !password ||
+     !gender ||
+     !birth ||
+     !phoneNumber
+   ) {
+     // 필드가 하나라도 비어 있으면 실패 응답
+     return { info: false };
+   }
+ 
+   // 3) 비밀번호 암호화
+   const encryptedPassword = encrypt(password);
+ 
+   // 4) repository를 통해 사용자 생성
+   const userId = await addUser({
+     nickname,
+     name,
+     email,
+     password: encryptedPassword,
+     gender,                           // ex) 'M' or 'F'
+     birth: new Date(birth),           // ex) '1990-05-18'
+     phoneNumber,        // repository 레이어에서 컬럼명으로 매핑
+     profileImageUrl: null
+   });
+ 
+   if (!userId) {
+     // 생성에 실패했을 때
+     return null;
+   }
+ 
+   // 5) QuestCompletion 생성
+   const questIds = await getAllQuestIds(); // Quest 테이블에서 questId 전체 조회
+   const questCompletions = questIds.map((questId) => ({
+     userId,
+     questId,
+     isCompleted: false,
+   }));
+   await createQuestCompletions(questCompletions); // QuestCompletion 테이블에 insert
+   
+   // 6) Ranking 초기 레코드 생성
+   const initialPoints = 0;
+   const initialTier = calculateTier(initialPoints);
+   await createInitialRanking(userId, initialPoints, initialTier);
+ 
+   // 7) 생성된 사용자 데이터 조회
+   const user = await getUser(userId);
+ 
+   // 8) 랭킹 정보 별도로 조회
+   const ranking = await getRankingByUserId(userId);
+ 
+   // 9) DTO 포맷으로 변환하여 반환
+   const userDto = responseFromUser(user);
+   userDto.ranking = {
+     rank: ranking.rank,
+     tier: ranking.tier,
+   };
+ 
+   return userDto;
+ };
 
 // 이메일 확인 service
 const findEmailAlreadyExists = async (email) => {
@@ -174,4 +207,126 @@ export const topRankingService = async (limit = 10) => {
     tier:          r.tier,
     totalPoints:   r.totalPoints,
   }));
+};
+
+// 아이템 구매 서비스
+export const buyItem = async (userId, itemId) => {
+  const item = await findItemById(itemId);
+
+  if (!item) {
+    throw new Error("존재하지 않는 아이템입니다.");
+  }
+
+  const user = await getUser(userId);
+
+  if (user.point < item.cost) {
+    throw new Error("포인트가 부족합니다.");
+  }
+
+  // 포인트 차감
+  await deductUserPoints(userId, item.cost);
+
+  // 아이템 지급
+  await createUserItem(userId, itemId);
+
+  // 포인트 거래 기록
+  await createPointTransaction(userId, -item.cost, `아이템 구매: ${item.name}`);
+
+  return {
+    success: true,
+    message: `${item.name} 아이템을 구매했습니다.`,
+    remainingPoints: user.point - item.cost,
+  };
+};
+
+// 아이템 추가
+export const addItem = async (itemData) => {
+  return await createItem(itemData);
+};
+
+// 유저가 소유한 아이템 목록 조회
+export const getUserItems = async (userId) => {
+  const userItems = await findUserItems(userId);
+
+  return userItems.map((userItem) => ({
+    id: userItem.item.id,
+    name: userItem.item.name,
+    context: userItem.item.context,
+    cost: userItem.item.cost,
+    acquiredAt: userItem.acquiredAt,
+    isEquipped: userItem.isEquipped,
+  }));
+};
+
+// 상점 아이템 전체 조회
+export const getAllShopItems = async () => {
+  return await getShopItemsFromDB();
+};
+
+// 아이템 수정
+export const updateItem = async (itemId, updateData) => {
+  return await updateItemRepo(itemId, updateData);
+};
+
+/*
+// 아이템 삭제
+export const deleteItem = async (itemId) => {
+  // user_items 테이블에서 이 itemId를 참조 중인 레코드 먼저 삭제
+  await deleteUserItemsByItemId(itemId);
+  // 그 다음에 items 테이블에서 아이템 삭제
+  await deleteItemRepo(itemId);
+};
+*/
+//퀘스트 관련 추가한 부분
+export const getDailyQuestsService = async () => {
+  // DB에서 퀘스트 리스트 전체를 가져옴
+  const quests = await getAllQuests();
+  return quests;
+};
+
+export const completeQuestIfEligible = async (userId, questId) => {
+  const isEligible = await checkQuestCondition(userId, questId);
+
+  if (!isEligible) {
+    return { success: false, message: '퀘스트 조건을 만족하지 않습니다.' };
+  }
+
+  await markQuestCompleted(userId, questId);
+
+  return { success: true, message: '퀘스트를 성공적으로 완료했습니다.' };
+};
+
+export const claimQuestRewardService = async (userId, questId) => {
+  // 숫자 변환 및 유효성 검사
+  const parsedUserId = Number(userId);
+  const parsedQuestId = Number(questId);
+  
+  const questCompletion = await getQuestCompletion(parsedUserId, parsedQuestId);
+
+  // 퀘스트 완료하지 않은 경우 → 에러 아님, 상태만 응답
+  if (!questCompletion || !questCompletion.isCompleted) {
+    return { reward: 0, status: 'not_completed', message: '퀘스트를 아직 완료하지 않았습니다.' };
+  }
+
+  // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
+  if (questCompletion.rewardClaimed) {
+    return { reward: 0, status: 'already_claimed', message: '이미 보상을 받았습니다.' };
+  }
+
+  const quest = await prisma.quest.findUnique({
+    where: { id: parsedQuestId },
+  });
+
+  if (!quest) {
+    throw new BaseError({code: 404, message: '퀘스트 정보를 찾을 수 없습니다.'});
+  }
+
+  await markQuestRewardClaimed(parsedUserId, parsedQuestId);
+  await addUserPoint(parsedUserId, quest.rewardPts, `퀘스트 보상: ${quest.name}`);
+
+  return { reward: quest.rewardPts };
+};
+
+export const resetDailyQuestsService = async () => {
+  return await resetAllQuestCompletions();
 };

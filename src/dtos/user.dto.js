@@ -29,3 +29,17 @@ export const responseFromRankingList = (list) => {
     totalPoints:  item.totalPoints,
   }));
 };
+
+/**
+ * 퀘스트 리스트용 DTO 변환 함수
+ * @param {Array} list 
+ */
+export const responseFromQuestList = (list) => {
+  return list.map(quest => ({
+    id: quest.id,
+    title: quest.title,
+    description: quest.description,
+    reward: quest.reward,
+    createdAt: quest.created_at,
+  }));
+}
