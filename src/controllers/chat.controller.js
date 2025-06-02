@@ -7,6 +7,7 @@ import { createRoom,
   getRoomInfo,
   getRoomsInfo,
   startBattle,
+  createChat,
   getChatHistory,
   voteInRoom,
   getVoteHistory
