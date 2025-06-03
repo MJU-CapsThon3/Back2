@@ -10363,6 +10363,7 @@ export namespace Prisma {
   export type BattleRoomMinAggregateOutputType = {
     id: bigint | null
     admin: bigint | null
+    roomName: string | null
     topicA: string | null
     topicB: string | null
     status: string | null
@@ -10377,6 +10378,7 @@ export namespace Prisma {
   export type BattleRoomMaxAggregateOutputType = {
     id: bigint | null
     admin: bigint | null
+    roomName: string | null
     topicA: string | null
     topicB: string | null
     status: string | null
@@ -10391,6 +10393,7 @@ export namespace Prisma {
   export type BattleRoomCountAggregateOutputType = {
     id: number
     admin: number
+    roomName: number
     topicA: number
     topicB: number
     status: number
@@ -10421,6 +10424,7 @@ export namespace Prisma {
   export type BattleRoomMinAggregateInputType = {
     id?: true
     admin?: true
+    roomName?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10435,6 +10439,7 @@ export namespace Prisma {
   export type BattleRoomMaxAggregateInputType = {
     id?: true
     admin?: true
+    roomName?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10449,6 +10454,7 @@ export namespace Prisma {
   export type BattleRoomCountAggregateInputType = {
     id?: true
     admin?: true
+    roomName?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10550,6 +10556,7 @@ export namespace Prisma {
   export type BattleRoomGroupByOutputType = {
     id: bigint
     admin: bigint
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -10583,6 +10590,7 @@ export namespace Prisma {
   export type BattleRoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     admin?: boolean
+    roomName?: boolean
     topicA?: boolean
     topicB?: boolean
     status?: boolean
@@ -10606,6 +10614,7 @@ export namespace Prisma {
   export type BattleRoomSelectScalar = {
     id?: boolean
     admin?: boolean
+    roomName?: boolean
     topicA?: boolean
     topicB?: boolean
     status?: boolean
@@ -10617,7 +10626,7 @@ export namespace Prisma {
     isAwarded?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "roomName" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
@@ -10641,6 +10650,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       admin: bigint
+      roomName: string
       topicA: string
       topicB: string
       status: string
@@ -11027,6 +11037,7 @@ export namespace Prisma {
   interface BattleRoomFieldRefs {
     readonly id: FieldRef<"BattleRoom", 'BigInt'>
     readonly admin: FieldRef<"BattleRoom", 'BigInt'>
+    readonly roomName: FieldRef<"BattleRoom", 'String'>
     readonly topicA: FieldRef<"BattleRoom", 'String'>
     readonly topicB: FieldRef<"BattleRoom", 'String'>
     readonly status: FieldRef<"BattleRoom", 'String'>
@@ -16582,6 +16593,7 @@ export namespace Prisma {
   export const BattleRoomScalarFieldEnum: {
     id: 'id',
     admin: 'admin',
+    roomName: 'roomName',
     topicA: 'topicA',
     topicB: 'topicB',
     status: 'status',
@@ -16733,6 +16745,7 @@ export namespace Prisma {
 
 
   export const BattleRoomOrderByRelevanceFieldEnum: {
+    roomName: 'roomName',
     topicA: 'topicA',
     topicB: 'topicB',
     status: 'status'
@@ -17392,6 +17405,7 @@ export namespace Prisma {
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     id?: BigIntFilter<"BattleRoom"> | bigint | number
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
+    roomName?: StringFilter<"BattleRoom"> | string
     topicA?: StringFilter<"BattleRoom"> | string
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
@@ -17412,6 +17426,7 @@ export namespace Prisma {
   export type BattleRoomOrderByWithRelationInput = {
     id?: SortOrder
     admin?: SortOrder
+    roomName?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -17436,6 +17451,7 @@ export namespace Prisma {
     OR?: BattleRoomWhereInput[]
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
+    roomName?: StringFilter<"BattleRoom"> | string
     topicA?: StringFilter<"BattleRoom"> | string
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
@@ -17456,6 +17472,7 @@ export namespace Prisma {
   export type BattleRoomOrderByWithAggregationInput = {
     id?: SortOrder
     admin?: SortOrder
+    roomName?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -17478,6 +17495,7 @@ export namespace Prisma {
     NOT?: BattleRoomScalarWhereWithAggregatesInput | BattleRoomScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     admin?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
+    roomName?: StringWithAggregatesFilter<"BattleRoom"> | string
     topicA?: StringWithAggregatesFilter<"BattleRoom"> | string
     topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
@@ -18390,6 +18408,7 @@ export namespace Prisma {
   export type BattleRoomCreateInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -18410,6 +18429,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -18430,6 +18450,7 @@ export namespace Prisma {
   export type BattleRoomUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18450,6 +18471,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18470,6 +18492,7 @@ export namespace Prisma {
   export type BattleRoomCreateManyInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -18484,6 +18507,7 @@ export namespace Prisma {
   export type BattleRoomUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18498,6 +18522,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -19552,6 +19577,7 @@ export namespace Prisma {
   export type BattleRoomCountOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
+    roomName?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -19573,6 +19599,7 @@ export namespace Prisma {
   export type BattleRoomMaxOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
+    roomName?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -19587,6 +19614,7 @@ export namespace Prisma {
   export type BattleRoomMinOrderByAggregateInput = {
     id?: SortOrder
     admin?: SortOrder
+    roomName?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -21508,6 +21536,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutRoomParticipantsInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21527,6 +21556,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutRoomParticipantsInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21609,6 +21639,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutRoomParticipantsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21628,6 +21659,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutRoomParticipantsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21700,6 +21732,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutAiJudgementsInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21719,6 +21752,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutAiJudgementsInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21754,6 +21788,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutAiJudgementsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21773,6 +21808,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutAiJudgementsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21792,6 +21828,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutAiSummariesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21811,6 +21848,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutAiSummariesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -21846,6 +21884,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutAiSummariesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21865,6 +21904,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutAiSummariesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22358,6 +22398,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutBattleTitleInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22377,6 +22418,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutBattleTitleInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22412,6 +22454,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutBattleTitleInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22431,6 +22474,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutBattleTitleInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22706,6 +22750,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutChatMessagesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22725,6 +22770,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutChatMessagesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22807,6 +22853,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutChatMessagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22826,6 +22873,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutChatMessagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22898,6 +22946,7 @@ export namespace Prisma {
   export type BattleRoomCreateWithoutVotesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22917,6 +22966,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedCreateWithoutVotesInput = {
     id?: bigint | number
     admin: bigint | number
+    roomName: string
     topicA: string
     topicB: string
     status: string
@@ -22999,6 +23049,7 @@ export namespace Prisma {
   export type BattleRoomUpdateWithoutVotesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -23018,6 +23069,7 @@ export namespace Prisma {
   export type BattleRoomUncheckedUpdateWithoutVotesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string

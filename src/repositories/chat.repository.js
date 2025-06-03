@@ -2,40 +2,78 @@ import { prisma } from "../db.config.js";
 
 // 방 생성
 export const createBattleRoom = async (data) => {
-    return await prisma.battleRoom.create({data});
+  return await prisma.battleRoom.create({ data });
 };
 
-// 주제 이력 저장
-export const createBattleTitle = async ({ roomId, side, title, suggestedBy }) => {
-    return await prisma.battleTitle.create({
-    data: {
-        side,             // "A" 또는 "B"
-        title,            
-        suggestedBy,      // "user" 또는 "ai"
-        battleRoom: {     
-        connect: { id: roomId }
-        }
-    }
-    });
-};
+// // 주제 이력 저장
+// export const createBattleTitle = async ({ roomId, side, title, suggestedBy }) => {
+//     return await prisma.battleTitle.create({
+//     data: {
+//         side,             // "A" 또는 "B"
+//         title,            
+//         suggestedBy,      // "user" 또는 "ai"
+//         battleRoom: {     
+//         connect: { id: roomId }
+//         }
+//     }
+//     });
+// };
 
 // 참가자 수 COUNT
 export const countParticipants = async ({ roomId, role, userId }) => {
-    const where = { roomId, role };
-    if (userId !== undefined) where.userId = userId;
-    return await prisma.roomParticipant.count({ where });
+  const where = { roomId, role };
+  if (userId !== undefined) where.userId = userId;
+  return await prisma.roomParticipant.count({ where });
 };
 
 // 방 참가
 export const createRoomParticipant = async ({ roomId, userId, role }) => {
-    return await prisma.roomParticipant.create({
+  return await prisma.roomParticipant.create({
     data: {
-        roomId,
-        userId,
-        role,
-        joinedAt: new Date()
-        }
-    });
+      roomId,
+      userId,
+      role,
+      joinedAt: new Date(),
+    },
+  });
+};
+
+// 방 역할 변경
+export const updateRoomParticipantRole = async ({ roomId, userId, newRole }) => {
+  return await prisma.roomParticipant.update({
+    where: {
+      // Prisma 스키마에서 복합 Unique 키가 없다고 가정. 
+      // roomId, userId 조합으로 찾는 대신 findFirst 후 update해도 무방합니다.
+      id: (
+        await prisma.roomParticipant.findFirst({
+          where: { roomId: BigInt(roomId), userId: BigInt(userId) },
+          select: { id: true }
+        })
+      ).id
+    },
+    data: {
+      role: newRole
+    }
+  });
+};
+
+// 참가자 조회
+export const findActiveParticipant = async ({ roomId, userId }) => {
+  return await prisma.roomParticipant.findFirst({
+    where: { 
+      roomId: BigInt(roomId), 
+      userId: BigInt(userId), 
+      endAt: null 
+    }
+  });
+};
+
+// 참가자의 endAt 업데이트
+export const updateParticipantEndAt = async (participantId) => {
+  return await prisma.roomParticipant.update({
+    where: { id: BigInt(participantId) },
+    data: { endAt: new Date() }
+  });
 };
 
 // 배틀방 전체 정보 조회
@@ -103,6 +141,29 @@ export const updateBattleRoom = (roomId, data) => {
         where: { id: roomId },
         data
     });
+};
+
+// 주제 생성하기
+export const createBattleTitle = async ({ roomId, side, title, suggestedBy }) => {
+  return await prisma.battleTitle.create({
+    data: {
+      roomId: BigInt(roomId),
+      side,             // "A" 또는 "B"
+      title,
+      suggestedBy,      // "user" 또는 "ai"
+    }
+  });
+};
+
+// 주제 업데이트
+export const updateBattleRoomTopics = (roomId, { topicA, topicB }) => {
+  return prisma.battleRoom.update({
+    where: { id: BigInt(roomId) },
+    data: { 
+      topicA,
+      topicB
+    }
+  });
 };
 
 // 실시간 채팅 메세지 저장
@@ -212,7 +273,7 @@ export const findAllChatMessagesByRoomId = async (roomId) => {
   return chats;
 };
 
-// 투표 내역 불러오기
+// 투표 내역
 export const findBattleVotesByRoomId = async (roomId) => {
   const votes = await prisma.battleVote.findMany({
     where: { roomId: BigInt(roomId) },

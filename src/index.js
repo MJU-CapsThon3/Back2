@@ -35,7 +35,13 @@ import {
   handlePostVote,
   handleGetVoteHistory,
   handleEndBattle,
-  handleGetFinalResult
+  handleGetFinalResult,
+  handleChangeParticipantRole,
+  handleGetRoomDetail,
+  handleSetRoomTopics,
+  handleGenerateRoomTopicsAI,
+  handleUpdateTopics,
+  handleLeaveRoom
 } from "./controllers/chat.controller.js";
 import { registerChatHandlers
 } from "./socket/chat.socket.js";
@@ -105,8 +111,14 @@ app.get("/rankings/top", handleGetTopRankings);
 app.post("/battle/rooms", handleCreateRoom);
 app.get("/battle/rooms",handleGetRoomsInfo);
 app.get("/battle/rooms/:roomId", handleGetRoomInfo);
+app.get("/battle/rooms/:roomId/detail", handleGetRoomDetail);
 app.post("/battle/rooms/:roomId/participants", handleJoinRoom);
+app.post("/battle/rooms/:roomId/participants/role", handleChangeParticipantRole);
+app.post("/battle/rooms/:roomId/topics", handleSetRoomTopics);
+app.post("/battle/rooms/:roomId/topics/ai", handleGenerateRoomTopicsAI);
+app.post("/battle/rooms/:roomId/topics/update", handleUpdateTopics);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
+app.post("/battle/rooms/:roomId/leave", handleLeaveRoom);
 app.get("/battle/rooms/:roomId/chat/messages", handleGetChatHistory);
 app.post("/battle/rooms/:roomId/chat/messages", handlePostChatMessage);
 app.post("/battle/rooms/:roomId/end", handleEndBattle);

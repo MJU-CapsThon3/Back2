@@ -603,31 +603,31 @@
                       "example": true
                     },
                     "code": {
-                      "type": "number",
-                      "example": 200
+                      "type": "string",
+                      "example": "200"
                     },
                     "message": {
                       "type": "string",
-                      "example": "배틀방 생성 성공"
+                      "example": "success!"
                     },
                     "result": {
                       "type": "object",
                       "properties": {
                         "roomId": {
-                          "type": "number",
-                          "example": 1
+                          "type": "string",
+                          "example": "1"
                         },
                         "adminId": {
-                          "type": "number",
-                          "example": 1
+                          "type": "string",
+                          "example": "5"
                         },
                         "topicA": {
                           "type": "string",
-                          "example": "사자"
+                          "example": ""
                         },
                         "topicB": {
                           "type": "string",
-                          "example": "호랑이"
+                          "example": ""
                         },
                         "status": {
                           "type": "string",
@@ -635,47 +635,121 @@
                         },
                         "createdAt": {
                           "type": "string",
-                          "format": "date-time",
                           "example": "2025-05-25T12:34:56.000Z"
                         },
-                        "topics": {
+                        "participants": {
                           "type": "array",
                           "items": {
                             "type": "object",
                             "properties": {
-                              "topicId": {
-                                "type": "number",
-                                "example": 1
-                              },
-                              "side": {
+                              "participantId": {
                                 "type": "string",
-                                "example": "A"
+                                "example": "10"
                               },
-                              "title": {
+                              "userId": {
                                 "type": "string",
-                                "example": "사자"
+                                "example": "5"
                               },
-                              "suggestedBy": {
+                              "role": {
                                 "type": "string",
-                                "example": "user"
+                                "example": "P"
                               },
-                              "createdAt": {
+                              "joinedAt": {
                                 "type": "string",
-                                "format": "date-time",
                                 "example": "2025-05-25T12:34:56.000Z"
-                              }
+                              },
+                              "side": {}
                             }
                           }
                         }
                       }
                     }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "adminId": {
+                          "type": "string",
+                          "example": "5"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "WAITING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:34:56.000Z"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "participantId": {
+                                "type": "string",
+                                "example": "10"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "example": "5"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "P"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:34:56.000Z"
+                              },
+                              "side": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "잘못된 입력",
+            "description": "잘못된 입력 (roomName 누락 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -687,24 +761,46 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "INVALID_INPUT"
+                      "example": "COMMON001"
                     },
                     "message": {
                       "type": "string",
-                      "example": "필수 입력값이 누락되었습니다."
+                      "example": "잘못된 요청입니다."
                     },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               }
             }
           },
           "401": {
-            "description": "토큰 오류",
+            "description": "토큰 형식 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -716,17 +812,39 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "TOKEN_FORMAT_INCORRECT"
+                      "example": "MEMBER4006"
                     },
                     "message": {
                       "type": "string",
-                      "example": "토큰 포맷이 올바르지 않습니다."
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
                     },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               }
@@ -736,7 +854,7 @@
             "description": "Forbidden"
           },
           "500": {
-            "description": "서버 오류",
+            "description": "서버 내부 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -748,17 +866,39 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "SERVER_ERROR"
+                      "example": "COMMON000"
                     },
                     "message": {
                       "type": "string",
-                      "example": "서버 오류가 발생했습니다."
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
                     },
-                    "result": {
-                      "type": "object",
-                      "nullable": true,
-                      "example": null
-                    }
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               }
@@ -771,49 +911,21 @@
           }
         ],
         "requestBody": {
+          "description": "생성할 방 이름",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "topics": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "side": {
-                          "type": "string",
-                          "example": "A"
-                        },
-                        "title": {
-                          "type": "string",
-                          "example": "사자"
-                        },
-                        "suggestedBy": {
-                          "type": "string",
-                          "example": "user"
-                        }
-                      },
-                      "required": [
-                        "side",
-                        "title"
-                      ]
-                    },
-                    "example": [
-                      {
-                        "side": "A",
-                        "title": "사자",
-                        "suggestedBy": "user"
-                      },
-                      {
-                        "side": "B",
-                        "title": "호랑이",
-                        "suggestedBy": "user"
-                      }
-                    ]
+                  "roomName": {
+                    "type": "string",
+                    "example": "새로운 토론방 이름"
                   }
-                }
+                },
+                "required": [
+                  "roomName"
+                ]
               }
             }
           }
@@ -1529,12 +1641,12 @@
         ]
       }
     },
-    "/battle/rooms/{roomId}/participants": {
-      "post": {
+    "/battle/rooms/{roomId}/detail": {
+      "get": {
         "tags": [
           "BattleRoom"
         ],
-        "summary": "방 참가 API",
+        "summary": "방 정보 상세 조회 API (A, B, P 전체 리스트 반환)",
         "description": "",
         "parameters": [
           {
@@ -1551,7 +1663,7 @@
         ],
         "responses": {
           "200": {
-            "description": "참가 성공",
+            "description": "상세 정보 조회 성공",
             "content": {
               "application/json": {
                 "schema": {
@@ -1572,25 +1684,77 @@
                     "result": {
                       "type": "object",
                       "properties": {
-                        "participantId": {
-                          "type": "number",
-                          "example": 123
-                        },
                         "roomId": {
                           "type": "number",
                           "example": 1
                         },
-                        "userId": {
+                        "adminId": {
                           "type": "number",
-                          "example": 42
+                          "example": 5
                         },
-                        "role": {
+                        "topicA": {
                           "type": "string",
-                          "example": "A"
+                          "example": "사자"
                         },
-                        "joinedAt": {
+                        "topicB": {
                           "type": "string",
-                          "example": "2025-05-25T10:48:19.983Z"
+                          "example": "코끼리"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "WAITING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:00:00.000Z"
+                        },
+                        "participantA": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "9"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:01:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "participantB": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "10"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:02:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "spectators": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "12"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:04:00.000Z"
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -1619,25 +1783,77 @@
                     "result": {
                       "type": "object",
                       "properties": {
-                        "participantId": {
-                          "type": "number",
-                          "example": 123
-                        },
                         "roomId": {
                           "type": "number",
                           "example": 1
                         },
-                        "userId": {
+                        "adminId": {
                           "type": "number",
-                          "example": 42
+                          "example": 5
                         },
-                        "role": {
+                        "topicA": {
                           "type": "string",
-                          "example": "A"
+                          "example": "사자"
                         },
-                        "joinedAt": {
+                        "topicB": {
                           "type": "string",
-                          "example": "2025-05-25T10:48:19.983Z"
+                          "example": "코끼리"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "WAITING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:00:00.000Z"
+                        },
+                        "participantA": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "9"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:01:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "participantB": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "10"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:02:00.000Z"
+                              }
+                            }
+                          }
+                        },
+                        "spectators": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "12"
+                              },
+                              "joinedAt": {
+                                "type": "string",
+                                "example": "2025-05-25T12:04:00.000Z"
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -1650,7 +1866,7 @@
             }
           },
           "400": {
-            "description": "잘못된 요청",
+            "description": "잘못된 요청 (roomId 누락 또는 형식 오류 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1701,7 +1917,392 @@
             }
           },
           "401": {
-            "description": "토큰 오류",
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (참가자가 아닐 경우 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/battle/rooms/{roomId}/participants": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "방 참가 API (관전자 P 모드)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "관전자(P)로 입장 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "participantId": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "7"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "P"
+                        },
+                        "joinedAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:35:00.000Z"
+                        },
+                        "side": {}
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "participantId": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "7"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "P"
+                        },
+                        "joinedAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:35:00.000Z"
+                        },
+                        "side": {}
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (roomId 누락 또는 형식 오류)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1755,7 +2356,7 @@
             "description": "Forbidden"
           },
           "409": {
-            "description": "참가 불가",
+            "description": "참가 불가 (이미 참가했거나 관전자 최대 인원 초과)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1767,11 +2368,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "ROOMIN4005"
+                      "example": "COMMON409"
                     },
                     "message": {
                       "type": "string",
-                      "example": "이미 참가했습니다."
+                      "example": "이미 참가했거나 관전자 인원이 가득 찼습니다."
                     },
                     "result": {}
                   },
@@ -1790,11 +2391,394 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "ROOMIN4005"
+                      "example": "COMMON409"
                     },
                     "message": {
                       "type": "string",
-                      "example": "이미 참가했습니다."
+                      "example": "이미 참가했거나 관전자 인원이 가득 찼습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/battle/rooms/{roomId}/participants/role": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "참여 중인 배틀방에서 역할 변경 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "역할 변경 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "participantId": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "7"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "B"
+                        },
+                        "joinedAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:40:00.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "participantId": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "7"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "B"
+                        },
+                        "joinedAt": {
+                          "type": "string",
+                          "example": "2025-05-25T12:40:00.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (roomId 누락/role 누락 또는 형식 오류)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (참가자가 아닐 경우 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "역할 변경 실패 (이미 해당 역할이거나, A/B 위치 중복 혹은 P 초과 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON409"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "역할을 변경할 수 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON409"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "역할을 변경할 수 없습니다."
                     },
                     "result": {}
                   },
@@ -1863,30 +2847,1285 @@
           }
         ],
         "requestBody": {
-          "description": "참가할 진형",
+          "description": "변경할 역할 정보",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "side": {
+                  "role": {
                     "type": "string",
                     "enum": [
                       "A",
                       "B",
                       "P"
                     ],
-                    "example": "A"
+                    "example": "B"
                   }
                 },
                 "required": [
-                  "side"
+                  "role"
                 ]
               }
             }
           }
         }
+      }
+    },
+    "/battle/rooms/{roomId}/topics": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "유저(방장) 주제 설정 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "주제 설정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-05-26T14:00:00.000Z"
+                        },
+                        "titles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "titleId": {
+                                "type": "string",
+                                "example": "11"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "호랑이"
+                              },
+                              "suggestedBy": {
+                                "type": "string",
+                                "example": "user"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-26T14:00:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-05-26T14:00:00.000Z"
+                        },
+                        "titles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "titleId": {
+                                "type": "string",
+                                "example": "11"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "호랑이"
+                              },
+                              "suggestedBy": {
+                                "type": "string",
+                                "example": "user"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-26T14:00:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (topicA 또는 topicB 누락 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (방장만 설정 가능)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "직접 입력한 주제 정보",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "topicA": {
+                    "type": "string",
+                    "example": "사자"
+                  },
+                  "topicB": {
+                    "type": "string",
+                    "example": "호랑이"
+                  }
+                },
+                "required": [
+                  "topicA",
+                  "topicB"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/battle/rooms/{roomId}/topics/ai": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "AI 주제 생성 후 저장 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI 주제 생성 및 저장 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-05-26T15:00:00.000Z"
+                        },
+                        "titles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "titleId": {
+                                "type": "string",
+                                "example": "13"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "호랑이"
+                              },
+                              "suggestedBy": {
+                                "type": "string",
+                                "example": "ai"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-26T15:00:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-05-26T15:00:00.000Z"
+                        },
+                        "titles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "titleId": {
+                                "type": "string",
+                                "example": "13"
+                              },
+                              "side": {
+                                "type": "string",
+                                "example": "B"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "호랑이"
+                              },
+                              "suggestedBy": {
+                                "type": "string",
+                                "example": "ai"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2025-05-26T15:00:00.000Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (유효하지 않은 roomId 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (방장만 AI 주제 생성 가능)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/battle/rooms/{roomId}/topics/update": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "토론 주제 수정 API (관리자 전용)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "토론 주제 수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success!"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "사자"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "호랑이"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (topicA/topicB 누락 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (방장만 수정 가능)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {}
       }
     },
     "/battle/rooms/{roomId}/start": {
@@ -2244,6 +4483,117 @@
                   "xml": {
                     "name": "main"
                   }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/battle/rooms/{roomId}/leave": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "토론방 떠나기 API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "방 떠나기 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": true,
+                  "code": "200",
+                  "message": "success!",
+                  "result": {
+                    "roomId": "1",
+                    "userId": "9",
+                    "leftAt": "2025-06-01T11:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (roomId 형식 오류 등)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": false,
+                  "code": "COMMON001",
+                  "message": "잘못된 요청입니다.",
+                  "result": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": false,
+                  "code": "MEMBER4006",
+                  "message": "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+                  "result": null
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (현재 방에 참가 중이지 않은 경우)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": false,
+                  "code": "COMMON004",
+                  "message": "금지된 요청입니다.",
+                  "result": null
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": false,
+                  "code": "ROOMIN4005",
+                  "message": "방을 찾을 수가 없습니다.",
+                  "result": null
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "isSuccess": false,
+                  "code": "COMMON000",
+                  "message": "서버 에러, 관리자에게 문의 바랍니다.",
+                  "result": null
                 }
               }
             }
