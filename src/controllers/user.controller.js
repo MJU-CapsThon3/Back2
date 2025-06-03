@@ -561,6 +561,9 @@ export const handleGetDailyQuests = async (req, res) => {
         //서비스 호출
   
         const questId = parseInt(req.params.questId);
+        if(questId > 6) {
+          return res.send(response(status.QUEST_NOT_EXIST));
+        }
         const checkProgress = await checkGoalProgress(req.userId, questId);
         const progress = await getUserQuestProgress(req.userId, questId);
         const goal = await getQuestsGoal(questId);
@@ -699,6 +702,9 @@ export const handleGetDailyQuests = async (req, res) => {
         //토큰 이상 없음
         //서비스 호출
         const questId = parseInt(req.params.questId);
+        if(questId > 6) {
+          return res.send(response(status.QUEST_NOT_EXIST));
+        }
         const result = await claimQuestRewardService(req.userId, questId);
 
         if (result.status === 'already_claimed') {
