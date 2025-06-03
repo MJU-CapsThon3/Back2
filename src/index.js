@@ -86,7 +86,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-//app.options('*', cors(corsOptions)); 
+//app.options('/*', cors(corsOptions)); 
 
 app.use(express.static("public"));
 app.use(express.json());
