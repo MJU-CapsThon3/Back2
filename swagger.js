@@ -9,7 +9,7 @@ const doc = {
   },
   servers: [
     {
-      url: process.env.BASE_URL || "http://localhost:3000",
+      url:  "http://localhost:3000",
       description: "API Server",
     },
     {
@@ -17,8 +17,8 @@ const doc = {
       description: "Production Domain",
     },
     {
-      url: "https://13.209.12.236:3000",
-      description: "Public IP Server",
+      url: "https://api.thiscatthatcat.shop",
+      description: "API 서버",
     },
   ],
   components: {

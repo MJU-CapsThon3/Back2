@@ -112,6 +112,7 @@ export const findBattleRoomById = (roomId) => {
         select: {
             id:        true,
             admin:     true,
+            question:  true,
             topicA:    true,
             topicB:    true,
             status:    true,

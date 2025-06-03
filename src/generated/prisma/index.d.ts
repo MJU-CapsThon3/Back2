@@ -10563,9 +10563,9 @@ export namespace Prisma {
     id: bigint
     admin: bigint
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question: string | null
+    topicA: string | null
+    topicB: string | null
     status: string
     createdAt: Date
     startedAt: Date | null
@@ -10660,9 +10660,9 @@ export namespace Prisma {
       id: bigint
       admin: bigint
       roomName: string
-      question: string
-      topicA: string
-      topicB: string
+      question: string | null
+      topicA: string | null
+      topicB: string | null
       status: string
       createdAt: Date
       startedAt: Date | null
@@ -17419,9 +17419,9 @@ export namespace Prisma {
     id?: BigIntFilter<"BattleRoom"> | bigint | number
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
     roomName?: StringFilter<"BattleRoom"> | string
-    question?: StringFilter<"BattleRoom"> | string
-    topicA?: StringFilter<"BattleRoom"> | string
-    topicB?: StringFilter<"BattleRoom"> | string
+    question?: StringNullableFilter<"BattleRoom"> | string | null
+    topicA?: StringNullableFilter<"BattleRoom"> | string | null
+    topicB?: StringNullableFilter<"BattleRoom"> | string | null
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
     startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
@@ -17441,9 +17441,9 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
-    question?: SortOrder
-    topicA?: SortOrder
-    topicB?: SortOrder
+    question?: SortOrderInput | SortOrder
+    topicA?: SortOrderInput | SortOrder
+    topicB?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     startedAt?: SortOrderInput | SortOrder
@@ -17467,9 +17467,9 @@ export namespace Prisma {
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
     roomName?: StringFilter<"BattleRoom"> | string
-    question?: StringFilter<"BattleRoom"> | string
-    topicA?: StringFilter<"BattleRoom"> | string
-    topicB?: StringFilter<"BattleRoom"> | string
+    question?: StringNullableFilter<"BattleRoom"> | string | null
+    topicA?: StringNullableFilter<"BattleRoom"> | string | null
+    topicB?: StringNullableFilter<"BattleRoom"> | string | null
     status?: StringFilter<"BattleRoom"> | string
     createdAt?: DateTimeFilter<"BattleRoom"> | Date | string
     startedAt?: DateTimeNullableFilter<"BattleRoom"> | Date | string | null
@@ -17489,9 +17489,9 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
-    question?: SortOrder
-    topicA?: SortOrder
-    topicB?: SortOrder
+    question?: SortOrderInput | SortOrder
+    topicA?: SortOrderInput | SortOrder
+    topicB?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     startedAt?: SortOrderInput | SortOrder
@@ -17513,9 +17513,9 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     admin?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     roomName?: StringWithAggregatesFilter<"BattleRoom"> | string
-    question?: StringWithAggregatesFilter<"BattleRoom"> | string
-    topicA?: StringWithAggregatesFilter<"BattleRoom"> | string
-    topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
+    question?: StringNullableWithAggregatesFilter<"BattleRoom"> | string | null
+    topicA?: StringNullableWithAggregatesFilter<"BattleRoom"> | string | null
+    topicB?: StringNullableWithAggregatesFilter<"BattleRoom"> | string | null
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BattleRoom"> | Date | string
     startedAt?: DateTimeNullableWithAggregatesFilter<"BattleRoom"> | Date | string | null
@@ -18427,9 +18427,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -18449,9 +18449,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -18471,9 +18471,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18493,9 +18493,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18515,9 +18515,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -18531,9 +18531,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18547,9 +18547,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21565,9 +21565,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21586,9 +21586,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21670,9 +21670,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21691,9 +21691,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21765,9 +21765,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21786,9 +21786,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21823,9 +21823,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21844,9 +21844,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21865,9 +21865,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21886,9 +21886,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -21923,9 +21923,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21944,9 +21944,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22439,9 +22439,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -22460,9 +22460,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -22497,9 +22497,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22518,9 +22518,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22795,9 +22795,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -22816,9 +22816,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -22900,9 +22900,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22921,9 +22921,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22995,9 +22995,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -23016,9 +23016,9 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
-    question: string
-    topicA: string
-    topicB: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
     status: string
     createdAt?: Date | string
     startedAt?: Date | string | null
@@ -23100,9 +23100,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23121,9 +23121,9 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
-    question?: StringFieldUpdateOperationsInput | string
-    topicA?: StringFieldUpdateOperationsInput | string
-    topicB?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

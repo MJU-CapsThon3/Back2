@@ -130,9 +130,9 @@ model BattleRoom {
   id          BigInt   @id @default(autoincrement()) @map("id")
   admin       BigInt   @map("admin")
   roomName    String   @map("room_name") @db.VarChar(100)
-  question    String   @map("question") @db.Text
-  topicA      String         @db.VarChar(100) @map("topic_a")
-  topicB      String         @db.VarChar(100) @map("topic_b")
+  question    String?   @map("question") @db.VarChar(500)
+  topicA      String?         @db.VarChar(100) @map("topic_a")
+  topicB      String?         @db.VarChar(100) @map("topic_b")
   status      String   @db.VarChar(20) @map("status")  // Enum을 String으로 수정
   createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(6)
   startedAt    DateTime?     @map("started_at") @db.DateTime(6)

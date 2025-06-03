@@ -393,17 +393,18 @@ export const handleSetRoomTopics = async (req, res) => {
     }
 
     #swagger.requestBody = {
-      description: '직접 입력한 주제 정보',
+      description: '직접 입력한 question & 주제 정보',
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              topicA: { type: "string", example: "사자" },
-              topicB: { type: "string", example: "호랑이" }
+              question: { type: "string", example: "육지 맹수 중 가장 강력한 동물은?" },
+              topicA:   { type: "string", example: "사자" },
+              topicB:   { type: "string", example: "호랑이" }
             },
-            required: ["topicA", "topicB"]
+            required: ["question", "topicA", "topicB"]
           }
         }
       }
@@ -413,27 +414,28 @@ export const handleSetRoomTopics = async (req, res) => {
       description: "주제 설정 성공",
       schema: {
         isSuccess: true,
-        code: "200",
+        code: 200,
         message: "success!",
         result: {
-          roomId: "1",
-          topicA: "사자",
-          topicB: "호랑이",
-          updatedAt: "2025-05-26T14:00:00.000Z",
+          roomId:   "1",
+          question: "육지 맹수 중 가장 강력한 동물은?",
+          topicA:   "사자",
+          topicB:   "호랑이",
+          updatedAt: "2025-06-03T02:43:13.293Z",
           titles: [
             {
-              titleId:    "10",
+              titleId:    "17",
               side:       "A",
               title:      "사자",
               suggestedBy:"user",
-              createdAt:  "2025-05-26T14:00:00.000Z"
+              createdAt:  "2025-06-03T02:43:13.193Z"
             },
             {
-              titleId:    "11",
+              titleId:    "18",
               side:       "B",
               title:      "호랑이",
               suggestedBy:"user",
-              createdAt:  "2025-05-26T14:00:00.000Z"
+              createdAt:  "2025-06-03T02:43:13.250Z"
             }
           ]
         }
@@ -441,7 +443,7 @@ export const handleSetRoomTopics = async (req, res) => {
     }
 
     #swagger.responses[400] = {
-      description: "잘못된 요청 (topicA 또는 topicB 누락 등)",
+      description: "잘못된 요청 (question/topicA/topicB 누락 등)",
       schema: {
         isSuccess: false,
         code: "COMMON001",
@@ -492,24 +494,25 @@ export const handleSetRoomTopics = async (req, res) => {
   */
   try {
     // 1) 토큰 검증
-    // 1) 토큰 검증
     const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
+
     // 2) path 변수 + body
     const roomId = Number(req.params.roomId);
-    const { topicA, topicB } = req.body;
-    if (isNaN(roomId) || !topicA || !topicB) {
+    const { question, topicA, topicB } = req.body;
+    if (isNaN(roomId) || !question || !topicA || !topicB) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 3) 서비스 호출
+    // 3) 서비스 호출 (question, topicA, topicB 전달)
     const result = await setRoomTopics({
       roomId,
-      userId: req.userId,
-      topicA: topicA.trim(),
-      topicB: topicB.trim()
+      userId:   req.userId,
+      question: question.trim(),
+      topicA:   topicA.trim(),
+      topicB:   topicB.trim()
     });
 
     // 4) 성공 응답
@@ -1204,14 +1207,15 @@ export const handleGetRoomDetail = async (req, res) => {
       description: "상세 정보 조회 성공",
       schema: {
         isSuccess: true,
-        code: "200",
+        code: 200,
         message: "success!",
         result: {
-          roomId: 1,
-          adminId: 5,
-          topicA: "사자",
-          topicB: "코끼리",
-          status: "WAITING",
+          roomId:    "1",
+          adminId:   "5",
+          question:  "육지 맹수 중 가장 강력한 동물은 사자일까 호랑이일까?",
+          topicA:    "사자",
+          topicB:    "호랑이",
+          status:    "WAITING",
           createdAt: "2025-05-25T12:00:00.000Z",
           participantA: [
             { userId: "9", joinedAt: "2025-05-25T12:01:00.000Z" }
@@ -1228,7 +1232,7 @@ export const handleGetRoomDetail = async (req, res) => {
     }
 
     #swagger.responses[400] = {
-      description: "잘못된 요청 (roomId 누락 또는 형식 오류 등)",
+      description: "잘못된 요청 (roomId 형식 오류 등)",
       schema: {
         isSuccess: false,
         code: "COMMON001",

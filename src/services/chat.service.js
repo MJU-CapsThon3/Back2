@@ -20,7 +20,7 @@ import { createBattleRoom,
     findAllChatMessagesByRoomId,
     findBattleVotesByRoomId,
     updateRoomParticipantRole,
-    updateBattleRoomTopics,
+    updateBattleRoomTopics as repoUpdateBattleRoomTopics,
     findActiveParticipant,
     updateParticipantEndAt,
     getRoomsPaginated
@@ -187,8 +187,8 @@ export const changeParticipantRole = async ({ roomId, userId, newRole }) => {
 };
 
 // 배틀방 주제 설정
-export const setRoomTopics = async ({ roomId, userId, topicA, topicB }) => {
-  // 1) 방 존재 확인
+export const setRoomTopics = async ({ roomId, userId, question, topicA, topicB }) => {
+  // 1) 방 존재 여부 확인
   const room = await findBattleRoomById(BigInt(roomId));
   if (!room) {
     const err = new Error("ROOM_NOT_FOUND");
@@ -203,49 +203,59 @@ export const setRoomTopics = async ({ roomId, userId, topicA, topicB }) => {
     throw err;
   }
 
-  // 3) 필수 입력 검증
-  if (!topicA || !topicB || typeof topicA !== "string" || typeof topicB !== "string") {
+  // 3) 입력값 검증 (question/topicA/topicB 모두 필수)
+  if (
+    !question || typeof question !== "string" ||
+    !topicA   || typeof topicA   !== "string" ||
+    !topicB   || typeof topicB   !== "string"
+  ) {
     const err = new Error("INVALID_INPUT");
     err.code = "INVALID_INPUT";
     throw err;
   }
 
-  // 4) battle_room 테이블 업데이트
-  const updatedRoom = await updateBattleRoomTopics(roomId, { topicA, topicB });
+  // 4) battle_room 테이블 업데이트 (question, topicA, topicB 모두 저장)
+  const updatedRoom = await repoUpdateBattleRoomTopics(roomId, {
+    question: question.trim(),
+    topicA:   topicA.trim(),
+    topicB:   topicB.trim()
+  });
 
   // 5) battle_title 기록 추가 (suggestedBy: "user")
   const titleARecord = await repoCreateBattleTitle({
     roomId,
-    side: "A",
-    title: topicA,
+    side:        "A",
+    title:       topicA.trim(),
     suggestedBy: "user"
   });
   const titleBRecord = await repoCreateBattleTitle({
     roomId,
-    side: "B",
-    title: topicB,
+    side:        "B",
+    title:       topicB.trim(),
     suggestedBy: "user"
   });
 
+  // 6) 응답 객체: Date 객체 그대로 넘김 → Express가 자동 ISO 문자열로 변환
   return {
-    roomId:   updatedRoom.id.toString(),
-    topicA:   updatedRoom.topicA,
-    topicB:   updatedRoom.topicB,
-    updatedAt: updatedRoom.updatedAt, // Prisma에 updatedAt 필드가 있다면 포함
+    roomId:    updatedRoom.id.toString(),
+    question:  updatedRoom.question,   // question도 포함
+    topicA:    updatedRoom.topicA,
+    topicB:    updatedRoom.topicB,
+    updatedAt: updatedRoom.updatedAt,  // Date 객체로 반환
     titles: [
       {
         titleId:    titleARecord.id.toString(),
         side:       titleARecord.side,
         title:      titleARecord.title,
         suggestedBy: titleARecord.suggestedBy,
-        createdAt:  titleARecord.createdAt.toISOString()
+        createdAt:  titleARecord.createdAt  // Date 객체 그대로
       },
       {
         titleId:    titleBRecord.id.toString(),
         side:       titleBRecord.side,
         title:      titleBRecord.title,
         suggestedBy: titleBRecord.suggestedBy,
-        createdAt:  titleBRecord.createdAt.toISOString()
+        createdAt:  titleBRecord.createdAt
       }
     ]
   };
@@ -493,6 +503,7 @@ export const getRoomDetail = async ({ roomId, userId }) => {
   return {
     roomId:    room.id.toString(),
     adminId:   room.admin.toString(),
+    question:  room.question,
     topicA:    room.topicA,
     topicB:    room.topicB,
     status:    room.status,

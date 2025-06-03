@@ -15,8 +15,8 @@
       "description": "Production Domain"
     },
     {
-      "url": "https://13.209.12.236:3000",
-      "description": "Public IP Server"
+      "url": "https://api.thiscatthatcat.shop",
+      "description": "API 서버"
     }
   ],
   "paths": {
@@ -1635,8 +1635,8 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
@@ -1646,12 +1646,16 @@
                       "type": "object",
                       "properties": {
                         "roomId": {
-                          "type": "number",
-                          "example": 1
+                          "type": "string",
+                          "example": "1"
                         },
                         "adminId": {
-                          "type": "number",
-                          "example": 5
+                          "type": "string",
+                          "example": "5"
+                        },
+                        "question": {
+                          "type": "string",
+                          "example": "육지 맹수 중 가장 강력한 동물은 사자일까 호랑이일까?"
                         },
                         "topicA": {
                           "type": "string",
@@ -1659,7 +1663,7 @@
                         },
                         "topicB": {
                           "type": "string",
-                          "example": "코끼리"
+                          "example": "호랑이"
                         },
                         "status": {
                           "type": "string",
@@ -1734,8 +1738,8 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
@@ -1745,12 +1749,16 @@
                       "type": "object",
                       "properties": {
                         "roomId": {
-                          "type": "number",
-                          "example": 1
+                          "type": "string",
+                          "example": "1"
                         },
                         "adminId": {
-                          "type": "number",
-                          "example": 5
+                          "type": "string",
+                          "example": "5"
+                        },
+                        "question": {
+                          "type": "string",
+                          "example": "육지 맹수 중 가장 강력한 동물은 사자일까 호랑이일까?"
                         },
                         "topicA": {
                           "type": "string",
@@ -1758,7 +1766,7 @@
                         },
                         "topicB": {
                           "type": "string",
-                          "example": "코끼리"
+                          "example": "호랑이"
                         },
                         "status": {
                           "type": "string",
@@ -1827,7 +1835,7 @@
             }
           },
           "400": {
-            "description": "잘못된 요청 (roomId 누락 또는 형식 오류 등)",
+            "description": "잘못된 요청 (roomId 형식 오류 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2867,8 +2875,8 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
@@ -2881,6 +2889,10 @@
                           "type": "string",
                           "example": "1"
                         },
+                        "question": {
+                          "type": "string",
+                          "example": "육지 맹수 중 가장 강력한 동물은?"
+                        },
                         "topicA": {
                           "type": "string",
                           "example": "사자"
@@ -2891,7 +2903,7 @@
                         },
                         "updatedAt": {
                           "type": "string",
-                          "example": "2025-05-26T14:00:00.000Z"
+                          "example": "2025-06-03T02:43:13.293Z"
                         },
                         "titles": {
                           "type": "array",
@@ -2900,7 +2912,7 @@
                             "properties": {
                               "titleId": {
                                 "type": "string",
-                                "example": "11"
+                                "example": "18"
                               },
                               "side": {
                                 "type": "string",
@@ -2916,7 +2928,7 @@
                               },
                               "createdAt": {
                                 "type": "string",
-                                "example": "2025-05-26T14:00:00.000Z"
+                                "example": "2025-06-03T02:43:13.250Z"
                               }
                             }
                           }
@@ -2938,8 +2950,8 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
@@ -2952,6 +2964,10 @@
                           "type": "string",
                           "example": "1"
                         },
+                        "question": {
+                          "type": "string",
+                          "example": "육지 맹수 중 가장 강력한 동물은?"
+                        },
                         "topicA": {
                           "type": "string",
                           "example": "사자"
@@ -2962,7 +2978,7 @@
                         },
                         "updatedAt": {
                           "type": "string",
-                          "example": "2025-05-26T14:00:00.000Z"
+                          "example": "2025-06-03T02:43:13.293Z"
                         },
                         "titles": {
                           "type": "array",
@@ -2971,7 +2987,7 @@
                             "properties": {
                               "titleId": {
                                 "type": "string",
-                                "example": "11"
+                                "example": "18"
                               },
                               "side": {
                                 "type": "string",
@@ -2987,7 +3003,7 @@
                               },
                               "createdAt": {
                                 "type": "string",
-                                "example": "2025-05-26T14:00:00.000Z"
+                                "example": "2025-06-03T02:43:13.250Z"
                               }
                             }
                           }
@@ -3003,7 +3019,7 @@
             }
           },
           "400": {
-            "description": "잘못된 요청 (topicA 또는 topicB 누락 등)",
+            "description": "잘못된 요청 (question/topicA/topicB 누락 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -3264,13 +3280,17 @@
           }
         ],
         "requestBody": {
-          "description": "직접 입력한 주제 정보",
+          "description": "직접 입력한 question & 주제 정보",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "question": {
+                    "type": "string",
+                    "example": "육지 맹수 중 가장 강력한 동물은?"
+                  },
                   "topicA": {
                     "type": "string",
                     "example": "사자"
@@ -3281,6 +3301,7 @@
                   }
                 },
                 "required": [
+                  "question",
                   "topicA",
                   "topicB"
                 ]
