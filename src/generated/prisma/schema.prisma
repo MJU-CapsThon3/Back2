@@ -130,6 +130,7 @@ model BattleRoom {
   id          BigInt    @id @default(autoincrement()) @map("id")
   admin       BigInt    @map("admin")
   roomName    String    @map("room_name") @db.VarChar(100)
+  question    String    @map("question") @db.Text
   topicA      String    @map("topic_a") @db.VarChar(100)
   topicB      String    @map("topic_b") @db.VarChar(100)
   status      String    @map("status") @db.VarChar(20) // Enum을 String으로 수정

@@ -492,12 +492,11 @@ export const handleSetRoomTopics = async (req, res) => {
   */
   try {
     // 1) 토큰 검증
-    const rawToken = req.get("Authorization");
-    const token = rawToken && checkFormat(rawToken);
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
-
     // 2) path 변수 + body
     const roomId = Number(req.params.roomId);
     const { topicA, topicB } = req.body;
@@ -548,106 +547,127 @@ export const handleGenerateRoomTopicsAI = async (req, res) => {
 
     #swagger.responses[200] = {
       description: "AI 주제 생성 및 저장 성공",
-      schema: {
-        isSuccess: true,
-        code: "200",
-        message: "success!",
-        result: {
-          roomId: "1",
-          topicA: "사자",
-          topicB: "호랑이",
-          updatedAt: "2025-05-26T15:00:00.000Z",
-          titles: [
-            {
-              titleId:    "12",
-              side:       "A",
-              title:      "사자",
-              suggestedBy:"ai",
-              createdAt:  "2025-05-26T15:00:00.000Z"
-            },
-            {
-              titleId:    "13",
-              side:       "B",
-              title:      "호랑이",
-              suggestedBy:"ai",
-              createdAt:  "2025-05-26T15:00:00.000Z"
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: true,
+            code: "200",
+            message: "success!",
+            result: {
+              roomId:    "1",
+              question:  "기술 발전이 인류의 삶을 개선하는가, 아니면 해치는가?",
+              topicA:    "개선한다",
+              topicB:    "해친다",
+              updatedAt: "2025-06-03T02:43:13.293Z",
+              titles: [
+                {
+                  titleId:     "17",
+                  side:        "A",
+                  title:       "개선한다",
+                  suggestedBy: "ai",
+                  createdAt:   "2025-06-03T02:43:13.193Z"
+                },
+                {
+                  titleId:     "18",
+                  side:        "B",
+                  title:       "해친다",
+                  suggestedBy: "ai",
+                  createdAt:   "2025-06-03T02:43:13.250Z"
+                }
+              ]
             }
-          ]
+          }
         }
       }
     }
 
     #swagger.responses[400] = {
       description: "잘못된 요청 (유효하지 않은 roomId 등)",
-      schema: {
-        isSuccess: false,
-        code: "COMMON001",
-        message: "잘못된 요청입니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON001",
+            message: "잘못된 요청입니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[401] = {
       description: "토큰 형식 오류",
-      schema: {
-        isSuccess: false,
-        code: "MEMBER4006",
-        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "MEMBER4006",
+            message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[403] = {
       description: "권한 오류 (방장만 AI 주제 생성 가능)",
-      schema: {
-        isSuccess: false,
-        code: "COMMON004",
-        message: "금지된 요청입니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON004",
+            message: "금지된 요청입니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[404] = {
       description: "방을 찾을 수 없음",
-      schema: {
-        isSuccess: false,
-        code: "ROOMIN4005",
-        message: "방을 찾을 수가 없습니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "ROOMIN4005",
+            message: "방을 찾을 수가 없습니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[500] = {
       description: "서버 내부 오류",
-      schema: {
-        isSuccess: false,
-        code: "COMMON000",
-        message: "서버 에러, 관리자에게 문의 바랍니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON000",
+            message: "서버 에러, 관리자에게 문의 바랍니다.",
+            result: null
+          }
+        }
       }
     }
   */
   try {
-    // 1) 토큰 검증
     const rawToken = req.get("Authorization");
     const token = rawToken && checkFormat(rawToken);
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-    // 2) roomId 파라미터 검증
     const roomId = Number(req.params.roomId);
     if (isNaN(roomId)) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 3) 서비스 호출
     const result = await generateAndSetAITopics({
       roomId,
       userId: req.userId
     });
 
-    // 4) 성공 응답
     return res.send(response(status.SUCCESS, result));
   } catch (err) {
     console.error("🔴 handleGenerateRoomTopicsAI 오류:", err);
@@ -664,8 +684,9 @@ export const handleGenerateRoomTopicsAI = async (req, res) => {
   }
 };
 
+// 토론 주제 수정
 export const handleUpdateTopics = async (req, res) => {
-  /*
+  /**
     #swagger.summary = '토론 주제 수정 API (관리자 전용)'
     #swagger.security = [{ "BearerAuth": [] }]
     #swagger.tags = ['BattleRoom']
@@ -706,72 +727,95 @@ export const handleUpdateTopics = async (req, res) => {
 
     #swagger.responses[200] = {
       description: "토론 주제 수정 성공",
-      schema: {
-        isSuccess: true,
-        code: "200",
-        message: "success!",
-        result: {
-          roomId: "1",
-          topicA: "사자",
-          topicB: "호랑이"
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: true,
+            code: "200",
+            message: "success!",
+            result: {
+              roomId: "1",
+              topicA: "사자",
+              topicB: "호랑이"
+            }
+          }
         }
       }
     }
 
     #swagger.responses[400] = {
       description: "잘못된 요청 (topicA/topicB 누락 등)",
-      schema: {
-        isSuccess: false,
-        code: "COMMON001",
-        message: "잘못된 요청입니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON001",
+            message: "잘못된 요청입니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[401] = {
       description: "토큰 형식 오류",
-      schema: {
-        isSuccess: false,
-        code: "MEMBER4006",
-        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "MEMBER4006",
+            message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[403] = {
       description: "권한 오류 (방장만 수정 가능)",
-      schema: {
-        isSuccess: false,
-        code: "COMMON004",
-        message: "금지된 요청입니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON004",
+            message: "금지된 요청입니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[404] = {
       description: "방을 찾을 수 없음",
-      schema: {
-        isSuccess: false,
-        code: "ROOMIN4005",
-        message: "방을 찾을 수가 없습니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "ROOMIN4005",
+            message: "방을 찾을 수가 없습니다.",
+            result: null
+          }
+        }
       }
     }
 
     #swagger.responses[500] = {
       description: "서버 내부 오류",
-      schema: {
-        isSuccess: false,
-        code: "COMMON000",
-        message: "서버 에러, 관리자에게 문의 바랍니다.",
-        result: null
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: false,
+            code: "COMMON000",
+            message: "서버 에러, 관리자에게 문의 바랍니다.",
+            result: null
+          }
+        }
       }
     }
   */
   try {
-    // 1) 토큰 검사
-    const rawToken = req.get("Authorization");
-    const token = rawToken && checkFormat(rawToken);
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
@@ -915,9 +959,8 @@ export const handleLeaveRoom = async (req, res) => {
     }
   */
   try {
-    // 1) 토큰 포맷 검사
-    const rawToken = req.get("Authorization");
-    const token = rawToken && checkFormat(rawToken);
+    // 1) 토큰 검증
+    const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
@@ -951,92 +994,93 @@ export const handleLeaveRoom = async (req, res) => {
 
 // 배틀방 전체 정보 불러오기
 export const handleGetRoomsInfo = async (req, res, next) => {
-/**
-  #swagger.summary = '전체 배틀방 정보 불러오는 API'
-  #swagger.security = [{ "BearerAuth": [] }]
-  #swagger.tags = ['BattleRoom']
+  /**
+    #swagger.summary = '전체 배틀방 정보 조회 API (페이지네이션)'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['BattleRoom']
 
-  #swagger.responses[200] = {
-    description: "조회 성공",
-    schema: {
-      isSuccess: true,
-      code: "200",
-      message: "success!",
-      result: [
-        {
-          roomId: 1,
-          status: "WAITING",
-          topicA: "초보자 환영!",
-          topicB: "복귀유저와 함께!"
-        },
-        {
-          roomId: 2,
-          status: "PLAYING",
-          topicA: "매너 필수",
-          topicB: "맥북 유저"
-        },
-        {
-          roomId: 3,
-          status: "FULL",
-          topicA: "테스트 A",
-          topicB: "즐겁게 게임"
-        }
-      ]
+    #swagger.parameters['page'] = {
+      in: 'query',
+      description: '페이지 번호 (1부터 시작, 기본값 1)',
+      required: false,
+      type: 'integer',
+      example: 1
     }
-  }
-  #swagger.responses[400] = {
-    description: "잘못된 요청",
-    schema: {
-      isSuccess: false,
-      code: "COMMON001",
-      message: "잘못된 요청입니다.",
-      result: null
+
+    #swagger.responses[200] = {
+      description: "조회 성공",
+      schema: {
+        isSuccess: true,
+        code: 200,
+        message: "success!",
+        result: [
+          {
+            roomId: "1",
+            roomName: "첫 번째 방",
+            status: "WAITING",
+            spectatorCount: 3
+          },
+          {
+            roomId: "2",
+            roomName: "두 번째 방",
+            status: "PLAYING",
+            spectatorCount: 5
+          }
+        ]
+      }
     }
-  }
-  #swagger.responses[401] = {
-    description: "토큰 오류",
-    schema: {
-      isSuccess: false,
-      code: "MEMBER4006",
-      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-      result: null
+
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (잘못된 쿼리 파라미터 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
+      }
     }
-  }
-  #swagger.responses[404] = {
-    description: "방을 찾을 수 없음",
-    schema: {
-      isSuccess: false,
-      code: "ROOMIN4005",
-      message: "방을 찾을 수가 없습니다.",
-      result: null
+
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
+      }
     }
-  }
-  #swagger.responses[500] = {
-    description: "서버 내부 오류",
-    schema: {
-      isSuccess: false,
-      code: "COMMON000",
-      message: "서버 에러, 관리자에게 문의 바랍니다.",
-      result: null
+
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
+      }
     }
-  }
-*/
-  try {
+  */
+  try{
     // 1) 토큰 검증
-    const token = await checkFormat(req.get('Authorization'));
+    const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
-    // 2) 서비스 호출
-    const roomsInfo = await getRoomsInfo();
-    // 3) 응답
+
+    // 2) 쿼리 파라미터에서 page 가져오기 (기본 1)
+    const page = req.query.page ? Number(req.query.page) : 1;
+    if (isNaN(page) || page < 1) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+    const pageSize = 10; // 고정: 한 페이지당 10개
+
+    // 3) 서비스 호출
+    const roomsInfo = await getRoomsInfo({ page, pageSize });
+
+    // 4) 응답
     return res.send(response(status.SUCCESS, roomsInfo));
   } catch (err) {
-    console.error(err);
-    // 방이 없으면 NOT_FOUND, 그 외엔 SERVER_ERROR
-    if (err.message === 'ROOM_NOT_FOUND') {
-      return res.send(response(status.NOT_FOUND, null));
-    }
+    console.error("🔴 handleGetRoomsInfo 오류:", err);
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
@@ -1235,8 +1279,7 @@ export const handleGetRoomDetail = async (req, res) => {
   */
   try {
     // 1) 토큰 검증
-    const rawToken = req.get("Authorization");
-    const token = rawToken && checkFormat(rawToken);
+    const token = await checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }

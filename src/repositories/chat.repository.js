@@ -19,6 +19,20 @@ export const createBattleRoom = async (data) => {
 //     });
 // };
 
+// 페이지네이션 적용된 방 목록 가져오기
+export const getRoomsPaginated = async ({ skip, take }) => {
+  return await prisma.battleRoom.findMany({
+    skip,
+    take,
+    select: {
+      id:       true,
+      status:   true,
+      roomName: true
+    },
+    orderBy: { id: "asc" }
+  });
+};
+
 // 참가자 수 COUNT
 export const countParticipants = async ({ roomId, role, userId }) => {
   const where = { roomId, role };
@@ -123,7 +137,7 @@ export const listRoomParticipants = (roomId) => {
 export const countRoomSpectators = (roomId) => {
     return prisma.roomParticipant.count({
         where: {
-            roomId,
+            roomId: BigInt(roomId),
             role: 'P'
         }
     });
@@ -156,10 +170,11 @@ export const createBattleTitle = async ({ roomId, side, title, suggestedBy }) =>
 };
 
 // 주제 업데이트
-export const updateBattleRoomTopics = (roomId, { topicA, topicB }) => {
+export const updateBattleRoomTopics = (roomId, { question, topicA, topicB }) => {
   return prisma.battleRoom.update({
     where: { id: BigInt(roomId) },
-    data: { 
+    data: {
+      question,
       topicA,
       topicB
     }

@@ -10364,6 +10364,7 @@ export namespace Prisma {
     id: bigint | null
     admin: bigint | null
     roomName: string | null
+    question: string | null
     topicA: string | null
     topicB: string | null
     status: string | null
@@ -10379,6 +10380,7 @@ export namespace Prisma {
     id: bigint | null
     admin: bigint | null
     roomName: string | null
+    question: string | null
     topicA: string | null
     topicB: string | null
     status: string | null
@@ -10394,6 +10396,7 @@ export namespace Prisma {
     id: number
     admin: number
     roomName: number
+    question: number
     topicA: number
     topicB: number
     status: number
@@ -10425,6 +10428,7 @@ export namespace Prisma {
     id?: true
     admin?: true
     roomName?: true
+    question?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10440,6 +10444,7 @@ export namespace Prisma {
     id?: true
     admin?: true
     roomName?: true
+    question?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10455,6 +10460,7 @@ export namespace Prisma {
     id?: true
     admin?: true
     roomName?: true
+    question?: true
     topicA?: true
     topicB?: true
     status?: true
@@ -10557,6 +10563,7 @@ export namespace Prisma {
     id: bigint
     admin: bigint
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -10591,6 +10598,7 @@ export namespace Prisma {
     id?: boolean
     admin?: boolean
     roomName?: boolean
+    question?: boolean
     topicA?: boolean
     topicB?: boolean
     status?: boolean
@@ -10615,6 +10623,7 @@ export namespace Prisma {
     id?: boolean
     admin?: boolean
     roomName?: boolean
+    question?: boolean
     topicA?: boolean
     topicB?: boolean
     status?: boolean
@@ -10626,7 +10635,7 @@ export namespace Prisma {
     isAwarded?: boolean
   }
 
-  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "roomName" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
+  export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "roomName" | "question" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
@@ -10651,6 +10660,7 @@ export namespace Prisma {
       id: bigint
       admin: bigint
       roomName: string
+      question: string
       topicA: string
       topicB: string
       status: string
@@ -11038,6 +11048,7 @@ export namespace Prisma {
     readonly id: FieldRef<"BattleRoom", 'BigInt'>
     readonly admin: FieldRef<"BattleRoom", 'BigInt'>
     readonly roomName: FieldRef<"BattleRoom", 'String'>
+    readonly question: FieldRef<"BattleRoom", 'String'>
     readonly topicA: FieldRef<"BattleRoom", 'String'>
     readonly topicB: FieldRef<"BattleRoom", 'String'>
     readonly status: FieldRef<"BattleRoom", 'String'>
@@ -16594,6 +16605,7 @@ export namespace Prisma {
     id: 'id',
     admin: 'admin',
     roomName: 'roomName',
+    question: 'question',
     topicA: 'topicA',
     topicB: 'topicB',
     status: 'status',
@@ -16746,6 +16758,7 @@ export namespace Prisma {
 
   export const BattleRoomOrderByRelevanceFieldEnum: {
     roomName: 'roomName',
+    question: 'question',
     topicA: 'topicA',
     topicB: 'topicB',
     status: 'status'
@@ -17406,6 +17419,7 @@ export namespace Prisma {
     id?: BigIntFilter<"BattleRoom"> | bigint | number
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
     roomName?: StringFilter<"BattleRoom"> | string
+    question?: StringFilter<"BattleRoom"> | string
     topicA?: StringFilter<"BattleRoom"> | string
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
@@ -17427,6 +17441,7 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
+    question?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -17452,6 +17467,7 @@ export namespace Prisma {
     NOT?: BattleRoomWhereInput | BattleRoomWhereInput[]
     admin?: BigIntFilter<"BattleRoom"> | bigint | number
     roomName?: StringFilter<"BattleRoom"> | string
+    question?: StringFilter<"BattleRoom"> | string
     topicA?: StringFilter<"BattleRoom"> | string
     topicB?: StringFilter<"BattleRoom"> | string
     status?: StringFilter<"BattleRoom"> | string
@@ -17473,6 +17489,7 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
+    question?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -17496,6 +17513,7 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     admin?: BigIntWithAggregatesFilter<"BattleRoom"> | bigint | number
     roomName?: StringWithAggregatesFilter<"BattleRoom"> | string
+    question?: StringWithAggregatesFilter<"BattleRoom"> | string
     topicA?: StringWithAggregatesFilter<"BattleRoom"> | string
     topicB?: StringWithAggregatesFilter<"BattleRoom"> | string
     status?: StringWithAggregatesFilter<"BattleRoom"> | string
@@ -18409,6 +18427,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -18430,6 +18449,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -18451,6 +18471,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18472,6 +18493,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18493,6 +18515,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -18508,6 +18531,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18523,6 +18547,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -19578,6 +19603,7 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
+    question?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -19600,6 +19626,7 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
+    question?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -19615,6 +19642,7 @@ export namespace Prisma {
     id?: SortOrder
     admin?: SortOrder
     roomName?: SortOrder
+    question?: SortOrder
     topicA?: SortOrder
     topicB?: SortOrder
     status?: SortOrder
@@ -21537,6 +21565,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21557,6 +21586,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21640,6 +21670,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21660,6 +21691,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21733,6 +21765,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21753,6 +21786,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21789,6 +21823,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21809,6 +21844,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21829,6 +21865,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21849,6 +21886,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -21885,6 +21923,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21905,6 +21944,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22399,6 +22439,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -22419,6 +22460,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -22455,6 +22497,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22475,6 +22518,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22751,6 +22795,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -22771,6 +22816,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -22854,6 +22900,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22874,6 +22921,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -22947,6 +22995,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -22967,6 +23016,7 @@ export namespace Prisma {
     id?: bigint | number
     admin: bigint | number
     roomName: string
+    question: string
     topicA: string
     topicB: string
     status: string
@@ -23050,6 +23100,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -23070,6 +23121,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     admin?: BigIntFieldUpdateOperationsInput | bigint | number
     roomName?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
     topicA?: StringFieldUpdateOperationsInput | string
     topicB?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string

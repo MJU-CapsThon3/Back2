@@ -22,7 +22,8 @@ import { createBattleRoom,
     updateRoomParticipantRole,
     updateBattleRoomTopics,
     findActiveParticipant,
-    updateParticipantEndAt
+    updateParticipantEndAt,
+    getRoomsPaginated
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -250,7 +251,6 @@ export const setRoomTopics = async ({ roomId, userId, topicA, topicB }) => {
   };
 };
 
-// 배틀방 주제 선정 AI
 export const generateAndSetAITopics = async ({ roomId, userId }) => {
   // 1) 방 존재 확인
   const room = await findBattleRoomById(BigInt(roomId));
@@ -267,60 +267,62 @@ export const generateAndSetAITopics = async ({ roomId, userId }) => {
     throw err;
   }
 
-  // 3) AI로부터 주제 생성
-  // FastAPI: { topic: "사자 vs 호랑이" } 형태 반환
+  // 3) AI로부터 주제 생성 (FastAPI 응답 예시: { topic, option_a, option_b })
   const aiResponse = await callGenerateTopic();
-  if (!aiResponse.topic || typeof aiResponse.topic !== "string") {
-    const err = new Error("AI_ERROR");
-    err.code = "AI_ERROR";
-    throw err;
-  }
-
-  // 4) "A vs B" 형태로 분리
-  const split = aiResponse.topic.split(" vs ");
-  if (split.length !== 2) {
+  // 예: aiResponse = { topic: "...", option_a: "...", option_b: "..." }
+  if (
+    !aiResponse.topic ||
+    typeof aiResponse.topic !== "string" ||
+    !aiResponse.option_a ||
+    !aiResponse.option_b
+  ) {
     const err = new Error("AI_FORMAT_ERROR");
     err.code = "AI_FORMAT_ERROR";
     throw err;
   }
-  const [topicA, topicB] = split.map(s => s.trim());
 
-  // 5) battle_room 업데이트
-  const updatedRoom = await updateBattleRoomTopics(roomId, { topicA, topicB });
+  // 4) AI가 준 데이터를 분리
+  const question = aiResponse.topic.trim();
+  const topicA   = aiResponse.option_a.trim();
+  const topicB   = aiResponse.option_b.trim();
+
+  // 5) battle_room 업데이트 (question, topicA, topicB 모두 저장)
+  const updatedRoom = await updateBattleRoomTopics(roomId, { question, topicA, topicB });
 
   // 6) battle_title 기록 추가 (suggestedBy: "ai")
   const titleARecord = await repoCreateBattleTitle({
     roomId,
-    side: "A",
-    title: topicA,
+    side:        "A",
+    title:       topicA,
     suggestedBy: "ai"
   });
   const titleBRecord = await repoCreateBattleTitle({
     roomId,
-    side: "B",
-    title: topicB,
+    side:        "B",
+    title:       topicB,
     suggestedBy: "ai"
   });
 
   return {
-    roomId:   updatedRoom.id.toString(),
-    topicA:   updatedRoom.topicA,
-    topicB:   updatedRoom.topicB,
-    updatedAt: updatedRoom.updatedAt,
+    roomId:    updatedRoom.id.toString(),
+    question:  updatedRoom.question,   // 새로 추가된 question 필드
+    topicA:    updatedRoom.topicA,
+    topicB:    updatedRoom.topicB,
+    updatedAt: updatedRoom.updatedAt.toISOString(),
     titles: [
       {
-        titleId:    titleARecord.id.toString(),
-        side:       titleARecord.side,
-        title:      titleARecord.title,
+        titleId:     titleARecord.id.toString(),
+        side:        titleARecord.side,
+        title:       titleARecord.title,
         suggestedBy: titleARecord.suggestedBy,
-        createdAt:  titleARecord.createdAt.toISOString()
+        createdAt:   titleARecord.createdAt.toISOString()
       },
       {
-        titleId:    titleBRecord.id.toString(),
-        side:       titleBRecord.side,
-        title:      titleBRecord.title,
+        titleId:     titleBRecord.id.toString(),
+        side:        titleBRecord.side,
+        title:       titleBRecord.title,
         suggestedBy: titleBRecord.suggestedBy,
-        createdAt:  titleBRecord.createdAt.toISOString()
+        createdAt:   titleBRecord.createdAt.toISOString()
       }
     ]
   };
@@ -388,8 +390,27 @@ export const updateTopics = async ({ roomId, userId, topicA, topicB }) => {
 };
 
 // 배틀방 전체 정보 불러오기
-export const getRoomsInfo = async () => {
-  return await getRoomsInfoRep();
+export const getRoomsInfo = async ({ page, pageSize }) => {
+  const skip = (page - 1) * pageSize;
+  const take = pageSize;
+
+  // 1) pageSize만큼 방 목록(id, status, roomName) 조회
+  const rooms = await getRoomsPaginated({ skip, take });
+
+  // 2) 각 방마다 관전자 수(P 역할) 조회해서 합치기
+  const result = await Promise.all(
+    rooms.map(async (room) => {
+      const spectatorCount = await countRoomSpectators(room.id);
+      return {
+        roomId:         room.id.toString(),
+        roomName:       room.roomName,
+        status:         room.status,
+        spectatorCount: spectatorCount
+      };
+    })
+  );
+
+  return result;
 };
 
 // 방 정보 불러오기

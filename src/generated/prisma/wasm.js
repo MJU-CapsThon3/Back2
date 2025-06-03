@@ -202,6 +202,7 @@ exports.Prisma.BattleRoomScalarFieldEnum = {
   id: 'id',
   admin: 'admin',
   roomName: 'roomName',
+  question: 'question',
   topicA: 'topicA',
   topicB: 'topicB',
   status: 'status',
@@ -309,6 +310,7 @@ exports.Prisma.ItemOrderByRelevanceFieldEnum = {
 
 exports.Prisma.BattleRoomOrderByRelevanceFieldEnum = {
   roomName: 'roomName',
+  question: 'question',
   topicA: 'topicA',
   topicB: 'topicB',
   status: 'status'
