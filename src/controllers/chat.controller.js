@@ -572,109 +572,86 @@ export const handleGenerateRoomTopicsAI = async (req, res) => {
       example: 1
     }
 
+
     #swagger.responses[200] = {
       description: "AI 주제 생성 및 저장 성공",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: true,
-            code: "200",
-            message: "success!",
-            result: {
-              roomId:    "1",
-              question:  "기술 발전이 인류의 삶을 개선하는가, 아니면 해치는가?",
-              topicA:    "개선한다",
-              topicB:    "해친다",
-              updatedAt: "2025-06-03T02:43:13.293Z",
-              titles: [
-                {
-                  titleId:     "17",
-                  side:        "A",
-                  title:       "개선한다",
-                  suggestedBy: "ai",
-                  createdAt:   "2025-06-03T02:43:13.193Z"
-                },
-                {
-                  titleId:     "18",
-                  side:        "B",
-                  title:       "해친다",
-                  suggestedBy: "ai",
-                  createdAt:   "2025-06-03T02:43:13.250Z"
-                }
-              ]
+      schema: {
+        isSuccess: true,
+        code: 200,
+        message: "success!",
+        result: {
+          roomId:    "1",
+          question:  "기술 발전이 인류의 삶을 개선하는가, 아니면 해치는가?",
+          topicA:    "개선한다",
+          topicB:    "해친다",
+          updatedAt: "2025-06-03T02:43:13.293Z",
+          titles: [
+            {
+              titleId:    "17",
+              side:       "A",
+              title:      "개선한다",
+              suggestedBy:"ai",
+              createdAt:  "2025-06-03T02:43:13.193Z"
+            },
+            {
+              titleId:    "18",
+              side:       "B",
+              title:      "해친다",
+              suggestedBy:"ai",
+              createdAt:  "2025-06-03T02:43:13.250Z"
             }
-          }
+          ]
         }
       }
     }
 
     #swagger.responses[400] = {
       description: "잘못된 요청 (유효하지 않은 roomId 등)",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: false,
-            code: "COMMON001",
-            message: "잘못된 요청입니다.",
-            result: null
-          }
-        }
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
       }
     }
 
     #swagger.responses[401] = {
       description: "토큰 형식 오류",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: false,
-            code: "MEMBER4006",
-            message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-            result: null
-          }
-        }
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
       }
     }
 
     #swagger.responses[403] = {
       description: "권한 오류 (방장만 AI 주제 생성 가능)",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: false,
-            code: "COMMON004",
-            message: "금지된 요청입니다.",
-            result: null
-          }
-        }
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
       }
     }
 
     #swagger.responses[404] = {
       description: "방을 찾을 수 없음",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: false,
-            code: "ROOMIN4005",
-            message: "방을 찾을 수가 없습니다.",
-            result: null
-          }
-        }
+      schema: {
+        isSuccess: false,
+        code: "ROOMIN4005",
+        message: "방을 찾을 수가 없습니다.",
+        result: null
       }
     }
 
     #swagger.responses[500] = {
       description: "서버 내부 오류",
-      content: {
-        "application/json": {
-          schema: {
-            isSuccess: false,
-            code: "COMMON000",
-            message: "서버 에러, 관리자에게 문의 바랍니다.",
-            result: null
-          }
-        }
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
       }
     }
   */

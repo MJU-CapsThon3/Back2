@@ -290,7 +290,7 @@ export const generateAndSetAITopics = async ({ roomId, userId }) => {
   const topicB   = aiResponse.option_b.trim();
 
   // 5) battle_room 업데이트 (question, topicA, topicB 모두 저장)
-  const updatedRoom = await updateBattleRoomTopics(roomId, { question, topicA, topicB });
+  const updatedRoom = await repoUpdateBattleRoomTopics(roomId, { question, topicA, topicB });
 
   // 6) battle_title 기록 추가 (suggestedBy: "ai")
   const titleARecord = await repoCreateBattleTitle({
@@ -308,10 +308,11 @@ export const generateAndSetAITopics = async ({ roomId, userId }) => {
 
   return {
     roomId:    updatedRoom.id.toString(),
-    question:  updatedRoom.question,   // 새로 추가된 question 필드
+    question:  updatedRoom.question,
     topicA:    updatedRoom.topicA,
     topicB:    updatedRoom.topicB,
-    updatedAt: updatedRoom.updatedAt.toISOString(),
+    // Prisma 스키마에 updatedAt 필드가 없으므로, createdAt을 대신 반환합니다.
+    updatedAt: updatedRoom.createdAt.toISOString(),
     titles: [
       {
         titleId:     titleARecord.id.toString(),
