@@ -35,11 +35,23 @@ export const responseFromRankingList = (list) => {
  * @param {Array} list 
  */
 export const responseFromQuestList = (list) => {
-  return list.map(quest => ({
-    id: quest.id,
-    title: quest.title,
-    description: quest.description,
-    reward: quest.reward,
-    createdAt: quest.created_at,
-  }));
+  return list.map(quest => {
+    let statusText = "퀘스트 미완료";
+    if (quest.isCompleted && !quest.rewardClaimed) {
+      statusText = "퀘스트 완료";
+    } else if (quest.isCompleted && quest.rewardClaimed) {
+      statusText = "보상 수령";
+    }
+
+    return {
+      id: quest.id,
+      name: quest.name,
+      description: quest.description,
+      rewardPts: quest.rewardPts,      // 보상 포인트
+      goal: quest.goal,             // 달성 목표 수치
+      progress: quest.progress,     // 현재 진행도
+      status: statusText,           // 미완료 | 완료 | 보상 수령
+      createdAt: quest.createdAt,
+    };
+  });
 }

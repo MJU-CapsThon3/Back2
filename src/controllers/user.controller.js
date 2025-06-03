@@ -386,7 +386,7 @@ export const handleGetTopRankings = async (req, res, next) => {
   }
 };
 
-// 퀘스트 관련 추가한 부분
+// 퀘스트 부분
 export const handleGetDailyQuests = async (req, res) => {
   /*
     #swagger.summary = '전체 일일 퀘스트 목록 조회 API'
@@ -464,7 +464,7 @@ export const handleGetDailyQuests = async (req, res) => {
       if(token !== null) {
         // 토큰 이상 없음
         // 서비스 호출
-        const rawList = await getDailyQuestsService();
+        const rawList = await getDailyQuestsService(req.userId);
         // DTO 변환
         const payload = responseFromQuestList(rawList);
         res.send(response(status.SUCCESS, payload));
@@ -477,7 +477,7 @@ export const handleGetDailyQuests = async (req, res) => {
     }
   };
   
-  export const completeQuest = async (req, res) => {
+  export const handleCompleteQuest = async (req, res) => {
     /*
   #swagger.summary = '퀘스트 완료 처리 API'
   #swagger.tags = ['Quest']
@@ -521,25 +521,17 @@ export const handleGetDailyQuests = async (req, res) => {
     }
   }
   #swagger.responses[401] = {
-    description: '토큰 없음',
+    description: '토큰 형식 오류',
     content: {
       "application/json": {
         schema: {
-          isSuccess: false,
-          message: "토큰이 없습니다.",
-          result: null
-        }
-      }
-    }
-  }
-  #swagger.responses[403] = {
-    description: '유효하지 않은 토큰',
-    content: {
-      "application/json": {
-        schema: {
-          isSuccess: false,
-          message: "유효하지 않은 토큰입니다.",
-          result: null
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+            message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+            result: { type: "object", nullable: true, example: null }
+          }
         }
       }
     }
@@ -549,9 +541,13 @@ export const handleGetDailyQuests = async (req, res) => {
     content: {
       "application/json": {
         schema: {
-          uccess: false,
-          message: "서버 오류 발생",
-          result: null
+          type: "object",
+          properties: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "SERVER_ERROR" },
+            message: { type: "string", example: "서버 오류 발생" },
+            result: { type: "object", nullable: true, example: null }
+          }
         }
       }
     }
@@ -565,43 +561,29 @@ export const handleGetDailyQuests = async (req, res) => {
         //서비스 호출
   
         const questId = parseInt(req.params.questId);
+        if(questId > 6) {
+          return res.send(response(status.QUEST_NOT_EXIST));
+        }
         const checkProgress = await checkGoalProgress(req.userId, questId);
-
         const progress = await getUserQuestProgress(req.userId, questId);
         const goal = await getQuestsGoal(questId);
         
         // 1. 보상 수령 여부 확인
         const alreadyCompleted = await isRewardReceived(req.userId, questId);
         if (alreadyCompleted && alreadyCompleted.status === 'already_claimed') {
-          return res.status(200).json({
-            isSuccess: false,
-            code: 200,
-            message: "이미 보상을 수령한 퀘스트입니다.",
-            result: {
-              status : "complete",
-            },
-            alreadyCompleted
-          });
-        } else if(checkProgress && checkProgress.status === 'goal_reached') { // 2. 퀘스트 진행도와 목표치 비교
-          return res.status(200).json({
-            isSuccess: false,
-            message: "이미 목표치를 달성했습니다.",
-            result: {
-              status : "goal_reached",
-            },
-            checkProgress
-          });
-        } else { // 3. 퀘스트 성공 여부 확인 및 진행도 상승
+          return res.send(response(status.ALREADY_CLAIM_REWARD, alreadyCompleted.result));
+        } else if(checkProgress && checkProgress.status === 'goal_reached') {
+          // 2. 퀘스트 진행도와 목표치 비교
+          return res.send(response(status.ALREADY_REACH_GOAL));
+        } else { 
+          // 3. 퀘스트 성공 여부 확인 및 진행도 상승
           const checkQuestClear = await completeQuestIfEligible(req.userId, questId);
 
           return res.status(200).json({
             isSuccess: checkQuestClear.success,
             message: checkQuestClear.message,
-            result: {
-              status: checkQuestClear.success ? 'progress_updated' : 'failed',
-              progress: checkQuestClear.progress,
-              goal: checkQuestClear.goal,
-            }
+            progress: checkQuestClear.progress,
+            goal : checkQuestClear.goal,
           });
         }
       } else {
@@ -614,7 +596,7 @@ export const handleGetDailyQuests = async (req, res) => {
     }
   };
   
-  export const claimQuestReward = async (req, res) => {
+  export const handleClaimQuestReward = async (req, res) => {
   /*
     #swagger.summary = '퀘스트 보상 수령 API'
     #swagger.tags = ['Quest']
@@ -720,29 +702,37 @@ export const handleGetDailyQuests = async (req, res) => {
         //토큰 이상 없음
         //서비스 호출
         const questId = parseInt(req.params.questId);
-        const result = await claimQuestRewardService(req.userId, questId);
-        if (result.status === 'not_completed' || result.status === 'already_claimed') {
-          return res.status(200).json(response({ isSuccess: false, code: 200, message: result.message }, result));
+        if(questId > 6) {
+          return res.send(response(status.QUEST_NOT_EXIST));
         }
-        return res.status(200).json(response({ isSuccess: true, code: 200, message: '보상을 성공적으로 받았습니다.' }, result));
+        const result = await claimQuestRewardService(req.userId, questId);
+
+        if (result.status === 'already_claimed') {
+          return res.send(response(status.ALREADY_CLAIM_REWARD, result.status));
+        } else if(result.status === 'not_completed') {
+          return res.send(response(status.INCOMPLETE, result.status));
+        } else if(result.status === 'not_existed') {
+          return res.send(response(status.QUEST_NOT_EXIST, result.status))
+        } 
+
+        return res.status(200).json({
+          isSuccess: true, 
+          code: 200, message: '보상을 성공적으로 받았습니다.', 
+          reward: result.reward
+        });
+        //return res.status(200).json(response({ isSuccess: true, code: 200, message: '보상을 성공적으로 받았습니다.', reward: result.reward }));
       } else {
         //토큰 이상감지
         res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
       }
     } catch (err) {
-      if (err instanceof BaseError) {
-        return res.status(err.data.code).json({
-          success: false,
-          message: err.data.message
-        });
-      }
       console.error(err);
       res.status(500).json({ success: false, message: '서버 오류 발생' });
     }
   };
   
   //퀘스트 초기화
-  export const resetDailyQuests = async (req, res) => {
+  export const handleResetDailyQuests = async (req, res) => {
     /*
     #swagger.summary = '일일 퀘스트 초기화 API'
     #swagger.tags = ['Quest']
@@ -789,18 +779,13 @@ export const handleGetDailyQuests = async (req, res) => {
         isSuccess: true,
         code: 200,
         message: '일일 퀘스트가 초기화되었습니다.',
-        result: null,
       });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        isSuccess: false,
-        code: 500,
-        message: '서버 오류로 퀘스트 초기화에 실패했습니다.',
-        result: null,
-      });
+      cconsole.error(err);
+      res.status(500).json({ success: false, message: '서버 오류 발생' });
     }
   };
+
 // 아이템 구매
 export const handleBuyItem = async (req, res) => {
   /*
