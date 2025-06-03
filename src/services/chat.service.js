@@ -12,18 +12,16 @@ import { createBattleRoom,
     updateBattleRoom,
     saveChatMessage,
     findChatHistoryByRoomId,
-    findChatMessagesByRoom,
-    countRoomParticipant,
+    countRoomParticipant, 
+    repoCreateRoomParticipant,
     createBattleVote,
     findVotesByRoomId,
-    getRoomsInfoRep,
-    findAllChatMessagesByRoomId,
-    findBattleVotesByRoomId,
     updateRoomParticipantRole,
     updateBattleRoomTopics as repoUpdateBattleRoomTopics,
     findActiveParticipant,
     updateParticipantEndAt,
-    getRoomsPaginated
+    getRoomsPaginated,
+    deleteExistingParticipationRecords
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -82,42 +80,36 @@ export const createRoom = async (req) => {
   };
 };
 
-// 방 참가 service
-export const joinRoom = async ({ roomId, userId, role }) => {
-  // 1) “A” 또는 “B” 역할을 원하면, 해당 역할이 이미 찬성/반대 1명까지만 허용
-  if (role === "A" || role === "B") {
-    const cnt = await countParticipants({ roomId, role });
-    if (cnt >= 1) {
-      const e = new Error("ROLE_ALREADY_TAKEN");
-      e.code = "ROLE_ALREADY_TAKEN";
-      throw e;
-    }
+export const joinBattleRoom = async ({ roomId, userId, role, joinedAt }) => {
+  // 1) 방 존재 여부 확인
+  const room = await findBattleRoomById(roomId);
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
   }
-  // 2) “P” 역할(관전자)은 최대 8명
-  if (role === "P") {
-    const cnt = await countParticipants({ roomId, role });
-    if (cnt >= 8) {
-      const e = new Error("SPECTATOR_FULL");
-      e.code = "SPECTATOR_FULL";
-      throw e;
-    }
-  }
-  // 3) 이미 해당 방에 해당 유저가 role(= side)에 참여했는지 체크
-  const already = await countParticipants({ roomId, role, userId });
-  if (already > 0) {
-    const e = new Error("ALREADY_JOINED");
-    e.code = "ALREADY_JOINED";
-    throw e;
-  }
-  // 4) 실제 참가자 레코드 생성
-  const participant = await createRoomParticipant({ roomId, userId, role });
+
+  // 2) (추가 로직이 있다면) 방장 권한 체크 등 → 생략 가능
+  // if (room.admin.toString() !== userId.toString()) {
+  //   const err = new Error("FORBIDDEN");
+  //   err.code = "FORBIDDEN";
+  //   throw err;
+  // }
+
+  // 3) 기존 참여 기록 전부 삭제 (한 유저당 한 곳에만 있게 만들기)
+  await deleteExistingParticipationRecords(userId);
+
+  // 4) 새 참가(관전자) 기록 생성
+  const record = await repoCreateRoomParticipant({
+    roomId,
+    userId,
+    role,
+    joinedAt
+  });
+
   return {
-    participantId: participant.id.toString(),
-    roomId:        participant.roomId.toString(),
-    userId:        participant.userId.toString(),
-    role:          participant.role,
-    joinedAt:      participant.joinedAt,
-    side:          participant.side || null
+    roomId:        record.roomId,
+    participantId: record.id
   };
 };
 
@@ -261,6 +253,7 @@ export const setRoomTopics = async ({ roomId, userId, question, topicA, topicB }
   };
 };
 
+// AI 주제 설정
 export const generateAndSetAITopics = async ({ roomId, userId }) => {
   // 1) 방 존재 확인
   const room = await findBattleRoomById(BigInt(roomId));

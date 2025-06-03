@@ -303,3 +303,21 @@ export const findBattleVotesByRoomId = async (roomId) => {
   });
   return votes;
 };
+
+// 방 참가전에 유저 검열
+export const deleteExistingParticipationRecords = (userId) => {
+  return prisma.roomParticipant.deleteMany({
+    where: { userId: userId }
+  });
+};
+
+export const repoCreateRoomParticipant = (data) => {
+  return prisma.roomParticipant.create({
+    data: {
+      roomId:    data.roomId,
+      userId:    data.userId,
+      role:      data.role,       // "P"
+      joinedAt:  data.joinedAt
+    }
+  });
+};

@@ -2102,7 +2102,7 @@
         "tags": [
           "BattleRoom"
         ],
-        "summary": "방 참가 API (관전자 P 모드)",
+        "summary": "방 참가 API (항상 관전자 P로 입장)",
         "description": "",
         "parameters": [
           {
@@ -2119,7 +2119,7 @@
         ],
         "responses": {
           "200": {
-            "description": "관전자(P)로 입장 성공",
+            "description": "방 참가 성공 (관전자 P)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2130,37 +2130,28 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "success!"
+                      "example": "성공적으로 방에 참가했습니다."
                     },
                     "result": {
                       "type": "object",
                       "properties": {
-                        "participantId": {
-                          "type": "string",
-                          "example": "10"
-                        },
                         "roomId": {
                           "type": "string",
                           "example": "1"
                         },
-                        "userId": {
+                        "participantId": {
                           "type": "string",
-                          "example": "7"
+                          "example": "45"
                         },
                         "role": {
                           "type": "string",
                           "example": "P"
-                        },
-                        "joinedAt": {
-                          "type": "string",
-                          "example": "2025-05-25T12:35:00.000Z"
-                        },
-                        "side": {}
+                        }
                       }
                     }
                   },
@@ -2178,37 +2169,28 @@
                       "example": true
                     },
                     "code": {
-                      "type": "string",
-                      "example": "200"
+                      "type": "number",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "success!"
+                      "example": "성공적으로 방에 참가했습니다."
                     },
                     "result": {
                       "type": "object",
                       "properties": {
-                        "participantId": {
-                          "type": "string",
-                          "example": "10"
-                        },
                         "roomId": {
                           "type": "string",
                           "example": "1"
                         },
-                        "userId": {
+                        "participantId": {
                           "type": "string",
-                          "example": "7"
+                          "example": "45"
                         },
                         "role": {
                           "type": "string",
                           "example": "P"
-                        },
-                        "joinedAt": {
-                          "type": "string",
-                          "example": "2025-05-25T12:35:00.000Z"
-                        },
-                        "side": {}
+                        }
                       }
                     }
                   },
@@ -2220,7 +2202,7 @@
             }
           },
           "400": {
-            "description": "잘못된 요청 (roomId 누락 또는 형식 오류)",
+            "description": "잘못된 요청 (roomId가 숫자가 아닌 경우 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2322,10 +2304,7 @@
             }
           },
           "403": {
-            "description": "Forbidden"
-          },
-          "409": {
-            "description": "참가 불가 (이미 참가했거나 관전자 최대 인원 초과)",
+            "description": "권한 오류 (추가 로직이 있을 경우)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2337,11 +2316,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "COMMON409"
+                      "example": "COMMON004"
                     },
                     "message": {
                       "type": "string",
-                      "example": "이미 참가했거나 관전자 인원이 가득 찼습니다."
+                      "example": "금지된 요청입니다."
                     },
                     "result": {}
                   },
@@ -2360,11 +2339,62 @@
                     },
                     "code": {
                       "type": "string",
-                      "example": "COMMON409"
+                      "example": "COMMON004"
                     },
                     "message": {
                       "type": "string",
-                      "example": "이미 참가했거나 관전자 인원이 가득 찼습니다."
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수가 없습니다."
                     },
                     "result": {}
                   },

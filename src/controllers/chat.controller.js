@@ -18,7 +18,8 @@ import { createRoom,
   generateAndSetAITopics,
   leaveRoom,
   updateTopics,
-  changeParticipantRole
+  changeParticipantRole,
+  joinBattleRoom
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -124,10 +125,10 @@ export const handleCreateRoom = async (req, res) => {
 
 // 방 참가 controller
 export const handleJoinRoom = async (req, res) => {
-  /**
-    #swagger.summary = '방 참가 API (관전자 P 모드)'
-    #swagger.security = [{ "BearerAuth": [] }]
+  /*
+    #swagger.summary = '방 참가 API (항상 관전자 P로 입장)'
     #swagger.tags = ['BattleRoom']
+    #swagger.security = [{ "BearerAuth": [] }]
 
     #swagger.parameters['roomId'] = {
       in: 'path',
@@ -139,24 +140,20 @@ export const handleJoinRoom = async (req, res) => {
     }
 
     #swagger.responses[200] = {
-      description: "관전자(P)로 입장 성공",
+      description: "방 참가 성공 (관전자 P)",
       schema: {
         isSuccess: true,
-        code: "200",
-        message: "success!",
+        code: 200,
+        message: "성공적으로 방에 참가했습니다.",
         result: {
-          participantId: "10",
-          roomId: "1",
-          userId: "7",
-          role: "P",
-          joinedAt: "2025-05-25T12:35:00.000Z",
-          side: null
+          roomId:        "1",
+          participantId: "45",
+          role:          "P"
         }
       }
     }
-
     #swagger.responses[400] = {
-      description: "잘못된 요청 (roomId 누락 또는 형식 오류)",
+      description: "잘못된 요청 (roomId가 숫자가 아닌 경우 등)",
       schema: {
         isSuccess: false,
         code: "COMMON001",
@@ -175,12 +172,22 @@ export const handleJoinRoom = async (req, res) => {
       }
     }
 
-    #swagger.responses[409] = {
-      description: "참가 불가 (이미 참가했거나 관전자 최대 인원 초과)",
+    #swagger.responses[403] = {
+      description: "권한 오류 (추가 로직이 있을 경우)",
       schema: {
         isSuccess: false,
-        code: "COMMON409",
-        message: "이미 참가했거나 관전자 인원이 가득 찼습니다.",
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
+    }
+
+    #swagger.responses[404] = {
+      description: "방을 찾을 수 없음",
+      schema: {
+        isSuccess: false,
+        code: "ROOMIN4005",
+        message: "방을 찾을 수가 없습니다.",
         result: null
       }
     }
@@ -197,33 +204,50 @@ export const handleJoinRoom = async (req, res) => {
   */
   try {
     // 1) 토큰 검증
-    const token = await checkFormat(req.get("Authorization"));
+    const rawToken = req.get("Authorization");
+    const token = rawToken && checkFormat(rawToken);
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-    // 2) roomId 파싱
-    const roomId = Number(req.params.roomId);
-    if (isNaN(roomId)) {
+    // 2) roomId 검증
+    const parsedRoomId = Number(req.params.roomId);
+    if (isNaN(parsedRoomId)) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 3) 서비스 호출 (role 을 무조건 'P' 로 고정)
-    const result = await joinRoom({
-      roomId,
-      userId: req.userId,
-      role: "P"
+    // 3) req.userId가 객체라면 내부의 원시값 추출
+    let rawUserId = req.userId;
+    if (typeof rawUserId === "object" && rawUserId !== null) {
+      // 미들웨어가 { userId: 123 } 또는 { id: 123 } 같은 형태로 저장했다면
+      rawUserId = rawUserId.userId ?? rawUserId.id;
+    }
+    const parsedUserId = Number(rawUserId);
+    if (isNaN(parsedUserId)) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 4) 서비스 호출 (role 고정 → "P")
+    const { roomId, participantId } = await joinBattleRoom({
+      roomId:       BigInt(parsedRoomId),
+      userId:       BigInt(parsedUserId),
+      role:         "P",
+      joinedAt:     new Date()
     });
 
-    return res.send(response(status.SUCCESS, result));
+    // 5) 성공 응답
+    return res.send(response(status.SUCCESS, {
+      roomId:        roomId.toString(),
+      participantId: participantId.toString(),
+      role:          "P"
+    }));
   } catch (err) {
     console.error("🔴 handleJoinRoom 오류:", err);
-
     if (err.code === "ROOM_NOT_FOUND") {
       return res.send(response(status.ROOM_NOT_FOUND, null));
     }
-    if (err.code === "SPECTATOR_FULL" || err.code === "ALREADY_JOINED") {
-      return res.send(response(status.COMMON409, null));
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
     }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
