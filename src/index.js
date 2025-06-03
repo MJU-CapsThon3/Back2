@@ -13,9 +13,9 @@ import {
   handleUserInfo,
   handleGetTopRankings,
   handleGetDailyQuests,
-  completeQuest,
-  claimQuestReward,
-  resetDailyQuests,
+  handleCompleteQuest,
+  handleClaimQuestReward,
+  handleResetDailyQuests,
   handleBuyItem,
   handleAddItem,
   handleGetUserItems,
@@ -144,15 +144,14 @@ const io = new SocketIOServer(httpServer, {
 // Socket.IO 이벤트 핸들러 등록
 registerChatHandlers(io);
 
-// 퀘스트 관련 추가한 부분
 // 퀘스트 목록 조회
 app.get("/quests/list", handleGetDailyQuests);
 // 퀘스트 진행 상황 조회
-app.post('/quests/status/:questId', completeQuest);
+app.post('/quests/status/:questId', handleCompleteQuest);
 // 퀘스트 보상 받기
-app.post('/quests/reward/:questId', claimQuestReward);
+app.post('/quests/reward/:questId', handleClaimQuestReward);
 // 퀘스트 초기화
-app.post('/quests/reset-daily', resetDailyQuests);
+app.post('/quests/reset-daily', handleResetDailyQuests);
 
 // 상점 아이템 구매 API
 app.post("/shop/buy-item", handleBuyItem);

@@ -249,16 +249,42 @@ export const deleteItemRepo = async (itemId) => {
 */
 
 //퀘스트 목록 조회
-export const getAllQuests = async () => {
+export const getAllQuests = async (userId) => {
   try {
     const quests = await prisma.quest.findMany({
-      orderBy: {
-        id: 'asc',  // 필요에 따라 정렬
-      },
+      orderBy: { id: 'asc' }
     });
-    return quests;
+
+    const completions = await prisma.questCompletion.findMany({
+      where: { userId },
+    });
+
+    const completionMap = new Map();
+    completions.forEach(completion => {
+      completionMap.set(completion.questId,completion);
+    });
+
+    return quests.map(quest => {
+      const completion = completionMap.get(quest.id) || {
+        progress: 0,
+        isCompleted: false,
+        rewardClaimed: false,
+      };
+
+      return {
+        id: quest.id,
+        name: quest.name,
+        description: quest.description,
+        rewardPts: quest.rewardPts,
+        goal: quest.goal,
+        progress: completion.progress,
+        isCompleted: completion.isCompleted,
+        rewardClaimed: completion.rewardClaimed,
+        createdAt: quest.createdAt,
+      };
+    });
   } catch (error) {
-    console.error('Error fetching quests:', error);
+    console.error('Error fetching quests with user progress:', error);
     throw error;
   }
 };
@@ -268,51 +294,6 @@ export const findQuestById = async (questId) => {
   return await prisma.quest.findUnique({
     where: { id: questId },
   });
-};
-
-//퀘스트 진행 상태 조회
-export const checkQuestCondition = async (userId, questId) => {
-  switch (questId) {
-    case 1: // 로그인하기
-      return true; // 로그인 시점에 체크하므로 true 반환
-  
-    case 2: // 토론 참여하기
-      const participated = await prisma.roomParticipant.findFirst({
-        where: { userId },
-      });
-      return !!participated;
-  
-    case 3: // 방 생성하기
-      const createdRoom = await prisma.battleRoom.findFirst({
-        where: { admin: userId },
-      });
-      return !!createdRoom;
-  
-    case 4: // 채팅하기
-      const chatted = await prisma.chatMessage.findFirst({
-        where: { userId },
-      });
-      return !!chatted;
-  
-    case 5: // 아이템 구매하기
-      const purchasedItem = await prisma.userItem.findFirst({
-        where: { userId },
-      });
-      return !!purchasedItem;
-  
-    case 6: // 일일 퀘스트 클리어
-      const otherCompletions = await prisma.questCompletion.findMany({
-        where: {
-          userId,
-          questId: { in: [1, 2, 3, 4, 5] },
-          isCompleted: true,
-        },
-      });
-      return otherCompletions.length === 5;
-  
-    default:
-      return false;
-  }
 };
 
 // 퀘스트 진행 현황 증가

@@ -197,17 +197,30 @@ export const status = {
     message: "이미 투표를 완료했습니다."
   },
   //퀘스트
+  //퀘스트
   INCOMPLETE : {
     status: StatusCodes.INCOMPLETE,
     isSuccess: false,
     code: "QUEST000",
     message: "완료하지 못한 퀘스트입니다.",
   }, 
+  ALREADY_REACH_GOAL : {
+    status: StatusCodes.ALREADY_REACH_GOAL,
+    isSuccess: false,
+    code: "QUEST001",
+    message: "이미 목표를 달성한 퀘스트입니다."
+  },
   ALREADY_CLAIM_REWARD : {
     status : StatusCodes.ALREADY_CLAIM_REWARD,
     isSuccess: false, 
-    code: "QUEST001",
+    code: "QUEST002",
     message: "이미 보상을 받은 퀘스트입니다.",
+  },
+  QUEST_NOT_EXIST : {
+    status : StatusCodes.QUEST_NOT_EXIST,
+    isSuccess : false,
+    code: "QUEST003",
+    message: "해당 퀘스트에 대한 진행 정보가 없습니다.",
   },
   ALREADY_AWARDED : {
     status : StatusCodes.ALREADY_AWARDED,
