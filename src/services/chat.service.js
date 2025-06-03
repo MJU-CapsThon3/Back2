@@ -89,12 +89,12 @@ export const joinBattleRoom = async ({ roomId, userId, role, joinedAt }) => {
     throw err;
   }
 
-  // 2) (추가 로직이 있다면) 방장 권한 체크 등 → 생략 가능
-  // if (room.admin.toString() !== userId.toString()) {
-  //   const err = new Error("FORBIDDEN");
-  //   err.code = "FORBIDDEN";
-  //   throw err;
-  // }
+  // 2) 방이 이미 종료(ENDED) 상태라면 입장 불가
+  if (room.status === "ENDED") {
+    const err = new Error("ROOM_ALREADY_ENDED");
+    err.code = "ROOM_ALREADY_ENDED";
+    throw err;
+  }
 
   // 3) 기존 참여 기록 전부 삭제 (한 유저당 한 곳에만 있게 만들기)
   await deleteExistingParticipationRecords(userId);
@@ -398,12 +398,31 @@ export const getRoomsInfo = async ({ page, pageSize }) => {
   const skip = (page - 1) * pageSize;
   const take = pageSize;
 
-  // 1) pageSize만큼 방 목록(id, status, roomName) 조회
-  const rooms = await getRoomsPaginated({ skip, take });
+  // 1) DB에서 전체 방(id, status, roomName) 조회
+  const allRooms = await prisma.battleRoom.findMany({
+    select: {
+      id:       true,
+      status:   true,
+      roomName: true
+    }
+  });
 
-  // 2) 각 방마다 관전자 수(P 역할) 조회해서 합치기
+  // 2) 상태별 순서 정의: WAITING → PLAYING → ENDED
+  const statusOrder = { WAITING: 0, PLAYING: 1, ENDED: 2 };
+
+  // 3) 자바스크립트로 정렬
+  allRooms.sort((a, b) => {
+    const na = statusOrder[a.status] ?? 999;
+    const nb = statusOrder[b.status] ?? 999;
+    return na - nb;
+  });
+
+  // 4) 페이지네이션
+  const roomsPage = allRooms.slice(skip, skip + take);
+
+  // 5) 각 방마다 관전자 수를 붙여서 응답 형태로 가공
   const result = await Promise.all(
-    rooms.map(async (room) => {
+    roomsPage.map(async (room) => {
       const spectatorCount = await countRoomSpectators(room.id);
       return {
         roomId:         room.id.toString(),
