@@ -18,8 +18,9 @@ import { createRoom,
   generateAndSetAITopics,
   leaveRoom,
   updateTopics,
-  changeParticipantRole,
-  joinBattleRoom
+  changeParticipantRole as serviceChangeRole,
+  joinBattleRoom,
+  createChatMessage
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -253,148 +254,386 @@ export const handleJoinRoom = async (req, res) => {
   }
 };
 
-// 방 역할 변경
-export const handleChangeParticipantRole = async (req, res) => {
-/**
-  #swagger.summary = '참여 중인 배틀방에서 역할 변경 API'
-  #swagger.security = [{ "BearerAuth": [] }]
-  #swagger.tags = ['BattleRoom']
+// // 방 역할 변경
+// export const handleChangeParticipantRole = async (req, res) => {
+// /**
+//   #swagger.summary = '참여 중인 배틀방에서 역할 변경 API'
+//   #swagger.security = [{ "BearerAuth": [] }]
+//   #swagger.tags = ['BattleRoom']
 
-  #swagger.parameters['roomId'] = {
-    in: 'path',
-    description: '배틀방 ID',
-    required: true,
-    type: 'integer',
-    format: 'int64',
-    example: 1
-  }
+//   #swagger.parameters['roomId'] = {
+//     in: 'path',
+//     description: '배틀방 ID',
+//     required: true,
+//     type: 'integer',
+//     format: 'int64',
+//     example: 1
+//   }
 
-  #swagger.requestBody = {
-    description: '변경할 역할 정보',
-    required: true,
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            role: {
-              type: "string",
-              enum: ["A", "B", "P"],
-              example: "B"
-            }
-          },
-          required: ["role"]
+//   #swagger.requestBody = {
+//     description: '변경할 역할 정보',
+//     required: true,
+//     content: {
+//       "application/json": {
+//         schema: {
+//           type: "object",
+//           properties: {
+//             role: {
+//               type: "string",
+//               enum: ["A", "B", "P"],
+//               example: "B"
+//             }
+//           },
+//           required: ["role"]
+//         }
+//       }
+//     }
+//   }
+
+//   #swagger.responses[200] = {
+//     description: "역할 변경 성공",
+//     schema: {
+//       isSuccess: true,
+//       code: "200",
+//       message: "success!",
+//       result: {
+//         participantId: "10",
+//         roomId: "1",
+//         userId: "7",
+//         role: "B",
+//         joinedAt: "2025-05-25T12:40:00.000Z"
+//       }
+//     }
+//   }
+
+//   #swagger.responses[400] = {
+//     description: "잘못된 요청 (roomId 누락/role 누락 또는 형식 오류)",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON001",
+//       message: "잘못된 요청입니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[401] = {
+//     description: "토큰 형식 오류",
+//     schema: {
+//       isSuccess: false,
+//       code: "MEMBER4006",
+//       message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[403] = {
+//     description: "권한 오류 (참가자가 아닐 경우 등)",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON004",
+//       message: "금지된 요청입니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[409] = {
+//     description: "역할 변경 실패 (이미 해당 역할이거나, A/B 위치 중복 혹은 P 초과 등)",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON409",
+//       message: "역할을 변경할 수 없습니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[500] = {
+//     description: "서버 내부 오류",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON000",
+//       message: "서버 에러, 관리자에게 문의 바랍니다.",
+//       result: null
+//     }
+//   }
+// */
+//   try {
+//     // 1) 토큰 검증
+//     const token = await checkFormat(req.get("Authorization"));
+//     if (!token) {
+//       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+//     }
+
+//     // 2) path 변수 + body
+//     const roomId = Number(req.params.roomId);
+//     if (isNaN(roomId)) {
+//       return res.send(response(status.BAD_REQUEST, null));
+//     }
+
+//     const { role } = req.body;
+//     if (!role || !["A", "B", "P"].includes(role)) {
+//       return res.send(response(status.BAD_REQUEST, null));
+//     }
+
+//     // 3) 서비스 호출
+//     const result = await changeParticipantRole({
+//       roomId,
+//       userId: req.userId,
+//       newRole: role
+//     });
+
+//     return res.send(response(status.SUCCESS, result));
+//   } catch (err) {
+//     console.error("🔴 handleChangeParticipantRole 오류:", err);
+
+//     if (err.code === "ROOM_NOT_FOUND") {
+//       return res.send(response(status.ROOM_NOT_FOUND, null));
+//     }
+//     if (["ROLE_ALREADY_TAKEN", "SPECTATOR_FULL", "ALREADY_SAME_ROLE"].includes(err.code)) {
+//       return res.send(response(status.COMMON409, null));
+//     }
+//     if (err.code === "INVALID_ROLE") {
+//       return res.send(response(status.BAD_REQUEST, null));
+//     }
+//     if (err.code === "FORBIDDEN") {
+//       return res.send(response(status.FORBIDDEN, null));
+//     }
+//     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+//   }
+// };
+
+export const handleChangeToARole = async (req, res) => {
+  /*
+    #swagger.summary = '참여 중인 방에서 A 역할로 변경 API'
+    #swagger.tags = ['BattleRoom']
+    #swagger.security = [{ "BearerAuth": [] }]
+
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+
+    #swagger.responses[200] = {
+      description: "역할 변경(A) 성공",
+      schema: {
+        isSuccess: true,
+        code: 200,
+        message: "success!",
+        result: {
+          participantId: "123",   // 변경된 참가자의 record ID
+          roomId:        "1",     // 방 ID
+          userId:        "45",    // 내 userId
+          role:          "A",     // 바뀐 역할
+          joinedAt:      "2025-06-03T02:43:13.123Z"
         }
       }
     }
-  }
-
-  #swagger.responses[200] = {
-    description: "역할 변경 성공",
-    schema: {
-      isSuccess: true,
-      code: "200",
-      message: "success!",
-      result: {
-        participantId: "10",
-        roomId: "1",
-        userId: "7",
-        role: "B",
-        joinedAt: "2025-05-25T12:40:00.000Z"
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (roomId가 숫자가 아닌 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
       }
     }
-  }
-
-  #swagger.responses[400] = {
-    description: "잘못된 요청 (roomId 누락/role 누락 또는 형식 오류)",
-    schema: {
-      isSuccess: false,
-      code: "COMMON001",
-      message: "잘못된 요청입니다.",
-      result: null
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
+      }
     }
-  }
-
-  #swagger.responses[401] = {
-    description: "토큰 형식 오류",
-    schema: {
-      isSuccess: false,
-      code: "MEMBER4006",
-      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-      result: null
+    #swagger.responses[403] = {
+      description: "권한 오류 (참가자가 아닐 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
     }
-  }
-
-  #swagger.responses[403] = {
-    description: "권한 오류 (참가자가 아닐 경우 등)",
-    schema: {
-      isSuccess: false,
-      code: "COMMON004",
-      message: "금지된 요청입니다.",
-      result: null
+    #swagger.responses[409] = {
+      description: "역할 변경 실패 (이미 A이거나, A 슬롯이 가득 찼을 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON409",
+        message: "역할을 변경할 수 없습니다.",
+        result: null
+      }
     }
-  }
-
-  #swagger.responses[409] = {
-    description: "역할 변경 실패 (이미 해당 역할이거나, A/B 위치 중복 혹은 P 초과 등)",
-    schema: {
-      isSuccess: false,
-      code: "COMMON409",
-      message: "역할을 변경할 수 없습니다.",
-      result: null
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
+      }
     }
-  }
-
-  #swagger.responses[500] = {
-    description: "서버 내부 오류",
-    schema: {
-      isSuccess: false,
-      code: "COMMON000",
-      message: "서버 에러, 관리자에게 문의 바랍니다.",
-      result: null
-    }
-  }
-*/
+  */
   try {
     // 1) 토큰 검증
-    const token = await checkFormat(req.get("Authorization"));
+    const rawToken = req.get("Authorization");
+    const token = rawToken && checkFormat(rawToken);
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-    // 2) path 변수 + body
+    // 2) roomId 검증
     const roomId = Number(req.params.roomId);
     if (isNaN(roomId)) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    const { role } = req.body;
-    if (!role || !["A", "B", "P"].includes(role)) {
-      return res.send(response(status.BAD_REQUEST, null));
-    }
-
-    // 3) 서비스 호출
-    const result = await changeParticipantRole({
+    // 3) 서비스 호출 (newRole을 "A"로 고정)
+    const result = await serviceChangeRole({
       roomId,
-      userId: req.userId,
-      newRole: role
+      userId:  req.userId,
+      newRole: "A"
     });
 
+    // 4) 성공 응답
     return res.send(response(status.SUCCESS, result));
   } catch (err) {
-    console.error("🔴 handleChangeParticipantRole 오류:", err);
-
+    console.error("🔴 handleChangeToARole 오류:", err);
     if (err.code === "ROOM_NOT_FOUND") {
       return res.send(response(status.ROOM_NOT_FOUND, null));
     }
-    if (["ROLE_ALREADY_TAKEN", "SPECTATOR_FULL", "ALREADY_SAME_ROLE"].includes(err.code)) {
-      return res.send(response(status.COMMON409, null));
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
     }
-    if (err.code === "INVALID_ROLE") {
+    if (
+      err.code === "ALREADY_SAME_ROLE" ||
+      err.code === "ROLE_ALREADY_TAKEN" ||
+      err.code === "SPECTATOR_FULL"
+    ) {
+      return res.send(response(status.COMMON_CONFLICT, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+
+// ▼ B 역할 변경 전용 핸들러 ▼
+export const handleChangeToBRole = async (req, res) => {
+  /*
+    #swagger.summary = '참여 중인 방에서 B 역할로 변경 API'
+    #swagger.tags = ['BattleRoom']
+    #swagger.security = [{ "BearerAuth": [] }]
+
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      format: 'int64',
+      example: 1
+    }
+
+    #swagger.responses[200] = {
+      description: "역할 변경(B) 성공",
+      schema: {
+        isSuccess: true,
+        code: 200,
+        message: "success!",
+        result: {
+          participantId: "124",   // 변경된 참가자의 record ID
+          roomId:        "1",     // 방 ID
+          userId:        "45",    // 내 userId
+          role:          "B",     // 바뀐 역할
+          joinedAt:      "2025-06-03T02:44:10.456Z"
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: "잘못된 요청 (roomId가 숫자가 아닌 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
+      }
+    }
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+        result: null
+      }
+    }
+    #swagger.responses[403] = {
+      description: "권한 오류 (참가자가 아닐 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
+    }
+    #swagger.responses[409] = {
+      description: "역할 변경 실패 (이미 B이거나, B 슬롯이 가득 찼을 경우 등)",
+      schema: {
+        isSuccess: false,
+        code: "COMMON409",
+        message: "역할을 변경할 수 없습니다.",
+        result: null
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 내부 오류",
+      schema: {
+        isSuccess: false,
+        code: "COMMON000",
+        message: "서버 에러, 관리자에게 문의 바랍니다.",
+        result: null
+      }
+    }
+  */
+  try {
+    // 1) 토큰 검증
+    const rawToken = req.get("Authorization");
+    const token = rawToken && checkFormat(rawToken);
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    // 2) roomId 검증
+    const roomId = Number(req.params.roomId);
+    if (isNaN(roomId)) {
       return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 3) 서비스 호출 (newRole을 "B"로 고정)
+    const result = await serviceChangeRole({
+      roomId,
+      userId:  req.userId,
+      newRole: "B"
+    });
+
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error("🔴 handleChangeToBRole 오류:", err);
+    if (err.code === "ROOM_NOT_FOUND") {
+      return res.send(response(status.ROOM_NOT_FOUND, null));
     }
     if (err.code === "FORBIDDEN") {
       return res.send(response(status.FORBIDDEN, null));
+    }
+    if (
+      err.code === "ALREADY_SAME_ROLE" ||
+      err.code === "ROLE_ALREADY_TAKEN" ||
+      err.code === "SPECTATOR_FULL"
+    ) {
+      return res.send(response(status.COMMON_CONFLICT, null));
     }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
@@ -1546,105 +1785,246 @@ export const handleGetChatHistory = async (req, res) => {
   }
 };
 
-// 배틀방 채팅 메세지 저장하기
-export const handlePostChatMessage = async (req, res) => {
+// // 배틀방 채팅 메세지 저장하기
+// export const handlePostChatMessage = async (req, res) => {
+// /**
+//   #swagger.summary = '채팅 메시지 저장 API'
+//   #swagger.security = [{ "BearerAuth": [] }]
+//   #swagger.tags = ['Chat']
+
+//   #swagger.parameters['roomId'] = {
+//     in: 'path',
+//     description: '배틀방 ID',
+//     required: true,
+//     type: 'integer',
+//     format: 'int64',
+//     example: 1
+//   }
+
+//   #swagger.requestBody = {
+//     required: true,
+//     content: {
+//       "application/json": {
+//         schema: {
+//           type: "object",
+//           properties: {
+//             side: { type: "string", description: "A 또는 B (토론 측)", example: "A" },
+//             message: { type: "string", description: "보낼 채팅 메시지 내용", example: "안녕하세요!" }
+//           },
+//           required: ["side", "message"]
+//         }
+//       }
+//     }
+//   }
+
+//   #swagger.responses[200] = {
+//     description: "채팅 메시지 저장 성공",
+//     schema: {
+//       isSuccess: true,
+//       code: "200",
+//       message: "success!",
+//       result: {
+//         id: "3",
+//         roomId: "1",
+//         userId: "7",
+//         side: "A",
+//         message: "안녕하세요!",
+//         createdAt: "2025-05-29T08:00:00.000Z"
+//       }
+//     }
+//   }
+
+//   #swagger.responses[400] = {
+//     description: "잘못된 요청",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON001",
+//       message: "잘못된 요청입니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[401] = {
+//     description: "토큰 형식 오류",
+//     schema: {
+//       isSuccess: false,
+//       code: "MEMBER4006",
+//       message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[403] = {
+//     description: "권한 오류",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON004",
+//       message: "금지된 요청입니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[404] = {
+//     description: "방을 찾을 수 없음",
+//     schema: {
+//       isSuccess: false,
+//       code: "ROOMIN4005",
+//       message: "방을 찾을 수가 없습니다.",
+//       result: null
+//     }
+//   }
+
+//   #swagger.responses[500] = {
+//     description: "서버 내부 오류",
+//     schema: {
+//       isSuccess: false,
+//       code: "COMMON000",
+//       message: "서버 에러, 관리자에게 문의 바랍니다.",
+//       result: null
+//     }
+//   }
+// */
+//   try {
+//     // 1) 토큰 검증
+//     const token = checkFormat(req.get("Authorization"));
+//     if (!token) {
+//       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+//     }
+
+
+//     // 2) path 변수, body에서 값 추출
+//     const roomId = Number(req.params.roomId);
+//     const { side, message } = req.body;
+
+//     // 3) 필수 입력 검증
+//     if (!roomId || !side || !message) {
+//       return res.send(response(status.BAD_REQUEST, null));
+//     }
+
+//     // 4) 서비스 호출 (AI 필터링 포함)
+//     const chatRecord = await createChat({
+//       roomId,
+//       userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
+//       side,
+//       message
+//     });
+
+//     // 5) 성공 응답
+//     return res.send(response(status.SUCCESS, {
+//       id:        chatRecord.id.toString(),
+//       roomId:    chatRecord.roomId.toString(),
+//       userId:    chatRecord.userId.toString(),
+//       side:      chatRecord.side,
+//       message:   chatRecord.message,
+//       createdAt: chatRecord.createdAt
+//     }));
+//   } catch (err) {
+//     console.error("🔴 handlePostChatMessage 오류:", err);
+//     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+//   }
+// };
+
 /**
-  #swagger.summary = '채팅 메시지 저장 API'
-  #swagger.security = [{ "BearerAuth": [] }]
-  #swagger.tags = ['Chat']
-
-  #swagger.parameters['roomId'] = {
-    in: 'path',
-    description: '배틀방 ID',
-    required: true,
-    type: 'integer',
-    format: 'int64',
-    example: 1
-  }
-
-  #swagger.requestBody = {
-    required: true,
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          properties: {
-            side: { type: "string", description: "A 또는 B (토론 측)", example: "A" },
-            message: { type: "string", description: "보낼 채팅 메시지 내용", example: "안녕하세요!" }
-          },
-          required: ["side", "message"]
-        }
-      }
-    }
-  }
-
-  #swagger.responses[200] = {
-    description: "채팅 메시지 저장 성공",
-    schema: {
-      isSuccess: true,
-      code: "200",
-      message: "success!",
-      result: {
-        id: "3",
-        roomId: "1",
-        userId: "7",
-        side: "A",
-        message: "안녕하세요!",
-        createdAt: "2025-05-29T08:00:00.000Z"
-      }
-    }
-  }
-
-  #swagger.responses[400] = {
-    description: "잘못된 요청",
-    schema: {
-      isSuccess: false,
-      code: "COMMON001",
-      message: "잘못된 요청입니다.",
-      result: null
-    }
-  }
-
-  #swagger.responses[401] = {
-    description: "토큰 형식 오류",
-    schema: {
-      isSuccess: false,
-      code: "MEMBER4006",
-      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-      result: null
-    }
-  }
-
-  #swagger.responses[403] = {
-    description: "권한 오류",
-    schema: {
-      isSuccess: false,
-      code: "COMMON004",
-      message: "금지된 요청입니다.",
-      result: null
-    }
-  }
-
-  #swagger.responses[404] = {
-    description: "방을 찾을 수 없음",
-    schema: {
-      isSuccess: false,
-      code: "ROOMIN4005",
-      message: "방을 찾을 수가 없습니다.",
-      result: null
-    }
-  }
-
-  #swagger.responses[500] = {
-    description: "서버 내부 오류",
-    schema: {
-      isSuccess: false,
-      code: "COMMON000",
-      message: "서버 에러, 관리자에게 문의 바랍니다.",
-      result: null
-    }
-  }
-*/
+ * #swagger.tags = ['Chat']
+ * #swagger.summary = 'A 진영 채팅 메시지 저장 API'
+ * #swagger.security = [{ "BearerAuth": [] }]
+ *
+ * #swagger.parameters['roomId'] = {
+ *   in: 'path',
+ *   description: '배틀방 ID',
+ *   required: true,
+ *   type: 'integer',
+ *   format: 'int64',
+ *   example: 1
+ * }
+ *
+ * #swagger.requestBody = {
+ *   required: true,
+ *   content: {
+ *     "application/json": {
+ *       schema: {
+ *         type: "object",
+ *         properties: {
+ *           message: {
+ *             type: "string",
+ *             description: "A 진영이 보낸 채팅 메시지 내용",
+ *             example: "안녕하세요, A 진영입니다!"
+ *           }
+ *         },
+ *         required: ["message"]
+ *       }
+ *     }
+ *   }
+ * }
+ *
+ * #swagger.responses[200] = {
+ *   description: "채팅 메시지 저장 성공",
+ *   schema: {
+ *     isSuccess: true,
+ *     code: 200,
+ *     message: "success!",
+ *     result: {
+ *       id: "3",
+ *       roomId: "1",
+ *       userId: "7",
+ *       side: "A",
+ *       message: "안녕하세요, A 진영입니다!",
+ *       createdAt: "2025-05-29T08:00:00.000Z"
+ *     }
+ *   }
+ * }
+ *
+ * #swagger.responses[400] = {
+ *   description: "잘못된 요청 (roomId 숫자가 아니거나 message 누락)",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON001",
+ *     message: "잘못된 요청입니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[401] = {
+ *   description: "토큰 형식 오류",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "MEMBER4006",
+ *     message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[403] = {
+ *   description: "권한 오류 (해당 방의 참가자가 아닌 경우)",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON004",
+ *     message: "금지된 요청입니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[404] = {
+ *   description: "방을 찾을 수 없음",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "ROOMIN4005",
+ *     message: "방을 찾을 수가 없습니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[500] = {
+ *   description: "서버 내부 오류",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON000",
+ *     message: "서버 에러, 관리자에게 문의 바랍니다.",
+ *     result: null
+ *   }
+ * }
+ */
+export const handlePostChatMessageSideA = async (req, res) => {
   try {
     // 1) 토큰 검증
     const token = checkFormat(req.get("Authorization"));
@@ -1652,13 +2032,13 @@ export const handlePostChatMessage = async (req, res) => {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-
     // 2) path 변수, body에서 값 추출
     const roomId = Number(req.params.roomId);
-    const { side, message } = req.body;
+    const { message } = req.body;
+    const side = "A";
 
     // 3) 필수 입력 검증
-    if (!roomId || !side || !message) {
+    if (isNaN(roomId) || !message) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
@@ -1680,7 +2060,149 @@ export const handlePostChatMessage = async (req, res) => {
       createdAt: chatRecord.createdAt
     }));
   } catch (err) {
-    console.error("🔴 handlePostChatMessage 오류:", err);
+    console.error("🔴 handlePostChatMessageSideA 오류:", err);
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+
+/**
+ * #swagger.tags = ['Chat']
+ * #swagger.summary = 'B 진영 채팅 메시지 저장 API'
+ * #swagger.security = [{ "BearerAuth": [] }]
+ *
+ * #swagger.parameters['roomId'] = {
+ *   in: 'path',
+ *   description: '배틀방 ID',
+ *   required: true,
+ *   type: 'integer',
+ *   format: 'int64',
+ *   example: 1
+ * }
+ *
+ * #swagger.requestBody = {
+ *   required: true,
+ *   content: {
+ *     "application/json": {
+ *       schema: {
+ *         type: "object",
+ *         properties: {
+ *           message: {
+ *             type: "string",
+ *             description: "B 진영이 보낸 채팅 메시지 내용",
+ *             example: "안녕하세요, B 진영입니다!"
+ *           }
+ *         },
+ *         required: ["message"]
+ *       }
+ *     }
+ *   }
+ * }
+ *
+ * #swagger.responses[200] = {
+ *   description: "채팅 메시지 저장 성공",
+ *   schema: {
+ *     isSuccess: true,
+ *     code: 200,
+ *     message: "success!",
+ *     result: {
+ *       id: "4",
+ *       roomId: "1",
+ *       userId: "8",
+ *       side: "B",
+ *       message: "안녕하세요, B 진영입니다!",
+ *       createdAt: "2025-05-29T08:01:00.000Z"
+ *     }
+ *   }
+ * }
+ *
+ * #swagger.responses[400] = {
+ *   description: "잘못된 요청 (roomId 숫자가 아니거나 message 누락)",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON001",
+ *     message: "잘못된 요청입니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[401] = {
+ *   description: "토큰 형식 오류",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "MEMBER4006",
+ *     message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[403] = {
+ *   description: "권한 오류 (해당 방의 참가자가 아닌 경우)",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON004",
+ *     message: "금지된 요청입니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[404] = {
+ *   description: "방을 찾을 수 없음",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "ROOMIN4005",
+ *     message: "방을 찾을 수가 없습니다.",
+ *     result: null
+ *   }
+ * }
+ *
+ * #swagger.responses[500] = {
+ *   description: "서버 내부 오류",
+ *   schema: {
+ *     isSuccess: false,
+ *     code: "COMMON000",
+ *     message: "서버 에러, 관리자에게 문의 바랍니다.",
+ *     result: null
+ *   }
+ * }
+ */
+export const handlePostChatMessageSideB = async (req, res) => {
+  try {
+    // 1) 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
+
+    // 2) path 변수, body에서 값 추출
+    const roomId = Number(req.params.roomId);
+    const { message } = req.body;
+    const side = "B";
+
+    // 3) 필수 입력 검증
+    if (isNaN(roomId) || !message) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 4) 서비스 호출 (AI 필터링 포함)
+    const chatRecord = await createChat({
+      roomId,
+      userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
+      side,
+      message
+    });
+
+    // 5) 성공 응답
+    return res.send(response(status.SUCCESS, {
+      id:        chatRecord.id.toString(),
+      roomId:    chatRecord.roomId.toString(),
+      userId:    chatRecord.userId.toString(),
+      side:      chatRecord.side,
+      message:   chatRecord.message,
+      createdAt: chatRecord.createdAt
+    }));
+  } catch (err) {
+    console.error("🔴 handlePostChatMessageSideB 오류:", err);
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };

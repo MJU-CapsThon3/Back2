@@ -21,7 +21,7 @@ import { createBattleRoom,
     findActiveParticipant,
     updateParticipantEndAt,
     getRoomsPaginated,
-    deleteExistingParticipationRecords
+    deleteExistingParticipationRecords,
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -123,14 +123,12 @@ export const changeParticipantRole = async ({ roomId, userId, newRole }) => {
     throw err;
   }
 
-  // 2) 해당 유저가 이미 이 방에 참가 중인지 확인
-  const existingCount = await countParticipants({ roomId: BigInt(roomId), role: newRole, userId });
-  // 실제로 같은 역할을 갖고 있는지 확인 (A/B/P 중복 방지)
+  // 2) 이미 같은 역할인지 확인
   const alreadySameRole = await prisma.roomParticipant.findFirst({
     where: {
       roomId: BigInt(roomId),
       userId: BigInt(userId),
-      role: newRole
+      role:   newRole
     }
   });
   if (alreadySameRole) {
@@ -139,33 +137,37 @@ export const changeParticipantRole = async ({ roomId, userId, newRole }) => {
     throw err;
   }
 
-  // 3) 새로운 역할에 따른 인원 제한 확인
+  // 3) A/B 슬롯이 가득 찼거나, P 슬롯이 넘쳤는지 검사
   if (newRole === "A" || newRole === "B") {
-    // A/B 자리 각각 1명만 허용
+    const existingCount = await countParticipants({
+      roomId: BigInt(roomId),
+      role:   newRole
+    });
     if (existingCount >= 1) {
       const err = new Error("ROLE_ALREADY_TAKEN");
       err.code = "ROLE_ALREADY_TAKEN";
       throw err;
     }
   } else if (newRole === "P") {
-    // 관전자(P)는 최대 8명
-    const spectatorCount = await countParticipants({ roomId: BigInt(roomId), role: "P" });
+    const spectatorCount = await countParticipants({
+      roomId: BigInt(roomId),
+      role:   "P"
+    });
     if (spectatorCount >= 8) {
       const err = new Error("SPECTATOR_FULL");
       err.code = "SPECTATOR_FULL";
       throw err;
     }
   } else {
-    // 허용되지 않는 role이 들어온 경우
     const err = new Error("INVALID_ROLE");
     err.code = "INVALID_ROLE";
     throw err;
   }
 
-  // 4) 실제 역할 변경 수행
+  // 4) 역할 변경
   const updatedRecord = await updateRoomParticipantRole({
-    roomId: BigInt(roomId),
-    userId: BigInt(userId),
+    roomId:  BigInt(roomId),
+    userId:  BigInt(userId),
     newRole
   });
 
@@ -554,26 +556,115 @@ export const startBattle = async ({ roomId, userId }) => {
   };
 };
 
-// 채팅 저장
-export const createChat = async ({ roomId, userId, side, message }) => {
-  let finalMessage = message;
+//  채팅 저장
+// export const createChat = async ({ roomId, userId, side, message }) => {
+//   let finalMessage = message;
 
+//   try {
+//     const { filtered_text } = await callFilterProfanity(message);
+//     finalMessage = filtered_text;
+//   } catch (err) {
+//     console.error("🔥 AI 필터링 실패, 원본 메시지로 저장합니다:", err.message);
+//     // 실패 시에는 finalMessage = 원본 메시지
+//   }
+
+//   const chatRecord = await saveChatMessage({
+//     roomId:   BigInt(roomId),
+//     userId:   BigInt(userId),
+//     side,
+//     message:  finalMessage,
+//   });
+
+//   return chatRecord;
+// };
+
+export const createChat = async ({ roomId, userId, side, message }) => {
+  // 1) 방 존재 여부 확인
+  const room = await prisma.battleRoom.findUnique({
+    where: { id: BigInt(roomId) },
+  });
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) userId가 해당 방의 참가자/관전자인지 확인
+  const cnt = await prisma.roomParticipant.count({
+    where: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+      endAt: null,
+    },
+  });
+  if (cnt === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) AI 필터링 시도
+  let finalMessage = message;
   try {
     const { filtered_text } = await callFilterProfanity(message);
     finalMessage = filtered_text;
   } catch (err) {
     console.error("🔥 AI 필터링 실패, 원본 메시지로 저장합니다:", err.message);
-    // 실패 시에는 finalMessage = 원본 메시지
+    // 실패 시 그냥 원본 메시지 저장
   }
 
-  const chatRecord = await saveChatMessage({
-    roomId:   BigInt(roomId),
-    userId:   BigInt(userId),
-    side,
-    message:  finalMessage,
+  // 4) DB에 저장
+  const chatRecord = await prisma.chatMessage.create({
+    data: {
+      roomId:   BigInt(roomId),
+      userId:   BigInt(userId),
+      side,     // "A" 또는 "B"
+      message:  finalMessage,
+      // createdAt은 자동 생성
+    },
   });
 
   return chatRecord;
+};
+
+// 1) 실제 채팅 저장 함수
+export const createChatMessage = async ({ roomId, userId, side, message }) => {
+  // 1) 방 존재 여부 확인
+  const room = await prisma.battleRoom.findUnique({
+    where: { id: BigInt(roomId) },
+  });
+  if (!room) {
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) userId가 해당 방의 참가자/관전자인지 확인
+  const cnt = await prisma.roomParticipant.count({
+    where: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+      endAt: null,
+    },
+  });
+  if (cnt === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 3) 새 채팅 레코드를 생성
+  const record = await prisma.chatMessage.create({
+    data: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+      side,       // "A" 또는 "B"
+      message,    // 채팅 본문
+      // createdAt 은 자동으로 들어감
+    },
+  });
+
+  return record;
 };
 
 // 채팅 정보 조회
