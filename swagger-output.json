@@ -6996,7 +6996,7 @@
         "tags": [
           "Quest"
         ],
-        "summary": "퀘스트 완료 처리 API",
+        "summary": "퀘스트 완료 시도 API (진행도 증가 및 완료 처리)",
         "description": "",
         "parameters": [
           {
@@ -7006,13 +7006,13 @@
             "schema": {
               "type": "string"
             },
-            "description": "완료할 퀘스트의 ID",
+            "description": "완료를 시도할 퀘스트 ID",
             "example": 1
           }
         ],
         "responses": {
           "200": {
-            "description": "퀘스트 완료 처리 결과",
+            "description": "퀘스트 진행도 증가 및 완료 여부",
             "content": {
               "application/json": {
                 "schema": {
@@ -7024,19 +7024,20 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "퀘스트를 성공했습니다."
+                      "example": "퀘스트를 성공적으로 완료했습니다."
                     },
                     "result": {
                       "type": "object",
                       "properties": {
                         "status": {
                           "type": "string",
-                          "example": "success",
+                          "description": "퀘스트 처리 상태",
                           "enum": [
-                            "complete",
-                            "goal reached",
-                            "success"
-                          ]
+                            "progressed",
+                            "goal_reached",
+                            "no_change"
+                          ],
+                          "example": "goal_reached"
                         },
                         "questId": {
                           "type": "integer",
@@ -7056,7 +7057,7 @@
                         }
                       },
                       "example": {
-                        "status": "success",
+                        "status": "goal_reached",
                         "questId": 1,
                         "isCompleted": true,
                         "progress": 5,
