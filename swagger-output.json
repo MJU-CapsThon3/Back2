@@ -7892,24 +7892,40 @@
                           },
                           "name": {
                             "type": "string",
-                            "example": "첫 번째 퀘스트"
+                            "example": "첫번째 퀘스트"
                           },
                           "description": {
                             "type": "string",
                             "example": "퀘스트 상세 설명"
                           },
-                          "type": {
-                            "type": "string",
-                            "example": "daily"
-                          },
                           "rewardPts": {
                             "type": "integer",
-                            "example": 100
+                            "example": 50
+                          },
+                          "goal": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "progress": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "진행 상태"
                           },
                           "createdAt": {
                             "type": "string",
                             "format": "date-time",
                             "example": "2025-05-31T00:00:00.000Z"
+                          },
+                          "rewardClaimed": {
+                            "type": "boolean",
+                            "example": "true"
+                          },
+                          "isCompleted": {
+                            "type": "boolean",
+                            "example": "true"
                           }
                         }
                       }
@@ -7993,7 +8009,7 @@
         "tags": [
           "Quest"
         ],
-        "summary": "퀘스트 완료 시도 API (진행도 증가 및 완료 처리)",
+        "summary": "퀘스트 보상 수령 API",
         "description": "",
         "parameters": [
           {
@@ -8003,13 +8019,13 @@
             "schema": {
               "type": "string"
             },
-            "description": "완료를 시도할 퀘스트 ID",
+            "description": "보상을 수령할 퀘스트 ID",
             "example": 1
           }
         ],
         "responses": {
           "200": {
-            "description": "퀘스트 진행도 증가 및 완료 여부",
+            "description": "퀘스트 보상 수령 성공",
             "content": {
               "application/json": {
                 "schema": {
@@ -8019,47 +8035,58 @@
                       "type": "boolean",
                       "example": true
                     },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
                     "message": {
                       "type": "string",
-                      "example": "퀘스트를 성공적으로 완료했습니다."
+                      "example": "보상을 성공적으로 받았습니다."
+                    },
+                    "reward": {
+                      "type": "integer",
+                      "example": 100
                     },
                     "result": {
                       "type": "object",
                       "properties": {
-                        "status": {
-                          "type": "string",
-                          "description": "퀘스트 처리 상태",
-                          "enum": [
-                            "progressed",
-                            "goal_reached",
-                            "no_change"
-                          ],
-                          "example": "goal_reached"
-                        },
-                        "questId": {
+                        "reward": {
                           "type": "integer",
-                          "example": 1
+                          "example": 100
                         },
-                        "isCompleted": {
+                        "rewardClaimed": {
                           "type": "boolean",
                           "example": true
-                        },
-                        "progress": {
-                          "type": "integer",
-                          "example": 5
-                        },
-                        "goal": {
-                          "type": "integer",
-                          "example": 5
                         }
-                      },
-                      "example": {
-                        "status": "goal_reached",
-                        "questId": 1,
-                        "isCompleted": true,
-                        "progress": 5,
-                        "goal": 5
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "퀘스트 미완료 혹은 보상 이미 수령",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ALREADY_CLAIM_REWARD"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이미 보상을 받았습니다."
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "already_claimed"
                     }
                   }
                 }
@@ -8097,6 +8124,34 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "존재하지 않는 퀘스트",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "QUEST_NOT_EXIST"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 퀘스트입니다."
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "not_existed"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류",
