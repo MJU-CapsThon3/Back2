@@ -196,7 +196,7 @@ export const status = {
     code: "VOTE4001",
     message: "이미 투표를 완료했습니다."
   },
-  //퀘스트
+
   //퀘스트
   INCOMPLETE : {
     status: StatusCodes.INCOMPLETE,
@@ -229,5 +229,3 @@ export const status = {
     message: "이미 보상을 받았습니다.",
   }
 }
-
-

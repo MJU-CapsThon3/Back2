@@ -52,6 +52,8 @@ export const responseFromQuestList = (list) => {
       progress: quest.progress,     // 현재 진행도
       status: statusText,           // 미완료 | 완료 | 보상 수령
       createdAt: quest.createdAt,
+      rewardClaimed: quest.rewardClaimed,
+      isCompleted: quest.isCompleted,
     };
   });
 }

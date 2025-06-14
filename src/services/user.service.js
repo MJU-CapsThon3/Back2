@@ -39,7 +39,8 @@ import {
   getQuestProgress,
   hasUserParticipatedInAnyRoom,
   hasUserClearedAllDailyQuests,
-  updateQuestProgress
+  isQuestCompleted
+  //updateQuestProgress
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -331,91 +332,75 @@ export const completeQuestIfEligible = async (userId, questId) => {
   let progress = await getQuestProgress(userId, questId);
   const goal = await getQuestsGoal(questId);
   
-  switch (questId) {
-    case 1: // 로그인하기
-      await addQuestProgress(userId, questId);
-      await markQuestCompleted(userId, questId);
-      progress = await getQuestProgress(userId, questId);
-      return {
-        success: true,
-        message: '퀘스트를 성공적으로 완료했습니다.',
-        progress,
-        goal,
-      };
-    case 2: // 토론 참여하기
-      const participated = await hasUserParticipatedInAnyRoom(userId);
-      if(participated){
-        await addQuestProgress(userId, questId);
-        await markQuestCompleted(userId, questId);
-        progress = await getQuestProgress(userId, questId);
-        return {
-          success: true,
-          message: '퀘스트를 성공적으로 완료했습니다.',
-          progress,
-          goal,
-        };
-      } else {
-        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
-      }
-    case 3: // 방 생성하기
-      const createdRoom = await countUserRoomCreatesToday(userId);
-      progress = await getQuestProgress(userId, questId);
-      if (createdRoom > progress) {
-        await addQuestProgress(userId, questId);
-        progress = await getQuestProgress(userId, questId);
-        if(progress === goal) {
-          await markQuestCompleted(userId, questId);
-        }
-        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      }  else {
-        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
-      }
-    case 4: // 채팅하기
-      const chatted = await countUserChatsToday(userId);
-      progress = await getQuestProgress(userId, questId);
-      if (chatted > progress) {
-        await addQuestProgress(userId, questId);
-        progress = await getQuestProgress(userId, questId);
-        if(progress === goal) {
-          await markQuestCompleted(userId, questId);
-        }
-        return { success: true, message: '퀘스트를 성공적으로 완료했습니다.', progress, goal };
-      }  else {
-        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
-      }
-    case 5: // 아이템 구매하기
-      const purchasedItem = await countUserItemBuysToday(userId);
-      if (purchasedItem > 0) {
-        await addQuestProgress(userId, questId);
-        await markQuestCompleted(userId, questId);
-        progress = await getQuestProgress(userId, questId);
-        return {
-          success: true,
-          message: '퀘스트를 성공적으로 완료했습니다.',
-          progress,
-          goal,
-        };
-      } else {
-        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
-      }
-    case 6: // 일일 퀘스트 클리어
-      const otherCompletions = await hasUserClearedAllDailyQuests(userId);
-      if (otherCompletions) {
-        await addQuestProgress(userId, questId);
-        await markQuestCompleted(userId, questId);
-        progress = await getQuestProgress(userId, questId);
-        return {
-          success: true,
-          message: '퀘스트를 성공적으로 완료했습니다.',
-          progress,
-          goal,
-        };
-      } else {
-        return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
-      }
-    default:
-      return { success: false, message: '퀘스트를 성공하지 못했습니다.', progress, goal };
+  // 이미 완료된 퀘스트는 무시
+  const completed = await isQuestCompleted(userId, questId);
+  if (completed) {
+    return {
+      success: false,
+      message: '이미 완료된 퀘스트입니다.',
+      progress,
+      goal,
+      status: 'already_completed',
+    };
   }
+
+  // 퀘스트 조건 검사 함수 정의
+  const questConditions = {
+    1: async () => true, // 로그인 → 항상 true
+    2: async () => await hasUserParticipatedInAnyRoom(userId),
+    3: async () => (await countUserRoomCreatesToday(userId)) > progress,
+    4: async () => (await countUserChatsToday(userId)) > progress,
+    5: async () => (await countUserItemBuysToday(userId)) > 0,
+    6: async () => await hasUserClearedAllDailyQuests(userId),
+  };
+
+  const checkCondition = questConditions[questId];
+  if (!checkCondition) {
+    return {
+      success: false,
+      message: '존재하지 않는 퀘스트입니다.',
+      progress,
+      goal,
+      status: 'invalid_quest',
+    };
+  }
+
+  const conditionPassed = await checkCondition();
+  if (!conditionPassed) {
+    return {
+      success: false,
+      message: '퀘스트를 성공하지 못했습니다.',
+      progress,
+      goal,
+      status: 'not_yet_cleared',
+    };
+  }
+
+  // 진행도 증가
+  if (progress < goal) {
+    await addQuestProgress(userId, questId);
+    progress += 1;
+  }
+
+  // 완료 처리
+  if (progress >= goal) {
+    await markQuestCompleted(userId, questId);
+    return {
+      success: true,
+      message: '퀘스트를 성공적으로 완료했습니다.',
+      progress,
+      goal,
+      status: 'goal_reached',
+    };
+  }
+
+  return {
+    success: true,
+    message: '퀘스트 진행 중입니다.',
+    progress,
+    goal,
+    status: 'progressed',
+  };
 };
 
 export const checkGoalProgress = async (userId, questId) => {
@@ -442,7 +427,7 @@ export const claimQuestRewardService = async (userId, questId) => {
 
   // 이미 보상을 받은 경우 → 에러 아님, 상태만 응답
   if (questCompletion.rewardClaimed) {
-    return { reward: 0, status: 'already_claimed', message: '이미 보상을 받았습니다.' };
+    return { reward: 0, status: 'already_claimed', message: '이미 보상을 받았습니다.'};
   }
 
   const quest = await prisma.quest.findUnique({
@@ -456,7 +441,9 @@ export const claimQuestRewardService = async (userId, questId) => {
   await markQuestRewardClaimed(parsedUserId, parsedQuestId);
   await addUserPoint(parsedUserId, quest.rewardPts, `퀘스트 보상: ${quest.name}`);
 
-  return { reward: quest.rewardPts };
+  const checkQuestCompletion = await getQuestCompletion(parsedUserId, parsedQuestId);
+
+  return { reward: quest.rewardPts, rewardClaimed: checkQuestCompletion.rewardClaimed };
 };
 
 export const resetDailyQuestsService = async () => {
