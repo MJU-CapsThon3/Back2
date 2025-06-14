@@ -478,37 +478,42 @@ export const handleGetDailyQuests = async (req, res) => {
   };
   
   export const handleCompleteQuest = async (req, res) => {
-    /*
-  #swagger.summary = '퀘스트 완료 처리 API'
+  /*
+  #swagger.summary = '퀘스트 완료 시도 API (진행도 증가 및 완료 처리)'
   #swagger.tags = ['Quest']
   #swagger.security = [{ "BearerAuth": [] }]
   #swagger.parameters['questId'] = {
     in: 'path',
-    description: '완료할 퀘스트의 ID',
+    description: '완료를 시도할 퀘스트 ID',
     required: true,
     type: 'integer',
     example: 1
   }
   #swagger.responses[200] = {
-    description: '퀘스트 완료 처리 결과',
+    description: '퀘스트 진행도 증가 및 완료 여부',
     content: {
       "application/json": {
         schema: {
           type: "object",
           properties: {
             isSuccess: { type: "boolean", example: true },
-            message: { type: "string", example: "퀘스트를 성공했습니다." },
+            message: { type: "string", example: "퀘스트를 성공적으로 완료했습니다." },
             result: {
               type: "object",
               properties: {
-                status: { type: "string", example: "success", enum: ["complete", "goal reached", "success"] },
+                status: {
+                  type: "string",
+                  description: "퀘스트 처리 상태",
+                  enum: ["progressed", "goal_reached", "no_change"],
+                  example: "goal_reached"
+                },
                 questId: { type: "integer", example: 1 },
                 isCompleted: { type: "boolean", example: true },
                 progress: { type: "integer", example: 5 },
                 goal: { type: "integer", example: 5 }
               },
               example: {
-                status: "success",
+                status: "goal_reached",
                 questId: 1,
                 isCompleted: true,
                 progress: 5,
@@ -567,7 +572,7 @@ export const handleGetDailyQuests = async (req, res) => {
         const checkProgress = await checkGoalProgress(req.userId, questId);
         const progress = await getUserQuestProgress(req.userId, questId);
         const goal = await getQuestsGoal(questId);
-        
+        /*
         // 1. 보상 수령 여부 확인
         const alreadyCompleted = await isRewardReceived(req.userId, questId);
         if (alreadyCompleted && alreadyCompleted.status === 'already_claimed') {
@@ -586,6 +591,22 @@ export const handleGetDailyQuests = async (req, res) => {
             goal : checkQuestClear.goal,
           });
         }
+        */
+        // 오직 퀘스트 진행도만 증가 혹은 완료 처리만 담당
+        const checkQuestClear = await completeQuestIfEligible(req.userId, questId);
+
+        return res.status(200).json({
+          isSuccess: checkQuestClear.success,
+          message: checkQuestClear.message,
+          result: {
+            status: checkQuestClear.status, // ex: "progressed", "goal_reached"
+            questId,
+            isCompleted: checkQuestClear.status === 'goal_reached',
+            progress: checkQuestClear.progress,
+            goal: checkQuestClear.goal,
+          }
+    });
+
       } else {
         //토큰 이상감지
         res.send(response(status.TOKEN_FORMAT_INCORRECT, null));

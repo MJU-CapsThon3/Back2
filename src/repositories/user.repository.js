@@ -510,9 +510,15 @@ export const updateQuestProgress = async (userId, questId, progress) => {
 
 // 토론 참여 기록 확인
 export const hasUserParticipatedInAnyRoom = async (userId) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // 오늘 자정 기준
+  
   const count = await prisma.roomParticipant.count({
     where: {
       userId: userId,
+      joinedAt: {
+        gte: today, // 오늘 00시 이후
+      },
     },
   });
   return count > 0;
