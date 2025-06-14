@@ -341,6 +341,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'already_completed',
+      isCompleted: true,
     };
   }
 
@@ -362,17 +363,15 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'invalid_quest',
+      isCompleted: false,
     };
   }
 
   const conditionPassed = await checkCondition();
-  if (!conditionPassed) {
-    return {
-      success: false,
-      message: '퀘스트를 성공하지 못했습니다.',
-      progress,
-      goal,
-      status: 'not_yet_cleared',
+    if (!conditionPassed) {
+    throw {
+      statusCode: 400,
+      message: '퀘스트 조건을 만족하지 못했습니다.',
     };
   }
 
@@ -391,6 +390,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'goal_reached',
+      isCompleted: true,
     };
   }
 
@@ -400,6 +400,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
     progress,
     goal,
     status: 'progressed',
+    isCompleted: false,
   };
 };
 

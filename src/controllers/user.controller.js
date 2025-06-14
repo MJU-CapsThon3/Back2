@@ -483,33 +483,48 @@ export const handleGetDailyQuests = async (req, res) => {
   
   export const handleCompleteQuest = async (req, res) => {
   /*
-  #swagger.summary = '퀘스트 보상 수령 API'
+  #swagger.summary = '퀘스트 완료 API'
   #swagger.tags = ['Quest']
   #swagger.security = [{ "BearerAuth": [] }]
   #swagger.parameters['questId'] = {
     in: 'path',
-    description: '보상을 수령할 퀘스트 ID',
+    description: '완료를 시도할 퀘스트 ID',
     required: true,
     type: 'integer',
     example: 1
   }
 
   #swagger.responses[200] = {
-    description: '퀘스트 보상 수령 성공',
+    description: '퀘스트 진행도 증가 및 완료 여부',
     content: {
       "application/json": {
         schema: {
           type: "object",
           properties: {
-            isSuccess: { type: "boolean", example: true },
+            isSuccess: { type: "boolean", example: true },            
+            message: { type: "string", example: "퀘스트를 성공적으로 완료했습니다." },
             code: { type: "number", example: 200 },
-            message: { type: "string", example: "보상을 성공적으로 받았습니다." },
             reward: { type: "integer", example: 100 },
             result: {
               type: "object",
               properties: {
-                reward: { type: "integer", example: 100 },
-                rewardClaimed: { type: "boolean", example: true }
+                status: {
+                  type: "string",
+                  description: "퀘스트 처리 상태",
+                  enum: ["progressed", "goal_reached", "no_change"],
+                  example: "goal_reached"
+                },
+                questId: { type: "integer", example: 1 },
+                isCompleted: { type: "boolean", example: true },
+                progress: { type: "integer", example: 5 },
+                goal: { type: "integer", example: 5 }
+              },
+              example: {
+                status: "goal_reached",
+                questId: 1,
+                isCompleted: true,
+                progress: 5,
+                goal: 5
               }
             }
           }
@@ -607,18 +622,23 @@ export const handleGetDailyQuests = async (req, res) => {
           result: {
             status: checkQuestClear.status, // ex: "progressed", "goal_reached"
             questId,
-            isCompleted: checkQuestClear.status === 'goal_reached' || checkQuestClear.status === 'already_completed',
+            isCompleted: checkQuestClear.isCompleted,
             progress: checkQuestClear.progress,
             goal: checkQuestClear.goal,
           }
-    });
-
+        });
       } else {
         //토큰 이상감지
         res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
       }
     } catch (err) {
       console.error(err);
+      if (err.statusCode) {
+        return res.status(err.statusCode).json({
+          isSuccess: false,
+          message: err.message,
+        });
+      }
       res.status(500).json({ success: false, message: '서버 오류 발생' });
     }
   };
@@ -739,7 +759,7 @@ export const handleGetDailyQuests = async (req, res) => {
         } else if(result.status === 'not_completed') {
           return res.send(response(status.INCOMPLETE, result.status));
         } else if(result.status === 'not_existed') {
-          return res.send(response(status.QUEST_NOT_EXIST, result.status))
+          return res.send(response(status.QUEST_NOT_EXIST, result.status));
         } 
 
         return res.status(200).json({
