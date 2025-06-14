@@ -44,8 +44,6 @@ import {
   handleLeaveRoom,
   handleChangeToARole,
   handleChangeToBRole,
-  handlePostChatMessageSideA,
-  handlePostChatMessageSideB
 } from "./controllers/chat.controller.js";
 import { registerChatHandlers
 } from "./socket/chat.socket.js";
@@ -131,9 +129,7 @@ app.post("/battle/rooms/:roomId/topics/update", handleUpdateTopics);
 app.post("/battle/rooms/:roomId/start", handleStartBattle);
 app.post("/battle/rooms/:roomId/leave", handleLeaveRoom);
 app.get("/battle/rooms/:roomId/chat/messages", handleGetChatHistory);
-app.post("/battle/rooms/:roomId/chat/messages/A",handlePostChatMessageSideA);
-app.post("/battle/rooms/:roomId/chat/messages/B",handlePostChatMessageSideB);
-
+app.post("/battle/rooms/:roomId/chat/messages", handlePostChatMessage);
 app.post("/battle/rooms/:roomId/end", handleEndBattle);
 
 app.post("/battle/rooms/:roomId/votes", handlePostVote);

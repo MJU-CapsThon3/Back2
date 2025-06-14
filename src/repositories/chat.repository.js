@@ -139,7 +139,8 @@ export const countRoomSpectators = (roomId) => {
     return prisma.roomParticipant.count({
         where: {
             roomId: BigInt(roomId),
-            role: 'P'
+            role: 'P',
+            endAt:  null
         }
     });
 };

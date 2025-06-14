@@ -423,11 +423,11 @@ export const handleChangeToARole = async (req, res) => {
         code: 200,
         message: "success!",
         result: {
-          participantId: "123",   // 변경된 참가자의 record ID
-          roomId:        "1",     // 방 ID
-          userId:        "45",    // 내 userId
-          role:          "A",     // 바뀐 역할
-          joinedAt:      "2025-06-03T02:43:13.123Z"
+          participantId: "123",
+          roomId: "1",
+          userId: "45",
+          role: "A",
+          joinedAt: "2025-06-03T02:43:13.123Z"
         }
       }
     }
@@ -519,7 +519,6 @@ export const handleChangeToARole = async (req, res) => {
   }
 };
 
-
 // ▼ B 역할 변경 전용 핸들러 ▼
 export const handleChangeToBRole = async (req, res) => {
   /*
@@ -543,11 +542,11 @@ export const handleChangeToBRole = async (req, res) => {
         code: 200,
         message: "success!",
         result: {
-          participantId: "124",   // 변경된 참가자의 record ID
-          roomId:        "1",     // 방 ID
-          userId:        "45",    // 내 userId
-          role:          "B",     // 바뀐 역할
-          joinedAt:      "2025-06-03T02:44:10.456Z"
+          participantId: "124",
+          roomId: "1",
+          userId: "45",
+          role: "B",
+          joinedAt: "2025-06-03T02:44:10.456Z"
         }
       }
     }
@@ -951,16 +950,8 @@ export const handleUpdateTopics = async (req, res) => {
           schema: {
             type: "object",
             properties: {
-              topicA: {
-                type: "string",
-                description: 'A 측 주제(예: "사자")',
-                example: "사자"
-              },
-              topicB: {
-                type: "string",
-                description: 'B 측 주제(예: "호랑이")',
-                example: "호랑이"
-              }
+              topicA: { type: "string", example: "사자" },
+              topicB: { type: "string", example: "호랑이" }
             },
             required: ["topicA", "topicB"]
           }
@@ -1785,388 +1776,105 @@ export const handleGetChatHistory = async (req, res) => {
   }
 };
 
-// // 배틀방 채팅 메세지 저장하기
-// export const handlePostChatMessage = async (req, res) => {
-// /**
-//   #swagger.summary = '채팅 메시지 저장 API'
-//   #swagger.security = [{ "BearerAuth": [] }]
-//   #swagger.tags = ['Chat']
-
-//   #swagger.parameters['roomId'] = {
-//     in: 'path',
-//     description: '배틀방 ID',
-//     required: true,
-//     type: 'integer',
-//     format: 'int64',
-//     example: 1
-//   }
-
-//   #swagger.requestBody = {
-//     required: true,
-//     content: {
-//       "application/json": {
-//         schema: {
-//           type: "object",
-//           properties: {
-//             side: { type: "string", description: "A 또는 B (토론 측)", example: "A" },
-//             message: { type: "string", description: "보낼 채팅 메시지 내용", example: "안녕하세요!" }
-//           },
-//           required: ["side", "message"]
-//         }
-//       }
-//     }
-//   }
-
-//   #swagger.responses[200] = {
-//     description: "채팅 메시지 저장 성공",
-//     schema: {
-//       isSuccess: true,
-//       code: "200",
-//       message: "success!",
-//       result: {
-//         id: "3",
-//         roomId: "1",
-//         userId: "7",
-//         side: "A",
-//         message: "안녕하세요!",
-//         createdAt: "2025-05-29T08:00:00.000Z"
-//       }
-//     }
-//   }
-
-//   #swagger.responses[400] = {
-//     description: "잘못된 요청",
-//     schema: {
-//       isSuccess: false,
-//       code: "COMMON001",
-//       message: "잘못된 요청입니다.",
-//       result: null
-//     }
-//   }
-
-//   #swagger.responses[401] = {
-//     description: "토큰 형식 오류",
-//     schema: {
-//       isSuccess: false,
-//       code: "MEMBER4006",
-//       message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
-//       result: null
-//     }
-//   }
-
-//   #swagger.responses[403] = {
-//     description: "권한 오류",
-//     schema: {
-//       isSuccess: false,
-//       code: "COMMON004",
-//       message: "금지된 요청입니다.",
-//       result: null
-//     }
-//   }
-
-//   #swagger.responses[404] = {
-//     description: "방을 찾을 수 없음",
-//     schema: {
-//       isSuccess: false,
-//       code: "ROOMIN4005",
-//       message: "방을 찾을 수가 없습니다.",
-//       result: null
-//     }
-//   }
-
-//   #swagger.responses[500] = {
-//     description: "서버 내부 오류",
-//     schema: {
-//       isSuccess: false,
-//       code: "COMMON000",
-//       message: "서버 에러, 관리자에게 문의 바랍니다.",
-//       result: null
-//     }
-//   }
-// */
-//   try {
-//     // 1) 토큰 검증
-//     const token = checkFormat(req.get("Authorization"));
-//     if (!token) {
-//       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
-//     }
-
-
-//     // 2) path 변수, body에서 값 추출
-//     const roomId = Number(req.params.roomId);
-//     const { side, message } = req.body;
-
-//     // 3) 필수 입력 검증
-//     if (!roomId || !side || !message) {
-//       return res.send(response(status.BAD_REQUEST, null));
-//     }
-
-//     // 4) 서비스 호출 (AI 필터링 포함)
-//     const chatRecord = await createChat({
-//       roomId,
-//       userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
-//       side,
-//       message
-//     });
-
-//     // 5) 성공 응답
-//     return res.send(response(status.SUCCESS, {
-//       id:        chatRecord.id.toString(),
-//       roomId:    chatRecord.roomId.toString(),
-//       userId:    chatRecord.userId.toString(),
-//       side:      chatRecord.side,
-//       message:   chatRecord.message,
-//       createdAt: chatRecord.createdAt
-//     }));
-//   } catch (err) {
-//     console.error("🔴 handlePostChatMessage 오류:", err);
-//     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
-//   }
-// };
-
+// 배틀방 채팅 메세지 저장하기
+export const handlePostChatMessage = async (req, res) => {
 /**
- * #swagger.tags = ['Chat']
- * #swagger.summary = 'A 진영 채팅 메시지 저장 API'
- * #swagger.security = [{ "BearerAuth": [] }]
- *
- * #swagger.parameters['roomId'] = {
- *   in: 'path',
- *   description: '배틀방 ID',
- *   required: true,
- *   type: 'integer',
- *   format: 'int64',
- *   example: 1
- * }
- *
- * #swagger.requestBody = {
- *   required: true,
- *   content: {
- *     "application/json": {
- *       schema: {
- *         type: "object",
- *         properties: {
- *           message: {
- *             type: "string",
- *             description: "A 진영이 보낸 채팅 메시지 내용",
- *             example: "안녕하세요, A 진영입니다!"
- *           }
- *         },
- *         required: ["message"]
- *       }
- *     }
- *   }
- * }
- *
- * #swagger.responses[200] = {
- *   description: "채팅 메시지 저장 성공",
- *   schema: {
- *     isSuccess: true,
- *     code: 200,
- *     message: "success!",
- *     result: {
- *       id: "3",
- *       roomId: "1",
- *       userId: "7",
- *       side: "A",
- *       message: "안녕하세요, A 진영입니다!",
- *       createdAt: "2025-05-29T08:00:00.000Z"
- *     }
- *   }
- * }
- *
- * #swagger.responses[400] = {
- *   description: "잘못된 요청 (roomId 숫자가 아니거나 message 누락)",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON001",
- *     message: "잘못된 요청입니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[401] = {
- *   description: "토큰 형식 오류",
- *   schema: {
- *     isSuccess: false,
- *     code: "MEMBER4006",
- *     message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[403] = {
- *   description: "권한 오류 (해당 방의 참가자가 아닌 경우)",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON004",
- *     message: "금지된 요청입니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[404] = {
- *   description: "방을 찾을 수 없음",
- *   schema: {
- *     isSuccess: false,
- *     code: "ROOMIN4005",
- *     message: "방을 찾을 수가 없습니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[500] = {
- *   description: "서버 내부 오류",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON000",
- *     message: "서버 에러, 관리자에게 문의 바랍니다.",
- *     result: null
- *   }
- * }
- */
-export const handlePostChatMessageSideA = async (req, res) => {
-  try {
-    // 1) 토큰 검증
-    const token = checkFormat(req.get("Authorization"));
-    if (!token) {
-      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
-    }
+  #swagger.summary = '채팅 메시지 저장 API'
+  #swagger.security = [{ "BearerAuth": [] }]
+  #swagger.tags = ['Chat']
 
-    // 2) path 변수, body에서 값 추출
-    const roomId = Number(req.params.roomId);
-    const { message } = req.body;
-    const side = "A";
-
-    // 3) 필수 입력 검증
-    if (isNaN(roomId) || !message) {
-      return res.send(response(status.BAD_REQUEST, null));
-    }
-
-    // 4) 서비스 호출 (AI 필터링 포함)
-    const chatRecord = await createChat({
-      roomId,
-      userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
-      side,
-      message
-    });
-
-    // 5) 성공 응답
-    return res.send(response(status.SUCCESS, {
-      id:        chatRecord.id.toString(),
-      roomId:    chatRecord.roomId.toString(),
-      userId:    chatRecord.userId.toString(),
-      side:      chatRecord.side,
-      message:   chatRecord.message,
-      createdAt: chatRecord.createdAt
-    }));
-  } catch (err) {
-    console.error("🔴 handlePostChatMessageSideA 오류:", err);
-    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  #swagger.parameters['roomId'] = {
+    in: 'path',
+    description: '배틀방 ID',
+    required: true,
+    type: 'integer',
+    format: 'int64',
+    example: 1
   }
-};
 
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            side: { type: "string", description: "A 또는 B (토론 측)", example: "A" },
+            message: { type: "string", description: "보낼 채팅 메시지 내용", example: "안녕하세요!" }
+          },
+          required: ["side", "message"]
+        }
+      }
+    }
+  }
 
-/**
- * #swagger.tags = ['Chat']
- * #swagger.summary = 'B 진영 채팅 메시지 저장 API'
- * #swagger.security = [{ "BearerAuth": [] }]
- *
- * #swagger.parameters['roomId'] = {
- *   in: 'path',
- *   description: '배틀방 ID',
- *   required: true,
- *   type: 'integer',
- *   format: 'int64',
- *   example: 1
- * }
- *
- * #swagger.requestBody = {
- *   required: true,
- *   content: {
- *     "application/json": {
- *       schema: {
- *         type: "object",
- *         properties: {
- *           message: {
- *             type: "string",
- *             description: "B 진영이 보낸 채팅 메시지 내용",
- *             example: "안녕하세요, B 진영입니다!"
- *           }
- *         },
- *         required: ["message"]
- *       }
- *     }
- *   }
- * }
- *
- * #swagger.responses[200] = {
- *   description: "채팅 메시지 저장 성공",
- *   schema: {
- *     isSuccess: true,
- *     code: 200,
- *     message: "success!",
- *     result: {
- *       id: "4",
- *       roomId: "1",
- *       userId: "8",
- *       side: "B",
- *       message: "안녕하세요, B 진영입니다!",
- *       createdAt: "2025-05-29T08:01:00.000Z"
- *     }
- *   }
- * }
- *
- * #swagger.responses[400] = {
- *   description: "잘못된 요청 (roomId 숫자가 아니거나 message 누락)",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON001",
- *     message: "잘못된 요청입니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[401] = {
- *   description: "토큰 형식 오류",
- *   schema: {
- *     isSuccess: false,
- *     code: "MEMBER4006",
- *     message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[403] = {
- *   description: "권한 오류 (해당 방의 참가자가 아닌 경우)",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON004",
- *     message: "금지된 요청입니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[404] = {
- *   description: "방을 찾을 수 없음",
- *   schema: {
- *     isSuccess: false,
- *     code: "ROOMIN4005",
- *     message: "방을 찾을 수가 없습니다.",
- *     result: null
- *   }
- * }
- *
- * #swagger.responses[500] = {
- *   description: "서버 내부 오류",
- *   schema: {
- *     isSuccess: false,
- *     code: "COMMON000",
- *     message: "서버 에러, 관리자에게 문의 바랍니다.",
- *     result: null
- *   }
- * }
- */
-export const handlePostChatMessageSideB = async (req, res) => {
+  #swagger.responses[200] = {
+    description: "채팅 메시지 저장 성공",
+    schema: {
+      isSuccess: true,
+      code: "200",
+      message: "success!",
+      result: {
+        id: "3",
+        roomId: "1",
+        userId: "7",
+        side: "A",
+        message: "안녕하세요!",
+        createdAt: "2025-05-29T08:00:00.000Z"
+      }
+    }
+  }
+
+  #swagger.responses[400] = {
+    description: "잘못된 요청",
+    schema: {
+      isSuccess: false,
+      code: "COMMON001",
+      message: "잘못된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[401] = {
+    description: "토큰 형식 오류",
+    schema: {
+      isSuccess: false,
+      code: "MEMBER4006",
+      message: "토큰의 형식이 올바르지 않습니다. 다시 확인해주세요.",
+      result: null
+    }
+  }
+
+  #swagger.responses[403] = {
+    description: "권한 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON004",
+      message: "금지된 요청입니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: "방을 찾을 수 없음",
+    schema: {
+      isSuccess: false,
+      code: "ROOMIN4005",
+      message: "방을 찾을 수가 없습니다.",
+      result: null
+    }
+  }
+
+  #swagger.responses[500] = {
+    description: "서버 내부 오류",
+    schema: {
+      isSuccess: false,
+      code: "COMMON000",
+      message: "서버 에러, 관리자에게 문의 바랍니다.",
+      result: null
+    }
+  }
+*/
   try {
     // 1) 토큰 검증
     const token = checkFormat(req.get("Authorization"));
@@ -2174,13 +1882,13 @@ export const handlePostChatMessageSideB = async (req, res) => {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
+
     // 2) path 변수, body에서 값 추출
     const roomId = Number(req.params.roomId);
-    const { message } = req.body;
-    const side = "B";
+    const { side, message } = req.body;
 
     // 3) 필수 입력 검증
-    if (isNaN(roomId) || !message) {
+    if (!roomId || !side || !message) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
@@ -2202,7 +1910,7 @@ export const handlePostChatMessageSideB = async (req, res) => {
       createdAt: chatRecord.createdAt
     }));
   } catch (err) {
-    console.error("🔴 handlePostChatMessageSideB 오류:", err);
+    console.error("🔴 handlePostChatMessage 오류:", err);
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
@@ -2330,34 +2038,28 @@ export const handlePostVote = async (req, res) => {
     // 2) path 변수 + body
     const roomId = Number(req.params.roomId);
     const { vote } = req.body; // "A" 또는 "B"
-
-    // 3) 필수 입력 검증
-    if (isNaN(roomId) || !vote || !["A", "B"].includes(vote)) {
+    if (isNaN(roomId) || !vote || !["A","B"].includes(vote)) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 4) 서비스 호출
+    // 3) 서비스 호출
     const result = await voteInRoom({
       roomId,
       userId: req.userId,
       vote
     });
 
-    // 5) 성공 응답
+    // 4) 성공 응답
     return res.send(response(status.SUCCESS, result));
+
   } catch (err) {
     console.error("🔴 handlePostVote 오류:", err);
 
-    if (err.code === "ROOM_NOT_FOUND") {
-      return res.send(response(status.ROOM_NOT_FOUND, null));
-    }
-    if (err.code === "FORBIDDEN") {
-      return res.send(response(status.FORBIDDEN, null));
-    }
-    if (err.code === "VOTE_ALREADY_DONE") {
-      // response.status.js에 VOTE4001 코드가 정의되어 있다면 사용
-      return res.send(response(status.ALREADY_JOINED, null));
-    }
+    if (err.code === "ROOM_NOT_FOUND")    return res.send(response(status.ROOM_NOT_FOUND, null));
+    if (err.code === "FORBIDDEN")         return res.send(response(status.FORBIDDEN, null));
+    if (err.code === "ALREADY_VOTED")     return res.send(response(status.VOTE4001, null));
+    // P 가 한 명도 없어서 스킵된 경우도 status.SUCCESS 로 반환되므로 여기엔 걸리지 않습니다.
+
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
@@ -2742,38 +2444,28 @@ export const handleGetFinalResult = async (req, res) => {
   }
 */
   try {
-    // 1) 토큰 포맷 검사
+    // 1) 토큰 검사
     const rawToken = req.get("Authorization");
-    const token = rawToken && checkFormat(rawToken);
-    if (!token) {
-      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
-    }
+    const token    = rawToken && checkFormat(rawToken);
+    if (!token) return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
 
-    // 2) roomId 파라미터 검증
-    const roomId = Number(req.params.roomId);
-    if (isNaN(roomId)) {
-      return res.send(response(status.BAD_REQUEST, null));
-    }
+    // 2) roomId 파싱
+    const roomIdNum = Number(req.params.roomId);
+    if (isNaN(roomIdNum)) return res.send(response(status.BAD_REQUEST, null));
 
     // 3) 서비스 호출
     const result = await getFinalResultAndAward({
-      roomId,
+      roomId: roomIdNum,
       userId: req.userId
     });
 
     // 4) 성공 응답
     return res.send(response(status.SUCCESS, result));
+
   } catch (err) {
     console.error("🔴 handleGetFinalResult 오류:", err);
-    if (err.code === "ROOM_NOT_FOUND") {
-      return res.send(response(status.ROOM_NOT_FOUND, null));
-    }
-    if (err.code === "FORBIDDEN") {
-      return res.send(response(status.FORBIDDEN, null));
-    }
-    if (err.code === "ALREADY_AWARDED") {
-      return res.send(response(status.ALREADY_AWARDED, null));
-    }
+    if (err.code === "ROOM_NOT_FOUND") return res.send(response(status.ROOM_NOT_FOUND, null));
+    if (err.code === "FORBIDDEN")       return res.send(response(status.FORBIDDEN, null));
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
