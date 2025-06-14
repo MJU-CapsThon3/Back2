@@ -322,3 +322,22 @@ export const repoCreateRoomParticipant = (data) => {
     }
   });
 };
+
+// 방 상세 정보 참가자
+export const listRoomParticipantsWithUser = (roomId) => {
+  return prisma.roomParticipant.findMany({
+    where:  { roomId, endAt: null },
+    include: {
+      user: {
+        select: {
+          nickname: true,
+          // ranking 관계까지 가져오기
+          ranking: {
+            select: { tier: true }
+          }
+        }
+      }
+    },
+    orderBy: { joinedAt: "asc" }
+  });
+};

@@ -1418,10 +1418,10 @@ export const handleGetRoomInfo = async (req, res, next) => {
   }
 };
 
-// 방 정보 상세 조회 API (A, B, P 전체 리스트 반환)
+// 상세 조회 API (A, B, P 전체 리스트 + nickname, rank, admin 정보 포함)
 export const handleGetRoomDetail = async (req, res) => {
-  /*
-    #swagger.summary = '방 정보 상세 조회 API (A, B, P 전체 리스트 반환)'
+  /**
+    #swagger.summary = '방 정보 상세 조회 API (참가자 A/B/P + 닉네임, 랭크, 방장 정보 포함)'
     #swagger.security = [{ "BearerAuth": [] }]
     #swagger.tags = ['BattleRoom']
 
@@ -1448,15 +1448,28 @@ export const handleGetRoomDetail = async (req, res) => {
           topicB:    "호랑이",
           status:    "WAITING",
           createdAt: "2025-05-25T12:00:00.000Z",
-          participantA: [
-            { userId: "9", joinedAt: "2025-05-25T12:01:00.000Z" }
-          ],
-          participantB: [
-            { userId: "10", joinedAt: "2025-05-25T12:02:00.000Z" }
-          ],
-          spectators: [
-            { userId: "11", joinedAt: "2025-05-25T12:03:00.000Z" },
-            { userId: "12", joinedAt: "2025-05-25T12:04:00.000Z" }
+          participants: [
+            {
+              userId:   "9",
+              role:     "A",
+              joinedAt: "2025-05-25T12:01:00.000Z",
+              nickname: "lion_master",
+              rank:     "Gold"
+            },
+            {
+              userId:   "10",
+              role:     "B",
+              joinedAt: "2025-05-25T12:02:00.000Z",
+              nickname: "tiger_champion",
+              rank:     "Silver"
+            },
+            {
+              userId:   "11",
+              role:     "P",
+              joinedAt: "2025-05-25T12:03:00.000Z",
+              nickname: "watcher_one",
+              rank:     "Bronze"
+            }
           ]
         }
       }
@@ -1483,7 +1496,7 @@ export const handleGetRoomDetail = async (req, res) => {
     }
 
     #swagger.responses[403] = {
-      description: "권한 오류 (참가자가 아닐 경우 등)",
+      description: "권한 오류 (참가자가 아닐 경우)",
       schema: {
         isSuccess: false,
         code: "COMMON004",
@@ -1513,22 +1526,22 @@ export const handleGetRoomDetail = async (req, res) => {
     }
   */
   try {
-    // 1) 토큰 검증
-    const token = await checkFormat(req.get("Authorization"));
+    // 토큰 검증
+    const token = checkFormat(req.get("Authorization"));
     if (!token) {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-    // 2) roomId 파라미터 검증
+    // roomId 검증
     const roomId = Number(req.params.roomId);
     if (isNaN(roomId)) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 3) 서비스 호출
+    // 서비스 호출
     const detail = await getRoomDetail({ roomId, userId: req.userId });
 
-    // 4) 성공 응답
+    // 성공 응답
     return res.send(response(status.SUCCESS, detail));
   } catch (err) {
     console.error("🔴 handleGetRoomDetail 오류:", err);

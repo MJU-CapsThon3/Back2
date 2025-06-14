@@ -22,6 +22,7 @@ import { createBattleRoom,
     updateParticipantEndAt,
     getRoomsPaginated,
     deleteExistingParticipationRecords,
+    listRoomParticipantsWithUser,
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -464,7 +465,71 @@ export const getRoomInfo = async ({ roomId }) => {
   };
 };
 
-// 방 상세 정보 불러오기
+// // 방 상세 정보 불러오기
+// export const getRoomDetail = async ({ roomId, userId }) => {
+//   // 1) 방 존재 여부 확인
+//   const room = await findBattleRoomById(BigInt(roomId));
+//   if (!room) {
+//     const err = new Error("ROOM_NOT_FOUND");
+//     err.code = "ROOM_NOT_FOUND";
+//     throw err;
+//   }
+
+//   // 2) 사용자가 해당 방의 참가자(또는 관전자)인지 확인
+//   const isParticipant = await prisma.roomParticipant.count({
+//     where: {
+//       roomId: BigInt(roomId),
+//       userId: BigInt(userId),
+//     },
+//   });
+//   if (isParticipant === 0) {
+//     const err = new Error("FORBIDDEN");
+//     err.code = "FORBIDDEN";
+//     throw err;
+//   }
+
+//   // 3) 방 참여자 전체 조회
+//   const participants = await listRoomParticipants(BigInt(roomId));
+//   // participants = [{ userId, role, joinedAt }, …]
+
+//   // 4) A, B, P별로 배열 분리
+//   const participantA = participants
+//     .filter((p) => p.role === "A")
+//     .map((p) => ({
+//       userId: p.userId.toString(),
+//       joinedAt: p.joinedAt.toISOString(),
+//     }));
+
+//   const participantB = participants
+//     .filter((p) => p.role === "B")
+//     .map((p) => ({
+//       userId: p.userId.toString(),
+//       joinedAt: p.joinedAt.toISOString(),
+//     }));
+
+//   const spectators = participants
+//     .filter((p) => p.role === "P")
+//     .slice(0, 8) // 최대 8명
+//     .map((p) => ({
+//       userId: p.userId.toString(),
+//       joinedAt: p.joinedAt.toISOString(),
+//     }));
+
+//   // 5) 결과 객체 반환
+//   return {
+//     roomId:    room.id.toString(),
+//     adminId:   room.admin.toString(),
+//     question:  room.question,
+//     topicA:    room.topicA,
+//     topicB:    room.topicB,
+//     status:    room.status,
+//     createdAt: room.createdAt.toISOString(),
+//     participantA, // A 역할 참가자 배열
+//     participantB, // B 역할 참가자 배열
+//     spectators   // P 역할(관전자) 배열 (최대 8명)
+//   };
+// };
+
 export const getRoomDetail = async ({ roomId, userId }) => {
   // 1) 방 존재 여부 확인
   const room = await findBattleRoomById(BigInt(roomId));
@@ -474,12 +539,9 @@ export const getRoomDetail = async ({ roomId, userId }) => {
     throw err;
   }
 
-  // 2) 사용자가 해당 방의 참가자(또는 관전자)인지 확인
+  // 2) 해당 유저가 참가자인지 확인
   const isParticipant = await prisma.roomParticipant.count({
-    where: {
-      roomId: BigInt(roomId),
-      userId: BigInt(userId),
-    },
+    where: { roomId: BigInt(roomId), userId: BigInt(userId), endAt: null },
   });
   if (isParticipant === 0) {
     const err = new Error("FORBIDDEN");
@@ -487,45 +549,56 @@ export const getRoomDetail = async ({ roomId, userId }) => {
     throw err;
   }
 
-  // 3) 방 참여자 전체 조회
-  const participants = await listRoomParticipants(BigInt(roomId));
-  // participants = [{ userId, role, joinedAt }, …]
+  // 3) 방 참여자 전체 조회 (nickname + ranking.tier 포함)
+  const participants = await listRoomParticipantsWithUser(BigInt(roomId));
+  // participants = [
+  //   { userId, role, joinedAt, user: { nickname, ranking: { tier } } }, …
+  // ]
 
-  // 4) A, B, P별로 배열 분리
+  // 4) 역할별로 분리하면서, role · nickname · tier · joinedAt 모두 꺼내기
   const participantA = participants
-    .filter((p) => p.role === "A")
-    .map((p) => ({
-      userId: p.userId.toString(),
+    .filter(p => p.role === "A")
+    .map(p => ({
+      userId:   p.userId.toString(),
+      role:     p.role,                  // role 포함
+      nickname: p.user.nickname,
+      tier:     p.user.ranking.tier,     // tier 포함
       joinedAt: p.joinedAt.toISOString(),
     }));
 
   const participantB = participants
-    .filter((p) => p.role === "B")
-    .map((p) => ({
-      userId: p.userId.toString(),
+    .filter(p => p.role === "B")
+    .map(p => ({
+      userId:   p.userId.toString(),
+      role:     p.role,
+      nickname: p.user.nickname,
+      tier:     p.user.ranking.tier,
       joinedAt: p.joinedAt.toISOString(),
     }));
 
   const spectators = participants
-    .filter((p) => p.role === "P")
-    .slice(0, 8) // 최대 8명
-    .map((p) => ({
-      userId: p.userId.toString(),
+    .filter(p => p.role === "P")
+    .slice(0, 8)
+    .map(p => ({
+      userId:   p.userId.toString(),
+      role:     p.role,
+      nickname: p.user.nickname,
+      tier:     p.user.ranking.tier,
       joinedAt: p.joinedAt.toISOString(),
     }));
 
-  // 5) 결과 객체 반환
+  // 5) 최종 반환
   return {
-    roomId:    room.id.toString(),
-    adminId:   room.admin.toString(),
-    question:  room.question,
-    topicA:    room.topicA,
-    topicB:    room.topicB,
-    status:    room.status,
-    createdAt: room.createdAt.toISOString(),
-    participantA, // A 역할 참가자 배열
-    participantB, // B 역할 참가자 배열
-    spectators   // P 역할(관전자) 배열 (최대 8명)
+    roomId:        room.id.toString(),
+    adminId:       room.admin.toString(),
+    question:      room.question,
+    topicA:        room.topicA,
+    topicB:        room.topicB,
+    status:        room.status,
+    createdAt:     room.createdAt.toISOString(),
+    participantA,
+    participantB,
+    spectators
   };
 };
 

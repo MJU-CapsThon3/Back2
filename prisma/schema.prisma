@@ -26,7 +26,7 @@ model User {
   chatMessages      ChatMessage[]      @relation("ChatMessagesByUser")
   pointTransactions PointTransaction[]
   questCompletions  QuestCompletion[]
-  ranking           Ranking[]
+  ranking           Ranking?           
   roomParticipants  RoomParticipant[]
   userItems         UserItem[]
 
@@ -35,7 +35,7 @@ model User {
 
 model Ranking {
   id           BigInt   @id @default(autoincrement()) @map("id")
-  userId       BigInt   @map("user_id")
+  userId       BigInt   @map("user_id") @unique
   rank         Int      @default(0) @map("rank")
   previousRank Int?     @map("previous_rank")
   tier         String   @map("tier") @db.VarChar(20)
@@ -43,7 +43,7 @@ model Ranking {
   createdAt    DateTime @default(now()) @map("created_at") @db.DateTime(6)
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(6)
   user         User     @relation(fields: [userId], references: [id])
-
+  
   @@index([userId], map: "ranking_user_id_fkey")
   @@map("ranking")
 }

@@ -1944,7 +1944,6 @@ export namespace Prisma {
     chatMessages: number
     pointTransactions: number
     questCompletions: number
-    ranking: number
     roomParticipants: number
     userItems: number
   }
@@ -1954,7 +1953,6 @@ export namespace Prisma {
     chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
     pointTransactions?: boolean | UserCountOutputTypeCountPointTransactionsArgs
     questCompletions?: boolean | UserCountOutputTypeCountQuestCompletionsArgs
-    ranking?: boolean | UserCountOutputTypeCountRankingArgs
     roomParticipants?: boolean | UserCountOutputTypeCountRoomParticipantsArgs
     userItems?: boolean | UserCountOutputTypeCountUserItemsArgs
   }
@@ -1996,13 +1994,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountQuestCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuestCompletionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountRankingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RankingWhereInput
   }
 
   /**
@@ -2466,7 +2457,7 @@ export namespace Prisma {
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
       pointTransactions: Prisma.$PointTransactionPayload<ExtArgs>[]
       questCompletions: Prisma.$QuestCompletionPayload<ExtArgs>[]
-      ranking: Prisma.$RankingPayload<ExtArgs>[]
+      ranking: Prisma.$RankingPayload<ExtArgs> | null
       roomParticipants: Prisma.$RoomParticipantPayload<ExtArgs>[]
       userItems: Prisma.$UserItemPayload<ExtArgs>[]
     }
@@ -2827,7 +2818,7 @@ export namespace Prisma {
     chatMessages<T extends User$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pointTransactions<T extends User$pointTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     questCompletions<T extends User$questCompletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$questCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ranking<T extends User$rankingArgs<ExtArgs> = {}>(args?: Subset<T, User$rankingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RankingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ranking<T extends User$rankingArgs<ExtArgs> = {}>(args?: Subset<T, User$rankingArgs<ExtArgs>>): Prisma__RankingClient<$Result.GetResult<Prisma.$RankingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     roomParticipants<T extends User$roomParticipantsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userItems<T extends User$userItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$userItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3326,11 +3317,6 @@ export namespace Prisma {
      */
     include?: RankingInclude<ExtArgs> | null
     where?: RankingWhereInput
-    orderBy?: RankingOrderByWithRelationInput | RankingOrderByWithRelationInput[]
-    cursor?: RankingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RankingScalarFieldEnum | RankingScalarFieldEnum[]
   }
 
   /**
@@ -16875,7 +16861,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageListRelationFilter
     pointTransactions?: PointTransactionListRelationFilter
     questCompletions?: QuestCompletionListRelationFilter
-    ranking?: RankingListRelationFilter
+    ranking?: XOR<RankingNullableScalarRelationFilter, RankingWhereInput> | null
     roomParticipants?: RoomParticipantListRelationFilter
     userItems?: UserItemListRelationFilter
   }
@@ -16897,7 +16883,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageOrderByRelationAggregateInput
     pointTransactions?: PointTransactionOrderByRelationAggregateInput
     questCompletions?: QuestCompletionOrderByRelationAggregateInput
-    ranking?: RankingOrderByRelationAggregateInput
+    ranking?: RankingOrderByWithRelationInput
     roomParticipants?: RoomParticipantOrderByRelationAggregateInput
     userItems?: UserItemOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
@@ -16923,7 +16909,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageListRelationFilter
     pointTransactions?: PointTransactionListRelationFilter
     questCompletions?: QuestCompletionListRelationFilter
-    ranking?: RankingListRelationFilter
+    ranking?: XOR<RankingNullableScalarRelationFilter, RankingWhereInput> | null
     roomParticipants?: RoomParticipantListRelationFilter
     userItems?: UserItemListRelationFilter
   }, "id">
@@ -16996,10 +16982,10 @@ export namespace Prisma {
 
   export type RankingWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
+    userId?: bigint | number
     AND?: RankingWhereInput | RankingWhereInput[]
     OR?: RankingWhereInput[]
     NOT?: RankingWhereInput | RankingWhereInput[]
-    userId?: BigIntFilter<"Ranking"> | bigint | number
     rank?: IntFilter<"Ranking"> | number
     previousRank?: IntNullableFilter<"Ranking"> | number | null
     tier?: StringFilter<"Ranking"> | string
@@ -17007,7 +16993,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Ranking"> | Date | string
     updatedAt?: DateTimeFilter<"Ranking"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "userId">
 
   export type RankingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17865,7 +17851,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
@@ -17887,7 +17873,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
@@ -17909,7 +17895,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
@@ -17931,7 +17917,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -18953,10 +18939,9 @@ export namespace Prisma {
     none?: QuestCompletionWhereInput
   }
 
-  export type RankingListRelationFilter = {
-    every?: RankingWhereInput
-    some?: RankingWhereInput
-    none?: RankingWhereInput
+  export type RankingNullableScalarRelationFilter = {
+    is?: RankingWhereInput | null
+    isNot?: RankingWhereInput | null
   }
 
   export type RoomParticipantListRelationFilter = {
@@ -18989,10 +18974,6 @@ export namespace Prisma {
   }
 
   export type QuestCompletionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RankingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19913,11 +19894,10 @@ export namespace Prisma {
     connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
   }
 
-  export type RankingCreateNestedManyWithoutUserInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+  export type RankingCreateNestedOneWithoutUserInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput
+    connect?: RankingWhereUniqueInput
   }
 
   export type RoomParticipantCreateNestedManyWithoutUserInput = {
@@ -19962,11 +19942,10 @@ export namespace Prisma {
     connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
   }
 
-  export type RankingUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
+  export type RankingUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput
+    connect?: RankingWhereUniqueInput
   }
 
   export type RoomParticipantUncheckedCreateNestedManyWithoutUserInput = {
@@ -20067,18 +20046,14 @@ export namespace Prisma {
     deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
   }
 
-  export type RankingUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
+  export type RankingUpdateOneWithoutUserNestedInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput
+    upsert?: RankingUpsertWithoutUserInput
+    disconnect?: RankingWhereInput | boolean
+    delete?: RankingWhereInput | boolean
+    connect?: RankingWhereUniqueInput
+    update?: XOR<XOR<RankingUpdateToOneWithWhereWithoutUserInput, RankingUpdateWithoutUserInput>, RankingUncheckedUpdateWithoutUserInput>
   }
 
   export type RoomParticipantUpdateManyWithoutUserNestedInput = {
@@ -20165,18 +20140,14 @@ export namespace Prisma {
     deleteMany?: QuestCompletionScalarWhereInput | QuestCompletionScalarWhereInput[]
   }
 
-  export type RankingUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput> | RankingCreateWithoutUserInput[] | RankingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: RankingCreateOrConnectWithoutUserInput | RankingCreateOrConnectWithoutUserInput[]
-    upsert?: RankingUpsertWithWhereUniqueWithoutUserInput | RankingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: RankingCreateManyUserInputEnvelope
-    set?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    disconnect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    delete?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    connect?: RankingWhereUniqueInput | RankingWhereUniqueInput[]
-    update?: RankingUpdateWithWhereUniqueWithoutUserInput | RankingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: RankingUpdateManyWithWhereWithoutUserInput | RankingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: RankingScalarWhereInput | RankingScalarWhereInput[]
+  export type RankingUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: RankingCreateOrConnectWithoutUserInput
+    upsert?: RankingUpsertWithoutUserInput
+    disconnect?: RankingWhereInput | boolean
+    delete?: RankingWhereInput | boolean
+    connect?: RankingWhereUniqueInput
+    update?: XOR<XOR<RankingUpdateToOneWithWhereWithoutUserInput, RankingUpdateWithoutUserInput>, RankingUncheckedUpdateWithoutUserInput>
   }
 
   export type RoomParticipantUncheckedUpdateManyWithoutUserNestedInput = {
@@ -21163,11 +21134,6 @@ export namespace Prisma {
     create: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
   }
 
-  export type RankingCreateManyUserInputEnvelope = {
-    data: RankingCreateManyUserInput | RankingCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type RoomParticipantCreateWithoutUserInput = {
     id?: bigint | number
     role: string
@@ -21331,34 +21297,35 @@ export namespace Prisma {
     progress?: IntFilter<"QuestCompletion"> | number
   }
 
-  export type RankingUpsertWithWhereUniqueWithoutUserInput = {
-    where: RankingWhereUniqueInput
+  export type RankingUpsertWithoutUserInput = {
     update: XOR<RankingUpdateWithoutUserInput, RankingUncheckedUpdateWithoutUserInput>
     create: XOR<RankingCreateWithoutUserInput, RankingUncheckedCreateWithoutUserInput>
+    where?: RankingWhereInput
   }
 
-  export type RankingUpdateWithWhereUniqueWithoutUserInput = {
-    where: RankingWhereUniqueInput
+  export type RankingUpdateToOneWithWhereWithoutUserInput = {
+    where?: RankingWhereInput
     data: XOR<RankingUpdateWithoutUserInput, RankingUncheckedUpdateWithoutUserInput>
   }
 
-  export type RankingUpdateManyWithWhereWithoutUserInput = {
-    where: RankingScalarWhereInput
-    data: XOR<RankingUpdateManyMutationInput, RankingUncheckedUpdateManyWithoutUserInput>
+  export type RankingUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    rank?: IntFieldUpdateOperationsInput | number
+    previousRank?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RankingScalarWhereInput = {
-    AND?: RankingScalarWhereInput | RankingScalarWhereInput[]
-    OR?: RankingScalarWhereInput[]
-    NOT?: RankingScalarWhereInput | RankingScalarWhereInput[]
-    id?: BigIntFilter<"Ranking"> | bigint | number
-    userId?: BigIntFilter<"Ranking"> | bigint | number
-    rank?: IntFilter<"Ranking"> | number
-    previousRank?: IntNullableFilter<"Ranking"> | number | null
-    tier?: StringFilter<"Ranking"> | string
-    totalPoints?: IntFilter<"Ranking"> | number
-    createdAt?: DateTimeFilter<"Ranking"> | Date | string
-    updatedAt?: DateTimeFilter<"Ranking"> | Date | string
+  export type RankingUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    rank?: IntFieldUpdateOperationsInput | number
+    previousRank?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomParticipantUpsertWithWhereUniqueWithoutUserInput = {
@@ -21625,7 +21592,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
 
@@ -21646,7 +21613,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -21736,7 +21703,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
 
@@ -21757,7 +21724,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -22001,7 +21968,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
   }
 
@@ -22022,7 +21989,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -22088,7 +22055,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
   }
 
@@ -22109,7 +22076,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -22551,7 +22518,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
@@ -22572,7 +22539,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
@@ -22634,7 +22601,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
@@ -22655,7 +22622,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -22707,7 +22674,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
@@ -22728,7 +22695,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
@@ -22765,7 +22732,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
@@ -22786,7 +22753,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -22854,7 +22821,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
@@ -22875,7 +22842,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
@@ -22965,7 +22932,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
@@ -22986,7 +22953,7 @@ export namespace Prisma {
     battleVotes?: BattleVoteUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -23054,7 +23021,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionCreateNestedManyWithoutUserInput
-    ranking?: RankingCreateNestedManyWithoutUserInput
+    ranking?: RankingCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutUserInput
     userItems?: UserItemCreateNestedManyWithoutUserInput
   }
@@ -23075,7 +23042,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutUserInput
     pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutUserInput
     questCompletions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
-    ranking?: RankingUncheckedCreateNestedManyWithoutUserInput
+    ranking?: RankingUncheckedCreateNestedOneWithoutUserInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutUserInput
     userItems?: UserItemUncheckedCreateNestedManyWithoutUserInput
   }
@@ -23165,7 +23132,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUpdateManyWithoutUserNestedInput
-    ranking?: RankingUpdateManyWithoutUserNestedInput
+    ranking?: RankingUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutUserNestedInput
     userItems?: UserItemUpdateManyWithoutUserNestedInput
   }
@@ -23186,7 +23153,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutUserNestedInput
     pointTransactions?: PointTransactionUncheckedUpdateManyWithoutUserNestedInput
     questCompletions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
-    ranking?: RankingUncheckedUpdateManyWithoutUserNestedInput
+    ranking?: RankingUncheckedUpdateOneWithoutUserNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutUserNestedInput
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -23220,16 +23187,6 @@ export namespace Prisma {
     completedAt?: Date | string | null
     rewardClaimed?: boolean
     progress?: number
-  }
-
-  export type RankingCreateManyUserInput = {
-    id?: bigint | number
-    rank?: number
-    previousRank?: number | null
-    tier: string
-    totalPoints: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type RoomParticipantCreateManyUserInput = {
@@ -23339,36 +23296,6 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rewardClaimed?: BoolFieldUpdateOperationsInput | boolean
     progress?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RankingUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    rank?: IntFieldUpdateOperationsInput | number
-    previousRank?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: StringFieldUpdateOperationsInput | string
-    totalPoints?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RankingUncheckedUpdateWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    rank?: IntFieldUpdateOperationsInput | number
-    previousRank?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: StringFieldUpdateOperationsInput | string
-    totalPoints?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RankingUncheckedUpdateManyWithoutUserInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    rank?: IntFieldUpdateOperationsInput | number
-    previousRank?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: StringFieldUpdateOperationsInput | string
-    totalPoints?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomParticipantUpdateWithoutUserInput = {

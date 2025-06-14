@@ -1607,7 +1607,7 @@
         "tags": [
           "BattleRoom"
         ],
-        "summary": "방 정보 상세 조회 API (A, B, P 전체 리스트 반환)",
+        "summary": "방 정보 상세 조회 API (참가자 A/B/P + 닉네임, 랭크, 방장 정보 포함)",
         "description": "",
         "parameters": [
           {
@@ -1673,50 +1673,30 @@
                           "type": "string",
                           "example": "2025-05-25T12:00:00.000Z"
                         },
-                        "participantA": {
+                        "participants": {
                           "type": "array",
                           "items": {
                             "type": "object",
                             "properties": {
                               "userId": {
                                 "type": "string",
-                                "example": "9"
+                                "example": "11"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "P"
                               },
                               "joinedAt": {
                                 "type": "string",
-                                "example": "2025-05-25T12:01:00.000Z"
-                              }
-                            }
-                          }
-                        },
-                        "participantB": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "userId": {
-                                "type": "string",
-                                "example": "10"
+                                "example": "2025-05-25T12:03:00.000Z"
                               },
-                              "joinedAt": {
+                              "nickname": {
                                 "type": "string",
-                                "example": "2025-05-25T12:02:00.000Z"
-                              }
-                            }
-                          }
-                        },
-                        "spectators": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "userId": {
-                                "type": "string",
-                                "example": "12"
+                                "example": "watcher_one"
                               },
-                              "joinedAt": {
+                              "rank": {
                                 "type": "string",
-                                "example": "2025-05-25T12:04:00.000Z"
+                                "example": "Bronze"
                               }
                             }
                           }
@@ -1776,50 +1756,30 @@
                           "type": "string",
                           "example": "2025-05-25T12:00:00.000Z"
                         },
-                        "participantA": {
+                        "participants": {
                           "type": "array",
                           "items": {
                             "type": "object",
                             "properties": {
                               "userId": {
                                 "type": "string",
-                                "example": "9"
+                                "example": "11"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "P"
                               },
                               "joinedAt": {
                                 "type": "string",
-                                "example": "2025-05-25T12:01:00.000Z"
-                              }
-                            }
-                          }
-                        },
-                        "participantB": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "userId": {
-                                "type": "string",
-                                "example": "10"
+                                "example": "2025-05-25T12:03:00.000Z"
                               },
-                              "joinedAt": {
+                              "nickname": {
                                 "type": "string",
-                                "example": "2025-05-25T12:02:00.000Z"
-                              }
-                            }
-                          }
-                        },
-                        "spectators": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "userId": {
-                                "type": "string",
-                                "example": "12"
+                                "example": "watcher_one"
                               },
-                              "joinedAt": {
+                              "rank": {
                                 "type": "string",
-                                "example": "2025-05-25T12:04:00.000Z"
+                                "example": "Bronze"
                               }
                             }
                           }
@@ -1937,7 +1897,7 @@
             }
           },
           "403": {
-            "description": "권한 오류 (참가자가 아닐 경우 등)",
+            "description": "권한 오류 (참가자가 아닐 경우)",
             "content": {
               "application/json": {
                 "schema": {
