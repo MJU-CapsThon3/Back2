@@ -536,3 +536,14 @@ export const hasUserClearedAllDailyQuests = async (userId) => {
 
   return completedCount === 5;
 };
+
+// 유저가 특정 퀘스트를 완료했는지 확인
+export const isQuestCompleted = async (userId, questId) => {
+  const questCompletion = await prisma.questCompletion.findFirst({
+    where: {
+      userId: BigInt(userId),
+      questId: BigInt(questId),
+    },
+  });
+  return !!questCompletion?.isCompleted;
+};
