@@ -39,7 +39,9 @@ import {
   getQuestProgress,
   hasUserParticipatedInAnyRoom,
   hasUserClearedAllDailyQuests,
-  updateQuestProgress
+  updateQuestProgress,
+  unequipItemsInCategory,
+  equipItem,
 } from "../repositories/user.repository.js";
 
 import bcrypt from "bcrypt";
@@ -465,4 +467,17 @@ export const claimQuestRewardService = async (userId, questId) => {
 
 export const resetDailyQuestsService = async () => {
   return await resetAllQuestCompletions();
+};
+
+export const equipUserItem = async (userId, itemId) => {
+  const item = await findItemById(itemId);
+  if (!item) throw new Error("존재하지 않는 아이템입니다.");
+
+  // 동일 카테고리 다른 아이템들 장착 해제
+  await unequipItemsInCategory(userId, item.category);
+
+  // 선택한 아이템 장착
+  await equipItem(userId, itemId);
+
+  return { success: true, message: `${item.name} 아이템을 장착했습니다.` };
 };

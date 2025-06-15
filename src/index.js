@@ -22,7 +22,7 @@ import {
   handleGetShopItems,
   handleUpdateItem,
   //handleDeleteItem,
-
+  handleEquipItem,
 } from "./controllers/user.controller.js";
 import {
   handleCreateRoom,
@@ -166,6 +166,8 @@ app.get("/shop/items", handleGetShopItems);
 app.post("/shop/items/update", handleUpdateItem);
 // 아이템 삭제 API
 //app.delete("/shop/items/:itemId", handleDeleteItem);
+// 아이템 장착
+app.post("/shop/equip-item", handleEquipItem);
 
 // 최종 리스닝
 httpServer.listen(port, () => {
