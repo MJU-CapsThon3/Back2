@@ -30,8 +30,8 @@ export default function App() {
   const [results, setResults] = useState([]);
 
   const [debateTopic, setDebateTopic] = useState('');
-  const [debateOptionsA, setDebateOptionsA] = useState([]);
-  const [debateOptionsB, setDebateOptionsB] = useState([]);
+  const [debateOptionA, setDebateOptionA] = useState('');
+  const [debateOptionB, setDebateOptionB] = useState('');
 
   // env 대체
   const API_URL = "http://localhost:8000";
@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
-      <h1>통합 분석기</h1>
+      <h1>AI 기능 시연</h1>
 
       <section>
         <h2>0. 욕설 필터링</h2>
@@ -168,22 +168,22 @@ export default function App() {
         });
         const data = await res.json();
         setDebateTopic(data.topic);
-        setDebateOptionsA(data.option_a);
-        setDebateOptionsB(data.option_b); 
+        setDebateOptionA(data.option_a);
+        setDebateOptionB(data.option_b);
       }} style={{ marginTop: 8 }}>토론 주제 생성</button>
       {debateTopic && (
         <div style={{ marginTop: 8 }}>
           <h3>{debateTopic}</h3>
         </div>
       )}
-      {debateOptionsA && (
+      {debateOptionA && (
         <div style={{ marginTop: 8 }}>
-          <h3>{debateOptionsA}</h3>
+          <h3>{debateOptionA}</h3>
         </div>
       )}
-      {debateOptionsB && (
+      {debateOptionB && (
         <div style={{ marginTop: 8 }}>
-          <h3>{debateOptionsB}</h3>
+          <h3>{debateOptionB}</h3>
         </div>
       )}
     </section>
