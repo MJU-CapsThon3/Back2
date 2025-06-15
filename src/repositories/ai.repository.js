@@ -12,7 +12,7 @@ export const callFilterProfanity = async (text) => {
 
 export const callAnalyzeSentiment = async (text) => {
   // FastAPI 쪽 /analyze 엔드포인트 호출
-    const response = await axios.post(`${AI_SERVER_URL}/analyze`, { text });
+    const response = await axios.post(`${AI_SERVER_URL}/analyze`, { text }, { timeout: 2000 });
     return response.data; 
   // 반환 예시: { emotion: "긍정", probabilities: { 긍정: 0.8, 부정: 0.2, ... } }
 };

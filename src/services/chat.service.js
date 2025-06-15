@@ -20,9 +20,9 @@ import { createBattleRoom,
     updateBattleRoomTopics as repoUpdateBattleRoomTopics,
     findActiveParticipant,
     updateParticipantEndAt,
-    getRoomsPaginated,
     deleteExistingParticipationRecords,
     listRoomParticipantsWithUser,
+    findChatMessageById
 } from '../repositories/chat.repository.js';
 import { toCreateRoomDto, 
   responseFromRoom 
@@ -30,7 +30,8 @@ import { toCreateRoomDto,
 
 import { callFilterProfanity,
   callAnalyzeDebate,
-  callGenerateTopic
+  callGenerateTopic,
+  callAnalyzeSentiment
 } from "../repositories/ai.repository.js";
 
 // 방 생성 service
@@ -726,6 +727,39 @@ export const createChatMessage = async ({ roomId, userId, side, message }) => {
   });
 
   return record;
+};
+
+// 단일 채팅 감정 분석
+export const getMessageSentiment = async ({ roomId, userId, messageId }) => {
+  // 1) 메시지가 있는지
+  const msg = await findChatMessageById(messageId);
+  if (!msg || msg.roomId.toString() !== roomId.toString()) {
+    const e = new Error("MESSAGE_NOT_FOUND"); e.code = "MESSAGE_NOT_FOUND";
+    throw e;
+  }
+  // 2) 조회 권한 확인 (방 참가자/관전자)
+  const cnt = await prisma.roomParticipant.count({
+    where: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId),
+      endAt: null
+    }
+  });
+  if (cnt === 0) {
+    const e = new Error("FORBIDDEN"); e.code = "FORBIDDEN";
+    throw e;
+  }
+  // 3) AI 감정 분석 호출
+  const sentiment = await callAnalyzeSentiment(msg.message);
+  // 4) 결과 조합
+  return {
+    messageId:  msg.id.toString(),
+    roomId:     msg.roomId.toString(),
+    userId:     msg.userId.toString(),
+    side:       msg.side,
+    createdAt:  msg.createdAt,
+    sentiment   // { emotion, probabilities, warning }
+  };
 };
 
 // 채팅 정보 조회

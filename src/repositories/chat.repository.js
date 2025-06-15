@@ -341,3 +341,18 @@ export const listRoomParticipantsWithUser = (roomId) => {
     orderBy: { joinedAt: "asc" }
   });
 };
+
+// (4) 단일 채팅 메시지 조회용
+export const findChatMessageById = (messageId) => {
+  return prisma.chatMessage.findUnique({
+    where: { id: BigInt(messageId) },
+    select: {
+      id:        true,
+      roomId:    true,
+      userId:    true,
+      side:      true,
+      message:   true,
+      createdAt: true
+    }
+  });
+};

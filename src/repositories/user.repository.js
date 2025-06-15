@@ -126,7 +126,17 @@ export const findEmail = async (req) => {
 
 // 유저 정보 불러오는 기능
 export const userInfoRep = async (user_id) => {
-  const user = await prisma.user.findFirstOrThrow({ where: { id: user_id } });
+  const user = await prisma.user.findUnique({
+    where: { id: BigInt(user_id) },
+    include: {
+      ranking: {
+        select: {
+          tier: true,
+          rank: true
+        }
+      }
+    }
+  });
   return user;
 };
 

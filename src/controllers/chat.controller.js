@@ -20,7 +20,7 @@ import { createRoom,
   updateTopics,
   changeParticipantRole as serviceChangeRole,
   joinBattleRoom,
-  createChatMessage
+  getMessageSentiment
 } from "../services/chat.service.js"
 import { toJoinRoomDto } from "../dtos/chat.dto.js"
 
@@ -1930,6 +1930,72 @@ export const handlePostChatMessage = async (req, res) => {
     }));
   } catch (err) {
     console.error("🔴 handlePostChatMessage 오류:", err);
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
+    }
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 배틀방 단일 채팅 감정 분석 api
+export const handleGetMessageSentiment = async (req, res) => {
+  /**
+    #swagger.summary = '특정 채팅 메시지 감정 분석 조회 API'
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.tags = ['Chat']
+    #swagger.parameters['roomId'] = { in:'path', description:'배틀방 ID', required:true, type:'integer', example:1 }
+    #swagger.parameters['messageId'] = { in:'path', description:'메시지 ID', required:true, type:'integer', example:42 }
+    #swagger.responses[200] = {
+      description: "감정 분석 조회 성공",
+      schema: {
+        isSuccess: true, code:"200", message:"success!",
+        result: {
+          messageId:  "42",
+          roomId:     "1",
+          userId:     "9",
+          side:       "A",
+          createdAt:  "2025-06-15T10:00:00.000Z",
+          sentiment: {
+            emotion: "긍정",
+            probabilities: { 긍정:0.85, 부정:0.05, 중립:0.10 },
+            warning: false
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = { description:"잘못된 요청", schema:{ isSuccess:false, code:"COMMON001", message:"잘못된 요청입니다.", result:null } }
+    #swagger.responses[401] = { description:"토큰 형식 오류", schema:{ isSuccess:false, code:"MEMBER4006", message:"토큰 오류", result:null } }
+    #swagger.responses[403] = { description:"권한 없음", schema:{ isSuccess:false, code:"COMMON004", message:"금지된 요청입니다.", result:null } }
+    #swagger.responses[404] = { description:"메시지 없음", schema:{ isSuccess:false, code:"CHAT4041", message:"메시지를 찾을 수 없습니다.", result:null } }
+  */
+  try {
+    // 1) 토큰 검증
+    const raw = req.get("Authorization");
+    const token = raw && checkFormat(raw);
+    if (!token) return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+
+    // 2) 파라미터 파싱
+    const roomId    = req.params.roomId;
+    const messageId = req.params.messageId;
+    if (isNaN(Number(roomId)) || isNaN(Number(messageId))) {
+      return res.send(response(status.BAD_REQUEST, null));
+    }
+
+    // 3) 서비스 호출
+    const result = await getMessageSentiment({
+      roomId,
+      userId:    req.userId,
+      messageId
+    });
+
+    // 4) 성공 응답
+    return res.send(response(status.SUCCESS, result));
+
+  } catch (err) {
+    console.error("🔴 handleGetMessageSentiment 오류:", err);
+    if (err.code === "MESSAGE_NOT_FOUND") {
+      return res.send(response(status.NOT_FOUND, null));
+    }
     if (err.code === "FORBIDDEN") {
       return res.send(response(status.FORBIDDEN, null));
     }

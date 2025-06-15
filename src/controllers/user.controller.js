@@ -235,33 +235,37 @@ export const handleLogin = async (req, res, next) => {
 
 // 유저 정보 불러오기
 export const handleUserInfo = async (req, res) => {
-/*
+/**
   #swagger.summary = '유저 정보 불러오기 API'
   #swagger.tags = ['User']
-  #swagger.security = [{
-    "BearerAuth": []
-  }]
+  #swagger.security = [{ "BearerAuth": [] }]
+
   #swagger.responses[200] = {
-    description: "유저 정보 성공 응답",
+    description: "유저 정보 조회 성공",
     content: {
       "application/json": {
         schema: {
           type: "object",
           properties: {
-            isSuccess: { type: "boolean", example: true },
-            code: { type: "number", example: 200 },
-            message: { type: "string", example: "유저 정보 조회 성공" },
+            isSuccess:       { type: "boolean", example: true },
+            code:            { type: "number",  example: 200 },
+            message:         { type: "string",  example: "유저 정보 조회 성공" },
             result: {
               type: "object",
               properties: {
-                id: { type: "string", example: "1" },
-                email: { type: "string", example: "user@example.com" },
-                nickname: { type: "string", example: "nickname" },
-                name: { type: "string", example: "John Doe" },
-                status: { type: "string", example: "active" },
+                id:              { type: "string", example: "1" },
+                email:           { type: "string", example: "user@example.com" },
+                nickname:        { type: "string", example: "nickname" },
+                name:            { type: "string", example: "John Doe" },
                 profileImageUrl: { type: "string", nullable: true, example: null },
-                createdAt: { type: "string", format: "date", example: "2021-05-12" },
-                updatedAt: { type: "string", format: "date", example: "2021-06-15" }
+                gender:          { type: "string", example: "M" },
+                birth:           { type: "string", format: "date-time", example: "1992-07-15T00:00:00.000Z" },
+                phoneNumber:     { type: "string", example: "010-1234-5678" },
+                point:           { type: "number", example: 3300 },
+                tier:            { type: "string", example: "Gold" },
+                rank:            { type: "number", example: 123 },
+                createdAt:       { type: "string", format: "date-time", example: "2025-05-25T19:42:11.304Z" },
+                updatedAt:       { type: "string", format: "date-time", example: "2025-06-14T20:03:16.935Z" }
               }
             }
           }
@@ -316,8 +320,8 @@ export const handleUserInfo = async (req, res) => {
       res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
   } catch (err) {
-    console.log(err);
-    res.send(response(BaseError));
+    console.error("🔴 handleUserInfo 오류:", err);
+    return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
 

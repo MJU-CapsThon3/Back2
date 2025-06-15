@@ -200,7 +200,20 @@ export const loginService = async (req) => {
 // 유저 정보 불러오는 service
 export const userInfoService = async (user_id) => {
   const userInfo = await userInfoRep(user_id);
+
+  // 비밀번호 숨기기
   userInfo.password = "hidden";
+
+  // ranking 데이터가 있으면 풀어서 top-level로 올리고, 원본 프로퍼티는 삭제
+  if (userInfo.ranking) {
+    userInfo.tier = userInfo.ranking.tier;
+    userInfo.rank = userInfo.ranking.rank;
+  } else {
+    userInfo.tier = null;
+    userInfo.rank = null;
+  }
+  delete userInfo.ranking;
+
   return userInfo;
 };
 
