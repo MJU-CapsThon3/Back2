@@ -24,9 +24,14 @@ export default function App() {
   const [filterResult, setFilterResult] = useState(null);
 
   const [debate, setDebate] = useState('');
-  const [debateResult, setDebateResult] = useState('');
+  const [debateResultA, setDebateResultA] = useState('');
+  const [debateResultB, setDebateResultB] = useState('');
+  const [debateWinner, setDebateWinner] = useState('');
+  const [results, setResults] = useState([]);
 
   const [debateTopic, setDebateTopic] = useState('');
+  const [debateOptionsA, setDebateOptionsA] = useState([]);
+  const [debateOptionsB, setDebateOptionsB] = useState([]);
 
   // env 대체
   const API_URL = "http://localhost:8000";
@@ -163,10 +168,22 @@ export default function App() {
         });
         const data = await res.json();
         setDebateTopic(data.topic);
+        setDebateOptionsA(data.option_a);
+        setDebateOptionsB(data.option_b); 
       }} style={{ marginTop: 8 }}>토론 주제 생성</button>
       {debateTopic && (
         <div style={{ marginTop: 8 }}>
           <h3>{debateTopic}</h3>
+        </div>
+      )}
+      {debateOptionsA && (
+        <div style={{ marginTop: 8 }}>
+          <h3>{debateOptionsA}</h3>
+        </div>
+      )}
+      {debateOptionsB && (
+        <div style={{ marginTop: 8 }}>
+          <h3>{debateOptionsB}</h3>
         </div>
       )}
     </section>
