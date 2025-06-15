@@ -7530,6 +7530,405 @@
         ]
       }
     },
+    "/battle/rooms/{roomId}/rematch": {
+      "post": {
+        "tags": [
+          "BattleRoom"
+        ],
+        "summary": "복수전(리매치) API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "원본 배틀방 ID",
+            "format": "int64",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "리매치 방 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "리매치 방이 생성되었습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "2"
+                        },
+                        "adminId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "question": {
+                          "type": "string",
+                          "example": "원본 주제"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "A 선택지"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "B 선택지"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "WAITING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-06-15T12:00:00.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "리매치 방이 생성되었습니다."
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "2"
+                        },
+                        "adminId": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "question": {
+                          "type": "string",
+                          "example": "원본 주제"
+                        },
+                        "topicA": {
+                          "type": "string",
+                          "example": "A 선택지"
+                        },
+                        "topicB": {
+                          "type": "string",
+                          "example": "B 선택지"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "WAITING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-06-15T12:00:00.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청 (roomId가 유효하지 않거나 방이 아직 종료되지 않음)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "잘못된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 형식 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 포맷이 올바르지 않습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "MEMBER4006"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "토큰 포맷이 올바르지 않습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 오류 (원본 방의 방장만 리매치 가능)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON004"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "금지된 요청입니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "원본 방을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "ROOMIN4005"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방을 찾을 수 없습니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "COMMON000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "서버 에러, 관리자에게 문의 바랍니다."
+                    },
+                    "result": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
     "/ai/filter": {
       "post": {
         "tags": [

@@ -1053,3 +1053,56 @@ async function fetchDebateContentAsString(roomId) {
     .map(m => `${m.side === "A" ? "A" : "B"}: ${m.message}`)
     .join("\n");
 }
+
+export const rematchRoom = async ({ roomId, userId }) => {
+  // 1) 원본 방 존재 여부 확인
+  const original = await prisma.battleRoom.findUnique({
+    where: { id: BigInt(roomId) },
+    select: { id: true, admin: true, question: true, topicA: true, topicB: true, status: true }
+  });
+  if (!original) {
+    const err = new Error("ROOM_NOT_FOUND"); err.code = "ROOM_NOT_FOUND";
+    throw err;
+  }
+
+  // 2) 원본 방이 종료 상태여야만 리매치 가능
+  if (original.status !== "ENDED") {
+    const err = new Error("INVALID_STATE"); err.code = "INVALID_STATE";
+    throw err;
+  }
+
+  // 3) 원본 방의 방장만 리매치 가능
+  if (original.admin.toString() !== String(userId)) {
+    const err = new Error("FORBIDDEN"); err.code = "FORBIDDEN";
+    throw err;
+  }
+
+  // 4) 새로운 방 생성 (주제는 원본과 동일, 상태는 WAITING)
+  const newRoom = await createBattleRoom({
+    admin:      BigInt(userId),
+    roomName:   `리매치: ${original.question || `${original.topicA} vs ${original.topicB}`}`,
+    question:   original.question,
+    topicA:     original.topicA,
+    topicB:     original.topicB,
+    status:     "WAITING"
+  });
+
+  // 5) 방장(요청자)을 자동으로 관전자(P)로 참여시킴
+  await createRoomParticipant({
+    roomId:   newRoom.id,
+    userId:   BigInt(userId),
+    role:     "P",
+    joinedAt: new Date()
+  });
+
+  // 6) 응답 DTO 반환
+  return {
+    roomId:    newRoom.id.toString(),
+    adminId:   newRoom.admin.toString(),
+    question:  newRoom.question,
+    topicA:    newRoom.topicA,
+    topicB:    newRoom.topicB,
+    status:    newRoom.status,
+    createdAt: newRoom.createdAt
+  };
+};
