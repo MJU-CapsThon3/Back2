@@ -237,6 +237,7 @@ exports.Prisma.QuestCompletionScalarFieldEnum = {
 exports.Prisma.PointTransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  battleRoomId: 'battleRoomId',
   change: 'change',
   reason: 'reason',
   createdAt: 'createdAt'

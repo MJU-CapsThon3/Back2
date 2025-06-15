@@ -744,57 +744,53 @@ export const voteInRoom = async ({ roomId, userId, vote }) => {
   // 1) 방 존재 여부 확인
   const room = await findBattleRoomById(BigInt(roomId));
   if (!room) {
-    const err = new Error("ROOM_NOT_FOUND"); err.code = "ROOM_NOT_FOUND";
+    const err = new Error("ROOM_NOT_FOUND");
+    err.code = "ROOM_NOT_FOUND";
     throw err;
   }
 
-  // 2) 관전자(P) 수 조회
-  const specCount = await countRoomSpectators(BigInt(roomId));
-  // P 가 한 명도 없으면 투표 과정 스킵
-  if (specCount === 0) {
-    return {
-      skipped: true,
-      countA:  0,
-      countB:  0,
-      total:   0,
-      votes:   []
-    };
-  }
-
-  // 3) 요청한 유저가 P 인지 검사
-  const isSpec = await prisma.roomParticipant.count({
+  // 2) 요청한 유저가 방에 참여 중인지 검사 (A/B/P 모두 가능)
+  const isInRoom = await prisma.roomParticipant.count({
     where: {
       roomId: BigInt(roomId),
       userId: BigInt(userId),
-      role:   "P",
       endAt:  null
     }
   });
-  if (isSpec === 0) {
-    const err = new Error("FORBIDDEN"); err.code = "FORBIDDEN";
+  if (isInRoom === 0) {
+    const err = new Error("FORBIDDEN");
+    err.code = "FORBIDDEN";
     throw err;
   }
 
-  // 4) 중복 투표 체크
-  const dup = await prisma.battleVote.findFirst({
-    where: { roomId: BigInt(roomId), userId: BigInt(userId) }
+  // 3) 중복 투표 체크
+  const existing = await prisma.battleVote.findFirst({
+    where: {
+      roomId: BigInt(roomId),
+      userId: BigInt(userId)
+    }
   });
-  if (dup) {
-    const err = new Error("ALREADY_VOTED"); err.code = "ALREADY_VOTED";
+  if (existing) {
+    const err = new Error("ALREADY_VOTED");
+    err.code = "ALREADY_VOTED";
     throw err;
   }
 
-  // 5) 투표 저장 (결과는 집계에서 다시 조회하므로 별도 할당할 필요 없음)
+  // 4) 투표 저장
   await createBattleVote({
     roomId: BigInt(roomId),
     userId: BigInt(userId),
     vote
   });
 
-  // 6) 전체 집계 조회
+  // 5) 전체 집계 조회
   const all = await findVotesByRoomId(BigInt(roomId));
-  let countA = 0, countB = 0;
-  all.forEach(r => r.vote === "A" ? countA++ : countB++);
+  let countA = 0;
+  let countB = 0;
+  all.forEach(r => {
+    if (r.vote === "A") countA++;
+    else countB++;
+  });
 
   return {
     countA,
@@ -927,45 +923,44 @@ export const getFinalResultAndAward = async ({ roomId, userId }) => {
     topic:   `${room.topicA} vs ${room.topicB}`,
     content: debate
   });
-  const aiWinner        = aiRes.winner;                
-  const aiAnalysisText  = aiRes.result;                
+  const aiWinner        = aiRes.winner;
+  const aiAnalysisText  = aiRes.result;
   const judgementReason = aiRes.judgement_reason;
 
   // 5) 포인트 지급: 방장이 처음 요청했을 때만
   if (!room.isAwarded && room.admin.toString() === String(userId)) {
-    // A/B 참가자 조회 (role 필드!)
     const participants = await prisma.roomParticipant.findMany({
-      where:  { roomId: BigInt(roomId) },
+      where: { roomId: BigInt(roomId) },
       select: { userId: true, role: true }
     });
     const sideA = participants.find(p => p.role === "A")?.userId ?? null;
     const sideB = participants.find(p => p.role === "B")?.userId ?? null;
 
-    /** 포인트 어워드 리스트 구성 **/
     const awards = [];
     if (voteWinner === "A" && sideA) awards.push({ userId: sideA, points: 500, reason: "관전자 투표 우승 보상" });
     if (voteWinner === "B" && sideB) awards.push({ userId: sideB, points: 500, reason: "관전자 투표 우승 보상" });
     if (aiWinner   === "A" && sideA) awards.push({ userId: sideA, points: 500, reason: "AI 토론 분석 우승 보상" });
     if (aiWinner   === "B" && sideB) awards.push({ userId: sideB, points: 500, reason: "AI 토론 분석 우승 보상" });
 
-    // DB에 기록 & user.totalPoints 증가
+    let totalPointsAwarded = 0;
+
     for (const a of awards) {
       await prisma.pointTransaction.create({
         data: {
           userId:       BigInt(a.userId),
-          points:       a.points,
-          type:         a.reason,
+          change:       a.points,
+          reason:       a.reason,
           battleRoomId: BigInt(roomId),
           createdAt:    new Date()
         }
       });
       await prisma.user.update({
         where: { id: BigInt(a.userId) },
-        data:  { totalPoints: { increment: a.points } }
+        data:  { point: { increment: a.points } }
       });
+      totalPointsAwarded += a.points;
     }
 
-    // 방 상태 변경
     await prisma.battleRoom.update({
       where: { id: BigInt(roomId) },
       data:  { isAwarded: true, status: "ENDED" }
@@ -975,15 +970,15 @@ export const getFinalResultAndAward = async ({ roomId, userId }) => {
   // 6) 최종 지급된 총 포인트 합계 조회
   const txs = await prisma.pointTransaction.findMany({
     where:  { battleRoomId: BigInt(roomId) },
-    select: { points: true }
+    select: { change: true }
   });
-  const totalPoints = txs.reduce((sum, t) => sum + t.points, 0);
+  const totalPoints = txs.reduce((sum, t) => sum + t.change, 0);
 
   // 7) 결과 반환
   return {
-    voteCount:      { A: countA,   B: countB   },
-    voteWinner,     // "A" | "B" | null
-    aiWinner,       // "A" | "B"
+    voteCount:      { A: countA, B: countB },
+    voteWinner,
+    aiWinner,
     judgementReason,
     aiAnalysis:     aiAnalysisText,
     pointsAwarded:  totalPoints

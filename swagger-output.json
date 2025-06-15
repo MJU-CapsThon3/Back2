@@ -5727,7 +5727,7 @@
         "tags": [
           "Vote"
         ],
-        "summary": "관전자 투표 저장 API",
+        "summary": "투표 저장 API",
         "description": "",
         "parameters": [
           {

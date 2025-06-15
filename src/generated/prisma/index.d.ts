@@ -2078,6 +2078,7 @@ export namespace Prisma {
    */
 
   export type BattleRoomCountOutputType = {
+    pointTransactions: number
     battleTitle: number
     roomParticipants: number
     aiSummaries: number
@@ -2087,6 +2088,7 @@ export namespace Prisma {
   }
 
   export type BattleRoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pointTransactions?: boolean | BattleRoomCountOutputTypeCountPointTransactionsArgs
     battleTitle?: boolean | BattleRoomCountOutputTypeCountBattleTitleArgs
     roomParticipants?: boolean | BattleRoomCountOutputTypeCountRoomParticipantsArgs
     aiSummaries?: boolean | BattleRoomCountOutputTypeCountAiSummariesArgs
@@ -2104,6 +2106,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the BattleRoomCountOutputType
      */
     select?: BattleRoomCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BattleRoomCountOutputType without action
+   */
+  export type BattleRoomCountOutputTypeCountPointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PointTransactionWhereInput
   }
 
   /**
@@ -10594,6 +10603,7 @@ export namespace Prisma {
     approvalNum?: boolean
     oppositeNum?: boolean
     isAwarded?: boolean
+    pointTransactions?: boolean | BattleRoom$pointTransactionsArgs<ExtArgs>
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
     aiSummaries?: boolean | BattleRoom$aiSummariesArgs<ExtArgs>
@@ -10623,6 +10633,7 @@ export namespace Prisma {
 
   export type BattleRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "admin" | "roomName" | "question" | "topicA" | "topicB" | "status" | "createdAt" | "startedAt" | "endedAt" | "approvalNum" | "oppositeNum" | "isAwarded", ExtArgs["result"]["battleRoom"]>
   export type BattleRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pointTransactions?: boolean | BattleRoom$pointTransactionsArgs<ExtArgs>
     battleTitle?: boolean | BattleRoom$battleTitleArgs<ExtArgs>
     roomParticipants?: boolean | BattleRoom$roomParticipantsArgs<ExtArgs>
     aiSummaries?: boolean | BattleRoom$aiSummariesArgs<ExtArgs>
@@ -10635,6 +10646,7 @@ export namespace Prisma {
   export type $BattleRoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BattleRoom"
     objects: {
+      pointTransactions: Prisma.$PointTransactionPayload<ExtArgs>[]
       battleTitle: Prisma.$BattleTitlePayload<ExtArgs>[]
       roomParticipants: Prisma.$RoomParticipantPayload<ExtArgs>[]
       aiSummaries: Prisma.$AiSummaryPayload<ExtArgs>[]
@@ -10996,6 +11008,7 @@ export namespace Prisma {
    */
   export interface Prisma__BattleRoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    pointTransactions<T extends BattleRoom$pointTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     battleTitle<T extends BattleRoom$battleTitleArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$battleTitleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     roomParticipants<T extends BattleRoom$roomParticipantsArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$roomParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiSummaries<T extends BattleRoom$aiSummariesArgs<ExtArgs> = {}>(args?: Subset<T, BattleRoom$aiSummariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiSummaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11384,6 +11397,30 @@ export namespace Prisma {
      * Limit how many BattleRooms to delete.
      */
     limit?: number
+  }
+
+  /**
+   * BattleRoom.pointTransactions
+   */
+  export type BattleRoom$pointTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PointTransaction
+     */
+    select?: PointTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PointTransaction
+     */
+    omit?: PointTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PointTransactionInclude<ExtArgs> | null
+    where?: PointTransactionWhereInput
+    orderBy?: PointTransactionOrderByWithRelationInput | PointTransactionOrderByWithRelationInput[]
+    cursor?: PointTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PointTransactionScalarFieldEnum | PointTransactionScalarFieldEnum[]
   }
 
   /**
@@ -13554,18 +13591,21 @@ export namespace Prisma {
   export type PointTransactionAvgAggregateOutputType = {
     id: number | null
     userId: number | null
+    battleRoomId: number | null
     change: number | null
   }
 
   export type PointTransactionSumAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
+    battleRoomId: bigint | null
     change: number | null
   }
 
   export type PointTransactionMinAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
+    battleRoomId: bigint | null
     change: number | null
     reason: string | null
     createdAt: Date | null
@@ -13574,6 +13614,7 @@ export namespace Prisma {
   export type PointTransactionMaxAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
+    battleRoomId: bigint | null
     change: number | null
     reason: string | null
     createdAt: Date | null
@@ -13582,6 +13623,7 @@ export namespace Prisma {
   export type PointTransactionCountAggregateOutputType = {
     id: number
     userId: number
+    battleRoomId: number
     change: number
     reason: number
     createdAt: number
@@ -13592,18 +13634,21 @@ export namespace Prisma {
   export type PointTransactionAvgAggregateInputType = {
     id?: true
     userId?: true
+    battleRoomId?: true
     change?: true
   }
 
   export type PointTransactionSumAggregateInputType = {
     id?: true
     userId?: true
+    battleRoomId?: true
     change?: true
   }
 
   export type PointTransactionMinAggregateInputType = {
     id?: true
     userId?: true
+    battleRoomId?: true
     change?: true
     reason?: true
     createdAt?: true
@@ -13612,6 +13657,7 @@ export namespace Prisma {
   export type PointTransactionMaxAggregateInputType = {
     id?: true
     userId?: true
+    battleRoomId?: true
     change?: true
     reason?: true
     createdAt?: true
@@ -13620,6 +13666,7 @@ export namespace Prisma {
   export type PointTransactionCountAggregateInputType = {
     id?: true
     userId?: true
+    battleRoomId?: true
     change?: true
     reason?: true
     createdAt?: true
@@ -13715,6 +13762,7 @@ export namespace Prisma {
   export type PointTransactionGroupByOutputType = {
     id: bigint
     userId: bigint
+    battleRoomId: bigint | null
     change: number
     reason: string
     createdAt: Date
@@ -13742,10 +13790,12 @@ export namespace Prisma {
   export type PointTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    battleRoomId?: boolean
     change?: boolean
     reason?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    battleRoom?: boolean | PointTransaction$battleRoomArgs<ExtArgs>
   }, ExtArgs["result"]["pointTransaction"]>
 
 
@@ -13753,24 +13803,28 @@ export namespace Prisma {
   export type PointTransactionSelectScalar = {
     id?: boolean
     userId?: boolean
+    battleRoomId?: boolean
     change?: boolean
     reason?: boolean
     createdAt?: boolean
   }
 
-  export type PointTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "change" | "reason" | "createdAt", ExtArgs["result"]["pointTransaction"]>
+  export type PointTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "battleRoomId" | "change" | "reason" | "createdAt", ExtArgs["result"]["pointTransaction"]>
   export type PointTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    battleRoom?: boolean | PointTransaction$battleRoomArgs<ExtArgs>
   }
 
   export type $PointTransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PointTransaction"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      battleRoom: Prisma.$BattleRoomPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       userId: bigint
+      battleRoomId: bigint | null
       change: number
       reason: string
       createdAt: Date
@@ -14115,6 +14169,7 @@ export namespace Prisma {
   export interface Prisma__PointTransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    battleRoom<T extends PointTransaction$battleRoomArgs<ExtArgs> = {}>(args?: Subset<T, PointTransaction$battleRoomArgs<ExtArgs>>): Prisma__BattleRoomClient<$Result.GetResult<Prisma.$BattleRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14146,6 +14201,7 @@ export namespace Prisma {
   interface PointTransactionFieldRefs {
     readonly id: FieldRef<"PointTransaction", 'BigInt'>
     readonly userId: FieldRef<"PointTransaction", 'BigInt'>
+    readonly battleRoomId: FieldRef<"PointTransaction", 'BigInt'>
     readonly change: FieldRef<"PointTransaction", 'Int'>
     readonly reason: FieldRef<"PointTransaction", 'String'>
     readonly createdAt: FieldRef<"PointTransaction", 'DateTime'>
@@ -14489,6 +14545,25 @@ export namespace Prisma {
      * Limit how many PointTransactions to delete.
      */
     limit?: number
+  }
+
+  /**
+   * PointTransaction.battleRoom
+   */
+  export type PointTransaction$battleRoomArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleRoom
+     */
+    select?: BattleRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleRoom
+     */
+    omit?: BattleRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleRoomInclude<ExtArgs> | null
+    where?: BattleRoomWhereInput
   }
 
   /**
@@ -16635,6 +16710,7 @@ export namespace Prisma {
   export const PointTransactionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    battleRoomId: 'battleRoomId',
     change: 'change',
     reason: 'reason',
     createdAt: 'createdAt'
@@ -17415,6 +17491,7 @@ export namespace Prisma {
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
     isAwarded?: BoolFilter<"BattleRoom"> | boolean
+    pointTransactions?: PointTransactionListRelationFilter
     battleTitle?: BattleTitleListRelationFilter
     roomParticipants?: RoomParticipantListRelationFilter
     aiSummaries?: AiSummaryListRelationFilter
@@ -17437,6 +17514,7 @@ export namespace Prisma {
     approvalNum?: SortOrder
     oppositeNum?: SortOrder
     isAwarded?: SortOrder
+    pointTransactions?: PointTransactionOrderByRelationAggregateInput
     battleTitle?: BattleTitleOrderByRelationAggregateInput
     roomParticipants?: RoomParticipantOrderByRelationAggregateInput
     aiSummaries?: AiSummaryOrderByRelationAggregateInput
@@ -17463,6 +17541,7 @@ export namespace Prisma {
     approvalNum?: IntFilter<"BattleRoom"> | number
     oppositeNum?: IntFilter<"BattleRoom"> | number
     isAwarded?: BoolFilter<"BattleRoom"> | boolean
+    pointTransactions?: PointTransactionListRelationFilter
     battleTitle?: BattleTitleListRelationFilter
     roomParticipants?: RoomParticipantListRelationFilter
     aiSummaries?: AiSummaryListRelationFilter
@@ -17655,19 +17734,23 @@ export namespace Prisma {
     NOT?: PointTransactionWhereInput | PointTransactionWhereInput[]
     id?: BigIntFilter<"PointTransaction"> | bigint | number
     userId?: BigIntFilter<"PointTransaction"> | bigint | number
+    battleRoomId?: BigIntNullableFilter<"PointTransaction"> | bigint | number | null
     change?: IntFilter<"PointTransaction"> | number
     reason?: StringFilter<"PointTransaction"> | string
     createdAt?: DateTimeFilter<"PointTransaction"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    battleRoom?: XOR<BattleRoomNullableScalarRelationFilter, BattleRoomWhereInput> | null
   }
 
   export type PointTransactionOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrderInput | SortOrder
     change?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    battleRoom?: BattleRoomOrderByWithRelationInput
     _relevance?: PointTransactionOrderByRelevanceInput
   }
 
@@ -17677,15 +17760,18 @@ export namespace Prisma {
     OR?: PointTransactionWhereInput[]
     NOT?: PointTransactionWhereInput | PointTransactionWhereInput[]
     userId?: BigIntFilter<"PointTransaction"> | bigint | number
+    battleRoomId?: BigIntNullableFilter<"PointTransaction"> | bigint | number | null
     change?: IntFilter<"PointTransaction"> | number
     reason?: StringFilter<"PointTransaction"> | string
     createdAt?: DateTimeFilter<"PointTransaction"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    battleRoom?: XOR<BattleRoomNullableScalarRelationFilter, BattleRoomWhereInput> | null
   }, "id">
 
   export type PointTransactionOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrderInput | SortOrder
     change?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
@@ -17702,6 +17788,7 @@ export namespace Prisma {
     NOT?: PointTransactionScalarWhereWithAggregatesInput | PointTransactionScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"PointTransaction"> | bigint | number
     userId?: BigIntWithAggregatesFilter<"PointTransaction"> | bigint | number
+    battleRoomId?: BigIntNullableWithAggregatesFilter<"PointTransaction"> | bigint | number | null
     change?: IntWithAggregatesFilter<"PointTransaction"> | number
     reason?: StringWithAggregatesFilter<"PointTransaction"> | string
     createdAt?: DateTimeWithAggregatesFilter<"PointTransaction"> | Date | string
@@ -18423,6 +18510,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -18445,6 +18533,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -18467,6 +18556,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -18489,6 +18579,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -18688,11 +18779,13 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutPointTransactionsInput
+    battleRoom?: BattleRoomCreateNestedOneWithoutPointTransactionsInput
   }
 
   export type PointTransactionUncheckedCreateInput = {
     id?: bigint | number
     userId: bigint | number
+    battleRoomId?: bigint | number | null
     change: number
     reason: string
     createdAt?: Date | string
@@ -18704,11 +18797,13 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPointTransactionsNestedInput
+    battleRoom?: BattleRoomUpdateOneWithoutPointTransactionsNestedInput
   }
 
   export type PointTransactionUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    battleRoomId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     change?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18717,6 +18812,7 @@ export namespace Prisma {
   export type PointTransactionCreateManyInput = {
     id?: bigint | number
     userId: bigint | number
+    battleRoomId?: bigint | number | null
     change: number
     reason: string
     createdAt?: Date | string
@@ -18732,6 +18828,7 @@ export namespace Prisma {
   export type PointTransactionUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    battleRoomId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     change?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19737,6 +19834,22 @@ export namespace Prisma {
     progress?: SortOrder
   }
 
+  export type BigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | null
+    notIn?: bigint[] | number[] | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type BattleRoomNullableScalarRelationFilter = {
+    is?: BattleRoomWhereInput | null
+    isNot?: BattleRoomWhereInput | null
+  }
+
   export type PointTransactionOrderByRelevanceInput = {
     fields: PointTransactionOrderByRelevanceFieldEnum | PointTransactionOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -19746,6 +19859,7 @@ export namespace Prisma {
   export type PointTransactionCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrder
     change?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
@@ -19754,12 +19868,14 @@ export namespace Prisma {
   export type PointTransactionAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrder
     change?: SortOrder
   }
 
   export type PointTransactionMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrder
     change?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
@@ -19768,6 +19884,7 @@ export namespace Prisma {
   export type PointTransactionMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrder
     change?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
@@ -19776,7 +19893,24 @@ export namespace Prisma {
   export type PointTransactionSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    battleRoomId?: SortOrder
     change?: SortOrder
+  }
+
+  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | null
+    notIn?: bigint[] | number[] | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
   }
 
   export type ChatMessageOrderByRelevanceInput = {
@@ -20384,6 +20518,13 @@ export namespace Prisma {
     deleteMany?: UserItemScalarWhereInput | UserItemScalarWhereInput[]
   }
 
+  export type PointTransactionCreateNestedManyWithoutBattleRoomInput = {
+    create?: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput> | PointTransactionCreateWithoutBattleRoomInput[] | PointTransactionUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutBattleRoomInput | PointTransactionCreateOrConnectWithoutBattleRoomInput[]
+    createMany?: PointTransactionCreateManyBattleRoomInputEnvelope
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+  }
+
   export type BattleTitleCreateNestedManyWithoutBattleRoomInput = {
     create?: XOR<BattleTitleCreateWithoutBattleRoomInput, BattleTitleUncheckedCreateWithoutBattleRoomInput> | BattleTitleCreateWithoutBattleRoomInput[] | BattleTitleUncheckedCreateWithoutBattleRoomInput[]
     connectOrCreate?: BattleTitleCreateOrConnectWithoutBattleRoomInput | BattleTitleCreateOrConnectWithoutBattleRoomInput[]
@@ -20426,6 +20567,13 @@ export namespace Prisma {
     connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
   }
 
+  export type PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput = {
+    create?: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput> | PointTransactionCreateWithoutBattleRoomInput[] | PointTransactionUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutBattleRoomInput | PointTransactionCreateOrConnectWithoutBattleRoomInput[]
+    createMany?: PointTransactionCreateManyBattleRoomInputEnvelope
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+  }
+
   export type BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput = {
     create?: XOR<BattleTitleCreateWithoutBattleRoomInput, BattleTitleUncheckedCreateWithoutBattleRoomInput> | BattleTitleCreateWithoutBattleRoomInput[] | BattleTitleUncheckedCreateWithoutBattleRoomInput[]
     connectOrCreate?: BattleTitleCreateOrConnectWithoutBattleRoomInput | BattleTitleCreateOrConnectWithoutBattleRoomInput[]
@@ -20466,6 +20614,20 @@ export namespace Prisma {
     connectOrCreate?: BattleVoteCreateOrConnectWithoutBattleRoomInput | BattleVoteCreateOrConnectWithoutBattleRoomInput[]
     createMany?: BattleVoteCreateManyBattleRoomInputEnvelope
     connect?: BattleVoteWhereUniqueInput | BattleVoteWhereUniqueInput[]
+  }
+
+  export type PointTransactionUpdateManyWithoutBattleRoomNestedInput = {
+    create?: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput> | PointTransactionCreateWithoutBattleRoomInput[] | PointTransactionUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutBattleRoomInput | PointTransactionCreateOrConnectWithoutBattleRoomInput[]
+    upsert?: PointTransactionUpsertWithWhereUniqueWithoutBattleRoomInput | PointTransactionUpsertWithWhereUniqueWithoutBattleRoomInput[]
+    createMany?: PointTransactionCreateManyBattleRoomInputEnvelope
+    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    update?: PointTransactionUpdateWithWhereUniqueWithoutBattleRoomInput | PointTransactionUpdateWithWhereUniqueWithoutBattleRoomInput[]
+    updateMany?: PointTransactionUpdateManyWithWhereWithoutBattleRoomInput | PointTransactionUpdateManyWithWhereWithoutBattleRoomInput[]
+    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
   }
 
   export type BattleTitleUpdateManyWithoutBattleRoomNestedInput = {
@@ -20550,6 +20712,20 @@ export namespace Prisma {
     update?: BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput | BattleVoteUpdateWithWhereUniqueWithoutBattleRoomInput[]
     updateMany?: BattleVoteUpdateManyWithWhereWithoutBattleRoomInput | BattleVoteUpdateManyWithWhereWithoutBattleRoomInput[]
     deleteMany?: BattleVoteScalarWhereInput | BattleVoteScalarWhereInput[]
+  }
+
+  export type PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput = {
+    create?: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput> | PointTransactionCreateWithoutBattleRoomInput[] | PointTransactionUncheckedCreateWithoutBattleRoomInput[]
+    connectOrCreate?: PointTransactionCreateOrConnectWithoutBattleRoomInput | PointTransactionCreateOrConnectWithoutBattleRoomInput[]
+    upsert?: PointTransactionUpsertWithWhereUniqueWithoutBattleRoomInput | PointTransactionUpsertWithWhereUniqueWithoutBattleRoomInput[]
+    createMany?: PointTransactionCreateManyBattleRoomInputEnvelope
+    set?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    disconnect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    delete?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    connect?: PointTransactionWhereUniqueInput | PointTransactionWhereUniqueInput[]
+    update?: PointTransactionUpdateWithWhereUniqueWithoutBattleRoomInput | PointTransactionUpdateWithWhereUniqueWithoutBattleRoomInput[]
+    updateMany?: PointTransactionUpdateManyWithWhereWithoutBattleRoomInput | PointTransactionUpdateManyWithWhereWithoutBattleRoomInput[]
+    deleteMany?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
   }
 
   export type BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput = {
@@ -20684,12 +20860,36 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type BattleRoomCreateNestedOneWithoutPointTransactionsInput = {
+    create?: XOR<BattleRoomCreateWithoutPointTransactionsInput, BattleRoomUncheckedCreateWithoutPointTransactionsInput>
+    connectOrCreate?: BattleRoomCreateOrConnectWithoutPointTransactionsInput
+    connect?: BattleRoomWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutPointTransactionsNestedInput = {
     create?: XOR<UserCreateWithoutPointTransactionsInput, UserUncheckedCreateWithoutPointTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPointTransactionsInput
     upsert?: UserUpsertWithoutPointTransactionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPointTransactionsInput, UserUpdateWithoutPointTransactionsInput>, UserUncheckedUpdateWithoutPointTransactionsInput>
+  }
+
+  export type BattleRoomUpdateOneWithoutPointTransactionsNestedInput = {
+    create?: XOR<BattleRoomCreateWithoutPointTransactionsInput, BattleRoomUncheckedCreateWithoutPointTransactionsInput>
+    connectOrCreate?: BattleRoomCreateOrConnectWithoutPointTransactionsInput
+    upsert?: BattleRoomUpsertWithoutPointTransactionsInput
+    disconnect?: BattleRoomWhereInput | boolean
+    delete?: BattleRoomWhereInput | boolean
+    connect?: BattleRoomWhereUniqueInput
+    update?: XOR<XOR<BattleRoomUpdateToOneWithWhereWithoutPointTransactionsInput, BattleRoomUpdateWithoutPointTransactionsInput>, BattleRoomUncheckedUpdateWithoutPointTransactionsInput>
+  }
+
+  export type NullableBigIntFieldUpdateOperationsInput = {
+    set?: bigint | number | null
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
   }
 
   export type BattleRoomCreateNestedOneWithoutChatMessagesInput = {
@@ -21007,6 +21207,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | null
+    notIn?: bigint[] | number[] | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | null
+    notIn?: bigint[] | number[] | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
   export type BattleVoteCreateWithoutUserInput = {
     id?: bigint | number
     vote: string
@@ -21062,10 +21289,12 @@ export namespace Prisma {
     change: number
     reason: string
     createdAt?: Date | string
+    battleRoom?: BattleRoomCreateNestedOneWithoutPointTransactionsInput
   }
 
   export type PointTransactionUncheckedCreateWithoutUserInput = {
     id?: bigint | number
+    battleRoomId?: bigint | number | null
     change: number
     reason: string
     createdAt?: Date | string
@@ -21263,6 +21492,7 @@ export namespace Prisma {
     NOT?: PointTransactionScalarWhereInput | PointTransactionScalarWhereInput[]
     id?: BigIntFilter<"PointTransaction"> | bigint | number
     userId?: BigIntFilter<"PointTransaction"> | bigint | number
+    battleRoomId?: BigIntNullableFilter<"PointTransaction"> | bigint | number | null
     change?: IntFilter<"PointTransaction"> | number
     reason?: StringFilter<"PointTransaction"> | string
     createdAt?: DateTimeFilter<"PointTransaction"> | Date | string
@@ -21542,6 +21772,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -21563,6 +21794,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21647,6 +21879,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -21668,6 +21901,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -21742,6 +21976,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -21763,6 +21998,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21800,6 +22036,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -21821,6 +22058,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -21842,6 +22080,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -21863,6 +22102,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -21900,6 +22140,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -21921,6 +22162,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22120,6 +22362,32 @@ export namespace Prisma {
     data: XOR<UserItemUpdateManyMutationInput, UserItemUncheckedUpdateManyWithoutItemInput>
   }
 
+  export type PointTransactionCreateWithoutBattleRoomInput = {
+    id?: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPointTransactionsInput
+  }
+
+  export type PointTransactionUncheckedCreateWithoutBattleRoomInput = {
+    id?: bigint | number
+    userId: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PointTransactionCreateOrConnectWithoutBattleRoomInput = {
+    where: PointTransactionWhereUniqueInput
+    create: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput>
+  }
+
+  export type PointTransactionCreateManyBattleRoomInputEnvelope = {
+    data: PointTransactionCreateManyBattleRoomInput | PointTransactionCreateManyBattleRoomInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BattleTitleCreateWithoutBattleRoomInput = {
     id?: bigint | number
     title: string
@@ -22272,6 +22540,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PointTransactionUpsertWithWhereUniqueWithoutBattleRoomInput = {
+    where: PointTransactionWhereUniqueInput
+    update: XOR<PointTransactionUpdateWithoutBattleRoomInput, PointTransactionUncheckedUpdateWithoutBattleRoomInput>
+    create: XOR<PointTransactionCreateWithoutBattleRoomInput, PointTransactionUncheckedCreateWithoutBattleRoomInput>
+  }
+
+  export type PointTransactionUpdateWithWhereUniqueWithoutBattleRoomInput = {
+    where: PointTransactionWhereUniqueInput
+    data: XOR<PointTransactionUpdateWithoutBattleRoomInput, PointTransactionUncheckedUpdateWithoutBattleRoomInput>
+  }
+
+  export type PointTransactionUpdateManyWithWhereWithoutBattleRoomInput = {
+    where: PointTransactionScalarWhereInput
+    data: XOR<PointTransactionUpdateManyMutationInput, PointTransactionUncheckedUpdateManyWithoutBattleRoomInput>
+  }
+
   export type BattleTitleUpsertWithWhereUniqueWithoutBattleRoomInput = {
     where: BattleTitleWhereUniqueInput
     update: XOR<BattleTitleUpdateWithoutBattleRoomInput, BattleTitleUncheckedUpdateWithoutBattleRoomInput>
@@ -22416,6 +22700,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
@@ -22437,6 +22722,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
     aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -22474,6 +22760,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
@@ -22495,6 +22782,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22705,6 +22993,55 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutPointTransactionsInput, UserUncheckedCreateWithoutPointTransactionsInput>
   }
 
+  export type BattleRoomCreateWithoutPointTransactionsInput = {
+    id?: bigint | number
+    admin: bigint | number
+    roomName: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
+    status: string
+    createdAt?: Date | string
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    approvalNum?: number
+    oppositeNum?: number
+    isAwarded?: boolean
+    battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
+    roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
+    aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
+    aiJudgements?: AiJudgementCreateNestedManyWithoutBattleRoomInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteCreateNestedManyWithoutBattleRoomInput
+  }
+
+  export type BattleRoomUncheckedCreateWithoutPointTransactionsInput = {
+    id?: bigint | number
+    admin: bigint | number
+    roomName: string
+    question?: string | null
+    topicA?: string | null
+    topicB?: string | null
+    status: string
+    createdAt?: Date | string
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    approvalNum?: number
+    oppositeNum?: number
+    isAwarded?: boolean
+    battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
+    roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
+    aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
+    aiJudgements?: AiJudgementUncheckedCreateNestedManyWithoutBattleRoomInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutBattleRoomInput
+    votes?: BattleVoteUncheckedCreateNestedManyWithoutBattleRoomInput
+  }
+
+  export type BattleRoomCreateOrConnectWithoutPointTransactionsInput = {
+    where: BattleRoomWhereUniqueInput
+    create: XOR<BattleRoomCreateWithoutPointTransactionsInput, BattleRoomUncheckedCreateWithoutPointTransactionsInput>
+  }
+
   export type UserUpsertWithoutPointTransactionsInput = {
     update: XOR<UserUpdateWithoutPointTransactionsInput, UserUncheckedUpdateWithoutPointTransactionsInput>
     create: XOR<UserCreateWithoutPointTransactionsInput, UserUncheckedCreateWithoutPointTransactionsInput>
@@ -22758,6 +23095,61 @@ export namespace Prisma {
     userItems?: UserItemUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type BattleRoomUpsertWithoutPointTransactionsInput = {
+    update: XOR<BattleRoomUpdateWithoutPointTransactionsInput, BattleRoomUncheckedUpdateWithoutPointTransactionsInput>
+    create: XOR<BattleRoomCreateWithoutPointTransactionsInput, BattleRoomUncheckedCreateWithoutPointTransactionsInput>
+    where?: BattleRoomWhereInput
+  }
+
+  export type BattleRoomUpdateToOneWithWhereWithoutPointTransactionsInput = {
+    where?: BattleRoomWhereInput
+    data: XOR<BattleRoomUpdateWithoutPointTransactionsInput, BattleRoomUncheckedUpdateWithoutPointTransactionsInput>
+  }
+
+  export type BattleRoomUpdateWithoutPointTransactionsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNum?: IntFieldUpdateOperationsInput | number
+    oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
+    roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
+    aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
+    aiJudgements?: AiJudgementUpdateManyWithoutBattleRoomNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUpdateManyWithoutBattleRoomNestedInput
+  }
+
+  export type BattleRoomUncheckedUpdateWithoutPointTransactionsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    admin?: BigIntFieldUpdateOperationsInput | bigint | number
+    roomName?: StringFieldUpdateOperationsInput | string
+    question?: NullableStringFieldUpdateOperationsInput | string | null
+    topicA?: NullableStringFieldUpdateOperationsInput | string | null
+    topicB?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvalNum?: IntFieldUpdateOperationsInput | number
+    oppositeNum?: IntFieldUpdateOperationsInput | number
+    isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
+    roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
+    aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
+    aiJudgements?: AiJudgementUncheckedUpdateManyWithoutBattleRoomNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutBattleRoomNestedInput
+    votes?: BattleVoteUncheckedUpdateManyWithoutBattleRoomNestedInput
+  }
+
   export type BattleRoomCreateWithoutChatMessagesInput = {
     id?: bigint | number
     admin: bigint | number
@@ -22772,6 +23164,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -22793,6 +23186,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -22877,6 +23271,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -22898,6 +23293,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -22972,6 +23368,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryCreateNestedManyWithoutBattleRoomInput
@@ -22993,6 +23390,7 @@ export namespace Prisma {
     approvalNum?: number
     oppositeNum?: number
     isAwarded?: boolean
+    pointTransactions?: PointTransactionUncheckedCreateNestedManyWithoutBattleRoomInput
     battleTitle?: BattleTitleUncheckedCreateNestedManyWithoutBattleRoomInput
     roomParticipants?: RoomParticipantUncheckedCreateNestedManyWithoutBattleRoomInput
     aiSummaries?: AiSummaryUncheckedCreateNestedManyWithoutBattleRoomInput
@@ -23077,6 +23475,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUpdateManyWithoutBattleRoomNestedInput
@@ -23098,6 +23497,7 @@ export namespace Prisma {
     approvalNum?: IntFieldUpdateOperationsInput | number
     oppositeNum?: IntFieldUpdateOperationsInput | number
     isAwarded?: BoolFieldUpdateOperationsInput | boolean
+    pointTransactions?: PointTransactionUncheckedUpdateManyWithoutBattleRoomNestedInput
     battleTitle?: BattleTitleUncheckedUpdateManyWithoutBattleRoomNestedInput
     roomParticipants?: RoomParticipantUncheckedUpdateManyWithoutBattleRoomNestedInput
     aiSummaries?: AiSummaryUncheckedUpdateManyWithoutBattleRoomNestedInput
@@ -23175,6 +23575,7 @@ export namespace Prisma {
 
   export type PointTransactionCreateManyUserInput = {
     id?: bigint | number
+    battleRoomId?: bigint | number | null
     change: number
     reason: string
     createdAt?: Date | string
@@ -23255,10 +23656,12 @@ export namespace Prisma {
     change?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battleRoom?: BattleRoomUpdateOneWithoutPointTransactionsNestedInput
   }
 
   export type PointTransactionUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    battleRoomId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     change?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23266,6 +23669,7 @@ export namespace Prisma {
 
   export type PointTransactionUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    battleRoomId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     change?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23410,6 +23814,14 @@ export namespace Prisma {
     isEquipped?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type PointTransactionCreateManyBattleRoomInput = {
+    id?: bigint | number
+    userId: bigint | number
+    change: number
+    reason: string
+    createdAt?: Date | string
+  }
+
   export type BattleTitleCreateManyBattleRoomInput = {
     id?: bigint | number
     title: string
@@ -23454,6 +23866,30 @@ export namespace Prisma {
     userId: bigint | number
     vote: string
     createdAt?: Date | string
+  }
+
+  export type PointTransactionUpdateWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPointTransactionsNestedInput
+  }
+
+  export type PointTransactionUncheckedUpdateWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PointTransactionUncheckedUpdateManyWithoutBattleRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    change?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BattleTitleUpdateWithoutBattleRoomInput = {

@@ -1928,10 +1928,10 @@ export const handlePostChatMessage = async (req, res) => {
   }
 };
 
-// 배틀방 관전자 투표하기
+// 배틀방 투표하기
 export const handlePostVote = async (req, res) => {
   /*
-    #swagger.summary = '관전자 투표 저장 API'
+    #swagger.summary = '투표 저장 API'
     #swagger.security = [{ "BearerAuth": [] }]
     #swagger.tags = ['Vote']
 
