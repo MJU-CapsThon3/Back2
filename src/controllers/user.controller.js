@@ -616,6 +616,10 @@ export const handleGetDailyQuests = async (req, res) => {
         // 오직 퀘스트 진행도만 증가 혹은 완료 처리만 담당
         const checkQuestClear = await completeQuestIfEligible(req.userId, questId);
 
+        if(checkQuestClear.status === 'not_yet_cleared') {
+          return res.send(response(status.INCOMPLETE, result.status));
+        } 
+
         return res.status(200).json({
           isSuccess: checkQuestClear.success,
           message: checkQuestClear.message,
@@ -633,12 +637,6 @@ export const handleGetDailyQuests = async (req, res) => {
       }
     } catch (err) {
       console.error(err);
-      if (err.statusCode) {
-        return res.status(err.statusCode).json({
-          isSuccess: false,
-          message: err.message,
-        });
-      }
       res.status(500).json({ success: false, message: '서버 오류 발생' });
     }
   };
