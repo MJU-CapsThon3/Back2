@@ -617,7 +617,7 @@ export const handleGetDailyQuests = async (req, res) => {
         const checkQuestClear = await completeQuestIfEligible(req.userId, questId);
 
         if(checkQuestClear.status === 'not_yet_cleared') {
-          return res.send(response(status.INCOMPLETE, result.status));
+          return res.send(response(status.INCOMPLETE, checkQuestClear.status));
         } 
 
         return res.status(200).json({
