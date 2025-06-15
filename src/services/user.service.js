@@ -50,6 +50,7 @@ import { createJwt } from "../middleware/jwt.js";
 //퀘스트 추가한 점(변경점)
 import { prisma } from "../db.config.js";
 import { BaseError } from "../errors.js";
+import { status } from "express/lib/response.js";
 
 // 포인트에 따른 티어 계산 헬퍼 (예시)
 const calculateTier = (points) => {
@@ -354,6 +355,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'already_completed',
+      isCompleted: true,
     };
   }
 
@@ -375,6 +377,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'invalid_quest',
+      isCompleted: false,
     };
   }
 
@@ -382,11 +385,11 @@ export const completeQuestIfEligible = async (userId, questId) => {
   if (!conditionPassed) {
     return {
       success: false,
-      message: '퀘스트를 성공하지 못했습니다.',
+      message: "퀘스트를 성공하지 못했습니다.",
       progress,
       goal,
       status: 'not_yet_cleared',
-    };
+    }
   }
 
   // 진행도 증가
@@ -404,6 +407,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
       progress,
       goal,
       status: 'goal_reached',
+      isCompleted: true,
     };
   }
 
@@ -413,6 +417,7 @@ export const completeQuestIfEligible = async (userId, questId) => {
     progress,
     goal,
     status: 'progressed',
+    isCompleted: false,
   };
 };
 
