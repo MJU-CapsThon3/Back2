@@ -21,7 +21,8 @@ import { userSignUp,
     completeQuestIfEligible,
     claimQuestRewardService,
     resetDailyQuestsService,
-    checkGoalProgress
+    checkGoalProgress,
+    equipUserItem,
  } from "../services/user.service.js";
 import { loginRequestDTO,
   responseFromRankingList,
@@ -1339,5 +1340,111 @@ export const handleUpdateItem = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
+  }
+};
+
+// 아이템 장착
+export const handleEquipItem = async (req, res) => {
+  /*
+    #swagger.summary = '아이템 장착 API'
+    #swagger.tags = ['Shop']
+    #swagger.security = [{ "BearerAuth": [] }]
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["itemId"],
+            properties: {
+              itemId: { type: "number", example: 1 }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: "아이템 장착 성공",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: true },
+              code: { type: "number", example: 200 },
+              message: { type: "string", example: "success!" },
+              result: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: { type: "string", example: "닉네임 변경권 아이템을 장착했습니다." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "TOKEN_FORMAT_INCORRECT" },
+            message: { type: "string", example: "토큰 형식이 올바르지 않습니다." },
+            result: { type: "object", nullable: true }
+          }
+        }
+      }
+    }
+    #swagger.responses[404] = {
+      description: "존재하지 않는 아이템",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              isSuccess: { type: "boolean", example: false },
+              code: { type: "string", example: "SHOP4041" },
+              message: { type: "string", example: "존재하지 않는 아이템입니다." },
+              result: { type: "object", nullable: true }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: "서버 오류",
+      content: {
+        "application/json": {
+          schema: {
+            isSuccess: { type: "boolean", example: false },
+            code: { type: "string", example: "COMMON000" },
+            message: { type: "string", example: "서버 에러, 관리자에게 문의 바랍니다." },
+            result: { type: "object", nullable: true }
+          }
+        }
+      }
+    }
+  */
+
+  try {
+    const token = await checkFormat(req.get("Authorization"));
+    if (!token) {
+      return res.status(401).send(response(status.TOKEN_FORMAT_INCORRECT));
+    }
+
+    const { itemId } = req.body;
+    const result = await equipUserItem(req.userId, itemId);
+    res.send(response(status.SUCCESS, result));
+  } catch (err) {
+    console.error(err);
+
+    if (err.message === "존재하지 않는 아이템입니다.") {
+      res.status(404).send(response(status.ITEM_NOT_FOUND, null));
+    } else {
+      res.status(500).send(response(status.INTERNAL_SERVER_ERROR, null));
+    }
   }
 };

@@ -557,3 +557,29 @@ export const isQuestCompleted = async (userId, questId) => {
   });
   return !!questCompletion?.isCompleted;
 };
+
+// 아이템 장착 상태 초기화 (같은 카테고리 전부 해제)
+export const unequipItemsInCategory = async (userId, category) => {
+  return prisma.userItem.updateMany({
+    where: {
+      userId,
+      item: { category },
+    },
+    data: {
+      isEquipped: false,
+    },
+  });
+};
+
+// 특정 아이템 장착
+export const equipItem = async (userId, itemId) => {
+  return prisma.userItem.updateMany({
+    where: {
+      userId,
+      itemId,
+    },
+    data: {
+      isEquipped: true,
+    },
+  });
+};
