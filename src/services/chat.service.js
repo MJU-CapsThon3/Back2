@@ -639,7 +639,20 @@ export const createChat = async ({ roomId, userId, message }) => {
     console.error("🔥 AI 필터링 실패, 원본 메시지로 저장합니다:", err.message);
   }
 
-  // 2) DB 에서 내가 실제 어느 역할인지 조회
+  // 2) 감정 분석
+  let warning = false;
+  let emotion = null;
+  let probabilities = null;
+  try {
+    const sentiment = await callAnalyzeSentiment(finalMessage);
+    warning = sentiment.warning;
+    emotion = sentiment.emotion;
+    probabilities = sentiment.probabilities;
+  } catch (err) {
+    console.error("🔴 감정분석 실패:", err.message);
+  }
+
+  // 3) 내가 실제 어느 역할인지 조회
   const participant = await findActiveParticipant({
     roomId: BigInt(roomId),
     userId: BigInt(userId)
@@ -650,10 +663,10 @@ export const createChat = async ({ roomId, userId, message }) => {
     throw err;
   }
 
-  // 3) 반드시 내가 속한 role("A" 또는 "B" 또는 "P") 로만 저장
+  // 4) 반드시 내가 속한 role("A" 또는 "B" 또는 "P") 로만 저장
   const sideToSave = participant.role;
 
-  // 4) 채팅 저장
+  // 5) 채팅 저장
   const chatRecord = await saveChatMessage({
     roomId:  BigInt(roomId),
     userId:  BigInt(userId),
@@ -661,7 +674,18 @@ export const createChat = async ({ roomId, userId, message }) => {
     message: finalMessage,
   });
 
-  return chatRecord;
+  // 6) 저장된 레코드에 감정분석 결과 추가해서 반환
+  return {
+    id:         chatRecord.id,
+    roomId:     chatRecord.roomId,
+    userId:     chatRecord.userId,
+    side:       chatRecord.side,
+    message:    chatRecord.message,
+    createdAt:  chatRecord.createdAt,
+    warning,
+    emotion,
+    probabilities
+  };
 };
 
 // 1) 실제 채팅 저장 함수

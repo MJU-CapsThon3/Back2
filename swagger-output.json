@@ -5247,6 +5247,31 @@
                         "createdAt": {
                           "type": "string",
                           "example": "2025-05-29T08:00:00.000Z"
+                        },
+                        "warning": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "emotion": {
+                          "type": "string",
+                          "example": "긍정"
+                        },
+                        "probabilities": {
+                          "type": "object",
+                          "properties": {
+                            "긍정": {
+                              "type": "number",
+                              "example": 0.85
+                            },
+                            "부정": {
+                              "type": "number",
+                              "example": 0.05
+                            },
+                            "중립": {
+                              "type": "number",
+                              "example": 0.1
+                            }
+                          }
                         }
                       }
                     }
@@ -5298,6 +5323,31 @@
                         "createdAt": {
                           "type": "string",
                           "example": "2025-05-29T08:00:00.000Z"
+                        },
+                        "warning": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "emotion": {
+                          "type": "string",
+                          "example": "긍정"
+                        },
+                        "probabilities": {
+                          "type": "object",
+                          "properties": {
+                            "긍정": {
+                              "type": "number",
+                              "example": 0.85
+                            },
+                            "부정": {
+                              "type": "number",
+                              "example": 0.05
+                            },
+                            "중립": {
+                              "type": "number",
+                              "example": 0.1
+                            }
+                          }
                         }
                       }
                     }

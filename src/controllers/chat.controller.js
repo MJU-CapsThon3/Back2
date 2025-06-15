@@ -1820,7 +1820,6 @@ export const handlePostChatMessage = async (req, res) => {
       }
     }
   }
-
   #swagger.responses[200] = {
     description: "채팅 메시지 저장 성공",
     schema: {
@@ -1828,12 +1827,19 @@ export const handlePostChatMessage = async (req, res) => {
       code: "200",
       message: "success!",
       result: {
-        id: "3",
-        roomId: "1",
-        userId: "7",
-        side: "A",
-        message: "안녕하세요!",
-        createdAt: "2025-05-29T08:00:00.000Z"
+        id:         "3",
+        roomId:     "1",
+        userId:     "7",
+        side:       "A",
+        message:    "안녕하세요!",
+        createdAt:  "2025-05-29T08:00:00.000Z",
+        warning:    false,
+        emotion:    "긍정",
+        probabilities: {
+          "긍정": 0.85,
+          "부정": 0.05,
+          "중립": 0.10
+        }
       }
     }
   }
@@ -1895,35 +1901,38 @@ export const handlePostChatMessage = async (req, res) => {
       return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
     }
 
-
     // 2) path 변수, body에서 값 추출
     const roomId = Number(req.params.roomId);
     const { side, message } = req.body;
-
-    // 3) 필수 입력 검증
-    if (!roomId || !side || !message) {
+    if (isNaN(roomId) || !side || !message) {
       return res.send(response(status.BAD_REQUEST, null));
     }
 
-    // 4) 서비스 호출 (AI 필터링 포함)
+    // 3) 서비스 호출 (AI 욕설 필터링 + 감정분석)
     const chatRecord = await createChat({
       roomId,
-      userId: req.userId, // 미들웨어에서 req.userId에 세팅됨
+      userId: req.userId,
       side,
       message
     });
 
-    // 5) 성공 응답
+    // 4) 성공 응답: 감정분석 결과 포함
     return res.send(response(status.SUCCESS, {
-      id:        chatRecord.id.toString(),
-      roomId:    chatRecord.roomId.toString(),
-      userId:    chatRecord.userId.toString(),
-      side:      chatRecord.side,
-      message:   chatRecord.message,
-      createdAt: chatRecord.createdAt
+      id:           chatRecord.id.toString(),
+      roomId:       chatRecord.roomId.toString(),
+      userId:       chatRecord.userId.toString(),
+      side:         chatRecord.side,
+      message:      chatRecord.message,
+      createdAt:    chatRecord.createdAt,
+      warning:      chatRecord.warning,
+      emotion:      chatRecord.emotion,
+      probabilities: chatRecord.probabilities
     }));
   } catch (err) {
     console.error("🔴 handlePostChatMessage 오류:", err);
+    if (err.code === "FORBIDDEN") {
+      return res.send(response(status.FORBIDDEN, null));
+    }
     return res.send(response(status.INTERNAL_SERVER_ERROR, null));
   }
 };
