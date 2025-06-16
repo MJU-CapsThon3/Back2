@@ -55,6 +55,10 @@ import {
   handleAnalyzeDebate,
   handleGenerateTopic,
 } from "./controllers/ai.controller.js";
+import { handleSyncRanking, 
+  handleRefreshRankings,
+  handleSyncUserPoints
+} from "./controllers/admin.controller.js";
 
 const swaggerFile = require("../swagger-output.json"); // JSON 파일 직접 불러오기
 
@@ -186,6 +190,26 @@ app.post("/shop/items/update", handleUpdateItem);
 //app.delete("/shop/items/:itemId", handleDeleteItem);
 // 아이템 장착
 app.post("/shop/equip-item", handleEquipItem);
+
+// 관리자용 랭킹 동기화
+app.post(
+  "/admin/sync-ranking",
+  /* authMiddleware.adminOnly,  // 필요하다면 관리자인지 체크 */
+  handleSyncRanking
+);
+
+// 관리자용 랭킹 최신화
+app.post(
+  "/admin/refresh-rankings",
+  /* authMiddleware.adminOnly, */
+  handleRefreshRankings
+);
+// 3) ranking → user.point 동기화
+app.post(
+  "/admin/sync-user-points",
+  /* authMiddleware.adminOnly, */
+  handleSyncUserPoints
+);
 
 // 최종 리스닝
 httpServer.listen(port, () => {
