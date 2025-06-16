@@ -683,6 +683,7 @@ export const createChat = async ({ roomId, userId, message }) => {
     side:       chatRecord.side,
     message:    chatRecord.message,
     createdAt:  chatRecord.createdAt,
+    nickname:   chatRecord.user.nickname,
     warning,
     emotion,
     probabilities

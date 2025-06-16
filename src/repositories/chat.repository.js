@@ -185,15 +185,19 @@ export const updateBattleRoomTopics = (roomId, { question, topicA, topicB }) => 
 
 // 실시간 채팅 메세지 저장
 export const saveChatMessage = async ({ roomId, userId, side, message }) => {
-    return await prisma.chatMessage.create({
+  return await prisma.chatMessage.create({
     data: {
-        roomId:  BigInt(roomId),
-        userId:  BigInt(userId),
+      roomId:  BigInt(roomId),
+      userId:  BigInt(userId),
       side,     // 'A' 또는 'B'
       message,  // 이미 AI 필터링된 메시지
-      // created_at: default CURRENT_TIMESTAMP(automatically set)
     },
-    });
+    include: {
+      user: {
+        select: { nickname: true }
+      }
+    }
+  });
 };
 
 // 방 별 채팅 조회
@@ -201,7 +205,12 @@ export const findChatHistoryByRoomId = async (roomId) => {
   // 1) 해당 roomId의 채팅 메시지들을 생성일(createdAt) 순으로 모두 조회
   const allChats = await prisma.chatMessage.findMany({
     where:   { roomId: BigInt(roomId) },  // camelCase 필드명
-    orderBy: { createdAt: "asc" }          // 역시 camelCase
+    orderBy: { createdAt: "asc" },          // 역시 camelCase
+    include: {
+      user: {
+        select: { nickname: true }
+      }
+    }    
   });
 
   // 2) sideA, sideB 로 분리하기 위해 빈 배열 준비
@@ -216,7 +225,8 @@ export const findChatHistoryByRoomId = async (roomId) => {
       userId:    c.userId.toString(),          // Prisma에서 반환되는 필드는 `userId`
       side:      c.side,                       // "A" 또는 "B"
       message:   c.message,                    // 메시지 본문
-      createdAt: c.createdAt.toISOString()     // Date -> ISO 문자열
+      createdAt: c.createdAt.toISOString(),     // Date -> ISO 문자열
+      nickname:  c.user.nickname
     };
 
     if (c.side === "A") {
@@ -342,7 +352,7 @@ export const listRoomParticipantsWithUser = (roomId) => {
   });
 };
 
-// (4) 단일 채팅 메시지 조회용
+// 단일 채팅 메시지 조회용
 export const findChatMessageById = (messageId) => {
   return prisma.chatMessage.findUnique({
     where: { id: BigInt(messageId) },

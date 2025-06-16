@@ -133,7 +133,7 @@ app.post("/battle/rooms/:roomId/leave", handleLeaveRoom);
 app.get("/battle/rooms/:roomId/chat/messages", handleGetChatHistory);
 app.post("/battle/rooms/:roomId/chat/messages", handlePostChatMessage);
 app.get(
-  "/battle/rooms/:roomId/chat/messages/:messageId/sentiment",
+  "/battle/rooms/:roomId/chat/messages/:messageId/emotion",
   handleGetMessageSentiment
 );
 app.post("/battle/rooms/:roomId/end", handleEndBattle);

@@ -1693,6 +1693,7 @@ export const handleGetChatHistory = async (req, res) => {
             id: "1",
             roomId: "1",
             userId: "9",
+            nickname:  "치멘",
             side: "A",
             message: "안녕하세요",
             createdAt: "2025-05-29T08:00:00.000Z"
@@ -1703,6 +1704,7 @@ export const handleGetChatHistory = async (req, res) => {
             id: "2",
             roomId: "1",
             userId: "10",
+            nickname:  "호구왕",
             side: "B",
             message: "반갑습니다",
             createdAt: "2025-05-29T08:01:00.000Z"
@@ -1831,6 +1833,7 @@ export const handlePostChatMessage = async (req, res) => {
         id:         "3",
         roomId:     "1",
         userId:     "7",
+        nickname:      "치멘",
         side:       "A",
         message:    "안녕하세요!",
         createdAt:  "2025-05-29T08:00:00.000Z",
@@ -1922,6 +1925,7 @@ export const handlePostChatMessage = async (req, res) => {
       id:           chatRecord.id.toString(),
       roomId:       chatRecord.roomId.toString(),
       userId:       chatRecord.userId.toString(),
+      nickname:     chatRecord.nickname,
       side:         chatRecord.side,
       message:      chatRecord.message,
       createdAt:    chatRecord.createdAt,
@@ -1944,36 +1948,82 @@ export const handleGetMessageSentiment = async (req, res) => {
     #swagger.summary = '특정 채팅 메시지 감정 분석 조회 API'
     #swagger.security = [{ "BearerAuth": [] }]
     #swagger.tags = ['Chat']
-    #swagger.parameters['roomId'] = { in:'path', description:'배틀방 ID', required:true, type:'integer', example:1 }
-    #swagger.parameters['messageId'] = { in:'path', description:'메시지 ID', required:true, type:'integer', example:42 }
+    #swagger.parameters['roomId'] = {
+      in: 'path',
+      description: '배틀방 ID',
+      required: true,
+      type: 'integer',
+      example: 1
+    }
+    #swagger.parameters['messageId'] = {
+      in: 'path',
+      description: '메시지 ID',
+      required: true,
+      type: 'integer',
+      example: 42
+    }
     #swagger.responses[200] = {
       description: "감정 분석 조회 성공",
       schema: {
-        isSuccess: true, code:"200", message:"success!",
+        isSuccess: true,
+        code: "200",
+        message: "success!",
         result: {
           messageId:  "42",
           roomId:     "1",
           userId:     "9",
           side:       "A",
           createdAt:  "2025-06-15T10:00:00.000Z",
-          sentiment: {
-            emotion: "긍정",
-            probabilities: { 긍정:0.85, 부정:0.05, 중립:0.10 },
-            warning: false
-          }
+          emotion:       "긍정",
+          probabilities: { 긍정:0.85, 부정:0.05, 중립:0.10 },
+          warning:       false
         }
       }
     }
-    #swagger.responses[400] = { description:"잘못된 요청", schema:{ isSuccess:false, code:"COMMON001", message:"잘못된 요청입니다.", result:null } }
-    #swagger.responses[401] = { description:"토큰 형식 오류", schema:{ isSuccess:false, code:"MEMBER4006", message:"토큰 오류", result:null } }
-    #swagger.responses[403] = { description:"권한 없음", schema:{ isSuccess:false, code:"COMMON004", message:"금지된 요청입니다.", result:null } }
-    #swagger.responses[404] = { description:"메시지 없음", schema:{ isSuccess:false, code:"CHAT4041", message:"메시지를 찾을 수 없습니다.", result:null } }
+    #swagger.responses[400] = {
+      description: "잘못된 요청",
+      schema: {
+        isSuccess: false,
+        code: "COMMON001",
+        message: "잘못된 요청입니다.",
+        result: null
+      }
+    }
+    #swagger.responses[401] = {
+      description: "토큰 형식 오류",
+      schema: {
+        isSuccess: false,
+        code: "MEMBER4006",
+        message: "토큰 오류",
+        result: null
+      }
+    }
+    #swagger.responses[403] = {
+      description: "권한 없음",
+      schema: {
+        isSuccess: false,
+        code: "COMMON004",
+        message: "금지된 요청입니다.",
+        result: null
+      }
+    }
+    #swagger.responses[404] = {
+      description: "메시지 없음",
+      schema: {
+        isSuccess: false,
+        code: "CHAT4041",
+        message: "메시지를 찾을 수 없습니다.",
+        result: null
+      }
+    }
   */
   try {
     // 1) 토큰 검증
     const raw = req.get("Authorization");
     const token = raw && checkFormat(raw);
-    if (!token) return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    if (!token) {
+      return res.send(response(status.TOKEN_FORMAT_INCORRECT, null));
+    }
 
     // 2) 파라미터 파싱
     const roomId    = req.params.roomId;
@@ -1989,8 +2039,17 @@ export const handleGetMessageSentiment = async (req, res) => {
       messageId
     });
 
-    // 4) 성공 응답
-    return res.send(response(status.SUCCESS, result));
+    // 4) sentiment 객체를 평탄화해서 프론트 친화적으로 변환
+    const { sentiment, ...rest } = result;
+    const flattened = {
+      ...rest,
+      emotion:       sentiment.emotion,
+      probabilities: sentiment.probabilities,
+      warning:       sentiment.warning
+    };
+
+    // 5) 성공 응답
+    return res.send(response(status.SUCCESS, flattened));
 
   } catch (err) {
     console.error("🔴 handleGetMessageSentiment 오류:", err);

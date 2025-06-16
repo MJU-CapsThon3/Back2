@@ -4793,6 +4793,10 @@
                                 "type": "string",
                                 "example": "9"
                               },
+                              "nickname": {
+                                "type": "string",
+                                "example": "치멘"
+                              },
                               "side": {
                                 "type": "string",
                                 "example": "A"
@@ -4824,6 +4828,10 @@
                               "userId": {
                                 "type": "string",
                                 "example": "10"
+                              },
+                              "nickname": {
+                                "type": "string",
+                                "example": "호구왕"
                               },
                               "side": {
                                 "type": "string",
@@ -4884,6 +4892,10 @@
                                 "type": "string",
                                 "example": "9"
                               },
+                              "nickname": {
+                                "type": "string",
+                                "example": "치멘"
+                              },
                               "side": {
                                 "type": "string",
                                 "example": "A"
@@ -4915,6 +4927,10 @@
                               "userId": {
                                 "type": "string",
                                 "example": "10"
+                              },
+                              "nickname": {
+                                "type": "string",
+                                "example": "호구왕"
                               },
                               "side": {
                                 "type": "string",
@@ -5257,6 +5273,10 @@
                           "type": "string",
                           "example": "7"
                         },
+                        "nickname": {
+                          "type": "string",
+                          "example": "치멘"
+                        },
                         "side": {
                           "type": "string",
                           "example": "A"
@@ -5332,6 +5352,10 @@
                         "userId": {
                           "type": "string",
                           "example": "7"
+                        },
+                        "nickname": {
+                          "type": "string",
+                          "example": "치멘"
                         },
                         "side": {
                           "type": "string",
@@ -5669,7 +5693,7 @@
         }
       }
     },
-    "/battle/rooms/{roomId}/chat/messages/{messageId}/sentiment": {
+    "/battle/rooms/{roomId}/chat/messages/{messageId}/emotion": {
       "get": {
         "tags": [
           "Chat"
@@ -5741,35 +5765,30 @@
                           "type": "string",
                           "example": "2025-06-15T10:00:00.000Z"
                         },
-                        "sentiment": {
+                        "emotion": {
+                          "type": "string",
+                          "example": "긍정"
+                        },
+                        "probabilities": {
                           "type": "object",
                           "properties": {
-                            "emotion": {
-                              "type": "string",
-                              "example": "긍정"
+                            "긍정": {
+                              "type": "number",
+                              "example": 0.85
                             },
-                            "probabilities": {
-                              "type": "object",
-                              "properties": {
-                                "긍정": {
-                                  "type": "number",
-                                  "example": 0.85
-                                },
-                                "부정": {
-                                  "type": "number",
-                                  "example": 0.05
-                                },
-                                "중립": {
-                                  "type": "number",
-                                  "example": 0.1
-                                }
-                              }
+                            "부정": {
+                              "type": "number",
+                              "example": 0.05
                             },
-                            "warning": {
-                              "type": "boolean",
-                              "example": false
+                            "중립": {
+                              "type": "number",
+                              "example": 0.1
                             }
                           }
+                        },
+                        "warning": {
+                          "type": "boolean",
+                          "example": false
                         }
                       }
                     }
@@ -5818,35 +5837,30 @@
                           "type": "string",
                           "example": "2025-06-15T10:00:00.000Z"
                         },
-                        "sentiment": {
+                        "emotion": {
+                          "type": "string",
+                          "example": "긍정"
+                        },
+                        "probabilities": {
                           "type": "object",
                           "properties": {
-                            "emotion": {
-                              "type": "string",
-                              "example": "긍정"
+                            "긍정": {
+                              "type": "number",
+                              "example": 0.85
                             },
-                            "probabilities": {
-                              "type": "object",
-                              "properties": {
-                                "긍정": {
-                                  "type": "number",
-                                  "example": 0.85
-                                },
-                                "부정": {
-                                  "type": "number",
-                                  "example": 0.05
-                                },
-                                "중립": {
-                                  "type": "number",
-                                  "example": 0.1
-                                }
-                              }
+                            "부정": {
+                              "type": "number",
+                              "example": 0.05
                             },
-                            "warning": {
-                              "type": "boolean",
-                              "example": false
+                            "중립": {
+                              "type": "number",
+                              "example": 0.1
                             }
                           }
+                        },
+                        "warning": {
+                          "type": "boolean",
+                          "example": false
                         }
                       }
                     }
